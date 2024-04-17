@@ -1,1 +1,1 @@
-# CoyouIDE
+# CoypuIDE
