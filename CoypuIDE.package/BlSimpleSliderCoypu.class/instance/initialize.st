@@ -8,4 +8,5 @@ initialize
 	self background: self defaultColor.
 	self initializeValues.
 	self initializeParts.
-	self addEventHandlerOn: BlClickEvent do: [ :event | self moveHandleTo: event position] 
+	self initializeEvents.
+	

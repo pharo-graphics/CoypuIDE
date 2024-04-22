@@ -6,7 +6,6 @@ initializeParts
 	self addChild: self bar.
 
 	self coloredBar: self defaultColoredBar.
-	self positionDefaultColoredBar.
 	self addChild: self coloredBar.
 
 	self handle: self defaultHandle.
