@@ -1,0 +1,33 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"minValue",
+		"maxValue",
+		"stepValue",
+		"sliderPixelMargin",
+		"currentValue",
+		"validatedValue",
+		"validatedValueCallback",
+		"sliderBar",
+		"sliderBackground",
+		"disabledRebuilding",
+		"widgetSize",
+		"maxPixelDistance",
+		"enumeratedValues",
+		"enumeratedColors",
+		"initColor",
+		"endColor",
+		"barThickness",
+		"isHorizontal",
+		"eventHandler",
+		"sliderHandle",
+		"handlePushedPoint"
+	],
+	"name" : "BlCleanSliderCoypu",
+	"type" : "normal"
+}

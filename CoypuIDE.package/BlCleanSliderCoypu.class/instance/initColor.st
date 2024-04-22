@@ -1,0 +1,4 @@
+accessing
+initColor
+
+	^ initColor

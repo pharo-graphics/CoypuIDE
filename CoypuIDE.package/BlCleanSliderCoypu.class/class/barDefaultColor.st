@@ -1,0 +1,4 @@
+building
+barDefaultColor
+
+	^ Color blue 

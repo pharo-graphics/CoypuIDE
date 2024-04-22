@@ -1,0 +1,4 @@
+building
+defaultMaxPixelDistance
+
+	^ 25

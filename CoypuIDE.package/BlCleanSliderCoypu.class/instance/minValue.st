@@ -1,0 +1,4 @@
+api - values
+minValue
+
+	^ minValue

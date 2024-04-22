@@ -1,0 +1,4 @@
+building
+backgroundDefaultColor
+
+	^ Color gray
