@@ -1,6 +1,6 @@
 protocol
-updateValue
+updateValueAt: aPosition
 
-	currentValue := self valueAtCoord: handle position.
+	currentValue := self valueAtCoord: aPosition.
 	"self announcer announce: BlSliderValueChangedEvent"
 	self dispatchEvent: BlSliderValueChangedEvent new.
