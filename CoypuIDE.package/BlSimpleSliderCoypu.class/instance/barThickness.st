@@ -1,0 +1,4 @@
+accessing
+barThickness 
+
+	^ barThickness 

@@ -1,0 +1,26 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"widgetSize",
+		"handle",
+		"bar",
+		"coloredBar",
+		"isHorizontal",
+		"minValue",
+		"maxValue",
+		"stepValue",
+		"currentValue",
+		"barThickness",
+		"barLength",
+		"marginThickness",
+		"marginLength",
+		"announcer"
+	],
+	"name" : "BlSimpleSliderCoypu",
+	"type" : "normal"
+}

@@ -1,0 +1,4 @@
+accessing
+barLength
+
+	^ barLength

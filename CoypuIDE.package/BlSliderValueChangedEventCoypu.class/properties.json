@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "BlEvent",
+	"category" : "CoypuIDE",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "BlSliderValueChangedEventCoypu",
+	"type" : "normal"
+}
