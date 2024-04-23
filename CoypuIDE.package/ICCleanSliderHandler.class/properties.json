@@ -6,6 +6,6 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "BlCleanSliderHandlerCoypu",
+	"name" : "ICCleanSliderHandler",
 	"type" : "normal"
 }

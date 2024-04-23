@@ -6,6 +6,6 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "BlSliderValueChangedEventCoypu",
+	"name" : "ICSliderValueChangedEvent",
 	"type" : "normal"
 }
