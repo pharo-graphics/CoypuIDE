@@ -1,4 +1,4 @@
 api - bounds
-defaultColor 
+defaultColor
 
-	^ Color lightRed 
+	^ Color veryDarkGray

@@ -1,4 +1,4 @@
 api - bounds
-handleDefaultColor 
+handleDefaultColor
 
-	^ Color red
+	^ Color green

@@ -1,4 +1,4 @@
 as yet unclassified
 coloredBarDefaultColor
 
-	^ Color red alpha: 0.4
+	^ Color green alpha: 0.4
