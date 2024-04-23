@@ -1,5 +1,7 @@
 accessing
 currentValue: aNumber
 
-	(aNumber < self minValue or: [ aNumber > self maxValue ]) ifTrue: [ ^ self ].
-	currentValue := aNumber
+	currentValue := aNumber.
+	aNumber < self minValue ifTrue:[ currentValue := minValue].
+	aNumber > self maxValue ifTrue: [ currentValue := maxValue].
+	
