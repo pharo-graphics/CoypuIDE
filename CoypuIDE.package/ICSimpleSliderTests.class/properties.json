@@ -8,6 +8,6 @@
 	"instvars" : [
 		"slider"
 	],
-	"name" : "ICSimpleSliderTest",
+	"name" : "ICSimpleSliderTests",
 	"type" : "normal"
 }
