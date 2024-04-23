@@ -18,8 +18,7 @@
 		"barThickness",
 		"barLength",
 		"marginThickness",
-		"marginLength",
-		"announcer"
+		"marginLength"
 	],
 	"name" : "ICSimpleSlider",
 	"type" : "normal"

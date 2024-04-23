@@ -2,7 +2,9 @@ api - bounds
 defaultHandle
 
 	| size elt offset |
-	size := self isHorizontal ifTrue: [ 5 @ barThickness  ] ifFalse: [ barThickness @ 5 ].
+	size := self
+		        ifHorizontal: [ 5 @ barThickness ]
+		        ifVertical: [ barThickness @ 5 ].
 	elt := BlElement new
 		       background: self handleDefaultColor;
 		       size: size;

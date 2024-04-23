@@ -1,8 +1,10 @@
 as yet unclassified
 positionDefaultBar: aBar
 
-	self isHorizontal
-		ifTrue: [ aBar position: self defaultMarginLength @ self defaultMarginThickness ]
-		ifFalse: [
+	self
+		ifHorizontal: [
 			aBar position:
-				self defaultMarginThickness @ self defaultMarginLength  ]
+				self defaultMarginLength @ self defaultMarginThickness ]
+		ifVertical: [
+			aBar position:
+				self defaultMarginThickness @ self defaultMarginLength ]

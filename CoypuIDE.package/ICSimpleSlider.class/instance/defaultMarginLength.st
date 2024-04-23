@@ -1,4 +1,4 @@
 as yet unclassified
-defaultMarginLength 
+defaultMarginLength
 
-	^ 10
+	^ 30

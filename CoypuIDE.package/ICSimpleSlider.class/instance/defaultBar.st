@@ -2,9 +2,9 @@ api - bounds
 defaultBar
 
 	| size |
-	size := self isHorizontal
-		        ifTrue: [ self defaultBarLength @ self defaultBarThickness ]
-		        ifFalse: [ self defaultBarThickness @ self defaultBarLength ].
+	size := self 
+		        ifHorizontal: [ self defaultBarLength @ self defaultBarThickness ]
+		        ifVertical: [ self defaultBarThickness @ self defaultBarLength ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 5);

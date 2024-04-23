@@ -1,4 +1,6 @@
 building
-rebuild 
+rebuild
 
-	self isHorizontal ifTrue: [ self buildHorizontal ] ifFalse: [ self buildVertical ]
+	self
+		ifHorizontal: [ self buildHorizontal ]
+		ifVertical: [ self buildVertical ]

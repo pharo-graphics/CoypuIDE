@@ -1,6 +1,6 @@
 api - transformations
 valueAtCoord: aPoint
 
-	^ self isHorizontal
-		  ifTrue: [ self valueAtX: aPoint  ]
-		  ifFalse: [ self valueAtY: aPoint  ]
+	^ self
+		  ifHorizontal: [ self valueAtX: aPoint ]
+		  ifVertical: [ self valueAtY: aPoint ]
