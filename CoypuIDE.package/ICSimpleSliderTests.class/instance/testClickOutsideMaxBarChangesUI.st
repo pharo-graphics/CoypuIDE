@@ -6,8 +6,15 @@ testClickOutsideMaxBarChangesUI
 	slider addChild: child.
 	"The child lets us simulate a click on the slider on a specific position"
 	"simulateClickOn: simulates a click in the middle of the element, thus the size 0@0 for the child"
+	self skip.
+	"this is not called, putting self fail into the block closure doesn't fail the test"
 	slider whenLayoutedDoOnce: [
+		
+		self fail.
 		child position: slider size.
 		BlSpace simulateClickOn: child.
-		self assert: slider handle position equals: (slider marginLength + slider barLength )@ (slider height / 2).
+		self
+			assert: slider handle position
+			equals:
+			slider marginLength + slider barLength @ (slider height / 2).
 		self assert: slider coloredBar width equals: slider barLength ]
