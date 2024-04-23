@@ -5,4 +5,5 @@ valueToX: aNumber
 	valueDiff := aNumber - minValue.
 	coeff := (valueDiff / (maxValue - minValue)) asFloat.
 	dist := marginLength + (coeff * barLength).
-	^ dist @ marginThickness
+	self forceLocalLayout.
+	^ dist @ handle position y
