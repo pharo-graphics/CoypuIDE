@@ -5,7 +5,7 @@ simpleExampleHorizontal
 	<script>
 	| slider textElt container |
 	slider := self beHorizontal.
-	textElt := BlTextElement new position: 100 @ 40.
+	textElt := BlTextElement new position: slider defaultSize.
 
 	textElt text: slider currentValue asRopedText.
 

@@ -1,4 +1,4 @@
 as yet unclassified
 defaultMarginThickness
 
-	^ 50
+	^ 20

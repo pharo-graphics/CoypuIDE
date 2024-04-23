@@ -12,5 +12,5 @@ initializeParts
 	self handle: self defaultHandle.
 	self positionDefaultHandle.
 	self addChild: self handle.
-
 	
+self initializeButtons.

@@ -8,5 +8,4 @@ initialize
 	self background: self defaultColor.
 	self initializeValues.
 	self initializeParts.
-	self initializeEvents.
-	
+	self initializeEvents

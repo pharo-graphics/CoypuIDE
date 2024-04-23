@@ -5,7 +5,7 @@ simpleExampleVertical
 	<script>
 	| slider textElt container |
 	slider := self beVertical.
-	textElt := BlTextElement new position: 40 @ 100.
+	textElt := BlTextElement new position: slider defaultSize.
 
 	textElt text: slider currentValue asRopedText.
 

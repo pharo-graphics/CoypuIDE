@@ -1,4 +1,4 @@
 as yet unclassified
 defaultMarginLength
 
-	^ 30
+	^ 50
