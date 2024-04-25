@@ -9,5 +9,5 @@ valueAtY: aPoint
 			valueDiff := maxValue - minValue.
 			coeff := barLength / dist.
 			value := minValue + (valueDiff / coeff) ].
-	value asFloat traceCr.
+	value := self nearestValue: value.
 	^ value asFloat

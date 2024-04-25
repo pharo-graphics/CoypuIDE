@@ -18,7 +18,9 @@
 		"barThickness",
 		"barLength",
 		"marginThickness",
-		"marginLength"
+		"marginLength",
+		"segmented",
+		"segmentedValues"
 	],
 	"name" : "ICSimpleSlider",
 	"type" : "normal"
