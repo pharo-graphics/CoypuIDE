@@ -11,7 +11,8 @@ initializeParts
 
 	self handle: self defaultHandle.
 	self positionDefaultHandle.
-	self addChild: self handle.
+	self addChild: self handle
 
 	"initialize segments if segmented"
-	self initializeButtons
+	
+	"self initializeButtons"

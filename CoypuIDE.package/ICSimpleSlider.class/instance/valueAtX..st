@@ -10,4 +10,5 @@ valueAtX: aPoint
 			coeff := barLength / dist.
 			value := minValue + (valueDiff / coeff) ].
 	value := self nearestValue: value.
+	
 	^ value asFloat
