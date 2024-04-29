@@ -26,4 +26,4 @@ moveHandleTo: aPosition
 			newPos := handle position x @ newPosY.
 			handle position: newPos ].
 	self updateColoredBarTo: newPos.
-	self updateValueAt: newPos
+	self basicCurrentValue: (self valueAtCoord: newPos)

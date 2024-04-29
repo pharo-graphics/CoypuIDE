@@ -1,8 +1,9 @@
 accessing
 currentValue: aNumber
 
-	currentValue := aNumber.
-	aNumber < self minValue ifTrue: [ currentValue := minValue ].
-	aNumber > self maxValue ifTrue: [ currentValue := maxValue ].
-	"this doesn't work for now"
-	self moveHandleTo: (self valueToCoord: currentValue)
+	| newValue |
+	newValue := aNumber.
+	aNumber < self minValue ifTrue: [ newValue := minValue ].
+	aNumber > self maxValue ifTrue: [ newValue := maxValue ].
+
+	self moveHandleTo: (self valueToCoord: newValue)

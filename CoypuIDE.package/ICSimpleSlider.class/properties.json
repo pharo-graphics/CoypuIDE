@@ -20,7 +20,8 @@
 		"marginThickness",
 		"marginLength",
 		"segmented",
-		"segmentedValues"
+		"segmentedValues",
+		"callBack"
 	],
 	"name" : "ICSimpleSlider",
 	"type" : "normal"
