@@ -1,0 +1,4 @@
+accessing
+minX 
+
+	^ minX

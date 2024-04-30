@@ -1,0 +1,20 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE-axis",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"valueX",
+		"valueY",
+		"callBack",
+		"minX",
+		"minY",
+		"maxX",
+		"maxY",
+		"widgetSize"
+	],
+	"name" : "ICAxis",
+	"type" : "normal"
+}
