@@ -13,7 +13,9 @@
 		"minY",
 		"maxX",
 		"maxY",
-		"widgetSize"
+		"widgetSize",
+		"yLabel",
+		"xLabel"
 	],
 	"name" : "ICAxis",
 	"type" : "normal"

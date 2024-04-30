@@ -31,8 +31,9 @@ buildAxis
 						               (w @ 5).
 						               (w - 10 @ 10).
 						               (w - 10 @ 6).
-						               (0 @ 6) });
-		              yourself.
+						               (0 @ 6) }).
 
 	self addChild: vertical as: 'yAxis'.
-	self addChild: horizontal as: 'xAxis'
+	self addChild: horizontal as: 'xAxis'.
+	
+	self buildAxisText
