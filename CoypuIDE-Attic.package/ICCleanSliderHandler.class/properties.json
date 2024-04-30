@@ -1,7 +1,7 @@
 {
 	"commentStamp" : "",
 	"super" : "BlCustomEventHandler",
-	"category" : "CoypuIDE",
+	"category" : "CoypuIDE-Attic",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
