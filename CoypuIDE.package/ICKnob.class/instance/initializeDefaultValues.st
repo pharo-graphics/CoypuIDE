@@ -1,8 +1,11 @@
 accessing
 initializeDefaultValues
 
-	minValue := 0.
+	minValue := 10.
 	maxValue := 100.
 	stepValue := nil.
 	currentValue := 0.
-	radius := 100
+	angle := 0.
+	diameter := 100.
+	minAngle := -135.
+	maxAngle := 135

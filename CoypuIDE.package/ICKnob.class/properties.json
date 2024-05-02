@@ -11,8 +11,11 @@
 		"currentValue",
 		"callBack",
 		"stepValue",
-		"radius",
-		"knob"
+		"knob",
+		"diameter",
+		"angle",
+		"minAngle",
+		"maxAngle"
 	],
 	"name" : "ICKnob",
 	"type" : "normal"
