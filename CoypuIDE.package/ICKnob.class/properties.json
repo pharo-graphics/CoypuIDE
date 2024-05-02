@@ -1,0 +1,19 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE-knob",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"minValue",
+		"maxValue",
+		"currentValue",
+		"callBack",
+		"stepValue",
+		"radius",
+		"knob"
+	],
+	"name" : "ICKnob",
+	"type" : "normal"
+}
