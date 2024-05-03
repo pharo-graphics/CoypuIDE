@@ -1,12 +1,13 @@
 accessing
 angle: aNumber
 
-	aNumber < -135 ifTrue: [
-		angle := -135.
-		^ self ].
-	aNumber > 135 ifTrue: [
-		angle := 135.
-		^ self ].
 	angle := aNumber.
+	aNumber < -135 ifTrue: [ angle := -135 ].
+	aNumber > 135 ifTrue: [ angle := 135 ].
 
-	self currentValue: self angleToValue.
+	"aNumber traceCr.
+	angle traceCr.
+	'=' traceCr."
+
+	self knob transformDo: [ :t | t rotateBy: angle ].
+	self currentValue: self angleToValue
