@@ -1,11 +1,16 @@
 {
 	"commentStamp" : "",
 	"super" : "ToElement",
-	"category" : "Mooflod-3DFilledSquare",
+	"category" : "Mooflod-3DFilledSquareWidget",
 	"classinstvars" : [ ],
 	"pools" : [ ],
-	"classvars" : [ ],
-	"instvars" : [ ],
+	"classvars" : [
+		"value"
+	],
+	"instvars" : [
+		"currentY",
+		"fill"
+	],
 	"name" : "Mf3DFilledSquareElement",
 	"type" : "normal"
 }

@@ -2,10 +2,8 @@ initialization
 initialize
 
 	super initialize.
-	self size: 200 @ 0.
+	self size: 180 @ 0.
 	self geometry: BlRectangleGeometry new.
 	self background: Color black.
-	self constraintsDo: [ :e |
-		e frame vertical alignBottom.
-		e frame horizontal alignCenter ].
-	self border: (BlBorder paint: Color black width: 1)
+	self constraintsDo: [ :e | e frame vertical alignBottom.
+		e frame horizontal alignCenter ]
