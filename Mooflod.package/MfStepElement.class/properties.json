@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "Mooflod-PatternWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"instrument"
+	],
+	"name" : "MfStepElement",
+	"type" : "normal"
+}

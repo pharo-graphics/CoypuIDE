@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "BlTextElement",
+	"category" : "Mooflod-InputWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfInputValueElement",
+	"type" : "normal"
+}

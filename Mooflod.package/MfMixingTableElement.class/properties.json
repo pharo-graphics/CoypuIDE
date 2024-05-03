@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-MixingTableWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"keymap",
+		"nbButtonPerRow",
+		"nbButtons"
+	],
+	"instvars" : [ ],
+	"name" : "MfMixingTableElement",
+	"type" : "normal"
+}

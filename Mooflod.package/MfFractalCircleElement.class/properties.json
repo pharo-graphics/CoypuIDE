@@ -1,0 +1,16 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-FractalCircleWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"currentX",
+		"currentY",
+		"value",
+		"nbOfChilds"
+	],
+	"name" : "MfFractalCircleElement",
+	"type" : "normal"
+}

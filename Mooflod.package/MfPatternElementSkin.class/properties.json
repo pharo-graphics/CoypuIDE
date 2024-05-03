@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawSkin",
+	"category" : "Mooflod-PatternWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfPatternElementSkin",
+	"type" : "normal"
+}

@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawTheme",
+	"category" : "Mooflod-FractalCircleWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfFractalCircleElementTheme",
+	"type" : "normal"
+}

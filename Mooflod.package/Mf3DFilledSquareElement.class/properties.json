@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-3DFilledSquare",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "Mf3DFilledSquareElement",
+	"type" : "normal"
+}

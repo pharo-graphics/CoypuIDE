@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-KeyboardWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"keymap"
+	],
+	"name" : "MfKeyboardElement",
+	"type" : "normal"
+}

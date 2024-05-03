@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawTheme",
+	"category" : "Mooflod-PatternWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfPatternElementTheme",
+	"type" : "normal"
+}

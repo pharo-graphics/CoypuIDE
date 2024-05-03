@@ -1,0 +1,17 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-PatternWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"max",
+		"min",
+		"nbsteps"
+	],
+	"instvars" : [
+		"nbOfSteps"
+	],
+	"name" : "MfPatternElement",
+	"type" : "normal"
+}

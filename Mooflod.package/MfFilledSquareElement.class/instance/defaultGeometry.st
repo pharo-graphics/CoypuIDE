@@ -1,0 +1,4 @@
+initialization
+defaultGeometry 
+
+^BlSquareGeometry new 
