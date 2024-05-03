@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawSkin",
+	"category" : "Mooflod-TimerWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfTimerElementSkin",
+	"type" : "normal"
+}

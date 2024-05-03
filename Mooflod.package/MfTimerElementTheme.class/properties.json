@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawTheme",
+	"category" : "Mooflod-TimerWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfTimerElementTheme",
+	"type" : "normal"
+}

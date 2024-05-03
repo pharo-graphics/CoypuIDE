@@ -1,0 +1,19 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-TimerWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"value"
+	],
+	"instvars" : [
+		"anim",
+		"timerValue",
+		"annulus",
+		"angle",
+		"currentAngle"
+	],
+	"name" : "MfTimerElement",
+	"type" : "normal"
+}

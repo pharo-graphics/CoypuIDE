@@ -1,0 +1,4 @@
+accessing
+nbsteps
+
+	^ nbsteps

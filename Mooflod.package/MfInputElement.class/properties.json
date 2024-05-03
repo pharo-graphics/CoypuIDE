@@ -1,0 +1,18 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-InputWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"default"
+	],
+	"instvars" : [
+		"inputValue",
+		"value",
+		"minus",
+		"plus"
+	],
+	"name" : "MfInputElement",
+	"type" : "normal"
+}

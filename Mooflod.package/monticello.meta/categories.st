@@ -1,0 +1,9 @@
+SystemOrganization addCategory: #Mooflod!
+SystemOrganization addCategory: #'Mooflod-3DFilledSquare'!
+SystemOrganization addCategory: #'Mooflod-FilledSquareWidget'!
+SystemOrganization addCategory: #'Mooflod-FractalCircleWidget'!
+SystemOrganization addCategory: #'Mooflod-InputWidget'!
+SystemOrganization addCategory: #'Mooflod-KeyboardWidget'!
+SystemOrganization addCategory: #'Mooflod-MixingTableWidget'!
+SystemOrganization addCategory: #'Mooflod-PatternWidget'!
+SystemOrganization addCategory: #'Mooflod-TimerWidget'!
