@@ -9,7 +9,8 @@
 	],
 	"instvars" : [
 		"currentY",
-		"fill"
+		"fill",
+		"left"
 	],
 	"name" : "Mf3DFilledSquareElement",
 	"type" : "normal"
