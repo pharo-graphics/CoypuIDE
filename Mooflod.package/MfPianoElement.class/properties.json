@@ -4,11 +4,13 @@
 	"category" : "Mooflod-PianoKeyboardWidget",
 	"classinstvars" : [ ],
 	"pools" : [ ],
-	"classvars" : [ ],
+	"classvars" : [
+		"startNote"
+	],
 	"instvars" : [
 		"whiteKeyColor",
 		"blackKeyColor",
-		"nOctaves"
+		"noteArray"
 	],
 	"name" : "MfPianoElement",
 	"type" : "normal"

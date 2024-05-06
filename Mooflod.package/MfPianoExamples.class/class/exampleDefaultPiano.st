@@ -1,6 +1,7 @@
 as yet unclassified
 exampleDefaultPiano
-<script>
+
+	<script>
 	| p |
-	p := MfPianoElement new.
+	p := MfPianoElement new startNote: 'B'.
 	p openPiano: p
