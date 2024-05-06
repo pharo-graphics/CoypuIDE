@@ -3,5 +3,5 @@ exampleSimpleTimer
 
 	<script>
 	| timer |
-	timer := MfTimerElement new value: 10.
+	timer := MfTimerElement new value: 5400.
 	timer openTimer: timer
