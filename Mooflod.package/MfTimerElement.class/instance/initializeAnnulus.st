@@ -7,4 +7,5 @@ initializeAnnulus
 	annulus constraintsDo: [ :c |
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
-	self addChild: annulus
+	self addChild: annulus.
+	self initAnimation 

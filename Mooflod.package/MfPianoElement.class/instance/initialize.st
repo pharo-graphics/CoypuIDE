@@ -9,5 +9,3 @@ initialize
 	self size: self pianoExtent.
 	whiteKeyColor := Color gray: 0.95.
 	blackKeyColor := Color black.
-	self noteArray .
-	self initializeNotes

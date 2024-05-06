@@ -10,7 +10,8 @@
 	"instvars" : [
 		"whiteKeyColor",
 		"blackKeyColor",
-		"noteArray"
+		"noteArray",
+		"notes"
 	],
 	"name" : "MfPianoElement",
 	"type" : "normal"

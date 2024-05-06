@@ -24,5 +24,5 @@ initializeNotes
 		bN transformDo: [ :e |
 			bx := bx + (bxArray at: i).
 			e translateBy: bx @ 0 ] ].
-
+	notes:= 14 + bxArray size.
 	^ bxArray
