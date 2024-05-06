@@ -4,8 +4,11 @@ initialize
 
 	super initialize.
 	""
-
+	self border: (BlBorder paint: Color black width: 2).
+	self geometry: BlRectangleGeometry new.
+	self size: self pianoExtent.
 	whiteKeyColor := Color gray: 0.95.
 	blackKeyColor := Color black.
 	nOctaves := 2.
-	self buildKeyboard
+	self buildKeyboard.
+	self initializeNotes

@@ -1,4 +1,4 @@
 as yet unclassified
 pianoExtent
 
-	^400@160.
+	^ 505 @ 130

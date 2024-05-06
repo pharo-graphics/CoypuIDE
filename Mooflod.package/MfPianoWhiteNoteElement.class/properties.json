@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-PianoKeyboardWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"note"
+	],
+	"instvars" : [ ],
+	"name" : "MfPianoWhiteNoteElement",
+	"type" : "normal"
+}
