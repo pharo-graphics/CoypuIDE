@@ -12,7 +12,8 @@
 		"whiteKeyColor",
 		"blackKeyColor",
 		"noteArray",
-		"notes"
+		"notes",
+		"whitenotes"
 	],
 	"name" : "MfPianoElement",
 	"type" : "normal"
