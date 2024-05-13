@@ -1,4 +1,4 @@
 as yet unclassified
 pianoExtent
 
-	^ 505 @ 130
+	^ (252.5 *nOctaves)  @ 130

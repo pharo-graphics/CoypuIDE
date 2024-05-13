@@ -1,13 +1,15 @@
 initialization
 initializeNotes
 
-	| wN wx bN bx wArray bxArray |
+	| wN wx bN bx wArray bxArray array |
 	"initializing notes for the two octaves"
-	wArray := #( 'C' 'D' 'E' 'F' 'G' 'A' 'B' 'C' 'D' 'E' 'F' 'G' 'A' 'B' ).
+	array := #( 'C' 'D' 'E' 'F' 'G' 'A' 'B' ).
+	wArray := OrderedCollection new.
+	nOctaves timesRepeat: [ array do: [ :e | wArray add: e ] ].
 	wx := 0.
 	bx := 0.
 	"adding the white notes"
-	1 to: 14 do: [ :i |
+	1 to: nOctaves * 7 do: [ :i |
 		wN := MfPianoWhiteNoteElement new.
 		wN background: whiteKeyColor.
 		wN note: (wArray at: i).
@@ -18,7 +20,7 @@ initializeNotes
 	"changing the disposition of black notes depending on start note"
 	1 to: 7 do: [ :e |
 		startNote = (wArray at: e) ifTrue: [ bxArray := noteArray at: e ] ].
-"now add the black notes to the widget"
+	"now add the black notes to the widget"
 	1 to: bxArray size do: [ :i |
 		bN := MfPianoBlackNoteElement new.
 		bN background: blackKeyColor.
