@@ -1,6 +1,6 @@
 as yet unclassified
 openMixingTable: aTable
-
+"create a space to display the mixing table widget"
 	| space |
 	space := BlSpace new.
 	space root layout: BlFlowLayout horizontal.

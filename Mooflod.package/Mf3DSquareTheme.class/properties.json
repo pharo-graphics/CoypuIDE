@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawTheme",
+	"category" : "Mooflod-3DFilledSquareWidget",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "Mf3DSquareTheme",
+	"type" : "normal"
+}
