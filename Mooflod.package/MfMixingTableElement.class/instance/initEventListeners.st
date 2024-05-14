@@ -4,10 +4,10 @@ initEventListeners
 
 	self addEventHandlerOn: BlKeyDownEvent do: [ :anEvent |
 		keymap
-			at: anEvent key name
+			at: anEvent key 
 			ifPresent: [ :aButton | aButton background: Color red ] ].
-			self addEventHandlerOn: BlKeyUpEvent do: [ :anEvent |
+	self addEventHandlerOn: BlKeyUpEvent do: [ :anEvent |
 		keymap
-			at: anEvent key name
+			at: anEvent key 
 			ifPresent: [ :aButton | aButton background: Color darkGray ] ].
 	self requestFocus

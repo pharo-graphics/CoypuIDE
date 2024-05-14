@@ -5,5 +5,5 @@ exampleDefaultPiano
 	| p |
 	p := MfPianoElement new
 		     nOctaves: 2;
-		     startNote: 'E'.
+		     startNote: 'C'.
 	p openPiano: p

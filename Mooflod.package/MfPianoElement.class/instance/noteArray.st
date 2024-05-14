@@ -9,7 +9,7 @@ noteArray
 	gA := #( 26 39 68 36 70 39 39 68 36 ).
 	aA := #( 29 68 36 70 39 39 68 36 70 ).
 	bA := #( 62 36 70 39 39 68 36 70 39 ).
-	"oArray := {
+	oArray := {
 		          cA.
 		          dA.
 		          eA.
@@ -18,11 +18,12 @@ noteArray
 		          aA.
 		          bA }.
 	noteArray := OrderedCollection new.
-	oArray do: [ :t |
+	"oArray do: [ :t |
 		| nArray |
 		nArray := OrderedCollection new.
 		nOctaves timesRepeat: [ t do: [ :e | nArray add: e ] ].
 		noteArray add: nArray ].
+
 
 	"noteArray := {
 		             cA.
