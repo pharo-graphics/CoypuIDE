@@ -1,7 +1,7 @@
 accessing
 initializeDefaultValues
 
-	minValue := 10.
+	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
 	currentValue := 0.

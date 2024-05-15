@@ -15,7 +15,8 @@
 		"diameter",
 		"angle",
 		"minAngle",
-		"maxAngle"
+		"maxAngle",
+		"centerPosition"
 	],
 	"name" : "ICKnob",
 	"type" : "normal"
