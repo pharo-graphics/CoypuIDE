@@ -12,7 +12,7 @@ initializeSegments
 				 position: 47 @ 10;
 				 yourself).
 			(ICSegment horizontalSegment
-				 position: 10 @ 45;
+				 position: 10 @ 46;
 				 yourself).
 			(ICSegment verticalSegment
 				 position: 5 @ 50;
@@ -21,6 +21,6 @@ initializeSegments
 				 position: 47 @ 50;
 				 yourself).
 			(ICSegment horizontalSegment
-				 position: 10 @ 85;
+				 position: 10 @ 87;
 				 yourself) }.
 	self addChildren: self segments
