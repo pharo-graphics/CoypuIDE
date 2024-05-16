@@ -4,6 +4,6 @@ exampleSimpleMixingTable
 	<script>
 	| t |
 	t := MfMixingTableElement new
-		     nbButtons: 10;
-		     nbButtonPerRow: 5.
+		     nbButtons: 16;
+		     nbButtonPerRow: 4.
 	t openMixingTable: t

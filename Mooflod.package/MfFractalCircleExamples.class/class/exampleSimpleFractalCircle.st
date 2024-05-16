@@ -4,5 +4,5 @@ exampleSimpleFractalCircle
 	<script>
 	| c |
 	c := MfFractalCircleElement new.
-	c setValue: 20.
+	c setValue: 96.
 	c openFractalCircle: c
