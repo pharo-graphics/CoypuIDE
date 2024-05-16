@@ -9,9 +9,7 @@ simpleExampleHorizontal
 
 	textElt text: slider currentValue asRopedText.
 
-	slider
-		addEventHandlerOn: BlSliderValueChangedEvent
-		do: [ textElt text: slider currentValue asRopedText ].
+	slider callBack: [ :value | textElt text: value asRopedText ].
 
 	container := BlElement new clipChildren: false.
 

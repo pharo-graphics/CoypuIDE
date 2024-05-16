@@ -1,0 +1,4 @@
+accessing
+digit 
+
+	^ digit
