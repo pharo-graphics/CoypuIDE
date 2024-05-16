@@ -1,0 +1,16 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE-led / 7segment",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"Digits"
+	],
+	"instvars" : [
+		"segments",
+		"digit"
+	],
+	"name" : "IC7Segment",
+	"type" : "normal"
+}
