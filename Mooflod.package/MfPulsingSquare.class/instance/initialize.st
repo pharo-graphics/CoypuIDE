@@ -4,6 +4,6 @@ initialize
 	super initialize.
 	self geometry: BlSquareGeometry new.
 	self background: Color white.
-	self size: 50 @ 50.
+	self size: 40 @ 40.
 	self border: (BlBorder paint: Color black).
-	self initAnimation 
+	self initAnimation.
