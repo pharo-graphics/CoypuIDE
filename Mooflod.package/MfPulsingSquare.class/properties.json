@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "Mooflod-PulsingSquare",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"anim"
+	],
+	"name" : "MfPulsingSquare",
+	"type" : "normal"
+}

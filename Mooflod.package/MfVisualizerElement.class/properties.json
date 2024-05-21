@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "",
+	"super" : "ToElement",
+	"category" : "Mooflod-VisualizerRepresentation",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [
+		"level"
+	],
+	"instvars" : [
+		"nbTracks"
+	],
+	"name" : "MfVisualizerElement",
+	"type" : "normal"
+}
