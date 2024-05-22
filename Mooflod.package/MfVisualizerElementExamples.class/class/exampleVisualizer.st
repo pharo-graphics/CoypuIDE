@@ -5,5 +5,4 @@ exampleVisualizer
 	| v |
 	v := MfVisualizerElement new level: 2.
 	v addInstrument: 'Kick'.
-
-	v openVisualizer: v
+	v initAnimation: 16. v openVisualizer: v
