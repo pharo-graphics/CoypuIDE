@@ -4,7 +4,9 @@
 	"category" : "Mooflod-VisualizerRepresentation",
 	"classinstvars" : [ ],
 	"pools" : [ ],
-	"classvars" : [ ],
+	"classvars" : [
+		"added"
+	],
 	"instvars" : [ ],
 	"name" : "MfVisualizerSectionElement",
 	"type" : "normal"
