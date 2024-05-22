@@ -1,13 +1,20 @@
 adding
-addElementsLevelOne: aChildren
+addElementsLevelOne: aName
 
-	| square label |
+	| square label name sect |
+	sect := self children at: nbTracks.
+	name := BlTextElement new.
+	name text: (aName asRopedText attributes:
+			 { (BlTextForegroundAttribute paint: Color black) }).
+	name text fontSize: 18.
 	square := MfPulsingSquare new.
 	label := MfInstrumentLabelElement new.
-	aChildren addChild: square.
-	aChildren addChild: label.
+	sect addChild: square.
+	sect addChild: label.
+	sect addChild: name.
 	square transformDo: [ :q | q translateBy: 450 @ 15 ].
+	name transformDo: [ :t | t translateBy: 130 @ 25 ].
 	square addEventHandlerOn: BlClickEvent do: [ :e |
-		aChildren childrenDo: [ :c |
+		sect childrenDo: [ :c |
 			c removeFromParent.
-			nbTracks := nbTracks - 1  ] ]
+			nbTracks > 1 ifTrue: [ nbTracks := nbTracks - 1 ] ] ]

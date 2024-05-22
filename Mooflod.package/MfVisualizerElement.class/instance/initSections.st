@@ -10,4 +10,3 @@ initSections
 		sect transformDo: [ :t | t translateBy: 0 @ y ].
 		y := y + 200.
 		self addChild: sect ].
-	self initEvents
