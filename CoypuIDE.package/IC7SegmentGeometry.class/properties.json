@@ -1,15 +1,13 @@
 {
 	"commentStamp" : "",
-	"super" : "BlElement",
+	"super" : "BlPolygonGeometry",
 	"category" : "CoypuIDE-led / 7segment",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"lit",
-		"backPaint",
-		"frontPaint"
+		"isVertical"
 	],
-	"name" : "ICProportionnalSegment",
+	"name" : "IC7SegmentGeometry",
 	"type" : "normal"
 }
