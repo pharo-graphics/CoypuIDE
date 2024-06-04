@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE-led / 7segment",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"lit",
+		"backPaint",
+		"frontPaint"
+	],
+	"name" : "ICProportionnalSegment",
+	"type" : "normal"
+}

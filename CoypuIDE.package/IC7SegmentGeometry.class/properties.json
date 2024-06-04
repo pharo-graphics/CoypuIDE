@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "BlPolygonGeometry",
+	"category" : "CoypuIDE-led / 7segment",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"isVertical"
+	],
+	"name" : "IC7SegmentGeometry",
+	"type" : "normal"
+}

@@ -1,11 +1,10 @@
 examples
-basicExample 
+basicExample
 
-	<script> 
-	
+	<script>
 	| knob |
-	knob := self new position: 100@100.
+	knob := self new position: 100 @ 100.
 
-knob openInSpace.
+	knob openInSpace.
 
-knob callBack: [ :v | v inspect ]
+	"knob callBack: [ :v | v inspect ]"

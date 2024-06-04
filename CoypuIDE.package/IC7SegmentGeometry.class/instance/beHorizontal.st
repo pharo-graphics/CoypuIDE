@@ -1,0 +1,4 @@
+initialization
+beHorizontal 
+
+	isVertical := false
