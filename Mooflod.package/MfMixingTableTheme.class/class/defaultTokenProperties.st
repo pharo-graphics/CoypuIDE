@@ -4,4 +4,6 @@ defaultTokenProperties
 
 	^ super defaultTokenProperties
 	  ,
-	  { (ToTokenProperty name: #'background-color' value: Color veryPaleRed ) }
+	  { (ToTokenProperty
+		   name: #'background-color'
+		   value: Color black) }

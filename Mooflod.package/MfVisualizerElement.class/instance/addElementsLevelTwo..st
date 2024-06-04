@@ -5,7 +5,7 @@ addElementsLevelTwo: aName
 	sect := self children at: nbTracks.
 	name := BlTextElement new.
 	name text: (aName asRopedText attributes:
-			 { (BlTextForegroundAttribute paint: Color black) }).
+			 { (BlTextForegroundAttribute paint: Color white) }).
 	name text fontSize: 18.
 	pattern := MfPatternElement new
 		           min: 4;
