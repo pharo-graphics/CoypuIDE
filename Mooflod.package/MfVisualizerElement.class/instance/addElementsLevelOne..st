@@ -13,8 +13,4 @@ addElementsLevelOne: aName
 	sect addChild: label.
 	sect addChild: name.
 	square transformDo: [ :q | q translateBy: 450 @ 15 ].
-	name transformDo: [ :t | t translateBy: 130 @ 25 ].
-	square addEventHandlerOn: BlClickEvent do: [ :e |
-		sect childrenDo: [ :c |
-			c removeFromParent.
-			nbTracks > 1 ifTrue: [ nbTracks := nbTracks - 1 ] ] ]
+	name transformDo: [ :t | t translateBy: 130 @ 25 ]

@@ -19,8 +19,5 @@ addElementsLevelTwo: aName
 	square transformDo: [ :q | q translateBy: 450 @ 15 ].
 	sect addChild: pattern.
 	pattern transformDo: [ :q | q translateBy: 40 @ 100 ].
-	name transformDo: [ :t | t translateBy: 130 @ 25 ].
-	square addEventHandlerOn: BlClickEvent do: [ :e |
-		sect childrenDo: [ :c |
-			c removeFromParent.
-			nbTracks > 1 ifTrue: [ nbTracks := nbTracks - 1 ] ] ]
+	name transformDo: [ :t | t translateBy: 130 @ 25 ]
+	
