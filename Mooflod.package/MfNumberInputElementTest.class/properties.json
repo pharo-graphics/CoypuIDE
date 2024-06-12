@@ -1,11 +1,11 @@
 {
 	"commentStamp" : "",
-	"super" : "MfBasicMooflodSkin",
+	"super" : "TestCase",
 	"category" : "Mooflod-InputWidget",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "MfInputElementSkin",
+	"name" : "MfNumberInputElementTest",
 	"type" : "normal"
 }

@@ -1,4 +1,0 @@
-initialization
-defaultLayout 
-
-^BlFrameLayout new.
