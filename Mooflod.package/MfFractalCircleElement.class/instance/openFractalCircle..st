@@ -5,7 +5,7 @@ openFractalCircle: aCircle
 	space := BlSpace new.
 	space root layout: BlFlowLayout horizontal.
 	aCircle transformDo: [ :c | c translateBy: 200 @ 150 ].
-	space toTheme: MfFractalCircleElementTheme new.
+	space toTheme: MfMooflodTheme new.
 	space root addChild: aCircle.
 	space show.
 	^ aCircle

@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "Anonymous 6/12/2024 11:12",
+	"super" : "ToBasicSkin",
+	"category" : "Mooflod-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfBasicMooflodSkin",
+	"type" : "normal"
+}

@@ -6,4 +6,4 @@ initialize
 	self background: Color white.
 	self size: 40 @ 40.
 	self border: (BlBorder paint: Color black).
-	self initAnimation.
+	self initializeAnimation.

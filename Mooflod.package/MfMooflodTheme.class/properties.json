@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToTheme",
+	"category" : "Mooflod-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfMooflodTheme",
+	"type" : "normal"
+}

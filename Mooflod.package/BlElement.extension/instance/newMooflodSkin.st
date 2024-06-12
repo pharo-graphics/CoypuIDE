@@ -1,0 +1,4 @@
+*Mooflod
+newMooflodSkin
+
+	^ MfBasicMooflodSkin new

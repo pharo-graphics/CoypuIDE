@@ -1,0 +1,4 @@
+initialization
+newMooFlodSkin
+
+	^ MfPatternElementSkin new

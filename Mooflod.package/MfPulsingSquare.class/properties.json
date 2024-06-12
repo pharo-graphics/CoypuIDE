@@ -6,7 +6,7 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"anim"
+		"flashingAnimation"
 	],
 	"name" : "MfPulsingSquare",
 	"type" : "normal"

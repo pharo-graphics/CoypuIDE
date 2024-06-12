@@ -4,11 +4,9 @@ openInput: anInput
 
 	| space |
 	space := BlSpace new.
-	anInput defaultSkin: MfInputElementSkin new.
 	space root layout: BlFlowLayout horizontal.
 	anInput transformDo: [ :c | c translateBy: 250 @ 200 ].
 	space root addChild: anInput.
-	space toTheme: MfInputElementTheme new.
-	space applyAllSkinInstallers .
+	space toTheme: MfMooflodTheme new.
 	space show.
 	^ anInput

@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "ToRawSkin",
+	"category" : "Mooflod-Core",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "MfMooflodRootSkin",
+	"type" : "normal"
+}

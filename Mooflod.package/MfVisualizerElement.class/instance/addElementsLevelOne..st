@@ -4,8 +4,7 @@ addElementsLevelOne: aName
 	| square label name sect |
 	sect := self children at: nbTracks.
 	name := BlTextElement new.
-	name text: (aName asRopedText attributes:
-			 { (BlTextForegroundAttribute paint: Color white) }).
+	name text: (self textFrom: aName).
 	name text fontSize: 18.
 	square := MfPulsingSquare new.
 	label := MfInstrumentLabelElement new.

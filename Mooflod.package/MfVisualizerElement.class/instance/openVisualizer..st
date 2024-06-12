@@ -6,6 +6,6 @@ openVisualizer: aVisualizer
 	space root layout: BlFlowLayout horizontal.
 	aVisualizer transformDo: [ :c | c translateBy: 200 @ 50 ].
 	space root addChild: aVisualizer.
-	space toTheme: MfMixingTableTheme new.
+	space toTheme: MfMooflodTheme new.
 	space show.
 	^ aVisualizer
