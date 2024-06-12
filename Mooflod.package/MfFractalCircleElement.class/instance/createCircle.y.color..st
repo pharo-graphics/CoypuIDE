@@ -1,4 +1,4 @@
-as yet unclassified
+internal
 createCircle: x y: anY color: aColor
 
 	| c color |

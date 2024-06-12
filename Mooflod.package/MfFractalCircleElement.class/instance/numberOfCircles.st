@@ -1,4 +1,4 @@
 accessing
-nbOfChilds
+numberOfCircles
 
 ^nbOfChilds 
