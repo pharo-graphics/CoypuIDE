@@ -1,11 +1,11 @@
 action
-openPattern: aPattern
+openPattern
 
 	| space |
 	space := BlSpace new.
 	space root layout: BlFlowLayout horizontal.
-	aPattern transformDo: [ :c | c translateBy: 180 @ 200 ].
-	space root addChild: aPattern.
+	space root addChild: self.
 	space toTheme: MfMooflodTheme new.
+	self transformDo: [ :c | c translateBy: 180 @ 200 ].
 	space show.
-	^ aPattern
+	^ self

@@ -1,4 +1,4 @@
-as yet unclassified
+examples
 exampleSimplePattern
 
 	<script>
@@ -7,4 +7,4 @@ exampleSimplePattern
 		               min: 4;
 		               max: 16;
 		               nbsteps: 12.
-	patternelem openPattern: patternelem
+	patternelem openPattern
