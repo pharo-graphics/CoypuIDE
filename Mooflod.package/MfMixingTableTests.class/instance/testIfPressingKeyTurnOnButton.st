@@ -9,5 +9,5 @@ testIfPressingKeyTurnOnButton
 	BlSpace simulateKeyDownOn: m key: KeyboardKey Q.
 	"Check if his color has changed"
 	self
-		assert: (m children at: 1) background paint color
+		assert: m children first background paint color
 		equals: Color red

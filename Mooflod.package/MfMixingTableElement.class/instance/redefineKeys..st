@@ -8,4 +8,4 @@ redefineKeys: keys
 			| elem |
 			elem := v at: index.
 			keymap at: key put: elem ] .
-	self initEventListeners
+	self initializeEventListeners

@@ -1,5 +1,5 @@
-as yet unclassified
-initEventListeners
+initialization
+initializeEventListeners
 	"add the handler that changes color when pressing a key"
 
 	self addEventHandlerOn: BlKeyDownEvent do: [ :anEvent |

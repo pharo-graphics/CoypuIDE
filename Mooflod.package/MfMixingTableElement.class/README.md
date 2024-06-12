@@ -1,0 +1,1 @@
+The key binding are using the physical position so that it works on any keyboard (the key Q on qwerty is the same as the key A on Azerty).

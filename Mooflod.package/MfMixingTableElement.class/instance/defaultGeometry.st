@@ -1,4 +1,4 @@
 initialization
 defaultGeometry
-^ BlRectangleGeometry new
+	^ BlRectangleGeometry new
 	
