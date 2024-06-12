@@ -12,7 +12,7 @@ CoypuIDE is an IDE for the music live coding Coypu library.
 ```Smalltalk
 Metacello new
 	baseline: 'CoypuIDE';
-	repository: 'github://pillar-markup/CoypuIDE/';
+	repository: 'github://pharo-graphics/CoypuIDE/';
 	onConflict: [ :ex | ex useIncoming ];
 	onUpgrade: [ :ex | ex useIncoming ];
 	load.
