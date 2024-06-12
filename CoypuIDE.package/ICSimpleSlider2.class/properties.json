@@ -1,0 +1,29 @@
+{
+	"commentStamp" : "",
+	"super" : "BlElement",
+	"category" : "CoypuIDE-slider",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"widgetSize",
+		"handle",
+		"bar",
+		"coloredBar",
+		"isHorizontal",
+		"minValue",
+		"maxValue",
+		"stepValue",
+		"currentValue",
+		"barThickness",
+		"barLength",
+		"marginThickness",
+		"marginLength",
+		"segmented",
+		"segmentedValues",
+		"callBack",
+		"overlayer"
+	],
+	"name" : "ICSimpleSlider2",
+	"type" : "normal"
+}
