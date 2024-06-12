@@ -1,5 +1,0 @@
-testing
-isLit
-
-	^ lit 
-

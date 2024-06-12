@@ -1,4 +1,0 @@
-accessing
-maxPixelDistance
-
-	^ maxPixelDistance 

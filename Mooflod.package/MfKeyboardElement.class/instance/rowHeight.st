@@ -1,3 +1,0 @@
-geometry
-rowHeight
-	^ 35

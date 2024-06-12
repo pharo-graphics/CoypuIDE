@@ -1,4 +1,0 @@
-building
-defaultMaxPixelDistance
-
-	^ 25

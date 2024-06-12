@@ -1,4 +1,0 @@
-factory
-horizontalSegment
-
-	^ self new.

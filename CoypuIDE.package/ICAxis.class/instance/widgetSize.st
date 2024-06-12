@@ -1,3 +1,0 @@
-accessing
-widgetSize 
-	^ widgetSize 

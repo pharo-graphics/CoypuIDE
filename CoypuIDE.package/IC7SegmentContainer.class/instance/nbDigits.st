@@ -1,4 +1,0 @@
-evaluating
-nbDigits 
-
-	^ nbDigits 

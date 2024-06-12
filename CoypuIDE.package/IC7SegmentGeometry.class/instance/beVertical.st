@@ -1,4 +1,0 @@
-initialization
-beVertical
-
-	isVertical := true

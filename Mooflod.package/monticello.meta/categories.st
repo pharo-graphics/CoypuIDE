@@ -1,1 +1,0 @@
-self packageOrganizer ensurePackage: #Mooflod withTags: #('3DFilledSquareWidget' 'FilledSquareWidget' 'FractalCircleWidget' 'InputWidget' 'KeyboardWidget' 'MixingTableWidget' 'PatternWidget' 'PianoKeyboardWidget' 'TimerWidget')!

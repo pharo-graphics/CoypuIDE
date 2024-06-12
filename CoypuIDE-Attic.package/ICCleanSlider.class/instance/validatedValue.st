@@ -1,4 +1,0 @@
-api - values
-validatedValue
-
-	^ validatedValue

@@ -1,4 +1,0 @@
-accessing
-newRootSkinInstance
-
-	^ MfMooflodRootSkin new

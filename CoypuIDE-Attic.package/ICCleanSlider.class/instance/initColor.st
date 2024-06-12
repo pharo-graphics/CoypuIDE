@@ -1,4 +1,0 @@
-accessing
-initColor
-
-	^ initColor

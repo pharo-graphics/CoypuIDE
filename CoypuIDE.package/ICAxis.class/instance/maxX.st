@@ -1,4 +1,0 @@
-accessing
-maxX
-
-	^ maxX

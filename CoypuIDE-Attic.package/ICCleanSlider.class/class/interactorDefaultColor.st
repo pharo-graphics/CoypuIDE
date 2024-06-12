@@ -1,4 +1,0 @@
-building
-interactorDefaultColor
-
-	^ Color red 

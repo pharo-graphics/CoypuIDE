@@ -1,4 +1,0 @@
-accessing
-currentY
-
-^currentY

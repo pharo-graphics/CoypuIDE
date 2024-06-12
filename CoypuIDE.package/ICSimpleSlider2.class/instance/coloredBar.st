@@ -1,4 +1,0 @@
-accessing
-coloredBar 
-
-	^ coloredBar 
