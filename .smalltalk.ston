@@ -5,7 +5,7 @@ SmalltalkCISpec {
       #onConflict : #useIncoming,
       #onUpgrade : #useIncoming,
       #ignoreImage : true,
-      #directory : 'src',
+      #directory : '',
       #platforms : [ #pharo ]
     }
   ]
