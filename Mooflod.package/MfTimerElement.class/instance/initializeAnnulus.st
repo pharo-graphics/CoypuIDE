@@ -8,4 +8,4 @@ initializeAnnulus
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
 	self addChild: annulus.
-	self initAnimation 
+	self initializeAnimation 

@@ -1,4 +1,4 @@
 accessing
 anim 
 
-^anim
+^flashingAnimation

@@ -1,5 +1,5 @@
 initialization
-initAnimation
+initializeAnimation
 
 	anim := BlAnimation new
 		        duration: 1 seconds;
