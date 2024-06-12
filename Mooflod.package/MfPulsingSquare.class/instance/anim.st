@@ -1,4 +1,0 @@
-accessing
-anim 
-
-^flashingAnimation
