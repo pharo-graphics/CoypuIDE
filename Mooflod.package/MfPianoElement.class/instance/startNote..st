@@ -1,4 +1,4 @@
-as yet unclassified
+accessing
 startNote: aNote
 
 	startNote := aNote.

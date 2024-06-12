@@ -1,4 +1,4 @@
-as yet unclassified
+accessing
 nOctaves: num
 
 	nOctaves := num.
