@@ -8,7 +8,6 @@ initializeAnimation
 		anim addEventHandler: (BlEventHandler
 				 on: BlAnimationLoopDoneEvent
 				 do: [ :e |
-					 value traceCr.
 					 currentAngle := currentAngle - decreasingAngleStep.
 					 self updateAnnulusAngle: currentAngle.
 					 self updateValue.
