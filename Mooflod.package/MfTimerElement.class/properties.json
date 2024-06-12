@@ -11,8 +11,8 @@
 		"anim",
 		"timerValue",
 		"annulus",
-		"angle",
-		"currentAngle"
+		"currentAngle",
+		"decreasingAngleStep"
 	],
 	"name" : "MfTimerElement",
 	"type" : "normal"
