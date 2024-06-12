@@ -6,6 +6,6 @@ initialize
 	self geometry: BlRectangleGeometry new.
 	whiteKeyColor := Color gray: 0.95.
 	blackKeyColor := Color black.
-	self 
+	self
 		nOctaves: 2;
-		startNote: 'F'.
+		startNote: 'C'

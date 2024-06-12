@@ -1,6 +1,6 @@
-protocol
+evaluating
 updateValue
 
 	value := value - 1.
 	timerValue removeFromParent.
-	self setTimerValue: value
+	self replaceTimerTextValue: value

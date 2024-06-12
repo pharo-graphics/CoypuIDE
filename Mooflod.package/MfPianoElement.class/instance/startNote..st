@@ -2,5 +2,5 @@ accessing
 startNote: aNote
 
 	startNote := aNote.
-	self noteArray .
+	self initializeXPositionsOfBlackNotes .
 	self initializeNotes 

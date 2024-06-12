@@ -1,4 +1,4 @@
-as yet unclassified
+initialization
 circleExtent
 
 	^ 390 @ 390

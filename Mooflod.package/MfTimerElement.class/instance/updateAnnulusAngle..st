@@ -1,4 +1,4 @@
-as yet unclassified
+visual properties
 updateAnnulusAngle: newAngle
 
 	annulus geometry: (BlAnnulusSectorGeometry new

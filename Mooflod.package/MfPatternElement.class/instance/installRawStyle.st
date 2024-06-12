@@ -1,4 +1,0 @@
-skin
-installRawStyle
-
-	super installRawStyle.

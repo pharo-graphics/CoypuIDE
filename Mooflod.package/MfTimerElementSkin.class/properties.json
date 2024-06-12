@@ -1,6 +1,6 @@
 {
 	"commentStamp" : "",
-	"super" : "ToRawSkin",
+	"super" : "MfBasicMooflodSkin",
 	"category" : "Mooflod-TimerWidget",
 	"classinstvars" : [ ],
 	"pools" : [ ],

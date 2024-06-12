@@ -1,0 +1,4 @@
+skin
+newMooflodSkin 
+
+	^ MfTimerElementSkin new

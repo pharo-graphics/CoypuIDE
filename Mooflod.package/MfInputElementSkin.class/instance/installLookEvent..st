@@ -7,4 +7,7 @@ installLookEvent: anEvent
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')).
-		e background: e backgroundPaint ]
+		e background: Color red.
+		e geometry: (BlRoundedRectangleGeometry cornerRadius: 20).
+		e plus background: Color blue.
+		e minus background: Color red ]
