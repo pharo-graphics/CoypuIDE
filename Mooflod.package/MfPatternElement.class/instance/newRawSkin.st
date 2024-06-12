@@ -1,4 +1,0 @@
-initialization
-newRawSkin 
-
-^ MfPatternElementSkin new.

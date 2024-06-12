@@ -5,4 +5,3 @@ initialize
 	self size: self patternExtent.
 	self geometry: BlRectangleGeometry new.
 	self layout: BlFrameLayout new.
-	self defaultSkin: MfPatternElementSkin new.
