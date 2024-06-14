@@ -5,7 +5,9 @@ Class {
 		'label',
 		'nbSteps',
 		'text',
-		'anim'
+		'anim',
+		'isRunning',
+		'animRunning'
 	],
 	#category : 'Mooflod-MfPerformanceNbSteps',
 	#package : 'Mooflod',
@@ -31,8 +33,9 @@ MfPerformanceNbStepsElement class >> exampleNbSteps [
 { #category : 'adding' }
 MfPerformanceNbStepsElement >> addSteps: aNbOfSteps [
 
-nbSteps := aNbOfSteps .
-self initializeStepsLabel 
+	nbSteps := aNbOfSteps.
+	isRunning:= true.
+	self initializeStepsLabel
 ]
 
 { #category : 'accessing' }
@@ -48,7 +51,10 @@ MfPerformanceNbStepsElement >> initialize [
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 18).
 	self size: 350 @ 160.
 	self background: Color black.
-	self padding: (BlInsets all: 30)
+	self padding: (BlInsets all: 30).
+	self addSteps: 0.
+	isRunning := false.
+	animRunning:= false
 ]
 
 { #category : 'as yet unclassified' }
@@ -58,9 +64,11 @@ MfPerformanceNbStepsElement >> initializeAnimation: aBpm [
 	anim beInfinite.
 	anim addEventHandler: (BlEventHandler
 			 on: BlAnimationLoopDoneEvent
-			 do: [ :e |
-				 nbSteps := nbSteps + 1.
-				 self setStepsLabel:nbSteps ]).
+			 do: [ :e  |
+				animRunning ifTrue: [ nbSteps < 30000 ifTrue: [
+					 nbSteps := nbSteps + 1.
+					 self setStepsLabel: nbSteps ] ]
+				 ]).
 	self addAnimation: anim
 ]
 
