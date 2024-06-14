@@ -6,7 +6,6 @@ Class {
 		'nbSteps',
 		'text',
 		'anim',
-		'isRunning',
 		'animRunning'
 	],
 	#category : 'Mooflod-MfPerformanceNbSteps',
@@ -34,7 +33,6 @@ MfPerformanceNbStepsElement class >> exampleNbSteps [
 MfPerformanceNbStepsElement >> addSteps: aNbOfSteps [
 
 	nbSteps := aNbOfSteps.
-	isRunning:= true.
 	self initializeStepsLabel
 ]
 
@@ -42,6 +40,18 @@ MfPerformanceNbStepsElement >> addSteps: aNbOfSteps [
 MfPerformanceNbStepsElement >> anim [ 
 
 ^anim
+]
+
+{ #category : 'accessing' }
+MfPerformanceNbStepsElement >> animRunning [
+
+^animRunning 
+]
+
+{ #category : 'accessing' }
+MfPerformanceNbStepsElement >> animRunning: aBoolean [
+
+animRunning:= aBoolean 
 ]
 
 { #category : 'initialization' }
@@ -53,8 +63,7 @@ MfPerformanceNbStepsElement >> initialize [
 	self background: Color black.
 	self padding: (BlInsets all: 30).
 	self addSteps: 0.
-	isRunning := false.
-	animRunning:= false
+	animRunning := false
 ]
 
 { #category : 'as yet unclassified' }
