@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'label',
 		'nbSteps',
-		'text'
+		'text',
+		'anim'
 	],
 	#category : 'Mooflod-MfPerformanceNbSteps',
 	#package : 'Mooflod',
@@ -14,15 +15,14 @@ Class {
 { #category : 'as yet unclassified' }
 MfPerformanceNbStepsElement class >> exampleNbSteps [
 
-	<script> 
+	<script>
 	| s space |
 	space := BlSpace new.
 	space root layout: BlFlowLayout horizontal.
-	space toTheme: MfMooflodTheme new.
+	space toTheme: MfMooflodTheme new. 
 	s := self new.
 	s addSteps: 189.
 	s transformDo: [ :c | c translateBy: 200 @ 150 ].
-
 	space root addChild: s.
 	space show.
 	^ s
@@ -35,6 +35,12 @@ nbSteps := aNbOfSteps .
 self initializeStepsLabel 
 ]
 
+{ #category : 'accessing' }
+MfPerformanceNbStepsElement >> anim [ 
+
+^anim
+]
+
 { #category : 'initialization' }
 MfPerformanceNbStepsElement >> initialize [
 
@@ -43,6 +49,19 @@ MfPerformanceNbStepsElement >> initialize [
 	self size: 350 @ 160.
 	self background: Color black.
 	self padding: (BlInsets all: 30)
+]
+
+{ #category : 'as yet unclassified' }
+MfPerformanceNbStepsElement >> initializeAnimation: aBpm [
+
+	anim := BlAnimation new duration: (60 / 4 / aBpm) seconds.
+	anim beInfinite.
+	anim addEventHandler: (BlEventHandler
+			 on: BlAnimationLoopDoneEvent
+			 do: [ :e |
+				 nbSteps := nbSteps + 1.
+				 self setStepsLabel:nbSteps ]).
+	self addAnimation: anim
 ]
 
 { #category : 'initialization' }
@@ -67,7 +86,8 @@ MfPerformanceNbStepsElement >> initializeStepsLabel [
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
 	self addChild: label.
-	self addChild: text
+	self addChild: text.
+	self initializeAnimation: 139.
 ]
 
 { #category : 'accessing' }
@@ -80,6 +100,15 @@ MfPerformanceNbStepsElement >> label [
 MfPerformanceNbStepsElement >> nbSteps [
 
 ^nbSteps
+]
+
+{ #category : 'initialization' }
+MfPerformanceNbStepsElement >> setStepsLabel: aNbOfSteps [
+
+	label text: (nbSteps asString asRopedText attributes:
+			 { (BlTextForegroundAttribute paint: Color green) }).
+	label text fontSize: 22.
+
 ]
 
 { #category : 'accessing' }
