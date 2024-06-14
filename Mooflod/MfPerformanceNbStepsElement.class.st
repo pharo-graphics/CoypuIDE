@@ -19,8 +19,8 @@ MfPerformanceNbStepsElement class >> exampleNbSteps [
 	<script>
 	| s space |
 	space := BlSpace new.
-	space root layout: BlFlowLayout horizontal.
-	space toTheme: MfMooflodTheme new. 
+	space root layout: BlFlowLayout horizontal.  
+	space toTheme: MfMooflodTheme new.
 	s := self new.
 	s addSteps: 189.
 	s transformDo: [ :c | c translateBy: 200 @ 150 ].
@@ -60,24 +60,24 @@ MfPerformanceNbStepsElement >> initialize [
 	super initialize.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 18).
 	self size: 350 @ 160.
+
 	self background: Color black.
-	self padding: (BlInsets all: 30).
 	self addSteps: 0.
 	animRunning := false
 ]
 
 { #category : 'as yet unclassified' }
 MfPerformanceNbStepsElement >> initializeAnimation: aBpm [
-
+	animRunning:= true.
 	anim := BlAnimation new duration: (60 / 4 / aBpm) seconds.
 	anim beInfinite.
 	anim addEventHandler: (BlEventHandler
 			 on: BlAnimationLoopDoneEvent
-			 do: [ :e  |
-				animRunning ifTrue: [ nbSteps < 30000 ifTrue: [
-					 nbSteps := nbSteps + 1.
-					 self setStepsLabel: nbSteps ] ]
-				 ]).
+			 do: [ :e |
+				 animRunning ifTrue: [
+					 nbSteps < 30000 ifTrue: [
+						 nbSteps := nbSteps + 1.
+						 self setStepsLabel: nbSteps ] ] ]).
 	self addAnimation: anim
 ]
 
