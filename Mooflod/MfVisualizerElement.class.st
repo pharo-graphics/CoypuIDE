@@ -13,6 +13,25 @@ Class {
 	#tag : 'VisualizerRepresentation'
 }
 
+{ #category : 'examples' }
+MfVisualizerElement class >> exampleVisualizer [
+
+	<script>
+	| v space |
+	v := MfVisualizerElement new level: 2.
+	v addInstrument: 'Kick'.
+	v level: 1.
+	v addInstrument: 'Snare'.
+	v initAnimation: 8 * 16.
+	space := BlSpace new.
+	space root layout: BlFlowLayout horizontal.
+	v transformDo: [ :c | c translateBy: 200 @ 50 ].
+	space root addChild: v.
+	space toTheme: MfMooflodTheme new.
+	space show.
+	^ v
+]
+
 { #category : 'adding' }
 MfVisualizerElement >> addElementsLevelFour: aChildren [ 
 
