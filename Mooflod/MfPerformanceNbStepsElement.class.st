@@ -18,12 +18,12 @@ MfPerformanceNbStepsElement class >> exampleNbSteps [
 
 	<script>
 	| s space |
-	space := BlSpace new.
-	space root layout: BlFlowLayout horizontal.  
-	space toTheme: MfMooflodTheme new.
 	s := self new.
 	s addSteps: 189.
 	s transformDo: [ :c | c translateBy: 200 @ 150 ].
+	space := BlSpace new.
+	space root layout: BlFlowLayout horizontal.
+	space toTheme: MfMooflodTheme new.
 	space root addChild: s.
 	space show.
 	^ s
@@ -60,9 +60,7 @@ MfPerformanceNbStepsElement >> initialize [
 	super initialize.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 18).
 	self size: 350 @ 160.
-
 	self background: Color black.
-	self addSteps: 0.
 	animRunning := false
 ]
 
