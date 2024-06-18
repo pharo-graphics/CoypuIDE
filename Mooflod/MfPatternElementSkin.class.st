@@ -12,6 +12,8 @@ MfPatternElementSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder paint: Color pink).
+		e border: (BlBorder
+				 paint: (Color pink)
+				 width: (2)).
 		e background: e backgroundPaint ]
 ]

@@ -1,20 +1,20 @@
 Class {
-	#name : 'MfPerformanceNbStepsElement',
+	#name : 'MfPerformanceStepsDisplayer',
 	#superclass : 'ToElement',
 	#instVars : [
 		'label',
 		'nbSteps',
 		'text',
-		'anim',
-		'animRunning'
+		'animation',
+		'animationIsRunning'
 	],
-	#category : 'Mooflod-MfPerformanceNbSteps',
+	#category : 'Mooflod-PerformanceStepsDisplayer',
 	#package : 'Mooflod',
-	#tag : 'MfPerformanceNbSteps'
+	#tag : 'PerformanceStepsDisplayer'
 }
 
-{ #category : 'as yet unclassified' }
-MfPerformanceNbStepsElement class >> exampleNbSteps [
+{ #category : 'example' }
+MfPerformanceStepsDisplayer class >> exampleNbSteps [
 
 	<script>
 	| s space |
@@ -30,57 +30,58 @@ MfPerformanceNbStepsElement class >> exampleNbSteps [
 ]
 
 { #category : 'adding' }
-MfPerformanceNbStepsElement >> addSteps: aNbOfSteps [
+MfPerformanceStepsDisplayer >> addSteps: aNbOfSteps [
+	(aNbOfSteps between: 1 and: 30000) ifTrue: [  	nbSteps := aNbOfSteps.
+	self initializeStepsLabel]
 
-	nbSteps := aNbOfSteps.
-	self initializeStepsLabel
 ]
 
 { #category : 'accessing' }
-MfPerformanceNbStepsElement >> anim [ 
+MfPerformanceStepsDisplayer >> animation [
 
-^anim
+	^ animation
 ]
 
 { #category : 'accessing' }
-MfPerformanceNbStepsElement >> animRunning [
+MfPerformanceStepsDisplayer >> animationIsRunning [
 
-^animRunning 
+	^ animationIsRunning 
 ]
 
 { #category : 'accessing' }
-MfPerformanceNbStepsElement >> animRunning: aBoolean [
+MfPerformanceStepsDisplayer >> animationIsRunning: aBoolean [
 
-animRunning:= aBoolean 
+	animationIsRunning := aBoolean
 ]
 
 { #category : 'initialization' }
-MfPerformanceNbStepsElement >> initialize [
+MfPerformanceStepsDisplayer >> initialize [
 
 	super initialize.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 18).
 	self size: 350 @ 160.
 	self background: Color black.
-	animRunning := false
-]
-
-{ #category : 'as yet unclassified' }
-MfPerformanceNbStepsElement >> initializeAnimation: aBpm [
-	animRunning:= true.
-	anim := BlAnimation new duration: (60 / 4 / aBpm) seconds.
-	anim beInfinite.
-	anim addEventHandler: (BlEventHandler
-			 on: BlAnimationLoopDoneEvent
-			 do: [ :e |
-				 animRunning ifTrue: [
-					 nbSteps < 30000 ifTrue: [
-						 nbSteps := nbSteps + 1.
-						 self setStepsLabel: nbSteps ] ] ]).
-	self addAnimation: anim
+	animationIsRunning := false
 ]
 
 { #category : 'initialization' }
-MfPerformanceNbStepsElement >> initializeStepsLabel [
+MfPerformanceStepsDisplayer >> initializeAnimation: aBpm [
+
+	animationIsRunning := true.
+	animation := BlAnimation new duration: (60 / 4 / aBpm) seconds.
+	animation beInfinite.
+	animation addEventHandler: (BlEventHandler
+			 on: BlAnimationLoopDoneEvent
+			 do: [ :e |
+				 animationIsRunning ifTrue: [
+					 nbSteps < 30000 ifTrue: [
+						 nbSteps := nbSteps + 1.
+						 self setStepsLabel: nbSteps ] ] ]).
+	self addAnimation: animation
+]
+
+{ #category : 'initialization' }
+MfPerformanceStepsDisplayer >> initializeStepsLabel [
 
 	text := BlTextElement new.
 	text text:
@@ -90,7 +91,8 @@ MfPerformanceNbStepsElement >> initializeStepsLabel [
 	text constraintsDo: [ :c |
 		c frame horizontal alignCenter.
 		c frame vertical alignTop ].
-
+	text transformDo: [ :t |
+		t translateBy: 0@10 ].
 
 
 	label := BlTextElement new.
@@ -102,23 +104,29 @@ MfPerformanceNbStepsElement >> initializeStepsLabel [
 		c frame vertical alignCenter ].
 	self addChild: label.
 	self addChild: text.
-	self initializeAnimation: 139.
+	self initializeAnimation: 139
 ]
 
 { #category : 'accessing' }
-MfPerformanceNbStepsElement >> label [ 
+MfPerformanceStepsDisplayer >> label [ 
 
 ^label
 ]
 
 { #category : 'accessing' }
-MfPerformanceNbStepsElement >> nbSteps [
+MfPerformanceStepsDisplayer >> nbSteps [
 
 ^nbSteps
 ]
 
+{ #category : 'instance creation' }
+MfPerformanceStepsDisplayer >> newMooflodSkin [
+
+	^ MfPerformanceStepsDisplayerSkin new 
+]
+
 { #category : 'initialization' }
-MfPerformanceNbStepsElement >> setStepsLabel: aNbOfSteps [
+MfPerformanceStepsDisplayer >> setStepsLabel: aNbOfSteps [
 
 	label text: (nbSteps asString asRopedText attributes:
 			 { (BlTextForegroundAttribute paint: Color green) }).
@@ -127,6 +135,6 @@ MfPerformanceNbStepsElement >> setStepsLabel: aNbOfSteps [
 ]
 
 { #category : 'accessing' }
-MfPerformanceNbStepsElement >> text [
+MfPerformanceStepsDisplayer >> text [
 ^text
 ]

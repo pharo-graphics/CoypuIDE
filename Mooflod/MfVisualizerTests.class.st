@@ -15,6 +15,7 @@ MfVisualizerTests >> testLevelOneWorksCorrectly [
 	v addInstrument: name.
 	v initAnimation: 128.
 	firstSect := v children at: 1.
+	"at level 1 we have 3 childs : the pulsing square, the instrument label and the name displayed"
 	self assert: firstSect children size equals: 3
 ]
 
@@ -27,15 +28,6 @@ MfVisualizerTests >> testLevelTwoWorksCorrectly [
 	v addInstrument: name.
 	v initAnimation: 128.
 	firstSect := v children at: 1.
-	self assert: firstSect children size equals: 4
-]
-
-{ #category : 'tests' }
-MfVisualizerTests >> testVisualizerSectionsInitializedCorrectly [
-
-
-	| v  |
-	v := MfVisualizerElement new level: 2.
-	self assert: v children size equals: 4.
-	
+	"the fourth child is the patternElement widget, added at the level 2"
+	self assert: firstSect children size equals: 4.
 ]

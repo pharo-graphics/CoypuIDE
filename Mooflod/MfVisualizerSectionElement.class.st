@@ -9,12 +9,12 @@ Class {
 	#tag : 'VisualizerRepresentation'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'boolean' }
 MfVisualizerSectionElement >> added [ 
 ^added
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'boolean' }
 MfVisualizerSectionElement >> added:boolean [
 
 added:= boolean
