@@ -42,14 +42,15 @@ MfVisualizerElement >> addElementsLevelFour: aChildren [
 MfVisualizerElement >> addElementsLevelOne: aName [
 
 	| square label name sect |
-	
 	sect := self children at: nbTracks.
 	name := BlTextElement new.
 	name text: (self textFrom: aName).
 	name text fontSize: 18.
 	square := MfPulsingSquare new.
-	label := MfInstrumentLabelElement new.
-
+	label:= BlTextElement new.
+	label text: (self textFrom: 'Instrument :').
+	label text fontSize: 18.
+	label transformDo: [ :t | t translateBy: 20 @ 25 ].
 	square transformDo: [ :q | q translateBy: 450 @ 15 ].
 	name transformDo: [ :t | t translateBy: 130 @ 25 ].
 
@@ -126,7 +127,11 @@ MfVisualizerElement >> initSections [
 	y := 0.
 	1 to: 4 do: [ :s |
 		| sect |
-		sect := MfVisualizerSectionElement new.
+		sect := BlElement new.
+		sect geometry: BlRectangleGeometry new.
+		sect size: 500 @ 200.
+		sect border: (BlBorder paint: Color white width: 2).
+		sect layout: BlFrameLayout new.
 		sect transformDo: [ :t | t translateBy: 0 @ y ].
 		y := y + 200.
 		self addChild: sect ]
