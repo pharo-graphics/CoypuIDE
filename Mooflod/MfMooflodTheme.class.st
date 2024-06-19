@@ -11,10 +11,10 @@ MfMooflodTheme class >> defaultTokenProperties [
 	"define here token properties of the widget theme"
 
 	^ super defaultTokenProperties , {
-		  (ToTokenProperty name: #'background-color' value: Color lightGreen).
-		  (ToTokenProperty
+		  (ToTokenProperty name: #'background-color' value: Color lightBlue).
+		  "(ToTokenProperty
 			   name: #'background-color'
-			   value: (Color fromHexString: '#313339')).
+			   value: (Color fromHexString: '#313339'))."
 		  (ToTokenProperty
 			   name: #'color-bg-container'
 			   value: (Color fromHexString: '#313339')).

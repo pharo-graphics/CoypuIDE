@@ -15,7 +15,7 @@ MfInputElementSkin >> installLookEvent: anEvent [
 		e border: (BlBorder
 				 paint: (e valueOfTokenNamed: #'color-border')
 				 width: (e valueOfTokenNamed: #'line-width')).
-		e background: Color red.
+		e background: Color black.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius: 20).
 		e plus background: Color blue.
 		e minus background: Color red ]

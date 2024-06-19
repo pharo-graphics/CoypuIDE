@@ -16,8 +16,8 @@ Class {
 MfFractalCircleElement class >> exampleSimpleFractalCircle [
 
 	<script>
-	| c space | 
-	c := MfFractalCircleElement new.
+	| c space |
+	c := self new.
 	c setValue: 100.
 	space := BlSpace new.
 	space root layout: BlFlowLayout horizontal.
