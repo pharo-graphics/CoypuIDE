@@ -14,7 +14,8 @@ BaselineOfCoypuIDE >> baseline: spec [
 
 		spec 
 			package: 'CoypuIDE' with: [spec requires: 'Toplo'];
-			package: 'Mooflod'  with: [spec requires: 'Toplo'].
+			package: 'Mooflod'  with: [spec requires: 'Toplo'];
+			package: 'ICIcons' with: [spec requires: 'Toplo'].
 		spec
 			group: 'core' with: #('CoypuIDE' 'Mooflod');
 			group: 'default' with: #('core') ]
