@@ -14,6 +14,21 @@ Class {
 	#tag : 'MixingTableWidget'
 }
 
+{ #category : 'example' }
+MfMixingTableElement class >> exampleMixingTable [
+
+	<script>
+	| mT space |
+	mT := self new nbButtons: 12; nbButtonPerRow: 4.
+	space := BlSpace new.
+	space root layout: BlFlowLayout horizontal.
+	space root addChild: mT.
+	space toTheme: MfMooflodTheme new.
+	mT transformDo: [ :c | c translateBy: 180 @ 200 ].
+	space show.
+	^ mT
+]
+
 { #category : 'adding' }
 MfMixingTableElement >> addButton: anElement key: aKey [
 	"add the key passed as parameter to the key dictionnary"
