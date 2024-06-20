@@ -3,7 +3,8 @@ Class {
 	#superclass : 'ToElement',
 	#instVars : [
 		'nbTracks',
-		'animation'
+		'animation',
+		'square'
 	],
 	#classVars : [
 		'level'
@@ -17,12 +18,12 @@ Class {
 MfVisualizerElement class >> exampleVisualizer [
 
 	<script>
-	|  v space |
+	| v space |
 	v := self new level: 2.
 	v addInstrument: 'Kick'.
 	v level: 1.
 	v addInstrument: 'Snare'.
-	v initAnimation: 8 * 16.
+	v initAnimation: 4.
 	space := BlSpace new.
 	space root layout: BlFlowLayout horizontal.
 	v transformDo: [ :c | c translateBy: 200 @ 50 ].
@@ -41,13 +42,13 @@ MfVisualizerElement >> addElementsLevelFour: aChildren [
 { #category : 'adding' }
 MfVisualizerElement >> addElementsLevelOne: aName [
 
-	| square label name sect |
+	| label name sect |
 	sect := self children at: nbTracks.
 	name := BlTextElement new.
 	name text: (self textFrom: aName).
 	name text fontSize: 18.
 	square := MfPulsingSquare new.
-	label:= BlTextElement new.
+	label := BlTextElement new.
 	label text: (self textFrom: 'Instrument :').
 	label text fontSize: 18.
 	label transformDo: [ :t | t translateBy: 20 @ 25 ].
@@ -104,7 +105,7 @@ MfVisualizerElement >> cleanVisualizer [
 { #category : 'initialization' }
 MfVisualizerElement >> initAnimation: nbSteps [
 
-	animation := BlAnimation new duration: (nbSteps / 9) seconds.
+	animation := BlAnimation new duration: (nbSteps) seconds.
 	animation addEventHandler: (BlEventHandler
 			 on: BlAnimationLoopDoneEvent
 			 do: [ :e | self cleanVisualizer ]).
@@ -164,6 +165,24 @@ MfVisualizerElement >> level: aLevel [
 MfVisualizerElement >> nbTracks [
 
 ^nbTracks 
+]
+
+{ #category : 'instance creation' }
+MfVisualizerElement >> open [ 
+
+|space|
+	space := BlSpace new.
+	space root layout: BlFlowLayout horizontal.
+	self transformDo: [ :c | c translateBy: 200 @ 50 ].
+	space root addChild: self.
+	space toTheme: MfMooflodTheme new.
+	space show.
+]
+
+{ #category : 'accessing' }
+MfVisualizerElement >> square [
+
+^square
 ]
 
 { #category : 'adding' }

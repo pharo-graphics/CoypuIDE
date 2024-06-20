@@ -12,9 +12,9 @@ MfMooflodTheme class >> defaultTokenProperties [
 
 	^ super defaultTokenProperties , {
 		  (ToTokenProperty name: #'background-color' value: Color lightBlue).
-		  "(ToTokenProperty
+		  (ToTokenProperty
 			   name: #'background-color'
-			   value: (Color fromHexString: '#313339'))."
+			   value: (Color fromHexString: '#313339')).
 		  (ToTokenProperty
 			   name: #'color-bg-container'
 			   value: (Color fromHexString: '#313339')).
