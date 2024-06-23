@@ -14,6 +14,21 @@ Class {
 	#tag : 'MixingTableWidget'
 }
 
+{ #category : 'example' }
+MfMixingTableElement class >> exampleMixingTable [
+
+	<script>
+	| mT space |
+	mT := self new nbButtons: 12; nbButtonPerRow: 4.
+	space := BlSpace new.
+	space root layout: BlFlowLayout horizontal.
+	space root addChild: mT.
+	space toTheme: MfMooflodTheme new.
+	mT transformDo: [ :c | c translateBy: 180 @ 200 ].
+	space show.
+	^ mT
+]
+
 { #category : 'adding' }
 MfMixingTableElement >> addButton: anElement key: aKey [
 	"add the key passed as parameter to the key dictionnary"
@@ -103,20 +118,6 @@ MfMixingTableElement >> nbButtons: buttons [
 
 	nbButtons := buttons.
 	self initializeKeys
-]
-
-{ #category : 'opening' }
-MfMixingTableElement >> openMixingTable [
-	"create a space to display the mixing table widget"
-	
-	| space |
-	space := BlSpace new.
-	space root layout: BlFlowLayout horizontal.
-	space toTheme: MfMooflodTheme new.
-	self transformDo: [ :c | c translateBy: 180 @ 150 ].
-	space root addChild: self.
-	space show.
-	^ self 
 ]
 
 { #category : 'as yet unclassified' }

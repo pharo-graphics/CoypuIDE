@@ -23,14 +23,14 @@ Class {
 
 { #category : 'examples' }
 MfPianoElement class >> openPiano [
+
 	<script>
-	
 	| space aPiano |
 	space := BlSpace new.
 	space root
 		background: Color lightRed;
 		layout: BlFlowLayout horizontal.
-	aPiano := MfPianoElement new.
+	aPiano := self new.
 	aPiano transformDo: [ :c | c translateBy: 200 @ 200 ].
 	space root addChild: aPiano.
 	space show.
