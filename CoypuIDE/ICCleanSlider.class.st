@@ -25,7 +25,8 @@ Class {
 		'handlePushedPoint'
 	],
 	#category : 'CoypuIDE-Attic',
-	#package : 'CoypuIDE-Attic'
+	#package : 'CoypuIDE',
+	#tag : 'Attic'
 }
 
 { #category : 'building' }
