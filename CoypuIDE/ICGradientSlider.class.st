@@ -44,7 +44,7 @@ ICGradientSlider >> initializeParts [
 
 { #category : 'api - bounds' }
 ICGradientSlider >> overLayer [
-	"additional layer on top for grid"
+	"additional layer on top"
 	|size container direc num width|
 	size := self 
 		        ifHorizontal: [ self defaultBarLength @ self defaultBarThickness ]

@@ -91,6 +91,7 @@ ICGradientGridSlider >> overLayer [
 				div addChild: elt. 
 			 	].
 			];
+			"vertical grid"		
 			 		ifFalse: [ 
 				num timesRepeat: [ |elt|
 				elt:= BlElement new
@@ -104,7 +105,7 @@ ICGradientGridSlider >> overLayer [
 			].
 		container addChild: div. 
 	].
-		"vertical grid to be made"
+		
 
 	^ container.
 ]
