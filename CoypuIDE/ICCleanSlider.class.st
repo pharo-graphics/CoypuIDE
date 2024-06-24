@@ -24,9 +24,7 @@ Class {
 		'sliderHandle',
 		'handlePushedPoint'
 	],
-
-	#category : 'CoypuIDE-Attic'
-
+	#category : #'CoypuIDE-Attic'
 }
 
 { #category : #building }
@@ -530,7 +528,7 @@ ICCleanSlider >> initialize [
 { #category : #initialization }
 ICCleanSlider >> initializeEventHandlers [
 
-	eventHandler := BlCleanSliderHandler new.
+	eventHandler := ICCleanSliderHandler new.
 	self addEventHandler: eventHandler
 ]
 

@@ -1,9 +1,7 @@
 Class {
-
 	#name : #ICCleanSliderHandler,
 	#superclass : #BlCustomEventHandler,
 	#category : 'CoypuIDE-Attic'
-
 }
 
 { #category : #'event management' }
