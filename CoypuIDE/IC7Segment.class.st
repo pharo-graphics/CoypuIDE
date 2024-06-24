@@ -5,6 +5,9 @@ Class {
 		'segments',
 		'digit'
 	],
+	#classVars : [
+		'Digits'
+	],
 	#category : #'CoypuIDE-led / 7segment'
 }
 
