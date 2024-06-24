@@ -24,7 +24,9 @@ Class {
 		'sliderHandle',
 		'handlePushedPoint'
 	],
+
 	#category : 'CoypuIDE-Attic'
+
 }
 
 { #category : #building }
