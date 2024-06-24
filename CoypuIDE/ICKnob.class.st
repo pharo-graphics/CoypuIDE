@@ -127,6 +127,9 @@ ICKnob >> initialize [
 	self initializeEvents.
 	self initializeAnnulus.
 	self initializeTexts.
+	"Here to define the centerPosition once layouted"
+	self setValue: self minValue.
+	self position: 0 @ 0
 ]
 
 { #category : #initialization }
@@ -188,8 +191,6 @@ ICKnob >> initializeDefaultValues [
 	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
-	currentValue := 0.
-	angle := 0.
 	diameter := 100.
 	minAngle := -135.
 	maxAngle := 135
@@ -340,6 +341,14 @@ ICKnob >> position: aPoint [
 	self centerPosition: self positionInSpace + (self size / 2)]
 ]
 
+{ #category : #initialization }
+ICKnob >> setValue: aNumber [
+
+	|newAngle|
+	newAngle := self valueToAngle: aNumber.
+	self angle: newAngle.
+]
+
 { #category : #accessing }
 ICKnob >> stepValue [
 
@@ -350,4 +359,15 @@ ICKnob >> stepValue [
 ICKnob >> stepValue: aNumber [
 
 	stepValue := aNumber
+]
+
+{ #category : #'as yet unclassified' }
+ICKnob >> valueToAngle: aNumber [
+
+	| normalized mapped |
+	normalized := aNumber - self minValue
+	              / (self maxValue - self minValue).
+	mapped := normalized * (self maxAngle - self minAngle)
+	          + self minAngle.
+	^ mapped 
 ]
