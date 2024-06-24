@@ -1,6 +1,6 @@
 Class {
-	#name : 'ICCleanSlider',
-	#superclass : 'BlElement',
+	#name : #ICCleanSlider,
+	#superclass : #BlElement,
 	#instVars : [
 		'minValue',
 		'maxValue',
@@ -24,29 +24,28 @@ Class {
 		'sliderHandle',
 		'handlePushedPoint'
 	],
-	#category : 'CoypuIDE-Attic',
-	#package : 'CoypuIDE-Attic'
+	#category : 'CoypuIDE-Attic'
 }
 
-{ #category : 'building' }
+{ #category : #building }
 ICCleanSlider class >> backgroundDefaultColor [
 
 	^ Color gray
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICCleanSlider class >> barDefaultColor [
 
 	^ Color blue 
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICCleanSlider class >> defaultMaxPixelDistance [
 
 	^ 25
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICCleanSlider class >> exampleSegmented [
 
 	<script>
@@ -64,7 +63,7 @@ ICCleanSlider class >> exampleSegmented [
 	bl openInSpace
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICCleanSlider class >> exampleSegmentedWithColors [
 
 	<script>
@@ -87,19 +86,19 @@ ICCleanSlider class >> exampleSegmentedWithColors [
 	bl2 openInSpace.
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICCleanSlider class >> interactionDefaultColor [
 
 	^ Color pink alpha: 0.5
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICCleanSlider class >> interactorDefaultColor [
 
 	^ Color red 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICCleanSlider class >> visualTestNotSegmented [
 
 	<script>
@@ -117,7 +116,7 @@ ICCleanSlider class >> visualTestNotSegmented [
 	^ val
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICCleanSlider class >> visualTestNotSegmentedInspectValue [
 
 	<script>
@@ -135,7 +134,7 @@ ICCleanSlider class >> visualTestNotSegmentedInspectValue [
 	^ val
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICCleanSlider class >> visualTestSegmented [
 
 	<script>
@@ -152,25 +151,25 @@ ICCleanSlider class >> visualTestSegmented [
 	^ val
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> barThickness: anObject [
 
 	barThickness := anObject
 ]
 
-{ #category : 'main configuration' }
+{ #category : #'main configuration' }
 ICCleanSlider >> beHorizontal [
 
 	self horizontal: true.
 ]
 
-{ #category : 'main configuration' }
+{ #category : #'main configuration' }
 ICCleanSlider >> beVertical [
 
 	self horizontal: false.
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildDefaultHandle [
 
 	| bl pt |
@@ -183,7 +182,7 @@ ICCleanSlider >> buildDefaultHandle [
 	^ bl
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildForeground [ 
 
 	self id: #sliderInteractionForeground.
@@ -191,7 +190,7 @@ ICCleanSlider >> buildForeground [
 	self background: self class interactionDefaultColor.
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildHorizontalBackground [
 
 	| bgElt |
@@ -207,7 +206,7 @@ ICCleanSlider >> buildHorizontalBackground [
 	self sliderBackground: bgElt
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildHorizontalBar [
 
 	| bar |
@@ -224,7 +223,7 @@ ICCleanSlider >> buildHorizontalBar [
 	self sliderBar: bar
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildHorizontalHandle [ 
 
 	| handle pt |
@@ -238,7 +237,7 @@ ICCleanSlider >> buildHorizontalHandle [
 	self sliderHandle: handle
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildHorizontalSlider [
 
 	self buildForeground.
@@ -247,7 +246,7 @@ ICCleanSlider >> buildHorizontalSlider [
 	self buildHorizontalHandle
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildSlider [
 
 	self removeAllShapes.
@@ -258,7 +257,7 @@ ICCleanSlider >> buildSlider [
 	self initializeEventHandlers
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildVerticalBackground [
 
 	
@@ -278,7 +277,7 @@ ICCleanSlider >> buildVerticalBackground [
 
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildVerticalBar [
 
 	| bar |
@@ -297,7 +296,7 @@ ICCleanSlider >> buildVerticalBar [
 	
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildVerticalHandle [
 
 	| handle pt |
@@ -311,7 +310,7 @@ ICCleanSlider >> buildVerticalHandle [
 	self sliderHandle: handle
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> buildVerticalSlider [
 
 	self buildForeground.
@@ -320,13 +319,13 @@ ICCleanSlider >> buildVerticalSlider [
 	self buildVerticalHandle
 ]
 
-{ #category : 'changing state' }
+{ #category : #'changing state' }
 ICCleanSlider >> changedCurrentValue: aValue [
 
 ^self changedCurrentValue: aValue withSlider: false
 ]
 
-{ #category : 'changing state' }
+{ #category : #'changing state' }
 ICCleanSlider >> changedCurrentValue: aValue withSlider: aBool [
 
 	| v color |
@@ -354,7 +353,7 @@ ICCleanSlider >> changedCurrentValue: aValue withSlider: aBool [
 	self sliderBar background: color
 ]
 
-{ #category : 'changing state' }
+{ #category : #'changing state' }
 ICCleanSlider >> changedHandlePosition: v [
 
 	self isHorizontal 
@@ -366,7 +365,7 @@ ICCleanSlider >> changedHandlePosition: v [
 				sl position: sl constraints position x @ v ] ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> cleanSliderParts [
 
 	sliderBackground := nil.
@@ -374,7 +373,7 @@ ICCleanSlider >> cleanSliderParts [
 	sliderHandle := nil
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> colorForValue: aValue [
 
 	| i |
@@ -390,13 +389,13 @@ ICCleanSlider >> colorForValue: aValue [
 			^list at: i ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> currentValue [
 
 	^ currentValue
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> currentValue: aNumber [
 
 	(aNumber between: minValue and: maxValue) ifFalse: [ ^ self ].
@@ -404,13 +403,13 @@ ICCleanSlider >> currentValue: aNumber [
 	self changedCurrentValue: aNumber
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> decrementValue [
 
 	self decrementValue: self stepValue.
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> decrementValue: aValue [
 
 	| tmp |
@@ -418,37 +417,37 @@ ICCleanSlider >> decrementValue: aValue [
 	tmp < self maxValue ifTrue: [ self validatedValue: tmp ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> disabledRebuilding [
 
 	^ disabledRebuilding
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> disabledRebuilding: anObject [
 
 	disabledRebuilding := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> endColor: anObject [
 
 	endColor := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> enumeratedColors [
 
 	^ enumeratedColors
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> enumeratedColors: anObject [
 
 	enumeratedColors := anObject
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> enumeratedValues [
 	"since the enumerated value are derived from min, max and step, we lazy initialize it."
 	
@@ -458,37 +457,37 @@ ICCleanSlider >> enumeratedValues [
 	^ enumeratedValues
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> enumeratedValues: anObject [
 
 	enumeratedValues := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> handlePushedPoint [
 
 	^ handlePushedPoint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> handlePushedPoint: anObject [
 
 	handlePushedPoint := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> horizontal: aBoolean [
 
 	isHorizontal := aBoolean 
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> incrementValue [
 
 	self incrementValue: self stepValue
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> incrementValue: aValue [
 
 	| tmp |
@@ -496,19 +495,19 @@ ICCleanSlider >> incrementValue: aValue [
 	tmp < self maxValue ifTrue: [ self validatedValue: tmp ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> initColor [
 
 	^ initColor
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> initColor: anObject [
 
 	initColor := anObject
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICCleanSlider >> initialize [
 
 	super initialize.
@@ -526,51 +525,51 @@ ICCleanSlider >> initialize [
 	maxPixelDistance := self class defaultMaxPixelDistance
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICCleanSlider >> initializeEventHandlers [
 
 	eventHandler := BlCleanSliderHandler new.
 	self addEventHandler: eventHandler
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> is: aValue near: aValue2 [
 
 	^(aValue - aValue2) abs < self maxPixelDistance
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> isHorizontal [ 
 
 	^ isHorizontal 
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> isSliderBuilt [
 	"if no interactor, no slider"
 
 	^ self sliderHandle isNotNil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> maxPixelDistance [
 
 	^ maxPixelDistance 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> maxPixelDistance: anObject [
 
 	maxPixelDistance := anObject
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> maxValue [
 
 	^ maxValue
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> maxValue: anObject [
 	"when we change the maxValue, we are rebuilding the enumerated values and slider"
 
@@ -579,13 +578,13 @@ ICCleanSlider >> maxValue: anObject [
 	self isSliderBuilt ifTrue: [ self rebuildSlider ]
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> minValue [
 
 	^ minValue
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> minValue: anObject [
 
 	minValue := anObject.
@@ -594,7 +593,7 @@ ICCleanSlider >> minValue: anObject [
 	self isSliderBuilt ifTrue: [ self rebuildSlider ]
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> nearestValue: aValue [
 
 	| val minResult tmp tmp2 |
@@ -611,7 +610,7 @@ ICCleanSlider >> nearestValue: aValue [
 	^ val
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICCleanSlider >> pointToValue: point [
 
 	^ self isHorizontal 
@@ -619,7 +618,7 @@ ICCleanSlider >> pointToValue: point [
 		  ifFalse: [ self pointToYValue: point ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICCleanSlider >> pointToXValue: point [
 
 	| facteur valeur |
@@ -631,7 +630,7 @@ ICCleanSlider >> pointToXValue: point [
 	^ valeur
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICCleanSlider >> pointToYValue: point [
 
 	| facteur valeur |
@@ -643,21 +642,21 @@ ICCleanSlider >> pointToYValue: point [
 	^ valeur
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> proportionOf: aValue [
 	| i |
 	i := self enumeratedValues indexOf: aValue.
 	^ (i/self enumeratedValues size)
 ]
 
-{ #category : 'private - building' }
+{ #category : #'private - building' }
 ICCleanSlider >> rebuildSlider [
 
 	self disabledRebuilding ifTrue: [ ^ self ].
 	self buildSlider
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> removeAllShapes [
 
 	| list |
@@ -668,7 +667,7 @@ ICCleanSlider >> removeAllShapes [
 	self cleanSliderParts
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> removeEventHandler [
 
 	eventHandler ifNil: [ ^ self ].
@@ -679,26 +678,26 @@ ICCleanSlider >> removeEventHandler [
 	
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> setMaxValue [
 
 	self setValue: self maxValue.
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> setMinValue [
 
 	self setValue: self minValue
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICCleanSlider >> setValue: aValue [
 
 	(aValue < self maxValue and: [ aValue > self minValue ]) ifTrue: [
 		self validatedValue: aValue ].
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICCleanSlider >> size: aValue [
 
 	super size: aValue.
@@ -706,31 +705,31 @@ ICCleanSlider >> size: aValue [
 	self isSliderBuilt ifTrue: [ self rebuildSlider ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderBackground [
 
 	^ sliderBackground
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderBackground: anObject [
 
 	sliderBackground := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderBar [
 
 	^ sliderBar
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderBar: anObject [
 
 	sliderBar := anObject
 ]
 
-{ #category : 'events - bar' }
+{ #category : #'events - bar' }
 ICCleanSlider >> sliderBarClicked: event [
 
 	| tmp val |
@@ -739,19 +738,19 @@ ICCleanSlider >> sliderBarClicked: event [
 	self validatedValue: val.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderHandle [
 
 	^ sliderHandle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderHandle: anObject [
 
 	sliderHandle := anObject
 ]
 
-{ #category : 'events - interactor' }
+{ #category : #'events - interactor' }
 ICCleanSlider >> sliderHandleMoved: event [
 
 	| val tmp v |
@@ -773,7 +772,7 @@ ICCleanSlider >> sliderHandleMoved: event [
 	self currentValue: val
 ]
 
-{ #category : 'events - interactor' }
+{ #category : #'events - interactor' }
 ICCleanSlider >> sliderHandlePushed: event [
 
 	| value pt1 pt2 |
@@ -786,7 +785,7 @@ ICCleanSlider >> sliderHandlePushed: event [
 		self handlePushedPoint: event position copy ]
 ]
 
-{ #category : 'events - interactor' }
+{ #category : #'events - interactor' }
 ICCleanSlider >> sliderHandleReleased [
 
 	self handlePushedPoint ifNil: [ ^ self ].
@@ -794,7 +793,7 @@ ICCleanSlider >> sliderHandleReleased [
 	self validatedValue: currentValue
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> sliderParts [
 
 	| oc |
@@ -805,13 +804,13 @@ ICCleanSlider >> sliderParts [
 	^ oc
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderPixelMargin [
 
 	^ sliderPixelMargin 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> sliderPixelMargin: anObject [
 
 	sliderPixelMargin := anObject.
@@ -819,26 +818,26 @@ ICCleanSlider >> sliderPixelMargin: anObject [
 		self rebuildSlider ]
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> stepValue [
 
 	^ stepValue
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> stepValue: anObject [
 
 	stepValue := anObject.
 	enumeratedValues := nil.
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> validatedValue [
 
 	^ validatedValue
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> validatedValue: aValue [
 
 	currentValue := aValue.
@@ -847,19 +846,19 @@ ICCleanSlider >> validatedValue: aValue [
 	self validatedValueCallback ifNotNil: [ :e | e value: validatedValue ]
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> validatedValueCallback [
 
 	^ validatedValueCallback
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICCleanSlider >> validatedValueCallback: anObject [
 
 	validatedValueCallback := anObject
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICCleanSlider >> valueToCoord: aValue [
 
 	^ self isHorizontal 
@@ -867,7 +866,7 @@ ICCleanSlider >> valueToCoord: aValue [
 		  ifFalse: [ self valueToY: aValue ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICCleanSlider >> valueToX: aValue [
 
 	| current total coeff |
@@ -878,7 +877,7 @@ ICCleanSlider >> valueToX: aValue [
 	  + (self sliderBackground constraints horizontal resizer size * coeff roundTo: 1)
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICCleanSlider >> valueToY: aValue [
 
 	| valeurCourante valeurTotale facteur |
@@ -891,13 +890,13 @@ ICCleanSlider >> valueToY: aValue [
 			   roundTo: 1)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICCleanSlider >> widgetSize [
 
 	^ widgetSize
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ICCleanSlider >> widgetSize: anObject [
 
 	widgetSize := anObject
