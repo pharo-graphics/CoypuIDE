@@ -126,6 +126,18 @@ MfPerformanceStepsDisplayer >> newMooflodSkin [
 	^ MfPerformanceStepsDisplayerSkin new 
 ]
 
+{ #category : 'as yet unclassified' }
+MfPerformanceStepsDisplayer >> pauseAnimation: aDuration [
+
+	animation := BlAnimation new duration: aDuration seconds.
+	animation loops: 1.
+	animation addEventHandler: (BlEventHandler
+			 on: BlAnimationLoopDoneEvent
+			 do: [ :e |
+				self animationIsRunning: false]).
+	self addAnimation: animation
+]
+
 { #category : 'initialization' }
 MfPerformanceStepsDisplayer >> setStepsLabel: aNbOfSteps [
 
