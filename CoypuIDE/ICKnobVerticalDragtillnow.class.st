@@ -1,13 +1,13 @@
 Class {
-	#name : 'ICKnobVerticalDrag',
-	#superclass : 'ICKnob',
+	#name : 'ICKnobVerticalDragtillnow',
+	#superclass : 'ICKnob2',
 	#category : 'CoypuIDE-knob',
 	#package : 'CoypuIDE',
 	#tag : 'knob'
 }
 
 { #category : 'examples' }
-ICKnobVerticalDrag class >> basicExample [
+ICKnobVerticalDragtillnow class >> basicExample [
 
 	<script>
 	| knob |
@@ -19,7 +19,7 @@ ICKnobVerticalDrag class >> basicExample [
 ]
 
 { #category : 'initialization' }
-ICKnobVerticalDrag >> initializeEvents [
+ICKnobVerticalDragtillnow >> initializeEvents [
 
 	| valueAtOrigin dragOrigin|
 	self addEventHandlerOn: BlKeyDownEvent do: [ :e |

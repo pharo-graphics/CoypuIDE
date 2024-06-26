@@ -1,6 +1,6 @@
 Class {
-	#name : #ICKnob,
-	#superclass : #BlElement,
+	#name : 'ICKnob',
+	#superclass : 'BlElement',
 	#instVars : [
 		'minValue',
 		'maxValue',
@@ -14,10 +14,12 @@ Class {
 		'maxAngle',
 		'centerPosition'
 	],
-	#category : #'CoypuIDE-knob'
+	#category : 'CoypuIDE-knob',
+	#package : 'CoypuIDE',
+	#tag : 'knob'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 ICKnob class >> basicExample [
 
 	<script>
@@ -29,13 +31,13 @@ ICKnob class >> basicExample [
 	"knob callBack: [ :v | v inspect ]"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> angle [ 
 
 	^ angle 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> angle: aNumber [
 
 	| tmp |
@@ -49,7 +51,7 @@ ICKnob >> angle: aNumber [
 	self currentValue: self angleToValue
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICKnob >> angleToValue [
 
 	| normalized mapped |
@@ -60,31 +62,31 @@ ICKnob >> angleToValue [
 	^ mapped asFloat
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> callBack [ 
 
 	^ callBack 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> callBack: aBlock [
 
 	callBack := aBlock 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> centerPosition [
 
 	^ centerPosition 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> centerPosition: aPosition [
 
 	centerPosition := aPosition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> clickAt: aPoint [
 
 	| vector newAngle |
@@ -93,32 +95,32 @@ ICKnob >> clickAt: aPoint [
 	self angle: newAngle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> currentValue [
 
 	^ currentValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> currentValue: aNumber [
 
 	currentValue := aNumber.
 	self callBack ifNotNil: [ :c | c value: currentValue  ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> diameter [
 
 	^ diameter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> diameter: aNumber [
 
 	diameter := aNumber
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICKnob >> initialize [
 
 	super initialize.
@@ -132,7 +134,7 @@ ICKnob >> initialize [
 	self position: 0 @ 0
 ]
 
-{ #category : #initialization }
+{ #category : 'as yet unclassified' }
 ICKnob >> initializeAnnulus [
 
 	| annulus startSegment firstQuarterSegment middleSegment thirdQuarterSegment endSegment |
@@ -185,7 +187,7 @@ ICKnob >> initializeAnnulus [
 	self addChild: annulus
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> initializeDefaultValues [
 
 	minValue := 0.
@@ -196,7 +198,7 @@ ICKnob >> initializeDefaultValues [
 	maxAngle := 135
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICKnob >> initializeEvents [
 
 	self addEventHandlerOn: BlKeyDownEvent do: [ :e |
@@ -222,7 +224,7 @@ ICKnob >> initializeEvents [
 	self requestFocus
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICKnob >> initializeGeometry [
 
 	| marker |
@@ -240,7 +242,7 @@ ICKnob >> initializeGeometry [
 				 c frame vertical alignCenter ]).
 	self addChild: self knob.
 	marker := BlElement new
-		          size: 4 @ 20;
+		          size: 10 @ 20;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
 		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 		          background: Color darkGray;
@@ -248,14 +250,15 @@ ICKnob >> initializeGeometry [
 	self knob addChild: marker
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICKnob >> initializeTexts [
 
 	| minLabel maxLabel currentLabel labels |
 	minLabel := BlTextElement new text: self minValue asRopedText.
 	maxLabel := BlTextElement new text: self maxValue asRopedText.
 
-	currentLabel := BlTextElement new text: self currentValue asRopedText.
+	currentLabel := BlTextElement new text:self currentValue asRopedText.
+
 
 	labels := BlElement new clipChildren: false.
 
@@ -273,67 +276,67 @@ ICKnob >> initializeTexts [
 	maxLabel position: 120 @ 125
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> knob [ 
 
 	^ knob 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> knob: anElement [
 
 	knob := anElement 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> maxAngle [
 
 	^ maxAngle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> maxAngle: aNumber [
 
 	maxAngle := aNumber 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> maxValue [
 
 	^ maxValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> maxValue: aNumber [
 
 	maxValue := aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> minAngle [ 
 
 	^ minAngle 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> minAngle: aNumber [
 
 	minAngle := aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> minValue [
 
 	^ minValue 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> minValue: aNumber [
 
 	minValue := aNumber
 ]
 
-{ #category : #'api - bounds' }
+{ #category : 'api - bounds' }
 ICKnob >> position: aPoint [
 
 	super position: aPoint.
@@ -341,7 +344,7 @@ ICKnob >> position: aPoint [
 	self centerPosition: self positionInSpace + (self size / 2)]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICKnob >> setValue: aNumber [
 
 	|newAngle|
@@ -349,19 +352,19 @@ ICKnob >> setValue: aNumber [
 	self angle: newAngle.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> stepValue [
 
 	^ stepValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICKnob >> stepValue: aNumber [
 
 	stepValue := aNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICKnob >> valueToAngle: aNumber [
 
 	| normalized mapped |

@@ -1,22 +1,24 @@
 Class {
-	#name : #ICMasterCutoff,
-	#superclass : #BlElement,
+	#name : 'ICMasterCutoff',
+	#superclass : 'BlElement',
 	#instVars : [
 		'currentValue',
 		'minValue',
 		'maxValue',
 		'line'
 	],
-	#category : #'CoypuIDE-cutoff'
+	#category : 'CoypuIDE-cutoff',
+	#package : 'CoypuIDE',
+	#tag : 'cutoff'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> currentValue [ 
 
 	^ currentValue 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> currentValue: aNumber [
 
 	| newX | 
@@ -27,7 +29,7 @@ ICMasterCutoff >> currentValue: aNumber [
 	self line position: newX @ 150
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICMasterCutoff >> defaultLine [
 
 	| curve firstLine secondLine container |
@@ -65,7 +67,7 @@ ICMasterCutoff >> defaultLine [
 	^ container
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICMasterCutoff >> initialize [
 
 	super initialize.
@@ -75,7 +77,7 @@ ICMasterCutoff >> initialize [
 	self initializeLine.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> initializeDefaultValues [ 
 
 	minValue := 0.
@@ -83,50 +85,50 @@ ICMasterCutoff >> initializeDefaultValues [
 	currentValue := 0.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICMasterCutoff >> initializeLine [
 
 	self line: self defaultLine.
 	self addChild: line
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> line [
 
  ^ line
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> line: aBlElement [
 
 	line := aBlElement 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> maxValue [
 
 	^ maxValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> maxValue: aNumber [
 
 	maxValue := aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> minValue [
 
 	^ minValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICMasterCutoff >> minValue: aNumber [
 
 	minValue := aNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICMasterCutoff >> valueToPosition: aNumber [
 
 	| normalized mapped |
