@@ -2,30 +2,13 @@ Class {
 	#name : #ICMasterCutoff,
 	#superclass : #BlElement,
 	#instVars : [
-		'currentValue',
+		'value',
 		'minValue',
 		'maxValue',
 		'line'
 	],
 	#category : #'CoypuIDE-cutoff'
 }
-
-{ #category : #accessing }
-ICMasterCutoff >> currentValue [ 
-
-	^ currentValue 
-]
-
-{ #category : #accessing }
-ICMasterCutoff >> currentValue: aNumber [
-
-	| newX | 
-	currentValue := aNumber.
-	aNumber > self maxValue ifTrue: [ currentValue := self maxValue ].
-	aNumber < self minValue ifTrue: [ currentValue := self minValue ].
-	newX := self valueToPosition: currentValue.
-	self line position: newX @ 150
-]
 
 { #category : #'as yet unclassified' }
 ICMasterCutoff >> defaultLine [
@@ -58,9 +41,7 @@ ICMasterCutoff >> defaultLine [
 
 	container addChildren: {
 			firstLine.
-			curve
-			"secondLine" }.
-
+			curve }.
 
 	^ container
 ]
@@ -76,11 +57,11 @@ ICMasterCutoff >> initialize [
 ]
 
 { #category : #accessing }
-ICMasterCutoff >> initializeDefaultValues [ 
+ICMasterCutoff >> initializeDefaultValues [
 
-	minValue := 0.
-	maxValue := 100.
-	currentValue := 0.
+	minValue := 20.
+	maxValue := 22000.
+	value := 20
 ]
 
 { #category : #initialization }
@@ -126,12 +107,35 @@ ICMasterCutoff >> minValue: aNumber [
 	minValue := aNumber
 ]
 
+{ #category : #accessing }
+ICMasterCutoff >> setValue: aNumber [
+
+	| newX |
+	value := aNumber.
+	aNumber > self maxValue ifTrue: [ value := self maxValue ].
+	aNumber < self minValue ifTrue: [ value := self minValue ].
+	newX := self valueToPosition: value.
+	self line position: newX @ 150
+]
+
+{ #category : #accessing }
+ICMasterCutoff >> value [
+
+	^ value
+]
+
 { #category : #'as yet unclassified' }
 ICMasterCutoff >> valueToPosition: aNumber [
 
-	| normalized mapped |
-	normalized := aNumber - self minValue
-	              / (self maxValue - self minValue).
-	mapped := normalized * (self width - 40).
-	^ mapped
+	| minP maxP minV maxV scale result |
+	minP := 0.
+	maxP := self width - 40.
+	minV := self minValue log.
+	maxV := self maxValue log.
+
+	scale := maxV - minV / (maxP - minP).
+
+	result := aNumber log - minV / scale + minP.
+
+	^ result
 ]
