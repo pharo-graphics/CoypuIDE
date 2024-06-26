@@ -11,6 +11,64 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+ICMasterCutoff class >> exampleLinearSlider [
+
+	| master slider container textElt |
+	master := self new.
+
+	slider := ICSlider new.
+
+	container := BlElement new layout: BlLinearLayout vertical;constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
+
+	container addChild: master.
+	container addChild: slider.
+
+	slider minValue: master minValue.
+	slider maxValue: master maxValue.
+
+	textElt := BlTextElement new text: slider minValue asRopedText.
+	container addChild: textElt.
+
+	slider callBack: [ :value |
+		master setValue: value.
+		textElt text: value asRopedText ].
+
+	container openInSpace
+]
+
+{ #category : #'as yet unclassified' }
+ICMasterCutoff class >> exampleLogarithmicSlider [
+
+	| master slider container textElt |
+	master := self new.
+
+	slider := ICLogarithmicSlider new.
+
+	container := BlElement new
+		             layout: BlLinearLayout vertical;
+		             constraintsDo: [ :c |
+			             c horizontal fitContent.
+			             c vertical fitContent ].
+
+	container addChild: master.
+	container addChild: slider.
+
+	slider minValue: master minValue.
+	slider maxValue: master maxValue.
+
+	textElt := BlTextElement new text: slider minValue asRopedText.
+	container addChild: textElt.
+
+	slider callBack: [ :value |
+		master setValue: value.
+		textElt text: value asRopedText ].
+
+	container openInSpace
+]
+
+{ #category : #'as yet unclassified' }
 ICMasterCutoff >> defaultLine [
 
 	| curve firstLine secondLine container |
@@ -130,12 +188,12 @@ ICMasterCutoff >> valueToPosition: aNumber [
 	| minP maxP minV maxV scale result |
 	minP := 0.
 	maxP := self width - 40.
-	minV := self minValue log.
-	maxV := self maxValue log.
+	minV := self minValue ln.
+	maxV := self maxValue ln.
 
 	scale := maxV - minV / (maxP - minP).
 
-	result := aNumber log - minV / scale + minP.
+	result := aNumber ln - minV / scale + minP.
 
 	^ result
 ]
