@@ -1,6 +1,6 @@
 Class {
-	#name : #MfPatternElement,
-	#superclass : #ToElement,
+	#name : 'MfPatternElement',
+	#superclass : 'ToElement',
 	#instVars : [
 		'nbOfSteps'
 	],
@@ -9,10 +9,12 @@ Class {
 		'min',
 		'nbsteps'
 	],
-	#category : 'Mooflod-PatternWidget'
+	#category : 'Mooflod-PatternWidget',
+	#package : 'Mooflod',
+	#tag : 'PatternWidget'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 MfPatternElement class >> exampleSimplePattern [
 
 	<script>
@@ -25,11 +27,12 @@ MfPatternElement class >> exampleSimplePattern [
 	space root addChild: patternelem.
 	space toTheme: MfMooflodTheme new.
 	patternelem transformDo: [ :c | c translateBy: 180 @ 200 ].
+	patternelem forSequencer: 16 upbeats .
 	space show.
 	^ patternelem
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 MfPatternElement >> addInstrumentToStep [
 	"Change the value of the drum attribute for the bar clicked, and update his color for visualization undestanding"
 
@@ -44,7 +47,30 @@ MfPatternElement >> addInstrumentToStep [
 					child removeInstrument  ] ] ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
+MfPatternElement >> addSeqStepsToThePattern: anArrayOfGates [
+	"Add all bars element in the pattern to display them"
+
+	
+"add steps element to a MfPatternElement where black are gates and white are rests"
+
+| step changingX nbSteps colors|
+nbSteps := anArrayOfGates size.
+colors := Array with: Color white with: Color black.
+	nbOfSteps := 0.
+	changingX := 2.5.
+	(nbSteps between: min and: max) ifTrue: [
+		nbOfSteps := nbSteps.
+		anArrayOfGates do: [ :i |
+			step := MfStepElement new background: (colors at: i + 1).
+			step transformDo: [ :t | t translateBy: changingX @ 0 ].
+			changingX := changingX + 35.
+			self addChild: step] ].
+	self size: 35 * nbSteps @ 60.
+	self addInstrumentToStep
+]
+
+{ #category : 'adding' }
 MfPatternElement >> addStepsToThePattern: nbSteps [
 	"Add all bars element in the pattern to display them"
 
@@ -62,13 +88,21 @@ MfPatternElement >> addStepsToThePattern: nbSteps [
 	self addInstrumentToStep
 ]
 
-{ #category : #'visual properties' }
+{ #category : 'visual properties' }
 MfPatternElement >> backgroundPaint [ 
 	"Define the background for the pattern"
 	^ Color red
 ]
 
-{ #category : #initialization }
+{ #category : 'adding' }
+MfPatternElement >> forSequencer: aSequencer [
+"creates a visualization of a Sequencer, where gates are black squares and rests are white squares"
+self min: 1.
+self max: aSequencer gates size.
+self nbsSequencerStep: aSequencer gates 
+]
+
+{ #category : 'initialization' }
 MfPatternElement >> initialize [
 
 	super initialize.
@@ -77,56 +111,63 @@ MfPatternElement >> initialize [
 	self layout: BlFrameLayout new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MfPatternElement >> max [ 
 	
 	^max.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MfPatternElement >> max: aMax [
 
 	max:= aMax.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MfPatternElement >> min [ 
 
 	^min.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MfPatternElement >> min: aMin [
 
 	min:= aMin.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MfPatternElement >> nbOfSteps [
 
 	^ nbOfSteps
 ]
 
-{ #category : #accessing }
+{ #category : 'adding' }
+MfPatternElement >> nbsSequencerStep: anArrayOfGates [
+
+	nbsteps :=anArrayOfGates size.
+	self addSeqStepsToThePattern: anArrayOfGates 
+]
+
+{ #category : 'accessing' }
 MfPatternElement >> nbsteps [
 
 	^ nbsteps
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MfPatternElement >> nbsteps: someNbSteps [
 
 	nbsteps := someNbSteps.
 	self addStepsToThePattern: nbsteps
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 MfPatternElement >> newMooFlodSkin [
 
 	^ MfPatternElementSkin new
 ]
 
-{ #category : #'visual properties' }
+{ #category : 'visual properties' }
 MfPatternElement >> patternExtent [
 
 	^ 36@60
