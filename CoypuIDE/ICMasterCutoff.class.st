@@ -2,7 +2,7 @@ Class {
 	#name : 'ICMasterCutoff',
 	#superclass : 'BlElement',
 	#instVars : [
-		'currentValue',
+		'value',
 		'minValue',
 		'maxValue',
 		'line'
@@ -12,21 +12,62 @@ Class {
 	#tag : 'cutoff'
 }
 
-{ #category : 'accessing' }
-ICMasterCutoff >> currentValue [ 
+{ #category : 'as yet unclassified' }
+ICMasterCutoff class >> exampleLinearSlider [
 
-	^ currentValue 
+	| master slider container textElt |
+	master := self new.
+
+	slider := ICSlider new.
+
+	container := BlElement new layout: BlLinearLayout vertical;constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
+
+	container addChild: master.
+	container addChild: slider.
+
+	slider minValue: master minValue.
+	slider maxValue: master maxValue.
+
+	textElt := BlTextElement new text: slider minValue asRopedText.
+	container addChild: textElt.
+
+	slider callBack: [ :value |
+		master setValue: value.
+		textElt text: value asRopedText ].
+
+	container openInSpace
 ]
 
-{ #category : 'accessing' }
-ICMasterCutoff >> currentValue: aNumber [
+{ #category : 'as yet unclassified' }
+ICMasterCutoff class >> exampleLogarithmicSlider [
 
-	| newX | 
-	currentValue := aNumber.
-	aNumber > self maxValue ifTrue: [ currentValue := self maxValue ].
-	aNumber < self minValue ifTrue: [ currentValue := self minValue ].
-	newX := self valueToPosition: currentValue.
-	self line position: newX @ 150
+	| master slider container textElt |
+	master := self new.
+
+	slider := ICLogarithmicSlider new.
+
+	container := BlElement new
+		             layout: BlLinearLayout vertical;
+		             constraintsDo: [ :c |
+			             c horizontal fitContent.
+			             c vertical fitContent ].
+
+	container addChild: master.
+	container addChild: slider.
+
+	slider minValue: master minValue.
+	slider maxValue: master maxValue.
+
+	textElt := BlTextElement new text: slider minValue asRopedText.
+	container addChild: textElt.
+
+	slider callBack: [ :value |
+		master setValue: value.
+		textElt text: value asRopedText ].
+
+	container openInSpace
 ]
 
 { #category : 'as yet unclassified' }
@@ -60,9 +101,7 @@ ICMasterCutoff >> defaultLine [
 
 	container addChildren: {
 			firstLine.
-			curve
-			"secondLine" }.
-
+			curve }.
 
 	^ container
 ]
@@ -78,11 +117,11 @@ ICMasterCutoff >> initialize [
 ]
 
 { #category : 'accessing' }
-ICMasterCutoff >> initializeDefaultValues [ 
+ICMasterCutoff >> initializeDefaultValues [
 
-	minValue := 0.
-	maxValue := 100.
-	currentValue := 0.
+	minValue := 20.
+	maxValue := 22000.
+	value := 20
 ]
 
 { #category : 'initialization' }
@@ -128,12 +167,35 @@ ICMasterCutoff >> minValue: aNumber [
 	minValue := aNumber
 ]
 
+{ #category : 'accessing' }
+ICMasterCutoff >> setValue: aNumber [
+
+	| newX |
+	value := aNumber.
+	aNumber > self maxValue ifTrue: [ value := self maxValue ].
+	aNumber < self minValue ifTrue: [ value := self minValue ].
+	newX := self valueToPosition: value.
+	self line position: newX @ 150
+]
+
+{ #category : 'accessing' }
+ICMasterCutoff >> value [
+
+	^ value
+]
+
 { #category : 'as yet unclassified' }
 ICMasterCutoff >> valueToPosition: aNumber [
 
-	| normalized mapped |
-	normalized := aNumber - self minValue
-	              / (self maxValue - self minValue).
-	mapped := normalized * (self width - 40).
-	^ mapped
+	| minP maxP minV maxV scale result |
+	minP := 0.
+	maxP := self width - 40.
+	minV := self minValue ln.
+	maxV := self maxValue ln.
+
+	scale := maxV - minV / (maxP - minP).
+
+	result := aNumber ln - minV / scale + minP.
+
+	^ result
 ]

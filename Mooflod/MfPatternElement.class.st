@@ -27,6 +27,7 @@ MfPatternElement class >> exampleSimplePattern [
 	space root addChild: patternelem.
 	space toTheme: MfMooflodTheme new.
 	patternelem transformDo: [ :c | c translateBy: 180 @ 200 ].
+	patternelem forSequencer: 16 upbeats .
 	space show.
 	^ patternelem
 ]
@@ -47,6 +48,29 @@ MfPatternElement >> addInstrumentToStep [
 ]
 
 { #category : 'adding' }
+MfPatternElement >> addSeqStepsToThePattern: anArrayOfGates [
+	"Add all bars element in the pattern to display them"
+
+	
+"add steps element to a MfPatternElement where black are gates and white are rests"
+
+| step changingX nbSteps colors|
+nbSteps := anArrayOfGates size.
+colors := Array with: Color white with: Color black.
+	nbOfSteps := 0.
+	changingX := 2.5.
+	(nbSteps between: min and: max) ifTrue: [
+		nbOfSteps := nbSteps.
+		anArrayOfGates do: [ :i |
+			step := MfStepElement new background: (colors at: i + 1).
+			step transformDo: [ :t | t translateBy: changingX @ 0 ].
+			changingX := changingX + 35.
+			self addChild: step] ].
+	self size: 35 * nbSteps @ 60.
+	self addInstrumentToStep
+]
+
+{ #category : 'adding' }
 MfPatternElement >> addStepsToThePattern: nbSteps [
 	"Add all bars element in the pattern to display them"
 
@@ -64,27 +88,10 @@ MfPatternElement >> addStepsToThePattern: nbSteps [
 	self addInstrumentToStep
 ]
 
-{ #category : 'adding' }
-MfPatternElement >> addSeqStepsToThePattern: anArrayOfGates [
-	"Add all bars element in the pattern to display them"
-
-	
-"add steps element to a MfPatternElement where black are gates and white are rests"
-
-| step changingX nbSteps colors|
-nbSteps := anArrayOfGates size.
-colors := Array with: Color white with: Color red.
-	nbOfSteps := 0.
-	changingX := 2.5.
-	(nbSteps between: min and: max) ifTrue: [
-		nbOfSteps := nbSteps.
-		anArrayOfGates do: [ :i |
-			step := MfStepElement new background: (colors at: i + 1).
-			step transformDo: [ :t | t translateBy: changingX @ 0 ].
-			changingX := changingX + 35.
-			self addChild: step] ].
-	self size: 35 * nbSteps @ 60.
-	self addInstrumentToStep
+{ #category : 'visual properties' }
+MfPatternElement >> backgroundPaint [ 
+	"Define the background for the pattern"
+	^ Color red
 ]
 
 { #category : 'adding' }
@@ -93,25 +100,6 @@ MfPatternElement >> forSequencer: aSequencer [
 self min: 1.
 self max: aSequencer gates size.
 self nbsSequencerStep: aSequencer gates 
-]
-
-{ #category : 'visual properties' }
-MfPatternElement >> backgroundPaint [ 
-	"Define the background for the pattern"
-	^ Color red
-]
-
-{ #category : 'adding' }
-MfPatternElement >> nbsSequencerStep: anArrayOfGates [
-
-	nbsteps :=anArrayOfGates size.
-	self addSeqStepsToThePattern: anArrayOfGates 
-]
-
-{ #category : 'visual properties' }
-MfPatternElement >> backgroundPaint [ 
-	"Define the background for the pattern"
-	^ Color red
 ]
 
 { #category : 'initialization' }
@@ -151,6 +139,13 @@ MfPatternElement >> min: aMin [
 MfPatternElement >> nbOfSteps [
 
 	^ nbOfSteps
+]
+
+{ #category : 'adding' }
+MfPatternElement >> nbsSequencerStep: anArrayOfGates [
+
+	nbsteps :=anArrayOfGates size.
+	self addSeqStepsToThePattern: anArrayOfGates 
 ]
 
 { #category : 'accessing' }
