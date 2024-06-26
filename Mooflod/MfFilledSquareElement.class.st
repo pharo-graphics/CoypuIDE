@@ -1,6 +1,6 @@
 Class {
-	#name : 'MfFilledSquareElement',
-	#superclass : 'ToElement',
+	#name : #MfFilledSquareElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'currentY',
 		'fill'
@@ -8,12 +8,10 @@ Class {
 	#classVars : [
 		'value'
 	],
-	#category : 'Mooflod-FilledSquareWidget',
-	#package : 'Mooflod',
-	#tag : 'FilledSquareWidget'
+	#category : 'Mooflod-FilledSquareWidget'
 }
 
-{ #category : 'example' }
+{ #category : #example }
 MfFilledSquareElement class >> exampleSimpleFilledSquare [
 
 	<script>
@@ -30,31 +28,31 @@ MfFilledSquareElement class >> exampleSimpleFilledSquare [
 	^ aSquare
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfFilledSquareElement >> currentY [
 
 ^currentY
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfFilledSquareElement >> defaultGeometry [ 
 
 ^BlSquareGeometry new 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfFilledSquareElement >> fill [ 
 ^fill
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfFilledSquareElement >> initFill [
 
 	fill := MfFillingLineElement new .
 	self addChild: fill
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfFilledSquareElement >> initialize [
 
 	super initialize.
@@ -66,7 +64,7 @@ MfFilledSquareElement >> initialize [
 	value := 0
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 MfFilledSquareElement >> openFilledSquare: aSquare [
 
 	| space |
@@ -79,26 +77,26 @@ MfFilledSquareElement >> openFilledSquare: aSquare [
 	^ aSquare
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfFilledSquareElement >> setValue: aValue [ 
 	(aValue between: 0 and: 100) ifTrue: [ self value: aValue ].
 	self updateSquare.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 MfFilledSquareElement >> squareExtent [
 
 	currentY := 0.
 	^ 200 @ 200
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 MfFilledSquareElement >> updateFill: anY [
 
 	fill size:200@anY
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 MfFilledSquareElement >> updateSquare [
 
 	currentY := 0.
@@ -107,12 +105,12 @@ MfFilledSquareElement >> updateSquare [
 		self updateFill: currentY ]
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 MfFilledSquareElement >> value [ 
 ^value
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfFilledSquareElement >> value: aValue [
 
 value:= aValue 

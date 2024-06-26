@@ -1,6 +1,6 @@
 Class {
-	#name : 'MfVisualizerElement',
-	#superclass : 'ToElement',
+	#name : #MfVisualizerElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'nbTracks',
 		'animation',
@@ -9,12 +9,10 @@ Class {
 	#classVars : [
 		'level'
 	],
-	#category : 'Mooflod-VisualizerRepresentation',
-	#package : 'Mooflod',
-	#tag : 'VisualizerRepresentation'
+	#category : 'Mooflod-VisualizerRepresentation'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 MfVisualizerElement class >> exampleVisualizer [
 
 	<script>
@@ -33,13 +31,13 @@ MfVisualizerElement class >> exampleVisualizer [
 	^ v
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 MfVisualizerElement >> addElementsLevelFour: aChildren [ 
 
 	
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 MfVisualizerElement >> addElementsLevelOne: aName [
 
 	| label name sect |
@@ -60,13 +58,13 @@ MfVisualizerElement >> addElementsLevelOne: aName [
 	sect addChild: name
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 MfVisualizerElement >> addElementsLevelThree: aChildren [ 
 
 	
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 MfVisualizerElement >> addElementsLevelTwo: aName [
 
 	| pattern sect |
@@ -81,7 +79,7 @@ MfVisualizerElement >> addElementsLevelTwo: aName [
 	sect addChild: pattern
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 MfVisualizerElement >> addInstrument: aName [
 
 	nbTracks < 4 ifFalse: [ ^ self ].
@@ -89,30 +87,30 @@ MfVisualizerElement >> addInstrument: aName [
 	self initLevelRepresentation: aName
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfVisualizerElement >> animation [
 
 	^ animation
 ]
 
-{ #category : 'action' }
+{ #category : #action }
 MfVisualizerElement >> cleanVisualizer [
 
 	self childrenDo: [ :c | c childrenDo: [ :cc | cc removeFromParent ] ].
 	nbTracks := 0
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfVisualizerElement >> initAnimation: nbSteps [
 
-	animation := BlAnimation new duration: (nbSteps) seconds.
+	animation := BlAnimation new duration: nbSteps seconds.
 	animation addEventHandler: (BlEventHandler
 			 on: BlAnimationLoopDoneEvent
 			 do: [ :e | self cleanVisualizer ]).
 	self addAnimation: animation
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfVisualizerElement >> initLevelRepresentation: aName [
 
 	level == 1 ifTrue: [ self addElementsLevelOne: aName ].
@@ -121,7 +119,7 @@ MfVisualizerElement >> initLevelRepresentation: aName [
 	level == 4 ifTrue: [ self addElementsLevelFour: aName ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfVisualizerElement >> initSections [
 
 	| y |
@@ -138,7 +136,7 @@ MfVisualizerElement >> initSections [
 		self addChild: sect ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 MfVisualizerElement >> initialize [
 
 	super initialize.
@@ -149,25 +147,25 @@ self initSections.
 	nbTracks := 0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfVisualizerElement >> level [ 
 ^level
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfVisualizerElement >> level: aLevel [
 
 	level := aLevel.
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfVisualizerElement >> nbTracks [
 
 ^nbTracks 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 MfVisualizerElement >> open [ 
 
 |space|
@@ -179,13 +177,13 @@ MfVisualizerElement >> open [
 	space show.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 MfVisualizerElement >> square [
 
 ^square
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 MfVisualizerElement >> textFrom: aName [
 
 	^ aName asRopedText attributes:
