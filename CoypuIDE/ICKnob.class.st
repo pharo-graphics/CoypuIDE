@@ -8,6 +8,7 @@ Class {
 		'callBack',
 		'stepValue',
 		'knob',
+		'disk',
 		'diameter',
 		'angle',
 		'minAngle',
@@ -47,11 +48,11 @@ ICKnob >> angle: aNumber [
 	tmp < -135 ifTrue: [ angle := -135 ].
 	tmp > 135 ifTrue: [ angle := 135 ].
 
-	self knob transformDo: [ :t | t rotateBy: angle ].
-	self currentValue: self angleToValue
+	self doOperations.
+
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'api - operations' }
 ICKnob >> angleToValue [
 
 	| normalized mapped |
@@ -60,6 +61,11 @@ ICKnob >> angleToValue [
 	mapped := normalized * (self maxValue - self minValue)
 	          + self minValue.
 	^ mapped asFloat
+]
+
+{ #category : 'initialization' }
+ICKnob >> backColor [
+	^ (Color veryVeryDarkGray)
 ]
 
 { #category : 'accessing' }
@@ -92,7 +98,8 @@ ICKnob >> clickAt: aPoint [
 	| vector newAngle |
 	vector := aPoint - centerPosition.
 	newAngle := (0 @ -1 angleWith: vector) radiansToDegrees.
-	self angle: newAngle
+	self angle: newAngle.
+	
 ]
 
 { #category : 'accessing' }
@@ -120,6 +127,39 @@ ICKnob >> diameter: aNumber [
 	diameter := aNumber
 ]
 
+{ #category : 'accessing' }
+ICKnob >> disk [
+
+	^ disk
+]
+
+{ #category : 'accessing' }
+ICKnob >> disk: anElement [
+
+	disk := anElement 
+]
+
+{ #category : 'initialization' }
+ICKnob >> diskColor [ 
+	^ (Color cyan)
+]
+
+{ #category : 'initialization' }
+ICKnob >> diskSize [
+
+	^ self diameter + 50
+]
+
+{ #category : 'accessing' }
+ICKnob >> doOperations [
+
+	self knob transformDo: [ :t | t rotateBy: angle ].
+	self knob zIndex: 100.
+	self disk geometry endAngle: angle - 90.
+	self currentValue: self angleToValue.
+
+]
+
 { #category : 'initialization' }
 ICKnob >> initialize [
 
@@ -127,17 +167,126 @@ ICKnob >> initialize [
 	self initializeDefaultValues.
 	self initializeGeometry.
 	self initializeEvents.
-	self initializeAnnulus.
+	self initializeOuterRing.
 	self initializeTexts.
+	self initializeDisk.
 	"Here to define the centerPosition once layouted"
 	self setValue: self minValue.
 	self position: 0 @ 0
 ]
 
-{ #category : 'as yet unclassified' }
-ICKnob >> initializeAnnulus [
+{ #category : 'accessing' }
+ICKnob >> initializeDefaultValues [
 
-	| annulus startSegment firstQuarterSegment middleSegment thirdQuarterSegment endSegment |
+	minValue := 0.
+	maxValue := 100.
+	stepValue := nil.
+	diameter := 100.
+	minAngle := -135.
+	maxAngle := 135.
+]
+
+{ #category : 'initialization' }
+ICKnob >> initializeDisk [
+	
+	self disk: (BlElement new
+		          "background: (Color r:63 g:162 b:227 range:255);"
+		   			background: self diskColor;
+		           size: self diskSize asPoint;
+						
+					geometry: (BlAnnulusSectorGeometry new
+			 					startAngle: -225;
+			 					endAngle: -210;
+			 					innerRadius: 0.8;
+			 					outerRadius: 1);
+					
+					constraintsDo: [ :c |
+						c frame horizontal alignCenter.
+					c frame vertical alignCenter. ]).
+	
+	
+	self addChild: self disk.
+]
+
+{ #category : 'initialization' }
+ICKnob >> initializeEvents [
+
+	self addEventHandlerOn: BlKeyDownEvent do: [ :e |
+		e key name = #LEFT ifTrue: [
+			self angle: self angle - 15
+			"self knob transformDo: [ :t |
+				self angle: self angle - 15.
+				t rotateBy: angle ]" ].
+		e key name = #RIGHT ifTrue: [
+			self angle: self angle + 15.
+			"self knob transformDo: [ :t |
+				self angle: self angle + 15
+				t rotateBy: angle ]" ] ].
+	self
+		addEventHandlerOn: BlClickEvent
+		do: [ :e | self clickAt: e position ].
+	self addEventHandlerOn: BlDragStartEvent do: [ :event |
+		event consumed: true.
+		self clickAt: event position ].
+	self
+		addEventHandlerOn: BlDragEvent
+		do: [ :event | self clickAt: event position ].
+	self requestFocus
+]
+
+{ #category : 'initialization' }
+ICKnob >> initializeGeometry [
+	
+	| marker backdrop|
+	self size: (diameter + 100) asPoint.
+	self background: self backColor.
+	self clipChildren: false.
+	self layout: BlFrameLayout new.
+	self padding:(BlInsets all: 10).
+	
+	"backdrop:=(BlElement new
+			 geometry: BlCircleGeometry new;
+			 size: diameter-2 asPoint;
+			 clipChildren: false;
+			effect: (BlGaussianShadowEffect color: Color white offset: 0@ 0  width: 80);
+			 background: Color darkGray ;
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter ]).
+			
+	self addChild: backdrop."
+	
+	"effect: (BlGaussianShadowEffect color: Color black offset: 0@ 0  width: 60);"
+	
+	self knob: (BlElement new
+			 geometry: BlCircleGeometry new;
+			 size: self knobSize asPoint;
+			 clipChildren: false;
+			"effect: (BlGaussianShadowEffect color: Color black offset: 0@ 0  width: 60);"
+			 background: self knobColor ;
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter ]).
+		"knob zIndex: 100."
+	
+	self addChild: self knob.
+
+	
+	marker := BlElement new
+		          size: 10 @ 20;
+		          transformDo: [ :t | t translateBy: -2 @ 0 ];
+					
+		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
+		          background: self markerColor;
+		          position: self knobSize / 2 @ 5.
+			marker zIndex: 100.
+	self knob addChild: marker
+]
+
+{ #category : 'initialization' }
+ICKnob >> initializeOuterRing [
+
+	"| annulus startSegment firstQuarterSegment middleSegment thirdQuarterSegment endSegment |
 	annulus := BlElement new
 		           background: Color black;
 		           size: 150 asPoint.
@@ -183,97 +332,62 @@ ICKnob >> initializeAnnulus [
 	annulus addChild: firstQuarterSegment.
 	annulus addChild: middleSegment.
 	annulus addChild: thirdQuarterSegment.
-	annulus addChild: endSegment.
-	self addChild: annulus
-]
-
-{ #category : 'accessing' }
-ICKnob >> initializeDefaultValues [
-
-	minValue := 0.
-	maxValue := 100.
-	stepValue := nil.
-	diameter := 100.
-	minAngle := -135.
-	maxAngle := 135
-]
-
-{ #category : 'initialization' }
-ICKnob >> initializeEvents [
-
-	self addEventHandlerOn: BlKeyDownEvent do: [ :e |
-		e key name = #LEFT ifTrue: [
-			self angle: self angle - 15
-			"self knob transformDo: [ :t |
-				self angle: self angle - 15.
-				t rotateBy: angle ]" ].
-		e key name = #RIGHT ifTrue: [
-			self angle: self angle + 15.
-			"self knob transformDo: [ :t |
-				self angle: self angle + 15
-				t rotateBy: angle ]" ] ].
-	self
-		addEventHandlerOn: BlClickEvent
-		do: [ :e | self clickAt: e position ].
-	self addEventHandlerOn: BlDragStartEvent do: [ :event |
-		event consumed: true.
-		self clickAt: event position ].
-	self
-		addEventHandlerOn: BlDragEvent
-		do: [ :event | self clickAt: event position ].
-	self requestFocus
-]
-
-{ #category : 'initialization' }
-ICKnob >> initializeGeometry [
-
-	| marker |
-	self size: (diameter + 50) asPoint.
-	self background: Color veryVeryLightGray.
-	self clipChildren: false.
-	self layout: BlFrameLayout new.
-	self knob: (BlElement new
-			 geometry: BlCircleGeometry new;
-			 size: diameter asPoint;
-			 clipChildren: false;
-			 background: Color lightGray;
-			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter ]).
-	self addChild: self knob.
-	marker := BlElement new
-		          size: 10 @ 20;
-		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
-		          background: Color darkGray;
-		          position: diameter / 2 @ 5.
-	self knob addChild: marker
+	annulus addChild: endSegment."
+	
+	|outerRing|
+	outerRing := (BlElement new
+		           background: self outerRingColor;
+		           size: diameter + 50 asPoint;
+					"effect: (BlGaussianShadowEffect color: Color white offset: 0@ -10  width: 10);"
+					geometry: (BlAnnulusSectorGeometry new
+			 					startAngle: 135;
+			 					endAngle: 45;
+			 					innerRadius: 0.8;
+			 					outerRadius: 1);
+					constraintsDo: [ :c |
+						c frame horizontal alignCenter.
+					c frame vertical alignCenter. ]).
+	self addChild: outerRing.
 ]
 
 { #category : 'initialization' }
 ICKnob >> initializeTexts [
 
-	| minLabel maxLabel currentLabel labels |
-	minLabel := BlTextElement new text: self minValue asRopedText.
-	maxLabel := BlTextElement new text: self maxValue asRopedText.
+	| minLabel maxLabel currentLabel|
+	minLabel := BlTextElement new text: (self minValue asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor) });
+					transformDo: [ :t | t translateBy: 20 @ -20];
+					constraintsDo: [ :c |c frame horizontal alignLeft. c frame vertical alignBottom.].
+				
+	maxLabel := BlTextElement new text: (self maxValue asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor) });
+					transformDo: [ :t | t translateBy: -20 @ -20];
+					constraintsDo: [ :c |c frame horizontal alignRight. c frame vertical alignBottom.].
 
-	currentLabel := BlTextElement new text:self currentValue asRopedText.
+currentLabel := BlTextElement new text: (self currentValue asRopedText  attributes:{(BlTextForegroundAttribute
+paint: self valueColor) });
+					transformDo: [ :t | t translateBy: 0 @ -10];
+					constraintsDo: [ :c |c frame horizontal alignCenter. c frame vertical alignBottom.].
 
 
-	labels := BlElement new clipChildren: false.
+	"labels := BlElement new clipChildren: false."
 
-	labels addChild: minLabel.
-	labels addChild: maxLabel.
-	labels addChild: currentLabel.
+	"labels addChild: minLabel.
+	labels addChild: maxLabel."
+	"labels addChild: currentLabel."
 
-	self addChild: labels.
+	"self addChild: labels."
+	self addChild: minLabel.
+	self addChild: currentLabel.
+	self addChild: maxLabel.
 
 	self callBack: [ :v |
-		currentLabel text: v rounded asRopedText ].
+		currentLabel text: (v rounded asRopedText attributes:{(BlTextForegroundAttribute
+paint: self valueColor) })].
 
-	currentLabel position: 70 @ 130.
-	minLabel position: 20 @ 125.
-	maxLabel position: 120 @ 125
+	"currentLabel position: 70 @ 130."
+	"minLabel position: 20 @ 125.
+	maxLabel position: 120 @ 125"
 ]
 
 { #category : 'accessing' }
@@ -286,6 +400,22 @@ ICKnob >> knob [
 ICKnob >> knob: anElement [
 
 	knob := anElement 
+]
+
+{ #category : 'initialization' }
+ICKnob >> knobColor [
+	^(Color veryDarkGray)
+]
+
+{ #category : 'initialization' }
+ICKnob >> knobSize [
+
+	^ self diameter
+]
+
+{ #category : 'initialization' }
+ICKnob >> markerColor [
+	^(Color white)
 ]
 
 { #category : 'accessing' }
@@ -336,6 +466,11 @@ ICKnob >> minValue: aNumber [
 	minValue := aNumber
 ]
 
+{ #category : 'initialization' }
+ICKnob >> outerRingColor [
+	^(Color darkGray )
+]
+
 { #category : 'api - bounds' }
 ICKnob >> position: aPoint [
 
@@ -364,7 +499,17 @@ ICKnob >> stepValue: aNumber [
 	stepValue := aNumber
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
+ICKnob >> textColor [
+	^Color white.
+]
+
+{ #category : 'initialization' }
+ICKnob >> valueColor [
+	^Color white.
+]
+
+{ #category : 'api - operations' }
 ICKnob >> valueToAngle: aNumber [
 
 	| normalized mapped |

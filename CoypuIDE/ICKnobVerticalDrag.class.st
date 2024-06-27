@@ -1,6 +1,6 @@
 Class {
 	#name : 'ICKnobVerticalDrag',
-	#superclass : 'ICKnob',
+	#superclass : 'BlElement',
 	#category : 'CoypuIDE-knob',
 	#package : 'CoypuIDE',
 	#tag : 'knob'

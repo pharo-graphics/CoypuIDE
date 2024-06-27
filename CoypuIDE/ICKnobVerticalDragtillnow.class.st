@@ -1,6 +1,6 @@
 Class {
 	#name : 'ICKnobVerticalDragtillnow',
-	#superclass : 'ICKnob2',
+	#superclass : 'ICKnob',
 	#category : 'CoypuIDE-knob',
 	#package : 'CoypuIDE',
 	#tag : 'knob'
