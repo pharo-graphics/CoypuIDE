@@ -1,5 +1,5 @@
 Class {
-	#name : 'ICDarkKnob4',
+	#name : 'ICDarkKnob5',
 	#superclass : 'ICKnob',
 	#instVars : [
 		'disk2'
@@ -10,31 +10,31 @@ Class {
 }
 
 { #category : 'initialization' }
-ICDarkKnob4 >> disk2 [
+ICDarkKnob5 >> disk2 [
 
 	^ disk2
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> disk2: anElement [
+ICDarkKnob5 >> disk2: anElement [
 
 	disk2:= anElement.
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> disk2Color [
+ICDarkKnob5 >> disk2Color [
 
 	^ Color magenta
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> diskSize [ 
+ICDarkKnob5 >> diskSize [ 
 
 	^ self diameter +55
 ]
 
 { #category : 'as yet unclassified' }
-ICDarkKnob4 >> doOperations [
+ICDarkKnob5 >> doOperations [
 
 	self knob transformDo: [ :t | t rotateBy: angle ].
 	self knob zIndex: 100.
@@ -46,18 +46,18 @@ ICDarkKnob4 >> doOperations [
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> initializeDisk2 [
+ICDarkKnob5 >> initializeDisk2 [
 	
 	self disk2: (BlElement new
 		          "background: (Color r:63 g:162 b:227 range:255);"
 		   			background: self disk2Color ;
-		           size: self diskSize + 20 asPoint;
+		           size: self diskSize -50 asPoint;
 						
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: -210;
 			 					endAngle: 45;
-			 					innerRadius: 0.9;
-			 					outerRadius: 1);
+			 					innerRadius: 0.75;
+			 					outerRadius: 0.9);
 					
 					constraintsDo: [ :c |
 						c frame horizontal alignCenter.
@@ -68,33 +68,33 @@ ICDarkKnob4 >> initializeDisk2 [
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> initializeDisks [ 
+ICDarkKnob5 >> initializeDisks [ 
 
 	self initializeDisk.
 	self initializeDisk2.
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> knobColor [
+ICDarkKnob5 >> knobColor [
 	^(Color r:45 g:51  b:67 range:255 )
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> knobSize [ 
+ICDarkKnob5 >> knobSize [ 
 	^ self diameter+40
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> markerColor [
+ICDarkKnob5 >> markerColor [
 	^(Color cyan)
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> outerRingColor [
+ICDarkKnob5 >> outerRingColor [
 	^(Color black)
 ]
 
 { #category : 'initialization' }
-ICDarkKnob4 >> valueColor [
+ICDarkKnob5 >> valueColor [
 	^Color cyan.
 ]

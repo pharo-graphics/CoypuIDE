@@ -21,6 +21,37 @@ Class {
 }
 
 { #category : 'examples' }
+ICKnob class >> allKnobExamples [
+
+	<script>
+	| container e1 e2 e3 e4 e5 e6|
+	container:= BlElement new
+		
+		geometry: BlRectangleGeometry new;
+		layout: (BlGridLayout new
+		columnCount: 4;
+		cellSpacing: 0
+		);
+		constraintsDo: [:c |
+			c horizontal matchParent.
+			c vertical matchParent.
+			];
+		background: Color darkGray.
+
+
+e1:= ICDarkKnob new.
+e2:= ICLightKnob new.
+e3:= ICDarkKnob2 new. 
+e4:= ICDarkKnob3 new. 
+e5:= ICDarkKnob4 new. 
+e6:= ICDarkKnob5 new. 
+
+
+container addChildren: { e1. e2 . e3 . e4 .  e5 . e6}.
+container openInNewSpace.
+]
+
+{ #category : 'examples' }
 ICKnob class >> basicExample [
 
 	<script>
@@ -169,7 +200,8 @@ ICKnob >> initialize [
 	self initializeEvents.
 	self initializeOuterRing.
 	self initializeTexts.
-	self initializeDisk.
+	self initializeDisks.
+
 	"Here to define the centerPosition once layouted"
 	self setValue: self minValue.
 	self position: 0 @ 0
@@ -206,6 +238,12 @@ ICKnob >> initializeDisk [
 	
 	
 	self addChild: self disk.
+]
+
+{ #category : 'initialization' }
+ICKnob >> initializeDisks [
+
+	self initializeDisk.
 ]
 
 { #category : 'initialization' }
@@ -337,7 +375,7 @@ ICKnob >> initializeOuterRing [
 	|outerRing|
 	outerRing := (BlElement new
 		           background: self outerRingColor;
-		           size: diameter + 50 asPoint;
+		           size: self outerRingSize asPoint;
 					"effect: (BlGaussianShadowEffect color: Color white offset: 0@ -10  width: 10);"
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: 135;
@@ -469,6 +507,12 @@ ICKnob >> minValue: aNumber [
 { #category : 'initialization' }
 ICKnob >> outerRingColor [
 	^(Color darkGray )
+]
+
+{ #category : 'initialization' }
+ICKnob >> outerRingSize [
+
+	^self diameter + 50
 ]
 
 { #category : 'api - bounds' }
