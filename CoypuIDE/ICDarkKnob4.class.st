@@ -9,7 +9,7 @@ Class {
 	#tag : 'knob'
 }
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 ICDarkKnob4 >> disk2 [
 
 	^ disk2
@@ -30,10 +30,10 @@ ICDarkKnob4 >> disk2Color [
 { #category : 'initialization' }
 ICDarkKnob4 >> diskSize [ 
 
-	^ self diameter +55
+	^ self diameter + 35
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'api - operations' }
 ICDarkKnob4 >> doOperations [
 
 	self knob transformDo: [ :t | t rotateBy: angle ].
@@ -56,8 +56,8 @@ ICDarkKnob4 >> initializeDisk2 [
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: -210;
 			 					endAngle: 45;
-			 					innerRadius: 0.9;
-			 					outerRadius: 1);
+			 					innerRadius: 0.88;
+			 					outerRadius: 0.95);
 					
 					constraintsDo: [ :c |
 						c frame horizontal alignCenter.
@@ -67,7 +67,7 @@ ICDarkKnob4 >> initializeDisk2 [
 	self addChild: self disk2.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 ICDarkKnob4 >> initializeDisks [ 
 
 	self initializeDisk.
@@ -81,7 +81,7 @@ ICDarkKnob4 >> knobColor [
 
 { #category : 'initialization' }
 ICDarkKnob4 >> knobSize [ 
-	^ self diameter+40
+	^ self diameter+20
 ]
 
 { #category : 'initialization' }
@@ -91,7 +91,7 @@ ICDarkKnob4 >> markerColor [
 
 { #category : 'initialization' }
 ICDarkKnob4 >> outerRingColor [
-	^(Color black )
+	^(Color veryVeryDarkGray )
 ]
 
 { #category : 'initialization' }

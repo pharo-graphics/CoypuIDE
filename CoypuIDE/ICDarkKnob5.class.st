@@ -9,7 +9,7 @@ Class {
 	#tag : 'knob'
 }
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 ICDarkKnob5 >> disk2 [
 
 	^ disk2
@@ -30,7 +30,7 @@ ICDarkKnob5 >> disk2Color [
 { #category : 'initialization' }
 ICDarkKnob5 >> diskSize [ 
 
-	^ self diameter +55
+	^ self diameter +40
 ]
 
 { #category : 'as yet unclassified' }
@@ -51,12 +51,12 @@ ICDarkKnob5 >> initializeDisk2 [
 	self disk2: (BlElement new
 		          "background: (Color r:63 g:162 b:227 range:255);"
 		   			background: self disk2Color ;
-		           size: self diskSize -50 asPoint;
+		           size: self diskSize -60 asPoint;
 						
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: -210;
 			 					endAngle: 45;
-			 					innerRadius: 0.75;
+			 					innerRadius: 0.73;
 			 					outerRadius: 0.9);
 					
 					constraintsDo: [ :c |
@@ -67,7 +67,7 @@ ICDarkKnob5 >> initializeDisk2 [
 	self addChild: self disk2.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 ICDarkKnob5 >> initializeDisks [ 
 
 	self initializeDisk.
@@ -81,7 +81,7 @@ ICDarkKnob5 >> knobColor [
 
 { #category : 'initialization' }
 ICDarkKnob5 >> knobSize [ 
-	^ self diameter+40
+	^ self diameter+20
 ]
 
 { #category : 'initialization' }
@@ -91,7 +91,7 @@ ICDarkKnob5 >> markerColor [
 
 { #category : 'initialization' }
 ICDarkKnob5 >> outerRingColor [
-	^(Color black)
+	^(Color veryVeryDarkGray )
 ]
 
 { #category : 'initialization' }

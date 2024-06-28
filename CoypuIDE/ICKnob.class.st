@@ -2,6 +2,8 @@ Class {
 	#name : 'ICKnob',
 	#superclass : 'BlElement',
 	#instVars : [
+		'inputText',
+		'inputLabel',
 		'minValue',
 		'maxValue',
 		'currentValue',
@@ -61,6 +63,15 @@ ICKnob class >> basicExample [
 	knob openInSpace.
 
 	"knob callBack: [ :v | v inspect ]"
+]
+
+{ #category : 'as yet unclassified' }
+ICKnob class >> label: aString [
+	|e|
+	e:= self new inputText: aString.
+	e initializeLabel.
+	^ e.
+	
 ]
 
 { #category : 'accessing' }
@@ -178,10 +189,10 @@ ICKnob >> diskColor [
 { #category : 'initialization' }
 ICKnob >> diskSize [
 
-	^ self diameter + 50
+	^ self diameter + 40
 ]
 
-{ #category : 'accessing' }
+{ #category : 'api - operations' }
 ICKnob >> doOperations [
 
 	self knob transformDo: [ :t | t rotateBy: angle ].
@@ -201,6 +212,7 @@ ICKnob >> initialize [
 	self initializeOuterRing.
 	self initializeTexts.
 	self initializeDisks.
+	"self initializeLabel."
 
 	"Here to define the centerPosition once layouted"
 	self setValue: self minValue.
@@ -209,7 +221,6 @@ ICKnob >> initialize [
 
 { #category : 'accessing' }
 ICKnob >> initializeDefaultValues [
-
 	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
@@ -229,7 +240,7 @@ ICKnob >> initializeDisk [
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: -225;
 			 					endAngle: -210;
-			 					innerRadius: 0.8;
+			 					innerRadius: 0.83;
 			 					outerRadius: 1);
 					
 					constraintsDo: [ :c |
@@ -276,11 +287,12 @@ ICKnob >> initializeEvents [
 ICKnob >> initializeGeometry [
 	
 	| marker backdrop|
+	"self size: (diameter + 100) @ (diameter + 150)."
 	self size: (diameter + 100) asPoint.
 	self background: self backColor.
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
-	self padding:(BlInsets all: 10).
+	self padding:(BlInsets all: 7).
 	
 	"backdrop:=(BlElement new
 			 geometry: BlCircleGeometry new;
@@ -304,7 +316,7 @@ ICKnob >> initializeGeometry [
 			 background: self knobColor ;
 			 constraintsDo: [ :c |
 				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter ]).
+				 c frame vertical alignCenter]).
 		"knob zIndex: 100."
 	
 	self addChild: self knob.
@@ -322,6 +334,21 @@ ICKnob >> initializeGeometry [
 ]
 
 { #category : 'initialization' }
+ICKnob >> initializeLabel [
+	inputLabel := BlTextElement new.
+	inputLabel text: (self inputText asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor ) }).
+	inputLabel text fontSize: 15.
+	inputLabel text bold.
+	inputLabel constraintsDo: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignTop.
+		].
+	"inputLabel transformDo: [ :t | t translateBĀ: 0 @ 10 ]."
+	self addChild: inputLabel.
+]
+
+{ #category : 'initialization' }
 ICKnob >> initializeOuterRing [
 	
 	|outerRing|
@@ -332,7 +359,7 @@ ICKnob >> initializeOuterRing [
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: 135;
 			 					endAngle: 45;
-			 					innerRadius: 0.8;
+			 					innerRadius: 0.83;
 			 					outerRadius: 1);
 					constraintsDo: [ :c |
 						c frame horizontal alignCenter.
@@ -370,7 +397,7 @@ paint: self valueColor) });
 	self addChild: minLabel.
 	self addChild: currentLabel.
 	self addChild: maxLabel.
-
+	"self label: inputLabel."
 	self callBack: [ :v |
 		currentLabel text: (v rounded asRopedText attributes:{(BlTextForegroundAttribute
 paint: self valueColor) })].
@@ -378,6 +405,18 @@ paint: self valueColor) })].
 	"currentLabel position: 70 @ 130."
 	"minLabel position: 20 @ 125.
 	maxLabel position: 120 @ 125"
+]
+
+{ #category : 'accessing' }
+ICKnob >> inputText [
+	^ inputText.
+
+]
+
+{ #category : 'accessing' }
+ICKnob >> inputText: aString [
+	inputText := aString.
+
 ]
 
 { #category : 'accessing' }
@@ -464,7 +503,7 @@ ICKnob >> outerRingColor [
 { #category : 'initialization' }
 ICKnob >> outerRingSize [
 
-	^self diameter + 50
+	^self diameter + 40
 ]
 
 { #category : 'api - bounds' }

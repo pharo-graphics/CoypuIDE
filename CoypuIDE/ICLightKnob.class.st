@@ -22,12 +22,12 @@ ICLightKnob >> initializeDisk [
 	self disk: (BlElement new
 		          "background: (Color r:63 g:162 b:227 range:255);"
 		   			background: self diskColor;
-		           size: diameter + 50 asPoint;
+		           size: diameter + 40 asPoint;
 						
 					geometry: (BlAnnulusSectorGeometry new
 			 					startAngle: -225;
 			 					endAngle: -210;
-			 					innerRadius: 0.8;
+			 					innerRadius: 0.83;
 			 					outerRadius: 1.0);
 					
 					constraintsDo: [ :c |

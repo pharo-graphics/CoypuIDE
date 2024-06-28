@@ -9,7 +9,7 @@ Class {
 { #category : 'initialization' }
 ICDarkKnob2 >> diskSize [ 
 
-	^ self diameter + 50
+	^ self diameter + 30
 ]
 
 { #category : 'initialization' }
@@ -19,7 +19,7 @@ ICDarkKnob2 >> knobColor [
 
 { #category : 'initialization' }
 ICDarkKnob2 >> knobSize [ 
-	^ self diameter+40
+	^ self diameter+ 20
 ]
 
 { #category : 'initialization' }
@@ -30,6 +30,11 @@ ICDarkKnob2 >> markerColor [
 { #category : 'initialization' }
 ICDarkKnob2 >> outerRingColor [
 	^(Color veryDarkGray )
+]
+
+{ #category : 'initialization' }
+ICDarkKnob2 >> outerRingSize [ 
+	^ self diameter + 30
 ]
 
 { #category : 'initialization' }
