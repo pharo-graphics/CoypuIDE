@@ -251,13 +251,13 @@ ICSlider >> defaultBar [
 { #category : 'api - bounds' }
 ICSlider >> defaultBarLength [
 
-	^ 300
+	^ 240
 ]
 
 { #category : 'api - bounds' }
 ICSlider >> defaultBarThickness [
 
-	^ 100
+	^ 80
 ]
 
 { #category : 'api - bounds' }

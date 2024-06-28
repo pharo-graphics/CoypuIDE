@@ -91,7 +91,7 @@ ICDarkKnob4 >> markerColor [
 
 { #category : 'initialization' }
 ICDarkKnob4 >> outerRingColor [
-	^(Color black)
+	^(Color black )
 ]
 
 { #category : 'initialization' }
