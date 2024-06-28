@@ -41,12 +41,14 @@ ICKnob class >> allKnobExamples [
 		background: Color darkGray.
 
 
-e1:= ICDarkKnob new.
-e2:= ICLightKnob new.
-e3:= ICDarkKnob2 new. 
-e4:= ICDarkKnob3 new. 
-e5:= ICDarkKnob4 new. 
-e6:= ICDarkKnob5 new. 
+e1:= ICKnob label: 'Label1'.
+
+
+e2:= ICLightKnob label: 'Label 2'.
+e3:= ICDarkKnob2 label: 'LABEL 3'. 
+e4:= ICDarkKnob3 label: 'LABEL 4'. 
+e5:= ICDarkKnob4 label:'LABEL 5'. 
+e6:= ICDarkKnob5 label:'LABEL 6'. 
 
 
 container addChildren: { e1. e2 . e3 . e4 .  e5 . e6}.
@@ -65,7 +67,7 @@ ICKnob class >> basicExample [
 	"knob callBack: [ :v | v inspect ]"
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICKnob class >> label: aString [
 	|e|
 	e:= self new inputText: aString.
