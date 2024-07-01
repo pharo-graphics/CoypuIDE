@@ -1,6 +1,6 @@
 Class {
-	#name : 'ICSlider',
-	#superclass : 'BlElement',
+	#name : #ICSlider,
+	#superclass : #BlElement,
 	#instVars : [
 		'widgetSize',
 		'handle',
@@ -10,7 +10,6 @@ Class {
 		'minValue',
 		'maxValue',
 		'stepValue',
-		'currentValue',
 		'barThickness',
 		'barLength',
 		'marginThickness',
@@ -18,26 +17,37 @@ Class {
 		'segmented',
 		'segmentedValues',
 		'callBack',
-		'overlayer'
+		'overlayer',
+		'value'
 	],
-	#category : 'CoypuIDE-slider',
-	#package : 'CoypuIDE',
-	#tag : 'slider'
+	#category : #'CoypuIDE-slider'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider class >> beHorizontal [
 
 	^ self new beHorizontal 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider class >> beVertical [ 
 	
 	^ self new beVertical 
 ]
 
-{ #category : 'example' }
+{ #category : #'instance creation' }
+ICSlider class >> new [
+
+	^ self readOnly initializeEvents
+]
+
+{ #category : #'instance creation' }
+ICSlider class >> readOnly [
+
+	^ self basicNew initialize
+]
+
+{ #category : #example }
 ICSlider class >> simpleExampleHorizontal [
 	"The values of the slider are also written in the transcript"
 
@@ -58,7 +68,7 @@ ICSlider class >> simpleExampleHorizontal [
 	container openInSpace
 ]
 
-{ #category : 'example' }
+{ #category : #example }
 ICSlider class >> simpleExampleVertical [
 	"The values of the slider are also written in the transcript"
 
@@ -79,64 +89,64 @@ ICSlider class >> simpleExampleVertical [
 	container openInSpace
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> bar [
 	^ bar
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> bar: aBlElement [ 
 	bar := aBlElement
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> barDefaultColor [ 
 
 	^ Color lightGray
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> barLength [
 
 	^ barLength
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> barLength: aNumber [
 
 	barLength := aNumber.
 	self rebuild
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> barThickness [ 
 
 	^ barThickness 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> barThickness: aNumber [
 
 	barThickness := aNumber.
 	self rebuild
 ]
 
-{ #category : 'api - values' }
-ICSlider >> basicCurrentValue: aNumber [
+{ #category : #'api - values' }
+ICSlider >> basicSetValue: aNumber [
 
-	currentValue := aNumber.
-	self callBack ifNotNil: [ :e | e value: currentValue ]
+	value := aNumber.
+	self callBack ifNotNil: [ :e | e value: value ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> beHorizontal [
 
 	self horizontal: true.
 	self rebuild
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICSlider >> beSegmented [
 
 	self stepValue
@@ -145,7 +155,7 @@ ICSlider >> beSegmented [
 	self rebuild
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICSlider >> beSmooth [
 
 	self segmented: false.
@@ -153,14 +163,14 @@ ICSlider >> beSmooth [
 	self rebuild
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> beVertical [
 
 	self horizontal: false.
 	self buildVertical
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICSlider >> buildHorizontal [
 
 	widgetSize y > widgetSize x ifTrue: [
@@ -169,7 +179,7 @@ ICSlider >> buildHorizontal [
 	self initializeParts
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICSlider >> buildVertical [
 
 	widgetSize y > widgetSize x ifFalse: [
@@ -179,61 +189,44 @@ ICSlider >> buildVertical [
 	self initializeParts
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> callBack [ 
 
 	^ callBack 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> callBack: aBlock [
 
 	callBack := aBlock 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> coloredBar [ 
 
 	^ coloredBar 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> coloredBar: aBlElement [
 
 	coloredBar := aBlElement 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> coloredBarDefaultColor [
 	^ Color green alpha: 0.6
 ]
 
-{ #category : 'accessing' }
-ICSlider >> currentValue [ 
-
-	^ currentValue 
-]
-
-{ #category : 'accessing' }
-ICSlider >> currentValue: aNumber [
-
-	| newValue |
-	newValue := aNumber.
-	aNumber < self minValue ifTrue: [ newValue := minValue ].
-	aNumber > self maxValue ifTrue: [ newValue := maxValue ].
-
-	self moveHandleTo: (self valueToCoord: newValue)
-]
-
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICSlider >> decrementValue: aValue [
 
 	| tmp |
-	tmp := currentValue - aValue.
-	self currentValue: tmp
+	tmp := value - aValue.
+	self setValue: tmp
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultBar [
 
 	| size |
@@ -248,26 +241,26 @@ ICSlider >> defaultBar [
 		  yourself
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultBarLength [
 
 	^ 240
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultBarThickness [
 
 	^ 80
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultColor [
 
 	^ Color veryDarkGray
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> defaultColoredBar [
 	
 	| size |
@@ -282,46 +275,38 @@ ICSlider >> defaultColoredBar [
 		  yourself
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultHandle [
 
-	| size elt offset |
+	| size elt |
 	size := self
 		        ifHorizontal: [ 5 @ barThickness ]
 		        ifVertical: [ barThickness @ 5 ].
-	
+
 	elt := BlElement new
 		       background: self handleDefaultColor;
-				geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 		       size: size;
-				 transformDo: [ :t | "so the position is now the center"
+		       transformDo: [ :t | "so the position is now the center"
 			       t translateBy: size negated / 2 ];
 		       yourself.
-
-	elt addEventHandlerOn: BlDragStartEvent do: [ :event |
-		event consumed: true.
-		offset := event position - elt position ].
-
-	elt
-		addEventHandlerOn: BlDragEvent
-		do: [ :event | self moveHandleTo: event position - offset ].
 
 	^ elt
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultMarginLength [
 
 	^ 50
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultMarginThickness [
 
 	^ 20
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> defaultSize [
 	"self bar size maybe"
 
@@ -334,36 +319,36 @@ ICSlider >> defaultSize [
 			  @ (self defaultBarLength + (2 * self defaultMarginLength)) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> direction [
 	"Returns true if horizontal else false"
 	^ self ifHorizontal: [ true ]
 			 ifVertical: [ false ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> handle [
 	^ handle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> handle: aBlElement [ 
 	handle := aBlElement
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICSlider >> handleDefaultColor [
 
 	^ Color green
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> horizontal: aBoolean [
 
 	isHorizontal := aBoolean 
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 
 	^ self isHorizontal
@@ -371,15 +356,15 @@ ICSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 		ifFalse: verticalBlock
 ]
 
-{ #category : 'api - slider' }
+{ #category : #'api - slider' }
 ICSlider >> incrementValue: aValue [
 
 	| tmp |
-	tmp := currentValue + aValue.
-	self currentValue: tmp
+	tmp := value + aValue.
+	self setValue: tmp
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> initialize [
 
 	super initialize.
@@ -390,10 +375,10 @@ ICSlider >> initialize [
 	self background: self defaultColor.
 	self initializeValues.
 	self initializeParts.
-	self initializeEvents
+	"self initializeEvents"
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> initializeButtons [
 	"Here I manually place the buttons but we could use layouts instead of magic numbers"
 
@@ -431,7 +416,7 @@ ICSlider >> initializeButtons [
 	self addChild: maxButton
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> initializeEvents [ 
 
 	self addEventHandlerOn: BlMouseDownEvent do: [ :event | self moveHandleTo: event position].
@@ -439,7 +424,7 @@ ICSlider >> initializeEvents [
 	self addEventHandlerOn: BlDragEvent do: [ :event | self moveHandleTo: event position]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> initializeParts [
 
 	self bar: self defaultBar.
@@ -461,7 +446,7 @@ ICSlider >> initializeParts [
 	"self initializeButtons."
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> initializeSizes [ 
 
 	barLength := self defaultBarLength.
@@ -470,77 +455,77 @@ ICSlider >> initializeSizes [
 	marginThickness := self defaultMarginThickness.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> initializeValues [
 
 	self minValue: 0.
 	self maxValue: 50.
-	currentValue := self minValue 
+	value := self minValue 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> isHorizontal [ 
 
 	^ isHorizontal 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICSlider >> isSegmented [ 
 
 	^ segmented 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> marginLength [
 
 	^ marginLength
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> marginLength: aNumber [
 
 	marginLength := aNumber.
 	self rebuild
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> marginThickness [ 
 
 	^ marginThickness 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> marginThickness: aNumber [
 
 	marginThickness := aNumber.
 	self rebuild
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> maxValue [
 
 	^ maxValue
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> maxValue: aNumber [
 
 	maxValue := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> minValue [ 
 
 	^ minValue 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> minValue: aNumber [
 
 	minValue := aNumber 
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> moveHandleTo: aPosition [
 
 	| newPos |
@@ -568,10 +553,10 @@ ICSlider >> moveHandleTo: aPosition [
 			newPos := handle position x @ newPosY.
 			handle position: newPos ].
 	self updateColoredBarTo: newPos.
-	self basicCurrentValue: (self valueAtCoord: newPos)
+	self basicSetValue: (self valueAtCoord: newPos)
 ]
 
-{ #category : 'api - values' }
+{ #category : #'api - values' }
 ICSlider >> nearestValue: aValue [
 
 	| val minResult tmp tmp2 values |
@@ -588,7 +573,7 @@ ICSlider >> nearestValue: aValue [
 	^ val
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> positionDefaultBar: aBar [
 
 	self
@@ -600,7 +585,7 @@ ICSlider >> positionDefaultBar: aBar [
 				self defaultMarginThickness @ self defaultMarginLength ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> positionDefaultHandle [
 
 	self
@@ -611,7 +596,7 @@ ICSlider >> positionDefaultHandle [
 				widgetSize x / 2 @ (self defaultMarginLength + barLength) ]
 ]
 
-{ #category : 'building' }
+{ #category : #building }
 ICSlider >> rebuild [
 
 	self
@@ -619,7 +604,7 @@ ICSlider >> rebuild [
 		ifVertical: [ self buildVertical ]
 ]
 
-{ #category : 'removing' }
+{ #category : #removing }
 ICSlider >> removeParts [
 
 	self removeChildren. 
@@ -627,13 +612,13 @@ ICSlider >> removeParts [
 	handle := nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> segmented: aBoolean [ 
 
 	segmented := aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> segmentedValues [
 
 	segmentedValues ifNil: [	segmentedValues := (self minValue to: self maxValue by:
@@ -641,27 +626,38 @@ ICSlider >> segmentedValues [
 	^ segmentedValues
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> segmentedValues: aCollection [ 
 
 	segmentedValues := aCollection 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> setToMax [
 
 	"this method is created with a button that would set to max in the widget"
-	self currentValue: self maxValue.
+	self setValue: self maxValue.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICSlider >> setToMin [ 
 
 	"this method is created with a button that would set to max in the widget"
-	self currentValue: self minValue.
+	self setValue: self minValue.
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #accessing }
+ICSlider >> setValue: aNumber [
+
+	| newValue |
+	newValue := aNumber.
+	aNumber < self minValue ifTrue: [ newValue := minValue ].
+	aNumber > self maxValue ifTrue: [ newValue := maxValue ].
+
+	self moveHandleTo: (self valueToCoord: newValue)
+]
+
+{ #category : #'api - bounds' }
 ICSlider >> size: aValue [
 	"just to keep the widgset size"
 
@@ -673,20 +669,20 @@ ICSlider >> size: aValue [
 	"
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> stepValue [
 
 	^ stepValue 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> stepValue: aNumber [
 
 	stepValue := aNumber 
 	
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> updateColoredBarTo: aPosition [
 
 	self
@@ -699,7 +695,13 @@ ICSlider >> updateColoredBarTo: aPosition [
 				barThickness @ (bar position y + barLength - aPosition y) ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #accessing }
+ICSlider >> value [ 
+
+	^ value 
+]
+
+{ #category : #'api - transformations' }
 ICSlider >> valueAtCoord: aPoint [
 
 	^ self
@@ -707,7 +709,7 @@ ICSlider >> valueAtCoord: aPoint [
 		  ifVertical: [ self valueAtY: aPoint ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> valueAtX: aPoint [
 
 	| dist valueDiff value coeff |
@@ -723,7 +725,7 @@ ICSlider >> valueAtX: aPoint [
 	^ value asFloat
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> valueAtY: aPoint [
 
 	| dist valueDiff value coeff |
@@ -738,7 +740,7 @@ ICSlider >> valueAtY: aPoint [
 	^ value asFloat
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> valueToCoord: aNumber [
 
 	^ self
@@ -746,7 +748,7 @@ ICSlider >> valueToCoord: aNumber [
 		  ifVertical: [ self valueToY: aNumber ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> valueToX: aNumber [
 
 	| dist valueDiff coeff |
@@ -758,7 +760,7 @@ ICSlider >> valueToX: aNumber [
 	^ dist @ handle position y
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICSlider >> valueToY: aNumber [
 
 	| dist valueDiff coeff |
@@ -770,13 +772,13 @@ ICSlider >> valueToY: aNumber [
 	^ handle position x @ dist
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> widgetSize [ 
 
 	^ widgetSize 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICSlider >> widgetSize: aNumber [
 
 	widgetSize := aNumber.
