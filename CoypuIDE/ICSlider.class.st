@@ -10,7 +10,6 @@ Class {
 		'minValue',
 		'maxValue',
 		'stepValue',
-		'currentValue',
 		'barThickness',
 		'barLength',
 		'marginThickness',
@@ -18,7 +17,8 @@ Class {
 		'segmented',
 		'segmentedValues',
 		'callBack',
-		'overlayer'
+		'overlayer',
+		'value'
 	],
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -35,6 +35,18 @@ ICSlider class >> beHorizontal [
 ICSlider class >> beVertical [ 
 	
 	^ self new beVertical 
+]
+
+{ #category : 'instance creation' }
+ICSlider class >> new [
+
+	^ self readOnly initializeEvents
+]
+
+{ #category : 'instance creation' }
+ICSlider class >> readOnly [
+
+	^ self basicNew initialize
 ]
 
 { #category : 'example' }
@@ -123,10 +135,10 @@ ICSlider >> barThickness: aNumber [
 ]
 
 { #category : 'api - values' }
-ICSlider >> basicCurrentValue: aNumber [
+ICSlider >> basicSetValue: aNumber [
 
-	currentValue := aNumber.
-	self callBack ifNotNil: [ :e | e value: currentValue ]
+	value := aNumber.
+	self callBack ifNotNil: [ :e | e value: value ]
 ]
 
 { #category : 'accessing' }
@@ -208,29 +220,12 @@ ICSlider >> coloredBarDefaultColor [
 	^ Color green alpha: 0.6
 ]
 
-{ #category : 'accessing' }
-ICSlider >> currentValue [ 
-
-	^ currentValue 
-]
-
-{ #category : 'accessing' }
-ICSlider >> currentValue: aNumber [
-
-	| newValue |
-	newValue := aNumber.
-	aNumber < self minValue ifTrue: [ newValue := minValue ].
-	aNumber > self maxValue ifTrue: [ newValue := maxValue ].
-
-	self moveHandleTo: (self valueToCoord: newValue)
-]
-
 { #category : 'api - slider' }
 ICSlider >> decrementValue: aValue [
 
 	| tmp |
-	tmp := currentValue - aValue.
-	self currentValue: tmp
+	tmp := value - aValue.
+	self setValue: tmp
 ]
 
 { #category : 'api - bounds' }
@@ -285,26 +280,18 @@ ICSlider >> defaultColoredBar [
 { #category : 'api - bounds' }
 ICSlider >> defaultHandle [
 
-	| size elt offset |
+	| size elt |
 	size := self
 		        ifHorizontal: [ 5 @ barThickness ]
 		        ifVertical: [ barThickness @ 5 ].
-	
+
 	elt := BlElement new
 		       background: self handleDefaultColor;
-				geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 		       size: size;
-				 transformDo: [ :t | "so the position is now the center"
+		       transformDo: [ :t | "so the position is now the center"
 			       t translateBy: size negated / 2 ];
 		       yourself.
-
-	elt addEventHandlerOn: BlDragStartEvent do: [ :event |
-		event consumed: true.
-		offset := event position - elt position ].
-
-	elt
-		addEventHandlerOn: BlDragEvent
-		do: [ :event | self moveHandleTo: event position - offset ].
 
 	^ elt
 ]
@@ -375,8 +362,8 @@ ICSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 ICSlider >> incrementValue: aValue [
 
 	| tmp |
-	tmp := currentValue + aValue.
-	self currentValue: tmp
+	tmp := value + aValue.
+	self setValue: tmp
 ]
 
 { #category : 'initialization' }
@@ -390,7 +377,7 @@ ICSlider >> initialize [
 	self background: self defaultColor.
 	self initializeValues.
 	self initializeParts.
-	self initializeEvents
+	"self initializeEvents"
 ]
 
 { #category : 'initialization' }
@@ -475,7 +462,7 @@ ICSlider >> initializeValues [
 
 	self minValue: 0.
 	self maxValue: 50.
-	currentValue := self minValue 
+	value := self minValue 
 ]
 
 { #category : 'accessing' }
@@ -568,7 +555,7 @@ ICSlider >> moveHandleTo: aPosition [
 			newPos := handle position x @ newPosY.
 			handle position: newPos ].
 	self updateColoredBarTo: newPos.
-	self basicCurrentValue: (self valueAtCoord: newPos)
+	self basicSetValue: (self valueAtCoord: newPos)
 ]
 
 { #category : 'api - values' }
@@ -651,14 +638,25 @@ ICSlider >> segmentedValues: aCollection [
 ICSlider >> setToMax [
 
 	"this method is created with a button that would set to max in the widget"
-	self currentValue: self maxValue.
+	self setValue: self maxValue.
 ]
 
 { #category : 'initialization' }
 ICSlider >> setToMin [ 
 
 	"this method is created with a button that would set to max in the widget"
-	self currentValue: self minValue.
+	self setValue: self minValue.
+]
+
+{ #category : 'accessing' }
+ICSlider >> setValue: aNumber [
+
+	| newValue |
+	newValue := aNumber.
+	aNumber < self minValue ifTrue: [ newValue := minValue ].
+	aNumber > self maxValue ifTrue: [ newValue := maxValue ].
+
+	self moveHandleTo: (self valueToCoord: newValue)
 ]
 
 { #category : 'api - bounds' }
@@ -697,6 +695,12 @@ ICSlider >> updateColoredBarTo: aPosition [
 			coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
 			coloredBar size:
 				barThickness @ (bar position y + barLength - aPosition y) ]
+]
+
+{ #category : 'accessing' }
+ICSlider >> value [ 
+
+	^ value 
 ]
 
 { #category : 'api - transformations' }
