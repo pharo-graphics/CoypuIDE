@@ -26,7 +26,7 @@ Class {
 ICKnob class >> allKnobExamples [
 
 	<script>
-	| container e1 e2 e3 e4 e5 e6|
+	| container e1 e2 e3 e4 e5 e6 e7|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -48,10 +48,11 @@ e2:= ICLightKnob label: 'Label 2'.
 e3:= ICDarkKnob2 label: 'LABEL 3'. 
 e4:= ICDarkKnob3 label: 'LABEL 4'. 
 e5:= ICDarkKnob4 label:'LABEL 5'. 
-e6:= ICDarkKnob5 label:'LABEL 6'. 
+e6:= ICDarkKnob5 label:'LABEL 6'.
+e7:= ICDialKnob label: 'LABEL 7'.
 
 
-container addChildren: { e1. e2 . e3 . e4 .  e5 . e6}.
+container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7}.
 container openInNewSpace.
 ]
 

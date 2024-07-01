@@ -67,7 +67,7 @@ ICDarkKnob4 >> initializeDisk2 [
 	self addChild: self disk2.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICDarkKnob4 >> initializeDisks [ 
 
 	self initializeDisk.
