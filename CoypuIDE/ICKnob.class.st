@@ -289,38 +289,22 @@ ICKnob >> initializeEvents [
 { #category : 'initialization' }
 ICKnob >> initializeGeometry [
 	
-	| marker backdrop|
-	"self size: (diameter + 100) @ (diameter + 150)."
+	| marker |
 	self size: (diameter + 100) asPoint.
 	self background: self backColor.
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
 	self padding:(BlInsets all: 7).
-	
-	"backdrop:=(BlElement new
-			 geometry: BlCircleGeometry new;
-			 size: diameter-2 asPoint;
-			 clipChildren: false;
-			effect: (BlGaussianShadowEffect color: Color white offset: 0@ 0  width: 80);
-			 background: Color darkGray ;
-			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter ]).
-			
-	self addChild: backdrop."
-	
-	"effect: (BlGaussianShadowEffect color: Color black offset: 0@ 0  width: 60);"
+
 	
 	self knob: (BlElement new
 			 geometry: BlCircleGeometry new;
 			 size: self knobSize asPoint;
 			 clipChildren: false;
-			"effect: (BlGaussianShadowEffect color: Color black offset: 0@ 0  width: 60);"
 			 background: self knobColor ;
 			 constraintsDo: [ :c |
 				 c frame horizontal alignCenter.
 				 c frame vertical alignCenter]).
-		"knob zIndex: 100."
 	
 	self addChild: self knob.
 
@@ -333,6 +317,7 @@ ICKnob >> initializeGeometry [
 		          background: self markerColor;
 		          position: self knobSize / 2 @ 5.
 			marker zIndex: 100.
+			
 	self knob addChild: marker
 ]
 

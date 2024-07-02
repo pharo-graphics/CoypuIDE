@@ -21,6 +21,11 @@ ICDialKnob >> dial: anElement [
 ]
 
 { #category : 'initialization' }
+ICDialKnob >> diskColor [
+	^(Color cyan)
+]
+
+{ #category : 'initialization' }
 ICDialKnob >> diskSize [ 
 
 	^ self diameter +30
@@ -98,7 +103,7 @@ ICDialKnob >> markerColor [
 
 { #category : 'initialization' }
 ICDialKnob >> outerRingColor [
-	^(Color gray)
+	^(Color gray alpha:1.0)
 ]
 
 { #category : 'initialization' }
