@@ -17,7 +17,7 @@ Class {
 		'maxAngle',
 		'centerPosition'
 	],
-	#category : 'CoypuIDE-knob'
+	#category : #'CoypuIDE-knob'
 }
 
 { #category : #examples }
@@ -493,6 +493,29 @@ ICKnob >> minValue [
 ICKnob >> minValue: aNumber [
 
 	minValue := aNumber
+]
+
+{ #category : #'ui building' }
+ICKnob >> openForParam: aString dsp: aDsp [
+
+	| index space spaceExtent |
+	spaceExtent := self diameter * 2.
+	space := BlSpace new extent: spaceExtent @ spaceExtent.
+	index := aDsp getParamIndex: aString.
+	space root background: Color black.
+	space root addChild: self.
+	"the parameter must exist!!"
+	index = -1
+		ifTrue: [
+			^ Error new signal:
+				  'Parameter named ' , aString , ' does not exist!!' ]
+		ifFalse: [
+			self
+				minValue: (aDsp getParamMin: index);
+				maxValue: (aDsp getParamMax: index);
+				inputText: aString;
+				callBack: [ :i | aDsp setValue: i parameter: aString ].
+			space show ]
 ]
 
 { #category : #initialization }
