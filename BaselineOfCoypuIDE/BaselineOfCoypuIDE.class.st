@@ -15,7 +15,7 @@ BaselineOfCoypuIDE >> baseline: spec [
 			spec repository: 'github://pharo-graphics/Toplo:master/src' ].
 		spec
 			baseline: 'Phausto'
-			with: [ spec repository: 'github://lucretiomsp/Phausto/src' ].
+			with: [ spec repository: 'github://lucretiomsp/Phausto:main/' ].
 
 		spec
 			package: 'CoypuIDE' with: [ spec requires: 'Toplo' ];
