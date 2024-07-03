@@ -91,6 +91,34 @@ ICKnob class >> label: aString minValue: min maxValue: max [
 	
 ]
 
+{ #category : 'examples' }
+ICKnob class >> openForAllParameters: aDsp [
+
+	| container allParams allKnobs |
+	allParams := aDsp allParameters.
+	allKnobs := OrderedCollection new.
+	allParams do: [ :k |
+		
+		allKnobs add: (self new
+				 inputText: k;
+				 minValue: (aDsp getParamMin: (aDsp getParamIndex: k));
+				 minValue: (aDsp getParamMax: (aDsp getParamIndex: k));
+				 callBack: [ :i | aDsp setValue: i parameter: k ])  ].
+	container := BlElement new
+		             geometry: BlRectangleGeometry new;
+		             layout: (BlGridLayout new
+				              columnCount: 4;
+				              cellSpacing: 0);
+		             constraintsDo: [ :c |
+			             c horizontal matchParent.
+			             c vertical matchParent ];
+		             background: Color darkGray.
+
+
+	container addChildren: allKnobs.
+	container openInNewSpace
+]
+
 { #category : 'accessing' }
 ICKnob >> angle [ 
 
