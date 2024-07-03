@@ -1,10 +1,12 @@
 Class {
-	#name : #ICGradientSlider,
-	#superclass : #ICSlider,
-	#category : 'CoypuIDE-slider'
+	#name : 'ICGradientSlider',
+	#superclass : 'ICSlider',
+	#category : 'CoypuIDE-slider',
+	#package : 'CoypuIDE',
+	#tag : 'slider'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICGradientSlider >> coloredBarDefaultColor [
 	"^ Color green alpha: 0.4"
 	|direc|
@@ -15,7 +17,7 @@ ICGradientSlider >> coloredBarDefaultColor [
 	blue to: (Color green)).
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICGradientSlider >> initializeParts [
 
 	self bar: self defaultBar.
@@ -40,7 +42,7 @@ ICGradientSlider >> initializeParts [
 	"self initializeButtons"
 ]
 
-{ #category : #'api - bounds' }
+{ #category : 'api - bounds' }
 ICGradientSlider >> overLayer [
 	"additional layer on top"
 	|size container direc num width|
@@ -83,12 +85,12 @@ ICGradientSlider >> overLayer [
 	^ container.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICGradientSlider >> overlayer [
 	^ overlayer 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICGradientSlider >> overlayer: aBlElement [ 
 	overlayer := aBlElement
 ]

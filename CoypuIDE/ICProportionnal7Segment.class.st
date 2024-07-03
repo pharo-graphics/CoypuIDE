@@ -1,6 +1,6 @@
 Class {
-	#name : #ICProportionnal7Segment,
-	#superclass : #BlElement,
+	#name : 'ICProportionnal7Segment',
+	#superclass : 'BlElement',
 	#instVars : [
 		'segments',
 		'digit'
@@ -8,10 +8,12 @@ Class {
 	#classVars : [
 		'Digits'
 	],
-	#category : 'CoypuIDE-led / 7segment'
+	#category : 'CoypuIDE-led / 7segment',
+	#package : 'CoypuIDE',
+	#tag : 'led / 7segment'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 ICProportionnal7Segment class >> animatedExample [
 
 	<script>
@@ -33,7 +35,7 @@ ICProportionnal7Segment class >> animatedExample [
 	elt digit: nil
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 ICProportionnal7Segment class >> example [
 
 	<script>
@@ -50,7 +52,7 @@ ICProportionnal7Segment class >> example [
 	space show
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICProportionnal7Segment class >> fullExampleMatch [
 
 	<script>
@@ -78,7 +80,7 @@ ICProportionnal7Segment class >> fullExampleMatch [
 	space show
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 ICProportionnal7Segment class >> initialize [
 
 	Digits := {
@@ -94,13 +96,13 @@ ICProportionnal7Segment class >> initialize [
 		          { true. true. true. true. false. true. true } "9"}
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICProportionnal7Segment >> digit [ 
 
 	^ digit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICProportionnal7Segment >> digit: aNumber [
 
 	aNumber ifNil: [ self segments do: [ :seg | seg switchOff ]. ^ self ].
@@ -108,7 +110,7 @@ ICProportionnal7Segment >> digit: aNumber [
 	self update
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICProportionnal7Segment >> initialize [
 
 	super initialize.
@@ -120,7 +122,7 @@ ICProportionnal7Segment >> initialize [
 	self initializeSegments
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICProportionnal7Segment >> initializeSegments [
 
 	self segments: {
@@ -154,25 +156,25 @@ ICProportionnal7Segment >> initializeSegments [
 	self addChildren: self segments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICProportionnal7Segment >> segments [ 
 
 	^ segments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICProportionnal7Segment >> segments: aCollection [
 
 	segments := aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICProportionnal7Segment >> switchOff [ 
 
 self segments do: [ :seg | seg switchOff ].
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 ICProportionnal7Segment >> update [ 
 
 	self segments with: (Digits at: digit + 1) do: [ :seg :bool |
