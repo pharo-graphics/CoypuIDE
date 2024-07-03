@@ -92,19 +92,27 @@ ICKnob class >> label: aString minValue: min maxValue: max [
 	
 ]
 
-{ #category : 'examples' }
+{ #category : 'initialization' }
+ICKnob class >> label: aString minValue: min maxValue: max callBack: aBlock [
+
+	| e |
+	e := self label: aString minValue: min maxValue: max.
+	e callBack: aBlock.
+	^ e
+]
+
+{ #category : 'initialization' }
 ICKnob class >> openForAllParameters: aDsp [
 
 	| container allParams allKnobs |
 	allParams := aDsp allParameters.
 	allKnobs := OrderedCollection new.
 	allParams do: [ :k |
-		
-		allKnobs add: (self new
-				 inputText: k;
-				 minValue: (aDsp getParamMin: (aDsp getParamIndex: k));
-				 minValue: (aDsp getParamMax: (aDsp getParamIndex: k));
-				 callBack: [ :i | aDsp setValue: i parameter: k ])  ].
+		allKnobs add: (self
+				 label: k
+				 minValue: (aDsp getParamMin: (aDsp getParamIndex: k))
+				 maxValue: (aDsp getParamMax: (aDsp getParamIndex: k))
+				 callBack: [ :i | aDsp setValue: i parameter: k ]) ].
 	container := BlElement new
 		             geometry: BlRectangleGeometry new;
 		             layout: (BlGridLayout new
