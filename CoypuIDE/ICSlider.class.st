@@ -18,7 +18,12 @@ Class {
 		'segmentedValues',
 		'callBack',
 		'overlayer',
-		'value'
+		'value',
+		'minLabel',
+		'maxLabel',
+		'label',
+		'valueLabel',
+		'name'
 	],
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -37,6 +42,15 @@ ICSlider class >> beVertical [
 	^ self new beVertical 
 ]
 
+{ #category : 'accessing' }
+ICSlider class >> label: aString [ 
+
+	|slider|
+	slider := self new name: aString.
+	slider initializeLabel.
+	^ slider
+]
+
 { #category : 'instance creation' }
 ICSlider class >> new [
 
@@ -47,6 +61,15 @@ ICSlider class >> new [
 ICSlider class >> readOnly [
 
 	^ self basicNew initialize
+]
+
+{ #category : 'instance creation' }
+ICSlider class >> readOnlyLabel: aString [
+
+	| slider |
+	slider := self readOnly name: aString.
+	slider initializeLabel.
+	^ slider
 ]
 
 { #category : 'example' }
@@ -232,14 +255,17 @@ ICSlider >> decrementValue: aValue [
 ICSlider >> defaultBar [
 
 	| size |
-	size := self 
-		        ifHorizontal: [ self defaultBarLength @ self defaultBarThickness ]
-		        ifVertical: [ self defaultBarThickness @ self defaultBarLength ].
+	size := self
+		        ifHorizontal: [
+		        self defaultBarLength @ self defaultBarThickness ]
+		        ifVertical: [
+		        self defaultBarThickness @ self defaultBarLength ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		  background: self barDefaultColor;
 		  size: size;
+		constraintsDo: [ :c | c ignoreByLayout ];
 		  yourself
 ]
 
@@ -264,7 +290,7 @@ ICSlider >> defaultColor [
 
 { #category : 'accessing' }
 ICSlider >> defaultColoredBar [
-	
+
 	| size |
 	size := self
 		        ifHorizontal: [ 0 @ self defaultBarThickness ]
@@ -273,7 +299,8 @@ ICSlider >> defaultColoredBar [
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		  background: self coloredBarDefaultColor;
-			size: size;
+		constraintsDo: [ :c | c ignoreByLayout ];
+		  size: size;
 		  yourself
 ]
 
@@ -288,6 +315,7 @@ ICSlider >> defaultHandle [
 	elt := BlElement new
 		       background: self handleDefaultColor;
 		       geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		constraintsDo: [ :c | c ignoreByLayout ];
 		       size: size;
 		       transformDo: [ :t | "so the position is now the center"
 			       t translateBy: size negated / 2 ];
@@ -375,47 +403,11 @@ ICSlider >> initialize [
 	self initializeSizes.
 	self widgetSize: self defaultSize.
 	self background: self defaultColor.
+	self layout: BlFrameLayout new.
 	self initializeValues.
 	self initializeParts.
+	self initializeValueLabels
 	"self initializeEvents"
-]
-
-{ #category : 'initialization' }
-ICSlider >> initializeButtons [
-	"Here I manually place the buttons but we could use layouts instead of magic numbers"
-
-	"These might be useless after all because clicking outside the slider already sets to min or max"
-	| buttonSize minButton maxButton |
-	buttonSize := 30.
-	minButton := BlElement new
-		             geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
-		             background: Color gray;
-		             size: buttonSize asPoint.
-
-	maxButton := BlElement new
-		             geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
-		             background: Color gray;
-		             size: buttonSize asPoint.
-
-	minButton addEventHandlerOn: BlClickEvent do: [ self setToMin ].
-	maxButton addEventHandlerOn: BlClickEvent do: [ self setToMax ].
-
-	self
-		ifHorizontal: [
-			minButton position: marginLength / 2 - (buttonSize / 2)
-				@ (self defaultSize y / 2 - (buttonSize / 2)).
-			maxButton position:
-				self defaultSize x - (buttonSize + marginLength / 2)
-				@ (self defaultSize y / 2 - (buttonSize / 2)) ]
-		ifVertical: [
-			minButton position: self defaultSize x / 2 - (buttonSize / 2)
-				@ (self defaultSize y - (buttonSize + marginLength / 2)).
-			maxButton position: self defaultSize x / 2 - (buttonSize / 2)
-				@ (marginLength / 2 - (buttonSize / 2)) ].
-
-
-	self addChild: minButton.
-	self addChild: maxButton
 ]
 
 { #category : 'initialization' }
@@ -427,24 +419,40 @@ ICSlider >> initializeEvents [
 ]
 
 { #category : 'initialization' }
+ICSlider >> initializeLabel [
+
+	label := BlTextElement new.
+	label text: (self name asRopedText attributes:
+			 { (BlTextForegroundAttribute paint: Color white) }).
+	label text fontSize: 15.
+	label text bold.
+	label constraintsDo: [ :c |
+		c padding: (BlInsets all: 5).
+		c frame horizontal alignLeft.
+		c frame vertical alignTop ].
+	
+	self addChild: label
+]
+
+{ #category : 'initialization' }
 ICSlider >> initializeParts [
 
 	self bar: self defaultBar.
 	self positionDefaultBar: self bar.
 	self addChild: self bar.
-	
+
 
 	self coloredBar: self defaultColoredBar.
 	self positionDefaultBar: self coloredBar.
 	self addChild: self coloredBar.
-	
-	
+
+
 	self handle: self defaultHandle.
 	self positionDefaultHandle.
-	self addChild: self handle.
+	self addChild: self handle
 
 	"initialize segments if segmented"
-	
+
 	"self initializeButtons."
 ]
 
@@ -455,6 +463,49 @@ ICSlider >> initializeSizes [
 	barThickness := self defaultBarThickness.
 	marginLength := self defaultMarginLength.
 	marginThickness := self defaultMarginThickness.
+]
+
+{ #category : 'initialization' }
+ICSlider >> initializeValueLabels [
+
+	minLabel := BlTextElement new
+		            text: (self minValue asRopedText attributes: {
+						             (BlTextForegroundAttribute paint: Color white).
+						             (BlFontSizeAttribute size: 15).
+						             BlFontWeightAttribute bold });
+		            constraintsDo: [ :c |
+			            c padding: (BlInsets horizontal: 15).
+			            c frame horizontal alignLeft.
+			            c frame vertical alignCenter ].
+
+	maxLabel := BlTextElement new
+		            text: (self maxValue asRopedText attributes: {
+						             (BlTextForegroundAttribute paint: Color white).
+						             (BlFontSizeAttribute size: 15).
+						             BlFontWeightAttribute bold });
+		            constraintsDo: [ :c |
+			            c padding: (BlInsets horizontal: 15).
+			            c frame horizontal alignRight.
+			            c frame vertical alignCenter ].
+
+	valueLabel := BlTextElement new
+		              text: (self value asRopedText attributes:
+					               { (BlTextForegroundAttribute paint: Color black).
+						             (BlFontSizeAttribute size: 50).
+						             BlFontWeightAttribute bold });
+		              constraintsDo: [ :c |
+			              c frame horizontal alignCenter.
+			              c frame vertical alignCenter ].
+
+	self addChild: minLabel.
+	self addChild: valueLabel.
+	self addChild: maxLabel.
+
+	self callBack: [ :v |
+		valueLabel text: (v rounded asRopedText attributes:
+				 { (BlTextForegroundAttribute paint: Color black).
+						             (BlFontSizeAttribute size: 50).
+						             BlFontWeightAttribute bold  }) ]
 ]
 
 { #category : 'initialization' }
@@ -475,6 +526,12 @@ ICSlider >> isHorizontal [
 ICSlider >> isSegmented [ 
 
 	^ segmented 
+]
+
+{ #category : 'accessing' }
+ICSlider >> label [
+
+	^ label
 ]
 
 { #category : 'accessing' }
@@ -504,6 +561,12 @@ ICSlider >> marginThickness: aNumber [
 ]
 
 { #category : 'accessing' }
+ICSlider >> maxLabel [
+
+	^ maxLabel
+]
+
+{ #category : 'accessing' }
 ICSlider >> maxValue [
 
 	^ maxValue
@@ -513,6 +576,12 @@ ICSlider >> maxValue [
 ICSlider >> maxValue: aNumber [
 
 	maxValue := aNumber
+]
+
+{ #category : 'accessing' }
+ICSlider >> minLabel [ 
+
+	^ minLabel 
 ]
 
 { #category : 'accessing' }
@@ -556,6 +625,18 @@ ICSlider >> moveHandleTo: aPosition [
 			handle position: newPos ].
 	self updateColoredBarTo: newPos.
 	self basicSetValue: (self valueAtCoord: newPos)
+]
+
+{ #category : 'accessing' }
+ICSlider >> name [ 
+
+	^ name
+]
+
+{ #category : 'accessing' }
+ICSlider >> name: aString [ 
+
+	name := aString 
 ]
 
 { #category : 'api - values' }
@@ -740,6 +821,12 @@ ICSlider >> valueAtY: aPoint [
 			value := minValue + (valueDiff / coeff) ].
 	value := self nearestValue: value.
 	^ value asFloat
+]
+
+{ #category : 'accessing' }
+ICSlider >> valueLabel [
+
+	^ valueLabel
 ]
 
 { #category : 'api - transformations' }
