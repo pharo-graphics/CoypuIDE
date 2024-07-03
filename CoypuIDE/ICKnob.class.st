@@ -15,7 +15,10 @@ Class {
 		'angle',
 		'minAngle',
 		'maxAngle',
-		'centerPosition'
+		'centerPosition',
+		'minLabel',
+		'maxLabel',
+		'currentLabel'
 	],
 	#category : 'CoypuIDE-knob',
 	#package : 'CoypuIDE',
