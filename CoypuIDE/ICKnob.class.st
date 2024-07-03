@@ -15,9 +15,12 @@ Class {
 		'angle',
 		'minAngle',
 		'maxAngle',
-		'centerPosition'
+		'centerPosition',
+		'minLabel',
+		'maxLabel',
+		'currentLabel'
 	],
-	#category : #'CoypuIDE-knob'
+	#category : 'CoypuIDE-knob'
 }
 
 { #category : #examples }
@@ -174,6 +177,12 @@ ICKnob >> clickAt: aPoint [
 ]
 
 { #category : #accessing }
+ICKnob >> currentLabel [ 
+
+	^ currentLabel 
+]
+
+{ #category : #accessing }
 ICKnob >> currentValue [
 
 	^ currentValue
@@ -239,7 +248,7 @@ ICKnob >> initialize [
 	self initializeGeometry.
 	self initializeEvents.
 	self initializeOuterRing.
-	self initializeTexts.
+	self initializeValueLabels.
 	self initializeDisks.
 	"self initializeLabel."
 
@@ -382,9 +391,8 @@ ICKnob >> initializeOuterRing [
 ]
 
 { #category : #initialization }
-ICKnob >> initializeTexts [
+ICKnob >> initializeValueLabels [
 
-	| minLabel maxLabel currentLabel|
 	minLabel := BlTextElement new text: (self minValue asRopedText attributes: { (BlTextForegroundAttribute
 paint: self textColor) });
 					transformDo: [ :t | t translateBy: 20 @ -20];
@@ -400,25 +408,14 @@ paint: self valueColor) });
 					transformDo: [ :t | t translateBy: 0 @ -10];
 					constraintsDo: [ :c |c frame horizontal alignCenter. c frame vertical alignBottom.].
 
-
-	"labels := BlElement new clipChildren: false."
-
-	"labels addChild: minLabel.
-	labels addChild: maxLabel."
-	"labels addChild: currentLabel."
-
-	"self addChild: labels."
 	self addChild: minLabel.
 	self addChild: currentLabel.
 	self addChild: maxLabel.
-	"self label: inputLabel."
+
 	self callBack: [ :v |
 		currentLabel text: (v rounded asRopedText attributes:{(BlTextForegroundAttribute
 paint: self valueColor) })].
 
-	"currentLabel position: 70 @ 130."
-	"minLabel position: 20 @ 125.
-	maxLabel position: 120 @ 125"
 ]
 
 { #category : #accessing }
@@ -474,6 +471,12 @@ ICKnob >> maxAngle: aNumber [
 ]
 
 { #category : #accessing }
+ICKnob >> maxLabel [ 
+
+	^ maxLabel 
+]
+
+{ #category : #accessing }
 ICKnob >> maxValue [
 
 	^ maxValue
@@ -482,7 +485,9 @@ ICKnob >> maxValue [
 { #category : #accessing }
 ICKnob >> maxValue: aNumber [
 
-	maxValue := aNumber
+	maxValue := aNumber.
+	maxLabel text: (maxValue asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor) })
 ]
 
 { #category : #accessing }
@@ -498,6 +503,12 @@ ICKnob >> minAngle: aNumber [
 ]
 
 { #category : #accessing }
+ICKnob >> minLabel [ 
+
+	^ minLabel 
+]
+
+{ #category : #accessing }
 ICKnob >> minValue [
 
 	^ minValue 
@@ -506,7 +517,9 @@ ICKnob >> minValue [
 { #category : #accessing }
 ICKnob >> minValue: aNumber [
 
-	minValue := aNumber
+	minValue := aNumber.
+	minLabel text: (minValue asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor) })
 ]
 
 { #category : #'ui building' }
