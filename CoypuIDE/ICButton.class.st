@@ -13,14 +13,14 @@ Class {
 }
 
 { #category : 'examples' }
-ICButton class >> allButtonExamples [
+ICButton class >> allButtonExamples [ 
 	<script>
-	| container e1 e2 |
+	| container e1 e2 e3 e4 e5 e6 |
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 4;
+		columnCount: 6;
 		cellSpacing: 0
 		);
 		constraintsDo: [:c |
@@ -29,11 +29,26 @@ ICButton class >> allButtonExamples [
 			];
 		background: Color darkGray.
 
-	e1:= ICButton new.
-	e2:= ICIndicatorButton new.
+e1:= ICIndicatorButton new.
+e2:= ICOnOffButton new.
+e3:= ICLabelButton label:'MONO'.
 
-container addChildren: { e1. e2 }.
+	"e1 value.
+	e2 value.
+	e3 value."
+e4:= ICIndicatorButton new.
+e5:= ICOnOffButton new.
+e6:= ICLabelButton label:'STEREO'.
+	e4 toggle.
+	e5 toggle.
+	e6 toggle.
+	
+	"e4 value.
+	e5 value.
+	e6 value."
+container addChildren: { e1. e4. e2. e5 . e3. e6}.
 container openInSpace.
+
 ]
 
 { #category : 'evaluating' }
@@ -122,8 +137,8 @@ ICButton >> value [
 ]
 
 { #category : 'evaluating' }
-ICButton >> value: aBoolean [
-	value:= aBoolean.
+ICButton >> value: aValue [
+	value:= aValue.
 ]
 
 { #category : 'evaluating' }
