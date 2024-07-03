@@ -86,6 +86,7 @@ ICKnob class >> label: aString minValue: min maxValue: max [
 	e:= self new inputText: aString.
 	e minValue: min.
 	e maxValue: max.
+	e setToMin.
 	e initializeLabel.
 	^ e.
 	
@@ -575,6 +576,18 @@ ICKnob >> position: aPoint [
 	super position: aPoint.
 	self whenLayoutedDoOnce: [
 	self centerPosition: self positionInSpace + (self size / 2)]
+]
+
+{ #category : 'initialization' }
+ICKnob >> setToMax [
+
+	self setValue: self maxValue.
+]
+
+{ #category : 'initialization' }
+ICKnob >> setToMin [ 
+
+	self setValue: self minValue.
 ]
 
 { #category : 'initialization' }
