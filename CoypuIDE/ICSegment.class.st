@@ -1,16 +1,18 @@
 Class {
-	#name : #ICSegment,
-	#superclass : #BlElement,
+	#name : 'ICSegment',
+	#superclass : 'BlElement',
 	#instVars : [
 		'lit',
 		'widgetSize',
 		'backPaint',
 		'frontPaint'
 	],
-	#category : 'CoypuIDE-led / 7segment'
+	#category : 'CoypuIDE-led / 7segment',
+	#package : 'CoypuIDE',
+	#tag : 'led / 7segment'
 }
 
-{ #category : #factory }
+{ #category : 'factory' }
 ICSegment class >> horizontalExample [
 
 	<script>
@@ -22,13 +24,13 @@ ICSegment class >> horizontalExample [
 	elt openInSpace
 ]
 
-{ #category : #factory }
+{ #category : 'factory' }
 ICSegment class >> horizontalSegment [
 
 	^ self new.
 ]
 
-{ #category : #factory }
+{ #category : 'factory' }
 ICSegment class >> verticalExample [
 
 	<script>
@@ -62,7 +64,7 @@ ICSegment class >> verticalExample [
 	elt openInSpace
 ]
 
-{ #category : #factory }
+{ #category : 'factory' }
 ICSegment class >> verticalSegment [
 
 	| elt w h paint |
@@ -90,31 +92,31 @@ ICSegment class >> verticalSegment [
 	^ elt
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICSegment >> backPaint [ 
 
 	^ backPaint 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICSegment >> backPaint: aBlPaint [
 
 	backPaint := aBlPaint 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICSegment >> frontPaint [
 
 	^ frontPaint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ICSegment >> frontPaint: aBlPaint [
 
 	frontPaint := aBlPaint
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICSegment >> initialize [
 
 	super initialize.
@@ -124,7 +126,7 @@ ICSegment >> initialize [
 	self update
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICSegment >> initializeDefaultGeometry [ 
 
 	|w h|
@@ -140,7 +142,7 @@ ICSegment >> initializeDefaultGeometry [
 				 (0 @ (h / 2)) }).
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICSegment >> initializeDefaultPaints [
 
 	| paint |
@@ -157,7 +159,7 @@ ICSegment >> initializeDefaultPaints [
 	self frontPaint: paint
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ICSegment >> isLit [
 
 	^ lit 
@@ -165,28 +167,28 @@ ICSegment >> isLit [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ICSegment >> lit: aBoolean [
 
 	lit := aBoolean.
 	self update
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICSegment >> switchOff [ 
 
 	lit := false.
 	self update.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICSegment >> switchOn [
 
 	lit := true.
 	self update
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 ICSegment >> update [
 
 	self
@@ -195,13 +197,13 @@ ICSegment >> update [
 		ifFalse: [ self backPaint ])
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ICSegment >> widgetSize [ 
 
 	^ widgetSize
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ICSegment >> widgetSize: aPoint [
 
 	self size: aPoint.

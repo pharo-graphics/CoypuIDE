@@ -1,10 +1,12 @@
 Class {
-	#name : #ICKnobVerticalDrag,
-	#superclass : #BlElement,
-	#category : 'CoypuIDE-knob'
+	#name : 'ICKnobVerticalDrag',
+	#superclass : 'BlElement',
+	#category : 'CoypuIDE-knob',
+	#package : 'CoypuIDE',
+	#tag : 'knob'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 ICKnobVerticalDrag class >> basicExample [
 
 	<script>
@@ -16,7 +18,7 @@ ICKnobVerticalDrag class >> basicExample [
 	"knob callBack: [ :v | v inspect ]"
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICKnobVerticalDrag >> initializeEvents [
 
 	| valueAtOrigin dragOrigin|

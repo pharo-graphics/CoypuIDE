@@ -1,44 +1,46 @@
 Class {
-	#name : #IC7SegmentGeometry,
-	#superclass : #BlPolygonGeometry,
+	#name : 'IC7SegmentGeometry',
+	#superclass : 'BlPolygonGeometry',
 	#instVars : [
 		'isVertical'
 	],
-	#category : 'CoypuIDE-led / 7segment'
+	#category : 'CoypuIDE-led / 7segment',
+	#package : 'CoypuIDE',
+	#tag : 'led / 7segment'
 }
 
-{ #category : #factory }
+{ #category : 'factory' }
 IC7SegmentGeometry class >> horizontal [
 
 	^ self new beHorizontal 
 ]
 
-{ #category : #factory }
+{ #category : 'factory' }
 IC7SegmentGeometry class >> vertical [
 
 	^ self new beVertical 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 IC7SegmentGeometry >> beHorizontal [ 
 
 	isVertical := false
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 IC7SegmentGeometry >> beVertical [
 
 	isVertical := true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 IC7SegmentGeometry >> initialize [
 
 	super initialize.
 	isVertical := false.
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 IC7SegmentGeometry >> matchExtent: anExtent [
 
 	extent := anExtent.

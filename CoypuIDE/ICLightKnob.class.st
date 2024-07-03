@@ -1,20 +1,22 @@
 Class {
-	#name : #ICLightKnob,
-	#superclass : #ICKnob,
-	#category : 'CoypuIDE-knob'
+	#name : 'ICLightKnob',
+	#superclass : 'ICKnob',
+	#category : 'CoypuIDE-knob',
+	#package : 'CoypuIDE',
+	#tag : 'knob'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> backColor [
 	^ (Color veryVeryLightGray )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> diskColor [ 
 	^ (Color magenta)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> initializeDisk [
 	
 	self disk: (BlElement new
@@ -36,27 +38,27 @@ ICLightKnob >> initializeDisk [
 	self addChild: self disk.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> knobColor [
 	^(Color white )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> markerColor [
 	^(Color veryVeryDarkGray )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> outerRingColor [
 	^(Color lightGray )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> textColor [
 	^Color veryVeryDarkGray.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICLightKnob >> valueColor [
 	^Color black.
 ]
