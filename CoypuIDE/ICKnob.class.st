@@ -80,6 +80,17 @@ ICKnob class >> label: aString [
 	
 ]
 
+{ #category : 'initialization' }
+ICKnob class >> label: aString minValue: min maxValue: max [
+	|e|
+	e:= self new inputText: aString.
+	e minValue: min.
+	e maxValue: max.
+	e initializeLabel.
+	^ e.
+	
+]
+
 { #category : 'accessing' }
 ICKnob >> angle [ 
 
