@@ -30,7 +30,7 @@ ICDarkKnob5 >> disk2Color [
 { #category : 'initialization' }
 ICDarkKnob5 >> diskSize [ 
 
-	^ self diameter +40
+	^ self diameter +35
 ]
 
 { #category : 'as yet unclassified' }
@@ -67,7 +67,7 @@ ICDarkKnob5 >> initializeDisk2 [
 	self addChild: self disk2.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICDarkKnob5 >> initializeDisks [ 
 
 	self initializeDisk.

@@ -15,10 +15,7 @@ Class {
 		'angle',
 		'minAngle',
 		'maxAngle',
-		'centerPosition',
-		'minLabel',
-		'maxLabel',
-		'currentLabel'
+		'centerPosition'
 	],
 	#category : 'CoypuIDE-knob',
 	#package : 'CoypuIDE',
@@ -29,7 +26,7 @@ Class {
 ICKnob class >> allKnobExamples [
 
 	<script>
-	| container e1 e2 e3 e4 e5 e6|
+	| container e1 e2 e3 e4 e5 e6 e7|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -51,10 +48,11 @@ e2:= ICLightKnob label: 'Label 2'.
 e3:= ICDarkKnob2 label: 'LABEL 3'. 
 e4:= ICDarkKnob3 label: 'LABEL 4'. 
 e5:= ICDarkKnob4 label:'LABEL 5'. 
-e6:= ICDarkKnob5 label:'LABEL 6'. 
+e6:= ICDarkKnob5 label:'LABEL 6'.
+e7:= ICDialKnob label: 'LABEL 7'.
 
 
-container addChildren: { e1. e2 . e3 . e4 .  e5 . e6}.
+container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7}.
 container openInNewSpace.
 ]
 
@@ -297,38 +295,22 @@ ICKnob >> initializeEvents [
 { #category : 'initialization' }
 ICKnob >> initializeGeometry [
 	
-	| marker backdrop|
-	"self size: (diameter + 100) @ (diameter + 150)."
+	| marker |
 	self size: (diameter + 100) asPoint.
 	self background: self backColor.
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
 	self padding:(BlInsets all: 7).
-	
-	"backdrop:=(BlElement new
-			 geometry: BlCircleGeometry new;
-			 size: diameter-2 asPoint;
-			 clipChildren: false;
-			effect: (BlGaussianShadowEffect color: Color white offset: 0@ 0  width: 80);
-			 background: Color darkGray ;
-			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter ]).
-			
-	self addChild: backdrop."
-	
-	"effect: (BlGaussianShadowEffect color: Color black offset: 0@ 0  width: 60);"
+
 	
 	self knob: (BlElement new
 			 geometry: BlCircleGeometry new;
 			 size: self knobSize asPoint;
 			 clipChildren: false;
-			"effect: (BlGaussianShadowEffect color: Color black offset: 0@ 0  width: 60);"
 			 background: self knobColor ;
 			 constraintsDo: [ :c |
 				 c frame horizontal alignCenter.
 				 c frame vertical alignCenter]).
-		"knob zIndex: 100."
 	
 	self addChild: self knob.
 
@@ -341,6 +323,7 @@ ICKnob >> initializeGeometry [
 		          background: self markerColor;
 		          position: self knobSize / 2 @ 5.
 			marker zIndex: 100.
+			
 	self knob addChild: marker
 ]
 
@@ -508,6 +491,29 @@ ICKnob >> minValue: aNumber [
 	minValue := aNumber.
 	minLabel text: (minValue asRopedText attributes: { (BlTextForegroundAttribute
 paint: self textColor) })
+]
+
+{ #category : 'ui building' }
+ICKnob >> openForParam: aString dsp: aDsp [
+
+	| index space spaceExtent |
+	spaceExtent := self diameter * 2.
+	space := BlSpace new extent: spaceExtent @ spaceExtent.
+	index := aDsp getParamIndex: aString.
+	space root background: Color black.
+	space root addChild: self.
+	"the parameter must exist!!"
+	index = -1
+		ifTrue: [
+			^ Error new signal:
+				  'Parameter named ' , aString , ' does not exist!!' ]
+		ifFalse: [
+			self
+				minValue: (aDsp getParamMin: index);
+				maxValue: (aDsp getParamMax: index);
+				inputText: aString;
+				callBack: [ :i | aDsp setValue: i parameter: aString ].
+			space show ]
 ]
 
 { #category : 'initialization' }
