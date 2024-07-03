@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfCoypuIDE,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfCoypuIDE
+	#name : 'BaselineOfCoypuIDE',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfCoypuIDE',
+	#package : 'BaselineOfCoypuIDE'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCoypuIDE >> baseline: spec [
 
 	<baseline>
