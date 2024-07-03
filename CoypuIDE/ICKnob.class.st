@@ -508,7 +508,7 @@ ICKnob >> maxValue [
 ICKnob >> maxValue: aNumber [
 
 	maxValue := aNumber.
-	maxLabel text: (maxValue asRopedText attributes: { (BlTextForegroundAttribute
+	maxLabel text: ((maxValue asFloat round:3 )asRopedText attributes: { (BlTextForegroundAttribute
 paint: self textColor) })
 ]
 
@@ -540,7 +540,7 @@ ICKnob >> minValue [
 ICKnob >> minValue: aNumber [
 
 	minValue := aNumber.
-	minLabel text: (minValue asRopedText attributes: { (BlTextForegroundAttribute
+	minLabel text: ((minValue asFloat round:3 ) asRopedText attributes: { (BlTextForegroundAttribute
 paint: self textColor) })
 ]
 
