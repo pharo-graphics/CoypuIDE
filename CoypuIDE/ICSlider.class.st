@@ -58,7 +58,7 @@ ICSlider class >> simpleExampleHorizontal [
 	slider := self beHorizontal.
 	textElt := BlTextElement new position: slider defaultSize.
 
-	textElt text: slider currentValue asRopedText.
+	textElt text: slider value asRopedText.
 
 	slider callBack: [ :value | textElt text: value asRopedText ].
 
@@ -79,7 +79,7 @@ ICSlider class >> simpleExampleVertical [
 	slider := self beVertical.
 	textElt := BlTextElement new position: slider defaultSize.
 
-	textElt text: slider currentValue asRopedText.
+	textElt text: slider value asRopedText.
 
 	slider callBack: [ :value | textElt text: value asRopedText ].
 
