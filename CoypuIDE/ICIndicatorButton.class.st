@@ -1,12 +1,10 @@
 Class {
-	#name : 'ICIndicatorButton',
-	#superclass : 'ICButton',
-	#category : 'CoypuIDE-button',
-	#package : 'CoypuIDE',
-	#tag : 'button'
+	#name : #ICIndicatorButton,
+	#superclass : #ICButton,
+	#category : 'CoypuIDE-button'
 }
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICIndicatorButton >> initializeButton [
 	
 	self button: (BlElement new
@@ -21,7 +19,7 @@ ICIndicatorButton >> initializeButton [
 	self addChild: self button.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICIndicatorButton >> toggle [
 	self toggleValue.
 	self value = 0 

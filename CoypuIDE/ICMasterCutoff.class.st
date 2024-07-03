@@ -1,18 +1,16 @@
 Class {
-	#name : 'ICMasterCutoff',
-	#superclass : 'BlElement',
+	#name : #ICMasterCutoff,
+	#superclass : #BlElement,
 	#instVars : [
 		'value',
 		'minValue',
 		'maxValue',
 		'line'
 	],
-	#category : 'CoypuIDE-cutoff',
-	#package : 'CoypuIDE',
-	#tag : 'cutoff'
+	#category : 'CoypuIDE-cutoff'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICMasterCutoff class >> exampleLinearSlider [
 
 	| master slider container textElt |
@@ -40,7 +38,7 @@ ICMasterCutoff class >> exampleLinearSlider [
 	container openInSpace
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICMasterCutoff class >> exampleLogarithmicSlider [
 
 	| master slider container textElt |
@@ -70,7 +68,7 @@ ICMasterCutoff class >> exampleLogarithmicSlider [
 	container openInSpace
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICMasterCutoff >> defaultLine [
 
 	| curve firstLine secondLine container |
@@ -106,7 +104,7 @@ ICMasterCutoff >> defaultLine [
 	^ container
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICMasterCutoff >> initialize [
 
 	super initialize.
@@ -116,7 +114,7 @@ ICMasterCutoff >> initialize [
 	self initializeLine.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> initializeDefaultValues [
 
 	minValue := 20.
@@ -124,50 +122,50 @@ ICMasterCutoff >> initializeDefaultValues [
 	value := 20
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICMasterCutoff >> initializeLine [
 
 	self line: self defaultLine.
 	self addChild: line
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> line [
 
  ^ line
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> line: aBlElement [
 
 	line := aBlElement 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> maxValue [
 
 	^ maxValue
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> maxValue: aNumber [
 
 	maxValue := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> minValue [
 
 	^ minValue
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> minValue: aNumber [
 
 	minValue := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> setValue: aNumber [
 
 	| newX |
@@ -178,13 +176,13 @@ ICMasterCutoff >> setValue: aNumber [
 	self line position: newX @ 150
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICMasterCutoff >> value [
 
 	^ value
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICMasterCutoff >> valueToPosition: aNumber [
 
 	| minP maxP minV maxV scale result |
