@@ -1,6 +1,6 @@
 Class {
-	#name : #IC7Segment,
-	#superclass : #BlElement,
+	#name : 'IC7Segment',
+	#superclass : 'BlElement',
 	#instVars : [
 		'segments',
 		'digit'
@@ -8,10 +8,12 @@ Class {
 	#classVars : [
 		'Digits'
 	],
-	#category : 'CoypuIDE-led / 7segment'
+	#category : 'CoypuIDE-led / 7segment',
+	#package : 'CoypuIDE',
+	#tag : 'led / 7segment'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 IC7Segment class >> animatedExample [
 
 	<script>
@@ -27,7 +29,7 @@ IC7Segment class >> animatedExample [
 	elt digit: nil
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 IC7Segment class >> example [
 
 	<script> 
@@ -36,7 +38,7 @@ IC7Segment class >> example [
 		openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 IC7Segment class >> fullExample [
 
 	<script>
@@ -53,7 +55,7 @@ IC7Segment class >> fullExample [
 	container openInSpace
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 IC7Segment class >> initialize [
 
 	Digits := {
@@ -69,13 +71,13 @@ IC7Segment class >> initialize [
 		          { true. true. true. true. false. true. true } "9"}
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 IC7Segment >> digit [ 
 
 	^ digit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 IC7Segment >> digit: aNumber [
 
 	aNumber ifNil: [ self segments do: [ :seg | seg switchOff ]. ^ self ].
@@ -83,7 +85,7 @@ IC7Segment >> digit: aNumber [
 	self update
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 IC7Segment >> initialize [
 
 	super initialize.
@@ -93,7 +95,7 @@ IC7Segment >> initialize [
 	self initializeSegments
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 IC7Segment >> initializeSegments [
 
 	self segments: {
@@ -121,25 +123,25 @@ IC7Segment >> initializeSegments [
 	self addChildren: self segments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 IC7Segment >> segments [ 
 
 	^ segments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 IC7Segment >> segments: aCollection [
 
 	segments := aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 IC7Segment >> switchOff [ 
 
 self segments do: [ :seg | seg switchOff ].
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 IC7Segment >> update [ 
 
 	self segments with: (Digits at: digit + 1) do: [ :seg :bool |
