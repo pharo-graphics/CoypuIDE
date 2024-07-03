@@ -1,37 +1,35 @@
 Class {
-	#name : 'ICDialKnob',
-	#superclass : 'ICKnob',
+	#name : #ICDialKnob,
+	#superclass : #ICKnob,
 	#instVars : [
 		'dial'
 	],
-	#category : 'CoypuIDE-knob',
-	#package : 'CoypuIDE',
-	#tag : 'knob'
+	#category : 'CoypuIDE-knob'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICDialKnob >> dial [
 	^ dial. 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICDialKnob >> dial: anElement [
 
 	dial := anElement 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> diskColor [
 	^(Color cyan)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> diskSize [ 
 
 	^ self diameter +30
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> initializeDial [
 	|st|
 	self dial: (BlElement new
@@ -77,41 +75,41 @@ ICDialKnob >> initializeDial [
 	self addChild: self dial.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> initializeDisks [
 
 	self initializeDisk.
 	self initializeDial.
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> knobColor [
 	^(Color r:45 g:51  b:67 range:255 )
 	"^(Color r:220 g:220  b:240 range:255 )"
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> knobSize [ 
 	^ self diameter-20
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> markerColor [
 	^(Color cyan)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> outerRingColor [
 	^(Color gray alpha:1.0)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> outerRingSize [ 
 	^ self diameter + 30
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICDialKnob >> valueColor [
 	^Color cyan.
 ]
