@@ -1,6 +1,6 @@
 Class {
-	#name : 'ICAxis',
-	#superclass : 'BlElement',
+	#name : #ICAxis,
+	#superclass : #BlElement,
 	#instVars : [
 		'valueX',
 		'valueY',
@@ -13,12 +13,10 @@ Class {
 		'yLabel',
 		'xLabel'
 	],
-	#category : 'CoypuIDE-axis',
-	#package : 'CoypuIDE',
-	#tag : 'axis'
+	#category : 'CoypuIDE-axis'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICAxis class >> simpleExample [
 
 	<script>
@@ -33,7 +31,7 @@ ICAxis class >> simpleExample [
 	axis openInSpace
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICAxis >> buildAxis [
 
 	| vertical w h horizontal |
@@ -74,7 +72,7 @@ ICAxis >> buildAxis [
 	self buildAxisText
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICAxis >> buildAxisText [
 
 	| w h xText yText |
@@ -95,19 +93,19 @@ ICAxis >> buildAxisText [
 	self addChild: yText as: 'yLabel'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> callBack [ 
 
 	^ callBack 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> callBack: aBlock [
 
 	callBack := aBlock 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> clickAt: aPoint [
 
 	self removeChildWithId: 'current'.
@@ -121,13 +119,13 @@ ICAxis >> clickAt: aPoint [
 	self valueAt: aPoint
 ]
 
-{ #category : 'api - bounds' }
+{ #category : #'api - bounds' }
 ICAxis >> defaultSize [ 
 
 	^ 200@ 150
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICAxis >> initialize [
 
 	super initialize.
@@ -142,13 +140,13 @@ ICAxis >> initialize [
 		do: [ :e | self clickAt: e position - self position ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICAxis >> initializeDefaultSize [
 
 	self widgetSize: self defaultSize
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICAxis >> initializeDefaultValues [
 
 	self minX: 0.
@@ -159,55 +157,55 @@ ICAxis >> initializeDefaultValues [
 	self yLabel: 'y Label'.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> maxX [
 
 	^ maxX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> maxX: aNumber [
 
 	maxX:= aNumber 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> maxY [
 
 	^ maxY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> maxY: aNumber [
 
 	maxY := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> minX [ 
 
 	^ minX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> minX: aNumber [
 
 	minX := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> minY [
 
 	^ minY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> minY:  aNumber [
 
 	minY := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> valueAt: aPoint [
 
 	self valueX: (self valueAtX: aPoint x).
@@ -215,7 +213,7 @@ ICAxis >> valueAt: aPoint [
 	self callBack ifNotNil: [ :c | c value: valueX value: valueY ]
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICAxis >> valueAtX: aNumber [
 
 	| range value coeff |
@@ -227,7 +225,7 @@ ICAxis >> valueAtX: aNumber [
 	^ value asFloat
 ]
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICAxis >> valueAtY: aNumber [
 
 	| range value coeff |
@@ -239,36 +237,36 @@ ICAxis >> valueAtY: aNumber [
 	^ value asFloat
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> valueX [ 
 
 	^ valueX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> valueX: aNumber [
 
 	valueX := aNumber 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> valueY [
 
 	^ valueY 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> valueY: aNumber [
 
 	valueY := aNumber
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> widgetSize [ 
 	^ widgetSize 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> widgetSize: anExtent [
 
 	widgetSize := anExtent.
@@ -276,26 +274,26 @@ ICAxis >> widgetSize: anExtent [
 	self buildAxis
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> xLabel [
 
 	^ xLabel 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> xLabel: aString [
 
 	xLabel := aString.
 	self buildAxisText
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> yLabel [ 
 
 	^ yLabel 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICAxis >> yLabel: aString [
 
 	yLabel := aString.

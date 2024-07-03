@@ -1,17 +1,15 @@
 Class {
-	#name : 'ICProportionnalSegment',
-	#superclass : 'BlElement',
+	#name : #ICProportionnalSegment,
+	#superclass : #BlElement,
 	#instVars : [
 		'lit',
 		'backPaint',
 		'frontPaint'
 	],
-	#category : 'CoypuIDE-led / 7segment',
-	#package : 'CoypuIDE',
-	#tag : 'led / 7segment'
+	#category : 'CoypuIDE-led / 7segment'
 }
 
-{ #category : 'factory' }
+{ #category : #factory }
 ICProportionnalSegment class >> horizontalExample [
 
 	<script>
@@ -26,13 +24,13 @@ ICProportionnalSegment class >> horizontalExample [
 	elt openInSpace
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 ICProportionnalSegment class >> horizontalSegment [
 
 	^ self new.
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 ICProportionnalSegment class >> verticalExample [
 
 	<script>
@@ -48,7 +46,7 @@ ICProportionnalSegment class >> verticalExample [
 	elt openInSpace
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 ICProportionnalSegment class >> verticalSegment [
 
 	| elt paint |
@@ -63,19 +61,19 @@ ICProportionnalSegment class >> verticalSegment [
 	^ elt
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICProportionnalSegment >> backPaint [ 
 
 	^ backPaint 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICProportionnalSegment >> backPaint: aBlPaint [
 
 	backPaint := aBlPaint 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICProportionnalSegment >> beVertical [
 
 	| paint |
@@ -88,19 +86,19 @@ ICProportionnalSegment >> beVertical [
 	self geometry: IC7SegmentGeometry vertical
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICProportionnalSegment >> frontPaint [
 
 	^ frontPaint
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ICProportionnalSegment >> frontPaint: aBlPaint [
 
 	frontPaint := aBlPaint
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICProportionnalSegment >> initialize [
 
 	super initialize.
@@ -110,7 +108,7 @@ ICProportionnalSegment >> initialize [
 	self update
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICProportionnalSegment >> initializeDefaultGeometry [
 
 	| w h |
@@ -120,7 +118,7 @@ ICProportionnalSegment >> initializeDefaultGeometry [
 	self geometry: IC7SegmentGeometry horizontal
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ICProportionnalSegment >> initializeDefaultPaints [
 
 	| paint |
@@ -133,7 +131,7 @@ ICProportionnalSegment >> initializeDefaultPaints [
 	self frontPaint: paint
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICProportionnalSegment >> isLit [
 
 	^ lit 
@@ -141,28 +139,28 @@ ICProportionnalSegment >> isLit [
 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ICProportionnalSegment >> lit: aBoolean [
 
 	lit := aBoolean.
 	self update
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICProportionnalSegment >> switchOff [ 
 
 	lit := false.
 	self update.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 ICProportionnalSegment >> switchOn [
 
 	lit := true.
 	self update
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 ICProportionnalSegment >> update [
 
 	self

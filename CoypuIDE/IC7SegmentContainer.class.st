@@ -1,24 +1,22 @@
 Class {
-	#name : 'IC7SegmentContainer',
-	#superclass : 'BlElement',
+	#name : #IC7SegmentContainer,
+	#superclass : #BlElement,
 	#instVars : [
 		'value',
 		'nbDigits',
 		'digitElements'
 	],
-	#category : 'CoypuIDE-led / 7segment',
-	#package : 'CoypuIDE',
-	#tag : 'led / 7segment'
+	#category : 'CoypuIDE-led / 7segment'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 IC7SegmentContainer class >> basicExample [ 
 
 	<script>
 	self new value: 12345; openInSpace
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 IC7SegmentContainer class >> basicExampleGetsValueChanged [
 
 	<script>
@@ -32,7 +30,7 @@ IC7SegmentContainer class >> basicExampleGetsValueChanged [
 	elt value: 12.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 IC7SegmentContainer class >> truncatedExample [ 
 
 	<script> 
@@ -40,7 +38,7 @@ IC7SegmentContainer class >> truncatedExample [
 	self new value: 12345678; openInSpace
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 IC7SegmentContainer class >> truncatedExampleGetsResized [
 
 	<script>
@@ -54,19 +52,19 @@ IC7SegmentContainer class >> truncatedExampleGetsResized [
 	elt nbDigits: 8
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 IC7SegmentContainer >> digitElements [ 
 
 	^ digitElements
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 IC7SegmentContainer >> digitElements: aCollection [
 
 	digitElements := aCollection 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 IC7SegmentContainer >> initialize [
 
 	super initialize.
@@ -78,7 +76,7 @@ IC7SegmentContainer >> initialize [
 	self nbDigits: 5
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 IC7SegmentContainer >> initializeDigitElements [
 
 	| elts |
@@ -93,13 +91,13 @@ IC7SegmentContainer >> initializeDigitElements [
 	self updateDisplayedValue
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 IC7SegmentContainer >> nbDigits [ 
 
 	^ nbDigits 
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 IC7SegmentContainer >> nbDigits: aNumber [
 
 	aNumber = nbDigits ifTrue: [ ^ self ].
@@ -107,7 +105,7 @@ IC7SegmentContainer >> nbDigits: aNumber [
 	self initializeDigitElements
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 IC7SegmentContainer >> updateDisplayedValue [
 
 	1 to: self nbDigits do: [ :i |
@@ -116,13 +114,13 @@ IC7SegmentContainer >> updateDisplayedValue [
 		(self digitElements at: self nbDigits - i+1) digit: newValue ]
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 IC7SegmentContainer >> value [ 
 
 	^ value 
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 IC7SegmentContainer >> value: aNumber [
 
 	value := aNumber.
