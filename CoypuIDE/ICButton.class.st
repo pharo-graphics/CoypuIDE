@@ -1,18 +1,16 @@
 Class {
-	#name : 'ICButton',
-	#superclass : 'BlElement',
+	#name : #ICButton,
+	#superclass : #BlElement,
 	#instVars : [
 		'widgetSize',
 		'button',
 		'isOn',
 		'value'
 	],
-	#category : 'CoypuIDE-button',
-	#package : 'CoypuIDE',
-	#tag : 'button'
+	#category : 'CoypuIDE-button'
 }
 
-{ #category : 'examples' }
+{ #category : #examples }
 ICButton class >> allButtonExamples [
 	<script>
 	| container e1 e2 |
@@ -36,23 +34,23 @@ container addChildren: { e1. e2 }.
 container openInSpace.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> backColor [
 	^ (Color veryVeryDarkGray alpha:1.0)
 
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> button [
 	^ button.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> button: anElement [
 	button:= anElement.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> initialize [
 	super initialize.
 	self value: 0.
@@ -62,7 +60,7 @@ ICButton >> initialize [
 	self initializeEvents.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> initializeButton [
 	
 	self button: (BlElement new
@@ -76,7 +74,7 @@ ICButton >> initializeButton [
 	self addChild: self button.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> initializeEvents [
 	button addEventHandler: (BlEventHandler
 		on: BlMouseDownEvent 
@@ -84,7 +82,7 @@ ICButton >> initializeEvents [
 	
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> initializeWidget [
 	self size: widgetSize.
 	self background: self backColor.
@@ -94,12 +92,12 @@ ICButton >> initializeWidget [
 
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> initializeWidgetSize [
 	widgetSize:= 80@80.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> toggle [
 	self toggleValue.
 	self value = 0 
@@ -109,24 +107,24 @@ ICButton >> toggle [
 	1.0)].
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> toggleValue [
 	self value = 0 
 		ifTrue: [ self value: 1 ] 
 		ifFalse: [ self value: 0 ].
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> value [
 	^ value.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> value: aBoolean [
 	value:= aBoolean.
 ]
 
-{ #category : 'evaluating' }
+{ #category : #evaluating }
 ICButton >> widgetSize: aSize [
 	widgetSize:= aSize.
 ]

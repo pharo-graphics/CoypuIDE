@@ -1,12 +1,10 @@
 Class {
-	#name : 'ICLogarithmicSlider',
-	#superclass : 'ICSlider',
-	#category : 'CoypuIDE-slider',
-	#package : 'CoypuIDE',
-	#tag : 'slider'
+	#name : #ICLogarithmicSlider,
+	#superclass : #ICSlider,
+	#category : 'CoypuIDE-slider'
 }
 
-{ #category : 'api - transformations' }
+{ #category : #'api - transformations' }
 ICLogarithmicSlider >> valueAtX: aPoint [
 
 	| value minP maxP minV maxV scale position |
