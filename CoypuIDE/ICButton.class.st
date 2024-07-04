@@ -10,7 +10,6 @@ Class {
 	#category : 'CoypuIDE-button'
 }
 
-
 { #category : #examples }
 ICButton class >> allButtonExamples [
 	<script>
@@ -134,7 +133,6 @@ ICButton >> toggleValue [
 ICButton >> value [
 	^ value.
 ]
-
 
 { #category : #evaluating }
 ICButton >> value: aBoolean [

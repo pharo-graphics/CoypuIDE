@@ -25,7 +25,7 @@ Class {
 		'valueLabel',
 		'name'
 	],
-	#category : 'CoypuIDE-slider'
+	#category : #'CoypuIDE-slider'
 }
 
 { #category : #accessing }
@@ -224,6 +224,32 @@ ICSlider >> callBack: aBlock [
 	callBack := aBlock 
 ]
 
+{ #category : #'as yet unclassified' }
+ICSlider >> changeMaxValueLabelTo: aValue [
+
+	maxLabel text: (aValue asRopedText attributes: {
+				 (BlTextForegroundAttribute paint: Color white).
+				 (BlFontSizeAttribute size: 12).
+				 BlFontWeightAttribute bold }).
+	maxValue := aValue
+]
+
+{ #category : #'as yet unclassified' }
+ICSlider >> changeMinValueLabelTo: aValue [
+
+	minLabel text: (aValue asRopedText attributes: {
+				 (BlTextForegroundAttribute paint: Color white).
+				 (BlFontSizeAttribute size: 12).
+				 BlFontWeightAttribute bold }).
+	valueLabel text: (aValue asRopedText attributes: {
+				 (BlTextForegroundAttribute paint: Color black).
+				 (BlFontSizeAttribute size: 12).
+				 BlFontWeightAttribute bold }).
+
+	minValue := aValue.
+	value := aValue
+]
+
 { #category : #accessing }
 ICSlider >> coloredBar [ 
 
@@ -270,13 +296,13 @@ ICSlider >> defaultBar [
 { #category : #'api - bounds' }
 ICSlider >> defaultBarLength [
 
-	^ 240
+	^ 100
 ]
 
 { #category : #'api - bounds' }
 ICSlider >> defaultBarThickness [
 
-	^ 80
+	^ 20
 ]
 
 { #category : #'api - bounds' }
@@ -325,13 +351,13 @@ ICSlider >> defaultHandle [
 { #category : #'api - bounds' }
 ICSlider >> defaultMarginLength [
 
-	^ 50
+	^ 5
 ]
 
 { #category : #'api - bounds' }
 ICSlider >> defaultMarginThickness [
 
-	^ 20
+	^ 5
 ]
 
 { #category : #'api - bounds' }
@@ -487,10 +513,10 @@ ICSlider >> initializeValueLabels [
 			            c frame vertical alignCenter ].
 
 	valueLabel := BlTextElement new
-		              text: (self value asRopedText attributes:
-					               { (BlTextForegroundAttribute paint: Color black).
-						             (BlFontSizeAttribute size: 50).
-						             BlFontWeightAttribute bold });
+		              text: (self value asRopedText attributes: {
+						               (BlTextForegroundAttribute paint: Color black).
+						               (BlFontSizeAttribute size: 15).
+						               BlFontWeightAttribute bold });
 		              constraintsDo: [ :c |
 			              c frame horizontal alignCenter.
 			              c frame vertical alignCenter ].
@@ -500,10 +526,10 @@ ICSlider >> initializeValueLabels [
 	self addChild: maxLabel.
 
 	self callBack: [ :v |
-		valueLabel text: (v rounded asRopedText attributes:
-				 { (BlTextForegroundAttribute paint: Color black).
-						             (BlFontSizeAttribute size: 50).
-						             BlFontWeightAttribute bold  }) ]
+		valueLabel text: (v rounded asRopedText attributes: {
+					 (BlTextForegroundAttribute paint: Color black).
+					 (BlFontSizeAttribute size: 15).
+					 BlFontWeightAttribute bold }) ]
 ]
 
 { #category : #initialization }
