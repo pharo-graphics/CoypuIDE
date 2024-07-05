@@ -7,7 +7,7 @@ Class {
 		'maxValue',
 		'line'
 	],
-	#category : 'CoypuIDE-cutoff'
+	#category : #'CoypuIDE-cutoff'
 }
 
 { #category : #'as yet unclassified' }
@@ -78,9 +78,13 @@ ICMasterCutoff >> defaultLine [
 		         outskirts: BlOutskirts centered;
 		         geometry: (BlBezierCurveGeometry controlPoints: {
 						          (0 @ 0).
+						          (12.5 @ 0).
+						          (25 @ 50).
+						          (37.5 @ 50)
+						          "  (0 @ 0).
 						          (50 @ 0).
 						          (100 @ 200).
-						          (150 @ 200) }).
+						          (150 @ 200) " }).
 
 	firstLine := BlElement new
 		             geometry: (BlLineGeometry from: -1000 @ 0 to: 0 @ 0);
@@ -95,7 +99,7 @@ ICMasterCutoff >> defaultLine [
 
 	container := BlElement new
 		             clipChildren: false;
-		             position: 0 @ 150.
+		             position: 0 @ 37.5.
 
 	container addChildren: {
 			firstLine.
@@ -108,10 +112,10 @@ ICMasterCutoff >> defaultLine [
 ICMasterCutoff >> initialize [
 
 	super initialize.
-	self size: 500 @ 300.
+	self size: 125 @ 75.
 	self background: Color veryVeryLightGray.
 	self initializeDefaultValues.
-	self initializeLine.
+	self initializeLine
 ]
 
 { #category : #accessing }
@@ -173,7 +177,7 @@ ICMasterCutoff >> setValue: aNumber [
 	aNumber > self maxValue ifTrue: [ value := self maxValue ].
 	aNumber < self minValue ifTrue: [ value := self minValue ].
 	newX := self valueToPosition: value.
-	self line position: newX @ 150
+	self line position: newX @ 37.5
 ]
 
 { #category : #accessing }
@@ -187,7 +191,7 @@ ICMasterCutoff >> valueToPosition: aNumber [
 
 	| minP maxP minV maxV scale result |
 	minP := 0.
-	maxP := self width - 40.
+	maxP := self width - 10.
 	minV := self minValue ln.
 	maxV := self maxValue ln.
 
