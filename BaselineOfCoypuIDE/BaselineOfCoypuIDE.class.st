@@ -17,12 +17,15 @@ BaselineOfCoypuIDE >> baseline: spec [
 		spec
 			baseline: 'Phausto'
 			with: [ spec repository: 'github://lucretiomsp/Phausto:main/' ].
+		spec
+			baseline: 'Coypu'
+			with: [ spec repository: 'github://lucretiomsp/Coypu/' ].
 
 		spec
 			package: 'CoypuIDE' with: [ spec requires: 'Toplo' ];
-			package: 'Mooflod' with: [ spec requires: 'Toplo' ];
+			package: 'Mooflod' with: [ spec requires: #('Toplo' 'Coypu') ];
 			package: 'ICIcons' with: [ spec requires: 'Toplo' ].
 		spec
-			group: 'core' with: #( 'CoypuIDE' 'Mooflod' 'ICIcons' 'Phausto' );
+			group: 'core' with: #( 'CoypuIDE' 'Mooflod' 'ICIcons' );
 			group: 'default' with: #( 'core' ) ]
 ]
