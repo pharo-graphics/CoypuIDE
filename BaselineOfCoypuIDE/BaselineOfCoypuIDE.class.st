@@ -19,7 +19,7 @@ BaselineOfCoypuIDE >> baseline: spec [
 			with: [ spec repository: 'github://lucretiomsp/Phausto:main/' ].
 		spec
 			baseline: 'Coypu'
-			with: [ spec repository: 'github://lucretiomsp/Coypu/' ].
+			with: [ spec repository: 'github://RedwaneEngels/Coypu/' ].
 
 		spec
 			package: 'CoypuIDE' with: [ spec requires: 'Toplo' ];
