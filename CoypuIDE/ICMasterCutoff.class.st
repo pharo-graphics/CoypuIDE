@@ -115,9 +115,10 @@ ICMasterCutoff >> initialize [
 
 	super initialize.
 	self size: 125 @ 75.
-	self background: Color veryVeryLightGray.
+	self background: Color black.
+	self initializeLine.
 	self initializeDefaultValues.
-	self initializeLine
+	
 ]
 
 { #category : 'accessing' }
@@ -125,7 +126,7 @@ ICMasterCutoff >> initializeDefaultValues [
 
 	minValue := 20.
 	maxValue := 22000.
-	value := 20000
+	self whenLayoutedDoOnce: [  self setValue: 20000].
 ]
 
 { #category : 'initialization' }
