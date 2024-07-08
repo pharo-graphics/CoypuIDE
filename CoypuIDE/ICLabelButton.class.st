@@ -1,14 +1,16 @@
 Class {
-	#name : #ICLabelButton,
-	#superclass : #ICButton,
+	#name : 'ICLabelButton',
+	#superclass : 'ICButton',
 	#instVars : [
 		'inputText',
 		'inputLabel'
 	],
-	#category : 'CoypuIDE-button'
+	#category : 'CoypuIDE-button',
+	#package : 'CoypuIDE',
+	#tag : 'button'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICLabelButton class >> label: aString [ 
 	|e|
 	e:= self new inputText: aString.
@@ -16,12 +18,12 @@ ICLabelButton class >> label: aString [
 	^ e.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> backColor [ 
 	^Color veryVeryDarkGray.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> buttonColor [ 
 	"^ Color lightGreen ."
 	"^Color cyan."
@@ -29,20 +31,20 @@ ICLabelButton >> buttonColor [
 
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color black) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:24) }
 
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> configuredStringDark: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:24) }
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> glowColor [ 
 	"^ Color green ."
 	"^ Color lightBlue."
@@ -50,7 +52,7 @@ ICLabelButton >> glowColor [
 
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> initializeButton [ 
 
 	self button: (BlElement new
@@ -68,7 +70,7 @@ ICLabelButton >> initializeButton [
 	self addChild: button. 
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> initializeLabel [ 
 	inputLabel := BlTextElement new.
 	inputLabel text: (self configuredStringDark: inputText ).
@@ -81,27 +83,27 @@ ICLabelButton >> initializeLabel [
 
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> initializeWidgetSize [ 
 	widgetSize:= 200@80.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> inputText [ 
 	^ inputText.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> inputText: aString [ 
 	inputText := aString.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> offColor [ 
 	^ Color veryVeryDarkGray.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICLabelButton >> toggle [ 
 	self toggleValue.
 

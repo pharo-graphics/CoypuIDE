@@ -1,25 +1,27 @@
 Class {
-	#name : #ICOnOffButton,
-	#superclass : #ICButton,
+	#name : 'ICOnOffButton',
+	#superclass : 'ICButton',
 	#instVars : [
 		'label'
 	],
-	#category : 'CoypuIDE-button'
+	#category : 'CoypuIDE-button',
+	#package : 'CoypuIDE',
+	#tag : 'button'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICOnOffButton >> abel: aText [ 
 	label:= aText.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICOnOffButton >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color black) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICOnOffButton >> initializeButton [ 
 	self button: (BlElement new
             geometry: BlCircleGeometry new;
@@ -47,17 +49,17 @@ ICOnOffButton >> initializeButton [
 					
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICOnOffButton >> label [ 
 	^ label.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICOnOffButton >> label: aText [ 
 	label:= aText.
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ICOnOffButton >> toggle [ 
 	self toggleValue.
 

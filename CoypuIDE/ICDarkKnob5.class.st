@@ -1,37 +1,39 @@
 Class {
-	#name : #ICDarkKnob5,
-	#superclass : #ICKnob,
+	#name : 'ICDarkKnob5',
+	#superclass : 'ICKnob',
 	#instVars : [
 		'disk2'
 	],
-	#category : 'CoypuIDE-knob'
+	#category : 'CoypuIDE-knob',
+	#package : 'CoypuIDE',
+	#tag : 'knob'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICDarkKnob5 >> disk2 [
 
 	^ disk2
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> disk2: anElement [
 
 	disk2:= anElement.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> disk2Color [
 
 	^ Color magenta
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> diskSize [ 
 
 	^ self diameter +35
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ICDarkKnob5 >> doOperations [
 
 	self knob transformDo: [ :t | t rotateBy: angle ].
@@ -43,7 +45,7 @@ ICDarkKnob5 >> doOperations [
 	self currentValue: self angleToValue.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> initializeDisk2 [
 	
 	self disk2: (BlElement new
@@ -65,34 +67,34 @@ ICDarkKnob5 >> initializeDisk2 [
 	self addChild: self disk2.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> initializeDisks [ 
 
 	self initializeDisk.
 	self initializeDisk2.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> knobColor [
 	^(Color r:45 g:51  b:67 range:255 )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> knobSize [ 
 	^ self diameter+20
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> markerColor [
 	^(Color cyan)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> outerRingColor [
 	^(Color veryVeryDarkGray )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ICDarkKnob5 >> valueColor [
 	^Color cyan.
 ]
