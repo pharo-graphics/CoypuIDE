@@ -122,7 +122,7 @@ ICAudioDisplay >> initializeMarkers [
 
 { #category : 'initialization' }
 ICAudioDisplay >> initializePoints [
-	self inputValue: #(0 0.3 -1 0.7 -0.5 0.3 -1 0 0.4).
+	self inputValue: #(0 0.3 -0.4 0.6 -1 0.7 0.5 0.9 -0.5 0.3 -1 0 0.4).
 
 
 ]
