@@ -41,7 +41,7 @@ e5:= ICOnOffButton new.
 e6:= ICLabelButton label:'STEREO'.
 	e4 toggle.
 	e5 toggle.
-	e6 toggle.
+	e6 setValue:1.
 	
 	"e4 value.
 	e5 value.
@@ -112,6 +112,14 @@ ICButton >> initializeWidget [
 { #category : 'evaluating' }
 ICButton >> initializeWidgetSize [
 	widgetSize:= 80@80.
+]
+
+{ #category : 'evaluating' }
+ICButton >> setValue: req [
+	self value = req 
+		ifFalse: [ 
+			self toggle.
+			].
 ]
 
 { #category : 'evaluating' }
