@@ -2,6 +2,7 @@ Class {
 	#name : 'ICAudioDisplay',
 	#superclass : 'BlElement',
 	#instVars : [
+		'screen',
 		'sections',
 		'inputArr',
 		'callBack',
@@ -16,8 +17,41 @@ Class {
 ICAudioDisplay class >> Example [
 <script>
 | e |
-e:= self new.
+e:= ICAudioDisplay new.
 e openInSpace.
+]
+
+{ #category : 'as yet unclassified' }
+ICAudioDisplay class >> fromArray: anArr [
+	 |ele|
+	ele:= self new.
+	ele inputValue: anArr.
+	ele removeScreen.
+	ele initializeSections.
+	ele initializeGraph.
+	^ele.
+]
+
+{ #category : 'example' }
+ICAudioDisplay class >> readArrayExamples [
+"fromArray is a class method used to initialize graph from an array of given input values."
+<script>
+|e|
+e:= ICAudioDisplay fromArray: #(0.1 -0.5 0.3).
+
+e datapoints.
+e openInSpace.
+
+"readArray is an instance method to change the graph from an array of new input values."
+e readArray: #(0 -0.9 -0.2 0.6 -0.8 0.1 0.7 0.5 0.8 0.9 0.7 0.8).
+"e readArray: #(0 0.9 0.2 0.6 0.8 -0.1 -0.7 0.5 -0.8 0.9 -0.7 -0.8)."
+"e readArray: #(0 -0.9 0.2 -0.6 0.8 -0.1 -0.7 0.5 0.8 -0.9 0.7 -0.8)."
+
+
+
+
+
+
 ]
 
 { #category : 'initialization' }
@@ -35,10 +69,10 @@ ICAudioDisplay >> datapoints [
 { #category : 'initialization' }
 ICAudioDisplay >> initialize [
 	super initialize.
-	self initializePoints.
 	self initializeWidgetSize.
 	self initializeGeometry.
-	self initializeMarkers.
+	self initializePoints.
+	self initializeSections.
 	self initializeGraph.
 
 ]
@@ -48,10 +82,9 @@ ICAudioDisplay >> initializeGeometry [
 	self size: widgetSize.
 	self background: self backColor.
 	self layout: BlFrameLayout new.
-	"self padding: (BlInsets all: 10)."
-	self datapoints size > 1
-		ifTrue: [ self sections: (self x )/ (self length -1) ]
-		ifFalse: [ self sections: self x ].
+	
+
+
 	
 	
 ]
@@ -59,8 +92,14 @@ ICAudioDisplay >> initializeGeometry [
 { #category : 'initialization' }
 ICAudioDisplay >> initializeGraph [
 	|mul h|
+	self initializeMarkers.
 	mul:= self y/2.
 	h:= self y/2.
+	self screen: (BlElement new
+				size: self x@ self y;
+				background: (Color red alpha:0.0)
+				).
+
 	1 to: (self datapoints size - 1) do: [:i |
 		|p1 p2 e off|
 		p1:= self datapoints at: i.
@@ -72,9 +111,10 @@ ICAudioDisplay >> initializeGraph [
 						to: (off+self sections)@  (h-(p2*mul)));
 						outskirts: BlOutskirts centered;
 						border: (BlBorder paint: Color green width: 2)).
-		self addChild: e.
-		
+		screen addChild: e.
 		].
+	
+	self addChild: self screen.
 ]
 
 { #category : 'initialization' }
@@ -128,6 +168,14 @@ ICAudioDisplay >> initializePoints [
 ]
 
 { #category : 'initialization' }
+ICAudioDisplay >> initializeSections [
+		self datapoints size > 1
+		ifTrue: [ self sections: (self x )/ (self length -1) ]
+		ifFalse: [ self sections: self x ].
+
+]
+
+{ #category : 'initialization' }
 ICAudioDisplay >> initializeWidgetSize [
 	widgetSize:= self x@self y.
 
@@ -149,6 +197,40 @@ ICAudioDisplay >> length [
 ICAudioDisplay >> markerColor [
 	^ Color veryDarkGray.
 
+]
+
+{ #category : 'as yet unclassified' }
+ICAudioDisplay >> readArray: anArr [
+
+	self inputValue: anArr.
+	self removeScreen.
+	self initializeSections.
+	self initializeGraph.
+	^self.
+]
+
+{ #category : 'initialization' }
+ICAudioDisplay >> removeScreen [
+	self removeChildren.
+]
+
+{ #category : 'initialization' }
+ICAudioDisplay >> screen [
+	^screen.
+	
+
+
+	
+	
+]
+
+{ #category : 'initialization' }
+ICAudioDisplay >> screen: anElement [
+	screen:= anElement.
+
+
+	
+	
 ]
 
 { #category : 'initialization' }
