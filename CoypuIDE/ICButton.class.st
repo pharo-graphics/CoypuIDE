@@ -1,3 +1,6 @@
+"
+I am an ICButton. I need a label and a callbackDown for MouseDown events and a callBackUp for MouseUp events
+"
 Class {
 	#name : 'ICButton',
 	#superclass : 'BlElement',
@@ -5,7 +8,10 @@ Class {
 		'widgetSize',
 		'button',
 		'isOn',
-		'value'
+		'value',
+		'callbackDown',
+		'callBackUp',
+		'callback'
 	],
 	#category : 'CoypuIDE-button',
 	#package : 'CoypuIDE',
@@ -67,14 +73,51 @@ ICButton >> button: anElement [
 	button:= anElement.
 ]
 
+{ #category : 'accessing' }
+ICButton >> callBackUp [
+
+	^ callBackUp
+]
+
+{ #category : 'accessing' }
+ICButton >> callBackUp: aBlock [
+
+	callBackUp := aBlock
+]
+
+{ #category : 'accessing' }
+ICButton >> callback [
+
+	^ callback
+]
+
+{ #category : 'accessing' }
+ICButton >> callback: aBlock [
+
+	callback := aBlock
+]
+
+{ #category : 'accessing' }
+ICButton >> callbackDown [
+
+	^ callbackDown
+]
+
+{ #category : 'accessing' }
+ICButton >> callbackDown: aBlock [
+
+	callbackDown := aBlock
+]
+
 { #category : 'evaluating' }
 ICButton >> initialize [
+
 	super initialize.
 	self value: 0.
 	self initializeWidgetSize.
 	self initializeWidget.
 	self initializeButton.
-	self initializeEvents.
+	self initializeEvents
 ]
 
 { #category : 'evaluating' }
@@ -94,12 +137,18 @@ ICButton >> initializeButton [
 { #category : 'evaluating' }
 ICButton >> initializeEvents [
 
-	button addEventHandler: (BlEventHandler
-			 on: BlMouseDownEvent 
-			 do: [ :anEvent | self toggle ]);
-			addEventHandler: (BlEventHandler
-			 on: BlMouseUpEvent 
-			 do: [ :anEvent | self toggle ])
+	'sto inizializzando eventi bottino' traceCr.
+	button
+		addEventHandler: (BlEventHandler
+				 on: BlMouseDownEvent
+				 do: [ :anEvent |
+					 self toggle.
+					 self callback value: 1]);
+		addEventHandler: (BlEventHandler
+				 on: BlMouseUpEvent
+				 do: [ :anEvent |
+					 self toggle.
+					 self callback value: 0 ])
 ]
 
 { #category : 'evaluating' }
@@ -115,6 +164,18 @@ ICButton >> initializeWidget [
 { #category : 'evaluating' }
 ICButton >> initializeWidgetSize [
 	widgetSize:= 80@80.
+]
+
+{ #category : 'accessing' }
+ICButton >> isOn [
+
+	^ isOn
+]
+
+{ #category : 'accessing' }
+ICButton >> isOn: anObject [
+
+	isOn := anObject
 ]
 
 { #category : 'evaluating' }
@@ -150,6 +211,12 @@ ICButton >> value [
 { #category : 'evaluating' }
 ICButton >> value: aBoolean [
 	value:= aBoolean.
+]
+
+{ #category : 'accessing' }
+ICButton >> widgetSize [
+
+	^ widgetSize
 ]
 
 { #category : 'evaluating' }

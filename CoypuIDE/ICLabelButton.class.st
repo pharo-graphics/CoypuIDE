@@ -13,7 +13,13 @@ Class {
 { #category : 'instance creation' }
 ICLabelButton class >> fromDictionary: aDictionary forDsp: aDsp [
 
-	^ self label: (aDictionary at: #label)
+	| paramLabel btn |
+	paramLabel := aDictionary at: #label.
+
+	btn := self label: paramLabel.
+	btn callback: [ :x | aDsp setValue: x parameter: paramLabel ].
+
+	^ btn
 ]
 
 { #category : 'as yet unclassified' }
