@@ -93,10 +93,13 @@ ICButton >> initializeButton [
 
 { #category : 'evaluating' }
 ICButton >> initializeEvents [
+
 	button addEventHandler: (BlEventHandler
-		on: BlMouseDownEvent 
-		do: [ :anEvent | self toggle ]).
-	
+			 on: BlMouseDownEvent 
+			 do: [ :anEvent | self toggle ]);
+			addEventHandler: (BlEventHandler
+			 on: BlMouseUpEvent 
+			 do: [ :anEvent | self toggle ])
 ]
 
 { #category : 'evaluating' }

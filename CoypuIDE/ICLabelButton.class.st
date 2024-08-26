@@ -10,6 +10,12 @@ Class {
 	#tag : 'button'
 }
 
+{ #category : 'instance creation' }
+ICLabelButton class >> fromDictionary: aDictionary forDsp: aDsp [
+
+	^ self label: (aDictionary at: #label)
+]
+
 { #category : 'as yet unclassified' }
 ICLabelButton class >> label: aString [ 
 	|e|

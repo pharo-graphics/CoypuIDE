@@ -20,9 +20,12 @@ BlElement >> fromDictionary: aDictionary forDsp: aDsp [
 
 	| widgetDictionary |
 	widgetDictionary := Dictionary new.
-	widgetDictionary add: #hslider -> #ICDarkKnob3; add: #button -> #ICOnOffButton.
+	widgetDictionary
+		add: #hslider -> #ICDarkKnob3;
+		add: #button -> #ICLabelButton.
 
 	^ (self class environment at:
-		   (widgetDictionary at: (aDictionary at: #type))) fromDictionary:
-		  aDictionary forDsp: aDsp
+		   (widgetDictionary at: (aDictionary at: #type)))
+		  fromDictionary: aDictionary
+		  forDsp: aDsp
 ]
