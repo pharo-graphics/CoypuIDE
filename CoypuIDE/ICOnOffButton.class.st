@@ -9,16 +9,15 @@ Class {
 	#tag : 'button'
 }
 
-{ #category : 'as yet unclassified' }
-ICOnOffButton >> abel: aText [ 
-	label:= aText.
-]
-
 { #category : 'evaluating' }
 ICOnOffButton >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color black) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 
+]
+
+{ #category : 'evaluating' }
+ICOnOffButton >> fromDictionary: aDictionary forDsp: aDsp [ 
 ]
 
 { #category : 'evaluating' }

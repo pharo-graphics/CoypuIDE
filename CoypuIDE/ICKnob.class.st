@@ -71,6 +71,21 @@ ICKnob class >> basicExample [
 	"knob callBack: [ :v | v inspect ]"
 ]
 
+{ #category : 'instance creation' }
+ICKnob class >> fromDictionary: aDictionary [
+]
+
+{ #category : 'instance creation' }
+ICKnob class >> fromDictionary: aDictionary forDsp: aDsp [
+
+	^ (self 
+			        label: (aDictionary at: #label)
+			        minValue: (aDictionary at: #min)
+			        maxValue: (aDictionary at: #max)
+			        callBack: [ :i |
+			        aDsp setValue: i parameter: (aDictionary at: #label) ])  setValue: (aDictionary at: #init)
+]
+
 { #category : 'initialization' }
 ICKnob class >> label: aString [
 	|e|
