@@ -143,12 +143,14 @@ ICButton >> initializeEvents [
 				 on: BlMouseDownEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 1]);
+					 self callback value: 1
+					]);
 		addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 0 ])
+					 self callback value: 0
+					])
 ]
 
 { #category : 'evaluating' }
