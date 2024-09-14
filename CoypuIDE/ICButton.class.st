@@ -120,7 +120,7 @@ ICButton >> initialize [
 	self initializeEvents
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'as yet unclassified' }
 ICButton >> initializeButton [
 	
 	self button: (BlElement new

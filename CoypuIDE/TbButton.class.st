@@ -57,13 +57,16 @@ container:= BlElement new
 		cellSpacing: 10
 		);
 	size: 1280@720;
-	background: Color veryVeryDarkGray .
+	"background: Color veryVeryDarkGray ."
+		"background: Color veryDarkGray ."
+			background: Color black .
+
 
 e1:= TbButton new.
-e2:= TbButton new.
-e3:= TbButton new.
-e4:= TbButton new.
-e5:= TbButton new.
+e2:= TbLEDButton new.
+e3:= TbLEDButton new.
+e4:= TbLEDDarkButton new.
+e5:= TbLEDDarkButton new.
 
 container addChildren: { e1 . e2 . e3 . e4 . e5 }.
 container openInSpace.
@@ -152,23 +155,59 @@ TbButton >> initialize [
 	self value: 0.
 	self initializeWidgetSize.
 	self initializeWidget.
-	self initializeButton.
+	self initializeSwitch.
 	self initializeEvents
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'initialization' }
 TbButton >> initializeButton [
-	|b e s|
-	b:= BlElement new 
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
-		background: self backColor;
-		layout: BlFrameLayout new;
-		padding: (BlInsets all: 5);
-		constraintsDo: [ :c |
-					c horizontal matchParent .
-					c vertical matchParent.
-		].
-	self layout: BlFrameLayout new.
+	|s|
+	self button: (BlElement new
+            geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
+				background: self switchOnColor;
+				transformDo: [ :t|
+					t translateBy: 0@ -4 ];
+				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
+            size: 30@60 ;
+	         margin: (BlInsets all: 10);
+				layout: BlFrameLayout new;
+           	constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignBottom.
+				]).
+	s:= BlElement new
+            geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+				background: self switchOffColor;
+            size: 25@50 ;
+	         margin: (BlInsets all: 2);
+           	constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignTop.
+				].
+	button addChild: s.
+]
+
+{ #category : 'evaluating' }
+TbButton >> initializeEvents [
+
+
+	button
+		addEventHandler: (BlEventHandler
+				 on: BlMouseDownEvent
+				 do: [ :anEvent |
+					 self toggle.
+					]).
+	button	
+		addEventHandler: (BlEventHandler
+				 on: BlMouseUpEvent
+				 do: [ :anEvent |
+					 self toggle.
+					]).
+]
+
+{ #category : 'initialization' }
+TbButton >> initializeIndicator [	
+	|e|
 	self indicator: (BlElement new
             geometry: BlCircleGeometry new;
 				background: (self offColor alpha:1.0);
@@ -191,50 +230,30 @@ TbButton >> initializeButton [
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter.
 				].
-	self button: (BlElement new
-            geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOnColor;
-				transformDo: [ :t|
-					t translateBy: 0@ -4 ];
-				effect: (BlGaussianShadowEffect color: (self shadowColor alpha:1.0)   offset: 0@ 4  width: 10);
-            size: 30@60 ;
-	         margin: (BlInsets all: 10);
-				layout: BlFrameLayout new;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignBottom.
-				]).
-	s:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOffColor;
-            size: 25@50 ;
-	         margin: (BlInsets all: 2);
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTop.
-				].
-	button addChild: s.
+			
 	indicator addChild: e.
-	
-	b addChildren: {self indicator . self button }.
-	self addChild: b.
 ]
 
 { #category : 'evaluating' }
-TbButton >> initializeEvents [
-
-	"'sto inizializzando eventi bottino' traceCr."
-	button
-		addEventHandler: (BlEventHandler
-				 on: BlMouseDownEvent
-				 do: [ :anEvent |
-					 self toggle.
-					]);
-		addEventHandler: (BlEventHandler
-				 on: BlMouseUpEvent
-				 do: [ :anEvent |
-					 self toggle.
-					])
+TbButton >> initializeSwitch [
+	"Switch (backdrop) . Indicator (LED) . Button (Button)"
+	self switch: (BlElement new 
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
+		background: self backColor;
+		layout: BlFrameLayout new;
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+					c horizontal matchParent .
+					c vertical matchParent.
+		]).
+	"self layout: BlFrameLayout new."
+	
+	self initializeIndicator.
+	
+	self initializeButton.
+	
+	switch addChildren: {self indicator . self button }.
+	self addChild: switch.
 ]
 
 { #category : 'evaluating' }
@@ -281,9 +300,19 @@ TbButton >> setValue: req [
 
 { #category : 'evaluating' }
 TbButton >> shadowColor [
-	^ (Color orange alpha:0.6)
+	^ (Color orange alpha:1.0)
 	"^ (Color darkGray alpha:1.0)"
 
+]
+
+{ #category : 'evaluating' }
+TbButton >> switch [
+	^switch.
+]
+
+{ #category : 'evaluating' }
+TbButton >> switch: anElement [
+	switch:= anElement.
 ]
 
 { #category : 'evaluating' }
@@ -305,34 +334,39 @@ TbButton >> toggle [
 	self toggleValue.
 	self value = 0 
 		ifTrue: [ 
+			"Off Mode"
 			indicator background: self offColor;
-			effect: (BlGaussianShadowEffect color: (Color red alpha:0.0)   offset: 0@ 0  width: 25);
+			effect: (BlGaussianShadowEffect color: (Color red alpha:0.0)   offset: 5@ 0  width: 35);
 			childrenDo: [ :i|   
 					i transformDo: [ :t |
 						t translateBy: -4@ -4;
 						scaleBy: 1.
 					].
 					i background: Color veryLightGray.
+			
 			].
 			
-			button background: (self switchOnColor );
+			button background: (self switchOnColor alpha: 1.0);
 				childrenDo: [ :i|   
 				    i constraintsDo: [ :c |
 					c frame horizontal alignCenter.
 					c frame vertical alignTop.
 				].
-				"i background: self switchOffColor."].
+				
+				].
 			
 	 ] 
 		ifFalse: [ 
+			"On Mode"
 			indicator background: (Color red alpha: 1.0);
-			effect: (BlGaussianShadowEffect color: (Color red alpha:1.0)   offset: 0@ 0  width: 25);
+			effect: (BlGaussianShadowEffect color: (Color red alpha:1.0)   offset: 4@4   width: 25);
 			childrenDo: [ :i|   
 					i transformDo: [ :t |
 						t translateBy: -3@ -3;
 						scaleBy: 3/2.
 					].
 					i background:Color veryVeryLightGray.
+					
 			].
 			button background: (self switchOnColor alpha: 1.0);
 			childrenDo: [ :i|   
@@ -340,7 +374,7 @@ TbButton >> toggle [
 						c frame horizontal alignCenter.
 						c frame vertical alignBottom.
 					].
-					"i background: self switchOnColor."
+					
 			].
 	].
 ]
