@@ -9,8 +9,9 @@ Class {
 		'widgetSize',
 		'dataPoints'
 	],
-	#category : 'CoypuIDE',
-	#package : 'CoypuIDE'
+	#category : 'CoypuIDE-oscilloscope',
+	#package : 'CoypuIDE',
+	#tag : 'oscilloscope'
 }
 
 { #category : 'example' }
