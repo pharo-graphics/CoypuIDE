@@ -14,7 +14,8 @@ Class {
 		'value',
 		'callbackDown',
 		'callBackUp',
-		'callback'
+		'callback',
+		'isToggleable'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -152,6 +153,7 @@ TbButton >> indicator: anElement [
 TbButton >> initialize [
 
 	super initialize.
+	isToggleable  := false.
 	self value: 0.
 	self initializeWidgetSize.
 	self initializeWidget.
@@ -190,19 +192,13 @@ TbButton >> initializeButton [
 { #category : 'evaluating' }
 TbButton >> initializeEvents [
 
-
-	button
-		addEventHandler: (BlEventHandler
-				 on: BlMouseDownEvent
-				 do: [ :anEvent |
-					 self toggle.
-					]).
-	button	
-		addEventHandler: (BlEventHandler
-				 on: BlMouseUpEvent
-				 do: [ :anEvent |
-					 self toggle.
-					]).
+	button addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :anEvent | self toggle ]).
+	self isToggleable ifTrue: 
+	[button addEventHandler: (BlEventHandler
+			 on: BlMouseUpEvent
+			 do: [ :anEvent | self toggle ])]
 ]
 
 { #category : 'initialization' }
@@ -291,6 +287,18 @@ TbButton >> isOn [
 TbButton >> isOn: anObject [
 
 	isOn := anObject
+]
+
+{ #category : 'accessing' }
+TbButton >> isToggleable [
+
+	^ isToggleable
+]
+
+{ #category : 'accessing' }
+TbButton >> isToggleable: aBoolean [
+
+	isToggleable := aBoolean
 ]
 
 { #category : 'evaluating' }
