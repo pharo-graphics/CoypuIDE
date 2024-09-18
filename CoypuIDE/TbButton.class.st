@@ -47,7 +47,7 @@ container openInSpace.
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 TbButton class >> layoutViewExample_1280_720 [
 	<script>
 	| container e1 e2 e3 e4 e5|
@@ -237,7 +237,8 @@ TbButton >> initializeIndicator [
 { #category : 'evaluating' }
 TbButton >> initializeSwitch [
 	"Switch (backdrop) . Indicator (LED) . Button (Button)"
-	self switch: (BlElement new 
+	
+	"self switch: (BlElement new 
 		geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
 		background: self backColor;
 		layout: BlFrameLayout new;
@@ -246,20 +247,28 @@ TbButton >> initializeSwitch [
 					c horizontal matchParent .
 					c vertical matchParent.
 		]).
-	"self layout: BlFrameLayout new."
+
 	
 	self initializeIndicator.
 	
 	self initializeButton.
 	
 	switch addChildren: {self indicator . self button }.
-	self addChild: switch.
+	self addChild: switch."
+	
+
+	self initializeIndicator.
+	
+	self initializeButton.
+	self addChildren: {self indicator . self button}.
 ]
 
 { #category : 'evaluating' }
 TbButton >> initializeWidget [
 	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+	self padding: (BlInsets all: 5).
+	self background: self backColor.
 	self layout: BlFrameLayout new.
 
 
