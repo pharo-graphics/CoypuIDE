@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'whiteKeyColor',
 		'blackKeyColor',
-		'whiteNoteNames',
+		'whiteNotesArray',
 		'startNote',
 		'whitenotes',
 		'nOctaves',
@@ -53,13 +53,13 @@ ICPianoKeyboard >> blacknotes [
 ICPianoKeyboard >> initialize [
 
 	super initialize.
-	whiteNoteNames := #( 'C' 'D' 'E' 'F' 'G' 'A' 'B' ).
+   whiteNotesArray := OrderedCollection new.
 	self border: (BlBorder paint: Color black width: 2).
 	self geometry: BlRectangleGeometry new.
 	whiteKeyColor := Color gray: 0.95.
 	blackKeyColor := Color black.
 	self
-		nOctaves: 5;
+		nOctaves: 4;
 		startNote: 'C'
 ]
 
@@ -145,15 +145,14 @@ ICPianoKeyboard >> initializeWhiteHandlers [
 { #category : 'initialization' }
 ICPianoKeyboard >> initializeWhiteNotes [
 
-	| wN wx bx whiteNoteDescriptions  |
+	| wN wx bx whiteNoteDescriptions |
 	"initializing notes for the two octaves"
-	
 	whitenotes := OrderedCollection new.
-	blacknotes := OrderedCollection new.
+
 	"for now the note description is not used and only for the white notes"
 	whiteNoteDescriptions := OrderedCollection new.
 	nOctaves timesRepeat: [
-		self whiteNoteNames do: [ :e | whiteNoteDescriptions add: e ] ].
+		7 timesRepeat: [ :e | whiteNoteDescriptions add: e ] ].
 	wx := 0.
 	bx := 0.
 	"adding the white notes"
@@ -229,12 +228,6 @@ ICPianoKeyboard >> startNote: aNote [
 { #category : 'accessing' }
 ICPianoKeyboard >> whiteKeyColor [
 	^ whiteKeyColor
-]
-
-{ #category : 'accessing' }
-ICPianoKeyboard >> whiteNoteNames [
-
-^ whiteNoteNames 
 ]
 
 { #category : 'accessing' }
