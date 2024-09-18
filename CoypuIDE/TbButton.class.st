@@ -195,10 +195,14 @@ TbButton >> initializeEvents [
 	button addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :anEvent | self toggle ]).
-	self isToggleable ifTrue: 
-	[button addEventHandler: (BlEventHandler
-			 on: BlMouseUpEvent
-			 do: [ :anEvent | self toggle ])]
+	self isToggleable ifFalse: [
+		button addEventHandler: (BlEventHandler
+				 on: BlMouseUpEvent
+				 do: [ :anEvent |
+					 self toggle.
+					]) ]
+			
+		
 ]
 
 { #category : 'initialization' }
@@ -289,7 +293,8 @@ TbButton >> isToggleable [
 { #category : 'accessing' }
 TbButton >> isToggleable: aBoolean [
 
-	isToggleable := aBoolean
+	isToggleable := aBoolean.
+	self initializeEvents
 ]
 
 { #category : 'evaluating' }
