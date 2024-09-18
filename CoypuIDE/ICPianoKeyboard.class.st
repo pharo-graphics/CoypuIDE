@@ -5,11 +5,12 @@ I represent a 2 octaves piano.
 I should get a call back that it invoked when pressed. 
 "
 Class {
-	#name : 'ICPianoElement',
+	#name : 'ICPianoKeyboard',
 	#superclass : 'ToElement',
 	#instVars : [
 		'whiteKeyColor',
 		'blackKeyColor',
+		'whiteNoteNames',
 		'startNote',
 		'whitenotes',
 		'nOctaves',
@@ -22,7 +23,7 @@ Class {
 }
 
 { #category : 'examples' }
-ICPianoElement class >> openPiano [
+ICPianoKeyboard class >> openPiano [
 
 	<script>
 	| space aPiano |
@@ -38,31 +39,32 @@ ICPianoElement class >> openPiano [
 ]
 
 { #category : 'visual properties' }
-ICPianoElement >> backgroundPaint [ 
+ICPianoKeyboard >> backgroundPaint [ 
 
 	^ Color black.
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> blacknotes [
+ICPianoKeyboard >> blacknotes [
 	^ blacknotes
 ]
 
 { #category : 'initialization' }
-ICPianoElement >> initialize [
+ICPianoKeyboard >> initialize [
 
 	super initialize.
+	whiteNoteNames := #( 'C' 'D' 'E' 'F' 'G' 'A' 'B' ).
 	self border: (BlBorder paint: Color black width: 2).
 	self geometry: BlRectangleGeometry new.
 	whiteKeyColor := Color gray: 0.95.
 	blackKeyColor := Color black.
 	self
-		nOctaves: 2;
+		nOctaves: 5;
 		startNote: 'C'
 ]
 
 { #category : 'initialization' }
-ICPianoElement >> initializeBlackHandlers [
+ICPianoKeyboard >> initializeBlackHandlers [
 
 	blacknotes do: [ :n |
 		n
@@ -77,7 +79,7 @@ ICPianoElement >> initializeBlackHandlers [
 ]
 
 { #category : 'initialization' }
-ICPianoElement >> initializeNotes [
+ICPianoKeyboard >> initializeBlackNotes [
 
 	| wN wx bN bx whiteNoteDescriptions blackNoteXArray array |
 	"initializing notes for the two octaves"
@@ -112,14 +114,21 @@ ICPianoElement >> initializeNotes [
 		self addChild: bN.
 		bN transformDo: [ :e |
 			bx := bx + (blackNoteXArray at: i).
-			e translateBy: bx @ 0 ] ].
+			e translateBy: bx @ 0 ] ]. "blackNoteXArray size"
 	self initializeBlackHandlers.
 
 	^ blackNoteXArray
 ]
 
 { #category : 'initialization' }
-ICPianoElement >> initializeWhiteHandlers [
+ICPianoKeyboard >> initializeNotes [
+
+	self initializeWhiteNotes.
+	"self initializeBlackNotes"
+]
+
+{ #category : 'initialization' }
+ICPianoKeyboard >> initializeWhiteHandlers [
 
 	whitenotes do: [ :n |
 		n
@@ -134,7 +143,33 @@ ICPianoElement >> initializeWhiteHandlers [
 ]
 
 { #category : 'initialization' }
-ICPianoElement >> initializeXPositionsOfBlackNotes [
+ICPianoKeyboard >> initializeWhiteNotes [
+
+	| wN wx bx whiteNoteDescriptions  |
+	"initializing notes for the two octaves"
+	
+	whitenotes := OrderedCollection new.
+	blacknotes := OrderedCollection new.
+	"for now the note description is not used and only for the white notes"
+	whiteNoteDescriptions := OrderedCollection new.
+	nOctaves timesRepeat: [
+		self whiteNoteNames do: [ :e | whiteNoteDescriptions add: e ] ].
+	wx := 0.
+	bx := 0.
+	"adding the white notes"
+	1 to: nOctaves * 7 do: [ :i |
+		wN := ICPianoWhiteNoteElement newWithColor: whiteKeyColor.
+		wN note: (whiteNoteDescriptions at: i).
+		self addChild: wN.
+		wN transformDo: [ :e |
+			e translateBy: wx @ 0.
+			wx := wx + 36 ].
+		whitenotes add: wN ].
+	self initializeWhiteHandlers
+]
+
+{ #category : 'initialization' }
+ICPianoKeyboard >> initializeXPositionsOfBlackNotes [
 
 	| cA dA eA fA gA aA bA |
 	"each array represent the x coordinate of black notes based the starting one.
@@ -159,32 +194,32 @@ ICPianoElement >> initializeXPositionsOfBlackNotes [
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> nOctaves [
+ICPianoKeyboard >> nOctaves [
 
 ^nOctaves 
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> nOctaves: num [
+ICPianoKeyboard >> nOctaves: num [
 
 	nOctaves := num.
 		self size: self pianoExtent.
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> pianoExtent [
+ICPianoKeyboard >> pianoExtent [
 
 	^ (252.5 *nOctaves)  @ 130
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> startNote [
+ICPianoKeyboard >> startNote [
 
 ^startNote 
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> startNote: aNote [
+ICPianoKeyboard >> startNote: aNote [
 
 	startNote := aNote.
 	self initializeXPositionsOfBlackNotes .
@@ -192,12 +227,18 @@ ICPianoElement >> startNote: aNote [
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> whiteKeyColor [
+ICPianoKeyboard >> whiteKeyColor [
 	^ whiteKeyColor
 ]
 
 { #category : 'accessing' }
-ICPianoElement >> whitenotes [
+ICPianoKeyboard >> whiteNoteNames [
+
+^ whiteNoteNames 
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboard >> whitenotes [
 
 ^whitenotes
 ]

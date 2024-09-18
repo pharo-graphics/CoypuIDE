@@ -1,3 +1,6 @@
+"
+I am a White Key of the PianoKeyboard
+"
 Class {
 	#name : 'ICPianoWhiteNoteElement',
 	#superclass : 'ToElement',
@@ -19,10 +22,9 @@ ICPianoWhiteNoteElement class >> newWithColor: aColor [
 ICPianoWhiteNoteElement >> initialize [
 
 	super initialize.
-	self size: 36 @ 130.
+	self size: 32 @ 120.
 	self geometry: BlRectangleGeometry new.
-	self border: (BlBorder paint: Color black width: 1).
-
+	self border: (BlBorder paint: Color black width: 1)
 ]
 
 { #category : 'accessing' }
