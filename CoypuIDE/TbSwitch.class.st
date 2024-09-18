@@ -14,7 +14,7 @@ Class {
 { #category : 'as yet unclassified' }
 TbSwitch class >> Switchexample [ 
 	<script>
-	| container e1 e2 |
+	| container e1 e2 e3|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -30,12 +30,20 @@ TbSwitch class >> Switchexample [
 
 e1:=TbSwitch new.
 e2:= TbSwitch new toggle.
+e3:= TbSwitch toggleable.
 
 
-
-container addChildren: { e1. e2}.
+container addChildren: { e1. e2. e3}.
 container openInSpace.
 	
+]
+
+{ #category : 'as yet unclassified' }
+TbSwitch class >> toggleable [
+	|ele|
+	ele:= self new.
+	ele reInitializeEvents.
+	^ ele.
 ]
 
 { #category : 'as yet unclassified' }
@@ -120,6 +128,16 @@ TbSwitch >> initializeWidgetSize [
 TbSwitch >> offColor [
 	^ (Color r: 115 g:1  b:1  range:255).
 
+]
+
+{ #category : 'evaluating' }
+TbSwitch >> reInitializeEvents [
+
+	switch addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :anEvent | self toggle ]).
+			
+		
 ]
 
 { #category : 'initialization' }
