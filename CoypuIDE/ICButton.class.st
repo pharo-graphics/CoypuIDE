@@ -88,7 +88,7 @@ ICButton >> callBackUp: aBlock [
 { #category : 'accessing' }
 ICButton >> callback [
 
-	^ callback
+	^ callback ifNil: [ [ :v |  ] ]
 ]
 
 { #category : 'accessing' }
