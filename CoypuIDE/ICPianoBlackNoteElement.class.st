@@ -4,6 +4,10 @@ I am a Black Key of the Piano Keyboard
 Class {
 	#name : 'ICPianoBlackNoteElement',
 	#superclass : 'ToElement',
+	#instVars : [
+		'width',
+		'height'
+	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
 	#tag : 'PianoKeyboard'
@@ -17,11 +21,30 @@ ICPianoBlackNoteElement class >> newWithColor: aColor [
 		  yourself
 ]
 
+{ #category : 'api - bounds' }
+ICPianoBlackNoteElement >> height: anInteger [
+
+	height := anInteger 
+]
+
 { #category : 'initialization' }
 ICPianoBlackNoteElement >> initialize [
 
 	super initialize.
-	self size: 16 @ 70.
+	width := 16.
+	height := 70.
+	self size: width @ height.
 	self geometry: BlRectangleGeometry new.
 	self constraintsDo: [ :e | e frame vertical alignTop ]
+]
+
+{ #category : 'api - bounds' }
+ICPianoBlackNoteElement >> width [ 
+^ width
+]
+
+{ #category : 'api - bounds' }
+ICPianoBlackNoteElement >> width: anInteger [
+
+	width := anInteger 
 ]
