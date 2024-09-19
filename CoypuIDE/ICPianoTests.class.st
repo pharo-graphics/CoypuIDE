@@ -10,7 +10,7 @@ Class {
 ICPianoTests >> testNoteChangesOnClick [
 
 	| p |
-	p := ICPianoKeyboard new
+	p := ICPianoKeyboardElement new
 		     nOctaves: 2;
 		     startNote: 'E'.
 	self assert: p whitenotes first background paint color equals: p whiteKeyColor.
@@ -23,7 +23,7 @@ ICPianoTests >> testNoteChangesOnClick [
 ICPianoTests >> testNotesInitializedCorrectly [
 
 	| p |
-	p := ICPianoKeyboard new startNote: 'C'.
+	p := ICPianoKeyboardElement new startNote: 'C'.
 	self assert: p whitenotes size + p blacknotes size  equals: 24
 ]
 
@@ -31,7 +31,7 @@ ICPianoTests >> testNotesInitializedCorrectly [
 ICPianoTests >> testStartingNoteUpdatePiano [
 
 	| p |
-	p := ICPianoKeyboard new startNote: 'F'.
+	p := ICPianoKeyboardElement new startNote: 'F'.
 	"start note is F so there's the position of each black note for the start note F"
 	self
 		assert: p initializeNotes
@@ -42,11 +42,11 @@ ICPianoTests >> testStartingNoteUpdatePiano [
 ICPianoTests >> testTwoPianoCanHaveDifferentOctaves [
 
 	| p1 p2 |
-	p1 := ICPianoKeyboard new
+	p1 := ICPianoKeyboardElement new
 		     nOctaves: 3;
 		     startNote: 'E'.
 	self assert: p1 nOctaves equals: 3.
-	p2 := ICPianoKeyboard new.
+	p2 := ICPianoKeyboardElement new.
 	self assert: p2 nOctaves equals: 2.
 	self assert: p1 nOctaves ~= p2 nOctaves.
 ]
@@ -55,10 +55,10 @@ ICPianoTests >> testTwoPianoCanHaveDifferentOctaves [
 ICPianoTests >> testTwoPianoCanHaveDifferentStartNote [
 
 	| p1 p2 |
-	p1 := ICPianoKeyboard new
+	p1 := ICPianoKeyboardElement new
 		      nOctaves: 3;
 		      startNote: 'E'.
 	self assert: p1 startNote equals: 'E'.
-	p2 := ICPianoKeyboard new.
+	p2 := ICPianoKeyboardElement new.
 	self assert: p2 startNote equals: 'C'.
 ]

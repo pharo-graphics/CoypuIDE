@@ -35,6 +35,7 @@ ICPianoBlackNoteElement >> initialize [
 	height := 70.
 	self size: width @ height.
 	self geometry: BlRectangleGeometry new.
+	self background: Color black.
 	self constraintsDo: [ :e | e frame vertical alignTop ]
 ]
 
