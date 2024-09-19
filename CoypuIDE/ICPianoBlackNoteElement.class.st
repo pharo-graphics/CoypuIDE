@@ -3,11 +3,7 @@ I am a Black Key of the Piano Keyboard
 "
 Class {
 	#name : 'ICPianoBlackNoteElement',
-	#superclass : 'ToElement',
-	#instVars : [
-		'width',
-		'height'
-	],
+	#superclass : 'ICPianoNoteElement',
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
 	#tag : 'PianoKeyboard'
@@ -33,9 +29,10 @@ ICPianoBlackNoteElement >> initialize [
 	super initialize.
 	width := 16.
 	height := 70.
+	bgColor := Color black.
 	self size: width @ height.
 	self geometry: BlRectangleGeometry new.
-	self background: Color black.
+	self background: self bgColor .
 	self constraintsDo: [ :e | e frame vertical alignTop ]
 ]
 
