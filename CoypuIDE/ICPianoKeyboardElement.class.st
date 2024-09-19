@@ -36,9 +36,41 @@ ICPianoKeyboardElement class >> openPiano [
 ]
 
 { #category : 'accessing' }
-ICPianoKeyboardElement >> balckKeyWidth [
+ICPianoKeyboardElement >> blackKeyWidth [
 
 	^ 12
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> blackKeys [
+^ blackKeys
+]
+
+{ #category : 'accessing - position' }
+ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
+    | xPos noteStart noteEnd note  closestNote |
+    
+    xPos := aPoint x.
+    closestNote := nil.  "Variable to track the closest note on left"
+    
+    "Check if the point is inside a black key"
+    closestNote := self blackKeys detect: [ :blackKey |
+        noteStart := (blackKey - self lowestNote) * self whiteKeyWidth + (self whiteKeyWidth // 2).
+        noteEnd := noteStart + self blackKeyWidth.
+        xPos >= noteStart and: xPos <= noteEnd   ] ifNone: [ nil ].
+    
+    closestNote  ifNotNil: [ 
+        ^ closestNote ].
+    
+    "If no black key is hit, check for white key"
+    note := self pianoKeys detect: [ :whiteKey |
+        noteStart := (whiteKey - self lowestNote) * self whiteKeyWidth.
+        noteEnd := noteStart + self whiteKeyWidth.
+        xPos >= noteStart and:  xPos <= noteEnd ]  ifNone: [ nil ].
+    
+    "If note is found, return it. If not, return the closest note on the left."
+    ^ note ifNil: [ closestNote ].
+
 ]
 
 { #category : 'accessing' }
@@ -70,7 +102,7 @@ ICPianoKeyboardElement >> initialize [
 	self initializeKeys.
 	self initalizeWhiteNotes.
 	self initializeBlackKeys.
-
+	self initializeEvents .
 ]
 
 { #category : 'initialization' }
@@ -102,6 +134,14 @@ ICPianoKeyboardElement >> initializeBlackKeys [
 		"At the end of the octave (after A#), add extra space for the next octave"
 		index - 1 \\ 5 = 4 ifTrue: [
 			blackNoteX := blackNoteX + self whiteKeyWidth ] ]
+]
+
+{ #category : 'initialization' }
+ICPianoKeyboardElement >> initializeEvents [
+
+	self addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :anEvent | Transcript show: (self getNoteAtPosition: anEvent position ); cr ])
 ]
 
 { #category : 'initialization' }
@@ -138,6 +178,12 @@ ICPianoKeyboardElement >> keyHeight [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> lowestNote [
 ^ 24
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> pianoKeys [
+
+	^ pianoKeys
 ]
 
 { #category : 'accessing' }
