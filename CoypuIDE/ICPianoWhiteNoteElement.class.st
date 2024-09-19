@@ -39,9 +39,10 @@ ICPianoWhiteNoteElement >> initialize [
 
 	super initialize.
 	width := 32.
-	height := 120. 
+	height := 120.
 	self size: width @ height.
 	self geometry: BlRectangleGeometry new.
+	self background: Color white.
 	self border: (BlBorder paint: Color black width: 1)
 ]
 
