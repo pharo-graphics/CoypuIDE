@@ -14,7 +14,7 @@ Class {
 { #category : 'as yet unclassified' }
 TbSwitch class >> Switchexample [ 
 	<script>
-	| container e1 e2 e3|
+	| container e1 e2 e3 e4 e5 e6|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -31,9 +31,11 @@ TbSwitch class >> Switchexample [
 e1:=TbSwitch new.
 e2:= TbSwitch new toggle.
 e3:= TbSwitch toggleable.
+e4:= TbHorizontalSwitch new.
+e5:= TbHorizontalSwitch toggleable.
+e6:= TbOnOffSwitch toggleable.
 
-
-container addChildren: { e1. e2. e3}.
+container addChildren: { e1. e2. e3. e4. e5. e6}.
 container openInSpace.
 	
 ]
@@ -172,6 +174,8 @@ TbSwitch >> switchOffColor [
 { #category : 'as yet unclassified' }
 TbSwitch >> switchOnColor [
 	^ (Color r:166 g:136 b:108 range:255).
+
+
 ]
 
 { #category : 'initialization' }

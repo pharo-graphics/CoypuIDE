@@ -76,7 +76,7 @@ container openInSpace.
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'api - attribute' }
 TbButton class >> toggleable [
 	|ele|
 	ele:= self new.
