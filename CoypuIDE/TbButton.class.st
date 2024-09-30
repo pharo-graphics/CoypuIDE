@@ -65,15 +65,23 @@ container:= BlElement new
 
 e1:= TbButton new.
 e2:= TbLEDButton new.
-e3:= TbLEDButton new.
+e3:= TbLEDButton toggleable.
 e4:= TbLEDDarkButton new.
-e5:= TbLEDDarkButton new.
+e5:= TbLEDDarkButton toggleable.
 
 container addChildren: { e1 . e2 . e3 . e4 . e5 }.
 container openInSpace.
 		
 		
 	
+]
+
+{ #category : 'api - attribute' }
+TbButton class >> toggleable [
+	|ele|
+	ele:= self new.
+	ele reInitializeEvents.
+	^ ele.
 ]
 
 { #category : 'evaluating' }
@@ -310,6 +318,16 @@ TbButton >> isToggleable: aBoolean [
 TbButton >> offColor [
 	^ (Color r: 115 g:1  b:1  range:255).
 
+]
+
+{ #category : 'evaluating' }
+TbButton >> reInitializeEvents [
+
+	button addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :anEvent | self toggle ]).
+			
+		
 ]
 
 { #category : 'evaluating' }
