@@ -97,7 +97,7 @@ TbLED >> initializeWidget [
 
 { #category : 'initialization' }
 TbLED >> initializeWidgetSize [
-	widgetSize:= 60@50.
+	widgetSize:= 60@55.
 ]
 
 { #category : 'evaluating' }
