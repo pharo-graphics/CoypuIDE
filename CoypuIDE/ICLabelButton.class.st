@@ -112,28 +112,28 @@ ICLabelButton >> inputText: aString [
 
 { #category : 'as yet unclassified' }
 ICLabelButton >> lightDown [
-
-button
-				background: (self offColor alpha: 1.0);
-				border: (BlBorder paint: Color darkGray width: 4);
-				effect: (BlGaussianShadowEffect
-						 color: (Color white alpha: 0.0)
-						 offset: 0 @ 0
-						 width: 10).
-			inputLabel text: (self configuredStringDark: inputText)
+	button
+		background: (self buttonColor alpha: 1.0);
+		border: (BlBorder paint: (self glowColor alpha: 0.5) width: 3);
+		effect: (BlGaussianShadowEffect
+				 color: (self glowColor alpha: 1.0)
+				 offset: 0 @ 0
+				 width: 20).
+	inputLabel text: (self configuredString: inputText)
+	
 ]
 
 { #category : 'as yet unclassified' }
-ICLabelButton >> lightUp [ 
+ICLabelButton >> lightUp [
 
-	button
-				background: (self buttonColor alpha: 1.0);
-				border: (BlBorder paint: (self glowColor alpha: 0.5) width: 3);
-				effect: (BlGaussianShadowEffect
-						 color: (self glowColor alpha: 1.0)
-						 offset: 0 @ 0
-						 width: 20).
-			inputLabel text: (self configuredString: inputText) 
+button
+		background: (self offColor alpha: 1.0);
+		border: (BlBorder paint: Color darkGray width: 4);
+		effect: (BlGaussianShadowEffect
+				 color: (Color white alpha: 0.0)
+				 offset: 0 @ 0
+				 width: 10).
+	inputLabel text: (self configuredStringDark: inputText)
 ]
 
 { #category : 'evaluating' }
