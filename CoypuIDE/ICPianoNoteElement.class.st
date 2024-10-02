@@ -1,3 +1,6 @@
+"
+I am an ICPianoNoteElement I have black and white subclasses
+"
 Class {
 	#name : 'ICPianoNoteElement',
 	#superclass : 'ToElement',
@@ -5,7 +8,8 @@ Class {
 		'width',
 		'height',
 		'isPressed',
-		'bgColor'
+		'bgColor',
+		'noteNumber'
 	],
 	#classVars : [
 		'note'
@@ -58,7 +62,7 @@ ICPianoNoteElement >> initializeEvents [
 			 on: BlMouseUpEvent
 			 do: [ :anEvent |
 				 self toggle.
-				 Transcript show: 'Key up' ])
+			 ])
 ]
 
 { #category : 'accessing' }
@@ -71,6 +75,18 @@ ICPianoNoteElement >> isPressed [
 ICPianoNoteElement >> isPressed: aBoolean [
 
 	isPressed := aBoolean
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement >> noteNumber [
+
+	^ noteNumber
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement >> noteNumber: anObject [
+
+	noteNumber := anObject
 ]
 
 { #category : 'evaluating' }

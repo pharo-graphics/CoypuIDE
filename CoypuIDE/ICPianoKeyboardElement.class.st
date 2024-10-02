@@ -13,7 +13,7 @@ Class {
 		'pianoKeys',
 		'blackKeys',
 		'callbackDown',
-		'callbackdown'
+		'callbackUp'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
@@ -40,13 +40,7 @@ ICPianoKeyboardElement class >> openPiano [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> blackKeyWidth [
 
-	^ 12
-]
-
-{ #category : 'accessing' }
-ICPianoKeyboardElement >> blackKeyWidth1 [
-
-	^ blackKeyWidth
+	^ 16
 ]
 
 { #category : 'accessing' }
@@ -67,9 +61,10 @@ ICPianoKeyboardElement >> blackKeys: anObject [
 ]
 
 { #category : 'accessing' }
-ICPianoKeyboardElement >> callbackDown [ 
+ICPianoKeyboardElement >> callbackDown [
 
-^ callbackDown ifNil: [ callbackdown := [ :x | x asString , ' keyDown '  ] ]
+	^ callbackDown ifNil: [
+		  callbackDown := [ :x | x asString , ' keyDown ' ] ]
 ]
 
 { #category : 'accessing' }
@@ -79,41 +74,50 @@ ICPianoKeyboardElement >> callbackDown: anObject [
 ]
 
 { #category : 'accessing' }
-ICPianoKeyboardElement >> callbackdown [
+ICPianoKeyboardElement >> callbackUp [
 
-	^ callbackdown
+	^ callbackUp ifNil: [
+		  callbackUp := [ :x | (x asString , ' keyUp ') traceCr ] ]
 ]
 
 { #category : 'accessing' }
-ICPianoKeyboardElement >> callbackdown: anObject [
+ICPianoKeyboardElement >> callbackUp: aCallback [
 
-	callbackdown := anObject
+	callbackUp :=aCallback
 ]
 
 { #category : 'accessing - position' }
 ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
-    | xPos noteStart noteEnd note  closestNote |
+    | xPos yPos noteStart noteEnd blackKeyHeight closestNote note |
     
     xPos := aPoint x.
-    closestNote := nil.  "Variable to track the closest note on left"
-    
-    "Check if the point is inside a black key"
-    closestNote := self blackKeys detect: [ :blackKey |
-        noteStart := (blackKey - self lowestNote) * self whiteKeyWidth + (self whiteKeyWidth // 2).
-        noteEnd := noteStart + self blackKeyWidth.
-        xPos >= noteStart and: xPos <= noteEnd   ] ifNone: [ nil ].
-    
-    closestNote  ifNotNil: [ 
-        ^ closestNote ].
-    
-    "If no black key is hit, check for white key"
-    note := self pianoKeys detect: [ :whiteKey |
-        noteStart := (whiteKey - self lowestNote) * self whiteKeyWidth.
-        noteEnd := noteStart + self whiteKeyWidth.
-        xPos >= noteStart and:  xPos <= noteEnd ]  ifNone: [ nil ].
-    
-    "If note is found, return it. If not, return the closest note on the left."
-    ^ note ifNil: [ closestNote ].
+    yPos := aPoint y.
+    blackKeyHeight :=70. "The height of the black keys"
+    closestNote := nil.
+
+    "1. First, prioritize checking for black keys"
+    closestNote := self blackKeys
+        detect: [ :blackKey | 
+            noteStart := (blackKey - self lowestNote) * self whiteKeyWidth + (self whiteKeyWidth // 2) - (self blackKeyWidth // 2).
+            noteEnd := noteStart + self blackKeyWidth.
+            "Check if the x position is within the black key's width and the y position is within the black key's height"
+            (xPos >= noteStart and: [ xPos <= noteEnd ]) and: [ yPos <= blackKeyHeight ]
+        ] ifNone: [ nil ].
+
+    "2. If a black key is detected, return it."
+    closestNote ifNotNil: [ ^ closestNote ].
+
+    "3. If no black key is detected, check for white keys"
+    note := self pianoKeys
+        detect: [ :whiteKey | 
+            noteStart := (whiteKey - self lowestNote) * self whiteKeyWidth.
+            noteEnd := noteStart + self whiteKeyWidth.
+            "Check if the x position is within the white key's width"
+            xPos >= noteStart and: [ xPos <= noteEnd ]
+        ] ifNone: [ nil ].
+
+    "4. Ensure a valid note is always returned, default to the closest white key if needed"
+    ^ note ifNil: [ self lowestNote ].
 
 ]
 
@@ -121,12 +125,6 @@ ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
 ICPianoKeyboardElement >> highestNote [
 
 	^ 70
-]
-
-{ #category : 'accessing' }
-ICPianoKeyboardElement >> highestNote1 [
-
-	^ highestNote
 ]
 
 { #category : 'accessing' }
@@ -195,9 +193,18 @@ ICPianoKeyboardElement >> initializeBlackKeys [
 { #category : 'initialization' }
 ICPianoKeyboardElement >> initializeEvents [
 
+| cbUp cbDown |
+cbUp := self callbackUp .
+cbDown := self callbackDown .
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :anEvent | Transcript show: (self getNoteAtPosition: anEvent position ); cr ])
+			 do: [ :anEvent |
+				 cbDown value: (self getNoteAtPosition: anEvent position) ]).
+			
+		self addEventHandler: (BlEventHandler
+			 on: BlMouseUpEvent
+			 do: [ :anEvent |
+				 cbUp value: (self getNoteAtPosition: anEvent position) ])
 ]
 
 { #category : 'initialization' }
@@ -232,12 +239,6 @@ ICPianoKeyboardElement >> keyHeight [
 ]
 
 { #category : 'accessing' }
-ICPianoKeyboardElement >> keyHeight1 [
-
-	^ keyHeight
-]
-
-{ #category : 'accessing' }
 ICPianoKeyboardElement >> keyHeight: anObject [
 
 	keyHeight := anObject
@@ -246,12 +247,6 @@ ICPianoKeyboardElement >> keyHeight: anObject [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> lowestNote [
 ^ 24
-]
-
-{ #category : 'accessing' }
-ICPianoKeyboardElement >> lowestNote1 [
-
-	^ lowestNote
 ]
 
 { #category : 'accessing' }
@@ -282,13 +277,7 @@ ICPianoKeyboardElement >> pianoX [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> whiteKeyWidth [
 
-	^ 24
-]
-
-{ #category : 'accessing' }
-ICPianoKeyboardElement >> whiteKeyWidth1 [
-
-	^ whiteKeyWidth
+	^ 32
 ]
 
 { #category : 'accessing' }
