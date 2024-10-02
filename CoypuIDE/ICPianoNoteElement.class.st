@@ -56,7 +56,9 @@ ICPianoNoteElement >> initializeEvents [
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :anEvent | self toggle. Transcript show: 'ley up' ])
+			 do: [ :anEvent |
+				 self toggle.
+				 Transcript show: 'Key up' ])
 ]
 
 { #category : 'accessing' }

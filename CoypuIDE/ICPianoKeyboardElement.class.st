@@ -11,7 +11,9 @@ Class {
 		'lowestNote',
 		'highestNote',
 		'pianoKeys',
-		'blackKeys'
+		'blackKeys',
+		'callbackDown',
+		'callbackdown'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
@@ -42,8 +44,50 @@ ICPianoKeyboardElement >> blackKeyWidth [
 ]
 
 { #category : 'accessing' }
+ICPianoKeyboardElement >> blackKeyWidth1 [
+
+	^ blackKeyWidth
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> blackKeyWidth: anObject [
+
+	blackKeyWidth := anObject
+]
+
+{ #category : 'accessing' }
 ICPianoKeyboardElement >> blackKeys [
 ^ blackKeys
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> blackKeys: anObject [
+
+	blackKeys := anObject
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackDown [ 
+
+^ callbackDown ifNil: [ callbackdown := [ :x | x asString , ' keyDown '  ] ]
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackDown: anObject [
+
+	callbackDown := anObject
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackdown [
+
+	^ callbackdown
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackdown: anObject [
+
+	callbackdown := anObject
 ]
 
 { #category : 'accessing - position' }
@@ -77,6 +121,18 @@ ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
 ICPianoKeyboardElement >> highestNote [
 
 	^ 70
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> highestNote1 [
+
+	^ highestNote
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> highestNote: anObject [
+
+	highestNote := anObject
 ]
 
 { #category : 'initialization' }
@@ -176,14 +232,44 @@ ICPianoKeyboardElement >> keyHeight [
 ]
 
 { #category : 'accessing' }
+ICPianoKeyboardElement >> keyHeight1 [
+
+	^ keyHeight
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> keyHeight: anObject [
+
+	keyHeight := anObject
+]
+
+{ #category : 'accessing' }
 ICPianoKeyboardElement >> lowestNote [
 ^ 24
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> lowestNote1 [
+
+	^ lowestNote
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> lowestNote: anObject [
+
+	lowestNote := anObject
 ]
 
 { #category : 'accessing' }
 ICPianoKeyboardElement >> pianoKeys [
 
 	^ pianoKeys
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> pianoKeys: anObject [
+
+	pianoKeys := anObject
 ]
 
 { #category : 'accessing' }
@@ -197,4 +283,16 @@ ICPianoKeyboardElement >> pianoX [
 ICPianoKeyboardElement >> whiteKeyWidth [
 
 	^ 24
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> whiteKeyWidth1 [
+
+	^ whiteKeyWidth
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> whiteKeyWidth: anObject [
+
+	whiteKeyWidth := anObject
 ]
