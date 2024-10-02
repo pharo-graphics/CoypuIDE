@@ -56,13 +56,11 @@ ICPianoNoteElement >> initializeEvents [
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :anEvent | self toggle ]).
+			 do: [ :anEvent | self toggle. self noteNumber traceCr ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :anEvent |
-				 self toggle.
-			 ])
+			 do: [ :anEvent | self toggle ])
 ]
 
 { #category : 'accessing' }
@@ -84,9 +82,9 @@ ICPianoNoteElement >> noteNumber [
 ]
 
 { #category : 'accessing' }
-ICPianoNoteElement >> noteNumber: anObject [
+ICPianoNoteElement >> noteNumber: anInteger [
 
-	noteNumber := anObject
+	noteNumber := anInteger
 ]
 
 { #category : 'evaluating' }

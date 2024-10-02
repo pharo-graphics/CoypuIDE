@@ -40,7 +40,7 @@ ICPianoKeyboardElement class >> openPiano [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> blackKeyWidth [
 
-	^ 16
+	^ 12
 ]
 
 { #category : 'accessing' }
@@ -136,13 +136,24 @@ ICPianoKeyboardElement >> highestNote: anObject [
 { #category : 'initialization' }
 ICPianoKeyboardElement >> initalizeWhiteNotes [
 
-	| whiteNoteX |
+	| whiteNoteX whiteNoteNumbers octaveIncrement counter |
 	whiteNoteX := self pianoX.
+	counter := 0. "Initialize counter to 0 for the note numbering"
+	whiteNoteNumbers := #( 0 2 4 5 7 9 11 ).
+	pianoKeys size timesRepeat: [ "Calculate the current note number based on the counter"
+		| noteNumber octave |
+		"Calculate octave: every 7 increments of the counter"
+		octave := counter // 7 * 12.
 
-	pianoKeys size timesRepeat: [
-		self addChild:
-			(ICPianoWhiteNoteElement new position: whiteNoteX @ 0).
-		whiteNoteX := whiteNoteX + self whiteKeyWidth ]
+		"Calculate the note within the octave using modulo operation"
+		noteNumber := octave + (whiteNoteNumbers at: counter \\ 7 + 1).
+
+		self addChild: (ICPianoWhiteNoteElement new
+				 position: whiteNoteX @ 0;
+				 noteNumber: noteNumber).
+		whiteNoteX := whiteNoteX + self whiteKeyWidth.
+		
+		 counter := counter + 1. "Increment the counter for the next note" ]
 ]
 
 { #category : 'initialization' }
@@ -156,11 +167,57 @@ ICPianoKeyboardElement >> initialize [
 	self initializeKeys.
 	self initalizeWhiteNotes.
 	self initializeBlackKeys.
-	self initializeEvents .
+	"self initializeEvents"
 ]
 
 { #category : 'initialization' }
 ICPianoKeyboardElement >> initializeBlackKeys [
+    | blackNoteX blackNoteOffsets blackOffset noteNumber |
+
+    "Initial position for the first black key (C#) relative to C"
+    blackNoteX := self pianoX + (self whiteKeyWidth * 0.75).
+
+    "Define the black key offsets within the octave (C#, D#, F#, G#, A#)"
+    blackNoteOffsets := {
+        self whiteKeyWidth.       "C# to D#"
+        (self whiteKeyWidth * 2). "D# to F# (skipping E)"
+        self whiteKeyWidth.       "F# to G#"
+        self whiteKeyWidth.       "G# to A#"
+        self whiteKeyWidth.       "A# to next C"
+    }.
+
+    "Iterate through the black keys and position them"
+    blackKeys withIndexDo: [ :note :index | 
+        "Calculate the note number based on the index of the black key"
+       noteNumber := (index = 1) ifTrue: [1] 
+                     ifFalse: [(index = 2) ifTrue: [3] 
+                     ifFalse: [(index = 3) ifTrue: [6] 
+                     ifFalse: [(index = 4) ifTrue: [8] 
+                     ifFalse: [10]]]].
+        "Create and position the black key with the correct note number"
+        self addChild: 
+            (ICPianoBlackNoteElement new position: blackNoteX @ 0; noteNumber: noteNumber).
+
+        "Get the correct offset for the black key based on the current position"
+        blackOffset := blackNoteOffsets at: (index - 1 \\ 5 + 1).
+
+        "Move to the next black key position"
+        blackNoteX := blackNoteX + blackOffset.
+
+        "At the end of the octave (after A#), add extra space for the next octave"
+        (index - 1 \\ 5) = 4 ifTrue: [
+            blackNoteX := blackNoteX + self whiteKeyWidth.
+        ].
+    ].
+
+]
+
+{ #category : 'initialization' }
+ICPianoKeyboardElement >> initializeBlackKeysOld [
+
+
+
+
 
 	| blackNoteX blackNoteOffsets blackOffset |
 	"Initial position for first black key (C#) relative to C"
@@ -277,7 +334,7 @@ ICPianoKeyboardElement >> pianoX [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> whiteKeyWidth [
 
-	^ 32
+	^ 24
 ]
 
 { #category : 'accessing' }
