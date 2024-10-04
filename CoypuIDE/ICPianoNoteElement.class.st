@@ -14,8 +14,8 @@ Class {
 		'callbackUp'
 	],
 	#classVars : [
-		'callbackDown',
-		'callbackUp'
+		'CallbackDown',
+		'CallbackUp'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
@@ -25,27 +25,27 @@ Class {
 { #category : 'accessing' }
 ICPianoNoteElement class >> callbackDown [
 
-	^ callbackDown ifNil: [
-		  callbackDown := [ :x | (x asString , ' keyDown ' ) traceCr] ]
+	^ CallbackDown ifNil: [
+		  CallbackDown := [ :x | (x asString , ' keyDown ') traceCr ] ]
 ]
 
 { #category : 'accessing' }
 ICPianoNoteElement class >> callbackDown: aCallback [
 
-
-callbackDown := aCallback
+	CallbackDown := aCallback
 ]
 
 { #category : 'accessing' }
 ICPianoNoteElement class >> callbackUp [
 
-	^ callbackUp ifNil: [ callbackUp := [ :x | (x asString , ' keyUp ') traceCr ] ]
+	^ CallbackUp ifNil: [
+		  CallbackUp := [ :x | (x asString , ' keyUp ') traceCr ] ]
 ]
 
 { #category : 'accessing' }
 ICPianoNoteElement class >> callbackUp: aCallback [
 
-callbackUp :=  aCallback
+	CallbackUp := aCallback
 ]
 
 { #category : 'accessing' }
@@ -85,7 +85,7 @@ ICPianoNoteElement >> initializeEvents [
 
 	| cbUp cbDown |
 	cbUp := self class callbackUp.
-   cbUp traceCr.
+	cbUp traceCr.
 	cbDown := self class callbackDown.
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
