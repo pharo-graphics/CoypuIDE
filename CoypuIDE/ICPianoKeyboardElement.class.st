@@ -19,6 +19,18 @@ Class {
 	#tag : 'PianoKeyboard'
 }
 
+{ #category : 'as yet unclassified' }
+ICPianoKeyboardElement class >> newForDsp: aDsp [
+	"the keyboard can play a DSP designed for MIDI control following Phausto/Faust rules"
+
+	| anICPianoKeyboardElement |
+	anICPianoKeyboardElement := self new.
+
+	ICPianoNoteElement callbackDown: [:x | (x asString ,'dsp down') traceCr ].
+	ICPianoNoteElement callbackUp: [ :x | ( x asString , 'dsp up') traceCr ].
+	^ self new
+]
+
 { #category : 'examples' }
 ICPianoKeyboardElement class >> openPiano [
 
@@ -40,12 +52,14 @@ ICPianoKeyboardElement class >> openPiano [
 ICPianoKeyboardElement >> attachToDsp: aDsp [
 	"the keyboard can play a DSP designed for MIDI control following Phausto/Faust rules"
 
-	ICPianoNoteElement callbackDown: ['dsp down' traceCr ].
-	ICPianoNoteElement callbackUp: [ 'dsp up' traceCr].
-	
-self initializeKeys.
-self initializeBlackKeys .
-self initalizeWhiteKeys .
+	ICPianoNoteElement callbackDown: [ 'dsp down' traceCr ].
+	ICPianoNoteElement callbackUp: [ 'dsp up' traceCr ].
+
+   ICPianoNoteElement callbackUp traceCr.
+	self removeChildren .
+	self initializeKeys.
+	self initalizeWhiteKeys.
+	self initializeBlackKeys
 ]
 
 { #category : 'accessing' }
@@ -246,6 +260,11 @@ ICPianoKeyboardElement >> lowestNote [
 ICPianoKeyboardElement >> lowestNote: anObject [
 
 	lowestNote := anObject
+]
+
+{ #category : 'as yet unclassified' }
+ICPianoKeyboardElement >> newForDsp: aDsp [ 
+	^ self class newForDsp: aDsp 
 ]
 
 { #category : 'accessing' }

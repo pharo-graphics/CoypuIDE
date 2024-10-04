@@ -13,8 +13,7 @@ Class {
 		'callbackDown',
 		'callbackUp'
 	],
-	#classInstVars : [
-		'note',
+	#classVars : [
 		'callbackDown',
 		'callbackUp'
 	],
@@ -86,6 +85,7 @@ ICPianoNoteElement >> initializeEvents [
 
 	| cbUp cbDown |
 	cbUp := self class callbackUp.
+   cbUp traceCr.
 	cbDown := self class callbackDown.
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
