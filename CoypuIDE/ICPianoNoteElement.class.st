@@ -9,15 +9,45 @@ Class {
 		'height',
 		'isPressed',
 		'bgColor',
-		'noteNumber'
+		'noteNumber',
+		'callbackDown',
+		'callbackUp'
 	],
-	#classVars : [
-		'note'
+	#classInstVars : [
+		'note',
+		'callbackDown',
+		'callbackUp'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
 	#tag : 'PianoKeyboard'
 }
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackDown [
+
+	^ callbackDown ifNil: [
+		  callbackDown := [ :x | (x asString , ' keyDown ' ) traceCr] ]
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackDown: aCallback [
+
+
+callbackDown := aCallback
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackUp [
+
+	^ callbackUp ifNil: [ callbackUp := [ :x | (x asString , ' keyUp ') traceCr ] ]
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackUp: aCallback [
+
+callbackUp :=  aCallback
+]
 
 { #category : 'accessing' }
 ICPianoNoteElement >> bgColor [
@@ -54,13 +84,20 @@ ICPianoNoteElement >> initialize [
 { #category : 'initialization' }
 ICPianoNoteElement >> initializeEvents [
 
+	| cbUp cbDown |
+	cbUp := self class callbackUp.
+	cbDown := self class callbackDown.
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :anEvent | self toggle. self noteNumber traceCr ]).
+			 do: [ :anEvent |
+				 self toggle.
+				 cbDown value: self noteNumber ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :anEvent | self toggle ])
+			 do: [ :anEvent |
+				 self toggle.
+				 cbUp value: self noteNumber ])
 ]
 
 { #category : 'accessing' }
