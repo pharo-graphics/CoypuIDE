@@ -25,9 +25,16 @@ ICPianoKeyboardElement class >> newForDsp: aDsp [
 
 	| anICPianoKeyboardElement |
 	anICPianoKeyboardElement := self new.
-
-	ICPianoNoteElement callbackDown: [:x | (x asString ,'dsp down') traceCr ].
-	ICPianoNoteElement callbackUp: [ :x | ( x asString , 'dsp up') traceCr ].
+	aDsp requirePianoKeyboard
+		ifFalse: [
+		Error new signal: 'This is not a MIDI DSP check its creation' ]
+		ifTrue: [
+			ICPianoNoteElement callbackDown: [ :x |
+				aDsp setValue: x midiNoteToFreq parameter: 'freq'.
+				aDsp setValue: 1 parameter: 'gate' ].
+			ICPianoNoteElement callbackUp: [ :x |
+				aDsp setValue: x  midiNoteToFreq parameter: 'freq'.
+				aDsp setValue: 0 parameter: 'gate' ] ].
 	^ self new
 ]
 
@@ -36,6 +43,7 @@ ICPianoKeyboardElement class >> openPiano [
 
 	<script>
 	| space aPiano |
+	ICPianoNoteElement callbackUp: nil; callbackDown: nil.
 	space := BlSpace new
 		         extent: 1000 @ 100;
 		         title: 'ICPianoKeyboard'.
@@ -46,20 +54,6 @@ ICPianoKeyboardElement class >> openPiano [
 	space root addChild: aPiano.
 	space show.
 	^ space
-]
-
-{ #category : 'as yet unclassified' }
-ICPianoKeyboardElement >> attachToDsp: aDsp [
-	"the keyboard can play a DSP designed for MIDI control following Phausto/Faust rules"
-
-	ICPianoNoteElement callbackDown: [ 'dsp down' traceCr ].
-	ICPianoNoteElement callbackUp: [ 'dsp up' traceCr ].
-
-   ICPianoNoteElement callbackUp traceCr.
-	self removeChildren .
-	self initializeKeys.
-	self initalizeWhiteKeys.
-	self initializeBlackKeys
 ]
 
 { #category : 'accessing' }
@@ -171,47 +165,67 @@ ICPianoKeyboardElement >> initialize [
 
 { #category : 'initialization' }
 ICPianoKeyboardElement >> initializeBlackKeys [
-
-	| blackNoteX blackNoteOffsets blackOffset noteNumber |
+	| blackNoteX blackNoteOffsets blackOffset noteNumber currentOctave numOctaves blackKeyCount totalBlackKeys |
+	
 	"Initial position for the first black key (C#) relative to C"
 	blackNoteX := self pianoX + (self whiteKeyWidth * 0.75).
-
+	
+	"Number of octaves in the keyboard"
+	numOctaves := 4. "You have a 4-octave keyboard"
+	
+	"Total number of black keys"
+	blackKeyCount := 5. "Five black keys per octave"
+	totalBlackKeys := numOctaves * blackKeyCount.
+	
 	"Define the black key offsets within the octave (C#, D#, F#, G#, A#)"
-	blackNoteOffsets := {
+	blackNoteOffsets := { 
 		                    self whiteKeyWidth. "C# to D#"
 		                    (self whiteKeyWidth * 2). "D# to F# (skipping E)"
 		                    self whiteKeyWidth. "F# to G#"
 		                    self whiteKeyWidth. "G# to A#"
-		                    self whiteKeyWidth "A# to next C" }.
+		                    self whiteKeyWidth. "A# to next C" }.
 
-	"Iterate through the black keys and position them"
-	blackKeys withIndexDo: [ :note :index | "Calculate the note number based on the index of the black key"
-		noteNumber := index = 1
-			              ifTrue: [ 1 ]
-			              ifFalse: [
-				              index = 2
-					              ifTrue: [ 3 ]
-					              ifFalse: [
-						              index = 3
-							              ifTrue: [ 6 ]
-							              ifFalse: [
-								              index = 4
-									              ifTrue: [ 8 ]
-									              ifFalse: [ 10 ] ] ] ].
-		"Create and position the black key with the correct note number"
+	"Start with the first octave"
+	currentOctave := self startOctave.
+
+	"Iterate through the black keys and position them for multiple octaves"
+	(1 to: totalBlackKeys) do: [ :globalIndex | 
+		| localIndex |
+		
+		"Calculate the local index (1 to 5) for the black key within the current octave"
+		localIndex := (globalIndex - 1 \\ blackKeyCount) + 1.
+		
+		"Calculate the note number based on the index of the black key within the current octave"
+		noteNumber := localIndex = 1
+			              ifTrue: [ 1 ] "C#"
+			              ifFalse: [ 
+				              localIndex = 2
+					              ifTrue: [ 3 ] "D#"
+					              ifFalse: [ 
+						              localIndex = 3
+							              ifTrue: [ 6 ] "F#"
+							              ifFalse: [ 
+								              localIndex = 4
+									              ifTrue: [ 8 ] "G#"
+									              ifFalse: [ 10 ] "A#" ] ] ].
+		
+		"Create and position the black key with the correct note number for the current octave"
 		self addChild: (ICPianoBlackNoteElement new
 				 position: blackNoteX @ 0;
-				 noteNumber: noteNumber + (self startOctave * 12)).
-
+				 noteNumber: noteNumber + (currentOctave * 12)).
+		
 		"Get the correct offset for the black key based on the current position"
-		blackOffset := blackNoteOffsets at: index - 1 \\ 5 + 1.
+		blackOffset := blackNoteOffsets at: localIndex.
 
 		"Move to the next black key position"
 		blackNoteX := blackNoteX + blackOffset.
 
 		"At the end of the octave (after A#), add extra space for the next octave"
-		index - 1 \\ 5 = 4 ifTrue: [
-			blackNoteX := blackNoteX + self whiteKeyWidth ] ]
+		localIndex = blackKeyCount ifTrue: [
+			"Move to the next octave and adjust the position"
+			blackNoteX := blackNoteX + self whiteKeyWidth.
+			currentOctave := currentOctave + 1 ] ].
+
 ]
 
 { #category : 'initialization' }
