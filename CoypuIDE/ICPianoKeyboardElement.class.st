@@ -25,35 +25,35 @@ ICPianoKeyboardElement class >> computerKeysToMIDINN [
 	| computerKeys |
 	computerKeys := Dictionary new.
 	computerKeys
-	"lower Octave Z to M"
-		add: 'z' => 48; "C"
-		add: 's' => 49; "C#" 
-		add: 'x' => 50; "D"
-		add: 'd' => 51; "D#"
-		add: 'c' => 52; "E"
-		add: 'v' => 53; "F"
-		add: 'g' => 54;
-		add: 'b'=> 55; "G"
-		add: 'h' => 56; "G#"
-		add: 'n' => 57; "A"
-		add: 'j' => 58; "A#"
-		add: 'm' => 59; "B"
-		add: '<' => 60;
-		
-		"upper Octave Z to M"
-		add: 'q' => 60; "C"
-		add: '2' => 61; "C#" 
-		add: 'w' => 62; "D"
-		add: '3' => 63; "D#"
-		add: 'e' => 64; "E"
-		add: 'r' => 65; "F"
-		add: '5' => 66;
-		add: 't' => 67; "G"
-		add: '6' => 68; "G#"
-		add: 'y' => 69; "A"
-		add: '7' => 70; "A#"
-		add: '8' => 71; "B"
-		add: 'i' => 72. "C"
+		add: 'z' -> 48;
+		"C"add: 's' -> 49;
+		"C#"add: 'x' -> 50;
+		"D"add: 'd' -> 51;
+		"D#"add: 'c' -> 52;
+		"E"add: 'v' -> 53;
+		"F"add: 'g' -> 54;
+		add: 'b' -> 55;
+		"G"add: 'h' -> 56;
+		"G#"add: 'n' -> 57;
+		"A"add: 'j' -> 58;
+		"A#"add: 'm' -> 59;
+		"B"add: '<' -> 60;
+		"upper Octave Z to M"add: 'q' -> 60;
+		"C"add: '2' -> 61;
+		"C#"add: 'w' -> 62;
+		"D"add: '3' -> 63;
+		"D#"add: 'e' -> 64;
+		"E"add: 'r' -> 65;
+		"F"add: '5' -> 66;
+		add: 't' -> 67;
+		"G"add: '6' -> 68;
+		"G#"add: 'y' -> 69;
+		"A"add: '7' -> 70;
+		"A#"add: '8' -> 71;
+		"B"add: 'i' -> 72.
+	
+	^ computerKeys 
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -80,7 +80,9 @@ ICPianoKeyboardElement class >> openPiano [
 
 	<script>
 	| space aPiano |
-	ICPianoNoteElement callbackUp: nil; callbackDown: nil.
+	ICPianoNoteElement
+		callbackUp: nil;
+		callbackDown: nil.
 	space := BlSpace new
 		         extent: 1000 @ 100;
 		         title: 'ICPianoKeyboard'.
@@ -268,13 +270,30 @@ ICPianoKeyboardElement >> initializeBlackKeys [
 { #category : 'initialization' }
 ICPianoKeyboardElement >> initializeEvents [
 
+	'EVENTI TASTIERA ONOTS' traceCr.
 	self addEventHandler: (BlEventHandler
-			 on: BlKeyDownEvent 
-			 do: [ :anEvent | anEvent traceCr. ]).
+			 on: BlKeyDownEvent
+			 do: [ :anEvent |
+				 self class computerKeysToMIDINN
+					 at: anEvent key
+					 ifPresent: [
+					 (anEvent key) traceCr ] ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :anEvent |  ])
+			 do: [ :anEvent |  ]).
+	self requestFocus
+
+	"
+		self addEventHandlerOn: BlKeyDownEvent do: [ :anEvent |
+		keymap
+			at: anEvent key
+			ifPresent: [ :aButton | aButton background: Color red ] ].
+	self addEventHandlerOn: BlKeyUpEvent do: [ :anEvent |
+		keymap
+			at: anEvent key
+			ifPresent: [ :aButton | aButton background: Color darkGray ] ].
+	self requestFocus"
 ]
 
 { #category : 'initialization' }
