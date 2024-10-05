@@ -63,6 +63,7 @@ ICPianoKeyboardElement class >> newForDsp: aDsp [
 
 	| anICPianoKeyboardElement |
 	anICPianoKeyboardElement := self new.
+	anICPianoKeyboardElement initializeComputerKeysEventsTo: aDsp.
 	aDsp requirePianoKeyboard
 		ifFalse: [
 		Error new signal: 'This is not a MIDI DSP check its creation' ]
@@ -71,9 +72,9 @@ ICPianoKeyboardElement class >> newForDsp: aDsp [
 				aDsp setValue: x midiNoteToFreq parameter: 'freq'.
 				aDsp setValue: 1 parameter: 'gate' ].
 			ICPianoNoteElement callbackUp: [ :x |
-				aDsp setValue: x  midiNoteToFreq parameter: 'freq'.
+				aDsp setValue: x midiNoteToFreq parameter: 'freq'.
 				aDsp setValue: 0 parameter: 'gate' ] ].
-	^ self new
+	^ anICPianoKeyboardElement 
 ]
 
 { #category : 'examples' }
@@ -327,6 +328,25 @@ ICPianoKeyboardElement >> initializeComputerKeyboardVisualEvents [
 			at: anEvent key
 			ifPresent: [ :aButton | aButton background: Color darkGray ] ].
 	self requestFocus"
+]
+
+{ #category : 'initialization' }
+ICPianoKeyboardElement >> initializeComputerKeysEventsTo: aDsp [
+	"control a dsp with computer keyboard - at the moment only monophonic. no mechanism for glide"
+
+	| keysToMIDInn |
+	keysToMIDInn := self class computerKeysToMIDINN.
+	self addEventHandler: (BlEventHandler
+			 on: BlKeyDownEvent
+			 do: [ :anEvent |
+				 keysToMIDInn at: anEvent key name ifPresent: [ :k |
+					 aDsp setValue: k parameter: 'freq'.
+					 aDsp setValue: 1 parameter: 'gate' ] ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlKeyUpEvent
+			 do: [ :anEvent | aDsp setValue: 0 parameter: 'gate' ]).
+	self requestFocus
 ]
 
 { #category : 'initialization' }
