@@ -12,7 +12,9 @@ Class {
 		'highestNote',
 		'pianoKeys',
 		'blackKeys',
-		'startOctave'
+		'startOctave',
+		'callbackUp',
+		'callbackDown'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
@@ -25,35 +27,34 @@ ICPianoKeyboardElement class >> computerKeysToMIDINN [
 	| computerKeys |
 	computerKeys := Dictionary new.
 	computerKeys
-		add: 'z' -> 48;
-		"C"add: 's' -> 49;
-		"C#"add: 'x' -> 50;
-		"D"add: 'd' -> 51;
-		"D#"add: 'c' -> 52;
-		"E"add: 'v' -> 53;
-		"F"add: 'g' -> 54;
-		add: 'b' -> 55;
-		"G"add: 'h' -> 56;
-		"G#"add: 'n' -> 57;
-		"A"add: 'j' -> 58;
-		"A#"add: 'm' -> 59;
+		add: 'Z' -> 48;
+		"C"add: 'S' -> 49;
+		"C#"add: 'X' -> 50;
+		"D"add: 'D' -> 51;
+		"D#"add: 'C' -> 52;
+		"E"add: 'V' -> 53;
+		"F"add: 'G' -> 54;
+		add: 'B' -> 55;
+		"G"add: 'H' -> 56;
+		"G#"add: 'N' -> 57;
+		"A"add: 'J' -> 58;
+		"A#"add: 'M' -> 59;
 		"B"add: '<' -> 60;
-		"upper Octave Z to M"add: 'q' -> 60;
+		"upper Octave Z to M"add: 'Q' -> 60;
 		"C"add: '2' -> 61;
-		"C#"add: 'w' -> 62;
+		"C#"add: 'W' -> 62;
 		"D"add: '3' -> 63;
-		"D#"add: 'e' -> 64;
-		"E"add: 'r' -> 65;
+		"D#"add: 'E' -> 64;
+		"E"add: 'R' -> 65;
 		"F"add: '5' -> 66;
-		add: 't' -> 67;
+		add: 'T' -> 67;
 		"G"add: '6' -> 68;
-		"G#"add: 'y' -> 69;
+		"G#"add: 'Y' -> 69;
 		"A"add: '7' -> 70;
 		"A#"add: '8' -> 71;
-		"B"add: 'i' -> 72.
-	
-	^ computerKeys 
+		"B"add: 'I' -> 72.
 
+	^ computerKeys
 ]
 
 { #category : 'as yet unclassified' }
@@ -118,6 +119,30 @@ ICPianoKeyboardElement >> blackKeys: anObject [
 	blackKeys := anObject
 ]
 
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackDown [
+
+	^ callbackDown  ifNil: [ :x | ( x asString , ' keyDown') traceCr ]
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackDown: aCallback [
+
+	callbackDown := aCallback 
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackUp [
+
+	^ callbackUp ifNil: [ :x | ( x asString , ' keyUp') traceCr ]
+]
+
+{ #category : 'accessing' }
+ICPianoKeyboardElement >> callbackUp: aCallback [
+
+	callbackUp := aCallback 
+]
+
 { #category : 'accessing - position' }
 ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
     | xPos yPos noteStart noteEnd blackKeyHeight closestNote note |
@@ -156,7 +181,7 @@ ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> highestNote [
 
-	^ 73
+	^ 86
 ]
 
 { #category : 'accessing' }
@@ -199,7 +224,8 @@ ICPianoKeyboardElement >> initialize [
 	self initializeKeys.
 	self initalizeWhiteKeys.
 	self initializeBlackKeys.
-	self initializeEvents
+	"self initializeEvents."
+	self initializeComputerKeyboardVisualEvents
 ]
 
 { #category : 'initialization' }
@@ -268,16 +294,52 @@ ICPianoKeyboardElement >> initializeBlackKeys [
 ]
 
 { #category : 'initialization' }
-ICPianoKeyboardElement >> initializeEvents [
+ICPianoKeyboardElement >> initializeComputerKeyboardVisualEvents [
 
-	'EVENTI TASTIERA ONOTS' traceCr.
+	| keysToMIDInn octaveOffset sortedNotes |
+	keysToMIDInn := self class computerKeysToMIDINN.
+	sortedNotes := self sortedNotes.
+	octaveOffset := self lowestNote - 1.
 	self addEventHandler: (BlEventHandler
 			 on: BlKeyDownEvent
 			 do: [ :anEvent |
-				 self class computerKeysToMIDINN
-					 at: anEvent key
-					 ifPresent: [
-					 (anEvent key) traceCr ] ]).
+				 keysToMIDInn
+					 at: anEvent key name
+					 ifPresent: [ :k | (sortedNotes at: k - octaveOffset) toggle
+						 ] ]).
+
+	self addEventHandler: (BlEventHandler
+			 on: BlKeyUpEvent
+			 do: [ :anEvent |
+				 keysToMIDInn
+					 at: anEvent key name
+					 ifPresent: [ :k | (sortedNotes at: k - octaveOffset) toggle ] ]).
+
+	self requestFocus
+
+	"
+		self addEventHandlerOn: BlKeyDownEvent do: [ :anEvent |
+		keymap
+			at: anEvent key
+			ifPresent: [ :aButton | aButton background: Color red ] ].
+	self addEventHandlerOn: BlKeyUpEvent do: [ :anEvent |
+		keymap
+			at: anEvent key
+			ifPresent: [ :aButton | aButton background: Color darkGray ] ].
+	self requestFocus"
+]
+
+{ #category : 'initialization' }
+ICPianoKeyboardElement >> initializeEvents [
+
+	| keysToMIDInn |
+	
+	keysToMIDInn := self class computerKeysToMIDINN.
+.
+	self addEventHandler: (BlEventHandler
+			 on: BlKeyDownEvent
+			 do: [ :anEvent |
+				 keysToMIDInn at: anEvent key name ifPresent: [ :k | k traceCr ] ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
@@ -336,7 +398,7 @@ ICPianoKeyboardElement >> keyHeight: anObject [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> lowestNote [
 
-	^ 36
+	^ 48
 ]
 
 { #category : 'accessing' }
