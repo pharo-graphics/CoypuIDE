@@ -13,8 +13,7 @@ Class {
 	],
 	#classVars : [
 		'CallbackDown',
-		'CallbackUp',
-		'computerKeysToMIDINN'
+		'CallbackUp'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
@@ -45,27 +44,6 @@ ICPianoNoteElement class >> callbackUp [
 ICPianoNoteElement class >> callbackUp: aCallback [
 
 	CallbackUp := aCallback
-]
-
-{ #category : 'as yet unclassified' }
-ICPianoNoteElement class >> computerKeysToMIDINN [
-
-	| computerKeys |
-	computerKeys := Dictionary new.
-	computerKeys
-	"lower Octave"
-		add: #z => 48; "C"
-		add: #s => 49; "C#" 
-		add: #x => 50; "D"
-		add: #d => 51; "D#"
-		add: #c => 52; "E"
-		add: #v => 53; "F"
-		add: #g => 54;
-		add: #b => 55; "G"
-		add: #h => 56; "G#"
-		add: #n => 57; "A"
-		add: #j => 58; "A#"
-		add: #m => 59. "B"
 ]
 
 { #category : 'accessing' }
