@@ -39,14 +39,6 @@ container openInSpace.
 	
 ]
 
-{ #category : 'as yet unclassified' }
-TbWidget_RunStop class >> toggleable [
-	|ele|
-	ele:= self new.
-	ele reInitializeEvents.
-	^ ele.
-]
-
 { #category : 'evaluating' }
 TbWidget_RunStop >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute

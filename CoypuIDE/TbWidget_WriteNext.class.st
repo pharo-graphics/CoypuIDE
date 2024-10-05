@@ -39,14 +39,6 @@ container openInSpace.
 	
 ]
 
-{ #category : 'as yet unclassified' }
-TbWidget_WriteNext class >> toggleable [
-	|ele|
-	ele:= self new.
-	ele reInitializeEvents.
-	^ ele.
-]
-
 { #category : 'evaluating' }
 TbWidget_WriteNext >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
@@ -91,7 +83,12 @@ TbWidget_WriteNext >> initializeEvents [
 				i addEventHandler: (BlEventHandler
 				 	on: BlMouseDownEvent
 				 	do: [ :anEvent |
-						self toggle.
+						self toggleValue.
+					]).
+				i addEventHandler: (BlEventHandler
+				 	on: BlMouseUpEvent
+				 	do: [ :anEvent |
+						self toggleValue.
 					]).
 	].
 		

@@ -15,7 +15,7 @@ Class {
 { #category : 'as yet unclassified' }
 TbWidget_Back class >> AllWidgetExamples [
 	<script>
-	| container e1 e2 e3 e4 |
+	| container e1 e2 e3 e4 e5 |
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -31,6 +31,7 @@ TbWidget_Back class >> AllWidgetExamples [
 		"background: Color white."
 
 e1:=TbWidget_Back new.
+
 e2:=TbWidget_WriteNext new.
 e3:=TbWidget_PatternClear new.
 e4:=TbWidget_RunStop new.
@@ -67,14 +68,6 @@ e1:=TbWidget_Back new.
 container addChildren: { e1}.
 container openInSpace.
 	
-]
-
-{ #category : 'as yet unclassified' }
-TbWidget_Back class >> toggleable [
-	|ele|
-	ele:= self new.
-	ele reInitializeEvents.
-	^ ele.
 ]
 
 { #category : 'evaluating' }
@@ -121,7 +114,12 @@ TbWidget_Back >> initializeEvents [
 				i addEventHandler: (BlEventHandler
 				 	on: BlMouseDownEvent
 				 	do: [ :anEvent |
-						self toggle.
+						self toggleValue.
+					]).
+				i addEventHandler: (BlEventHandler
+				 	on: BlMouseUpEvent
+				 	do: [ :anEvent |
+						self toggleValue.
 					]).
 				
 	].
