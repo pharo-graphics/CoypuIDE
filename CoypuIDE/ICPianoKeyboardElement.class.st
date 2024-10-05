@@ -72,7 +72,7 @@ ICPianoKeyboardElement class >> newForDsp: aDsp [
 				aDsp setValue: x midiNoteToFreq parameter: 'freq'.
 				aDsp setValue: 1 parameter: 'gate' ].
 			ICPianoNoteElement callbackUp: [ :x |
-				aDsp setValue: x midiNoteToFreq parameter: 'freq'.
+				
 				aDsp setValue: 0 parameter: 'gate' ] ].
 	^ anICPianoKeyboardElement 
 ]
