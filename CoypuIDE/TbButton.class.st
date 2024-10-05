@@ -47,8 +47,8 @@ container openInSpace.
 
 ]
 
-{ #category : 'examples' }
-TbButton class >> layoutViewExample_1280_720 [
+{ #category : 'as yet unclassified' }
+TbButton class >> layoutViewExample_1560_720 [
 	<script>
 	| container e1 e2 e3 e4 e5|
 container:= BlElement new
@@ -57,7 +57,8 @@ container:= BlElement new
 		columnCount: 10;
 		cellSpacing: 10
 		);
-	size: 1280@720;
+	"size: 1280@720;"
+	size: 1560@720;
 	"background: Color veryVeryDarkGray ."
 		"background: Color veryDarkGray ."
 			background: Color black .
