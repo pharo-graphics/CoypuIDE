@@ -340,7 +340,8 @@ ICPianoKeyboardElement >> initializeComputerKeysEventsTo: aDsp [
 			 on: BlKeyDownEvent
 			 do: [ :anEvent |
 				 keysToMIDInn at: anEvent key name ifPresent: [ :k |
-					 aDsp setValue: k parameter: 'freq'.
+					"!!!!!!! transposed by 1 octave - mechanism for octave must be adjusted"
+					 aDsp setValue: (k + 12) midiNoteToFreq parameter: 'freq'.
 					 aDsp setValue: 1 parameter: 'gate' ] ]).
 
 	self addEventHandler: (BlEventHandler
