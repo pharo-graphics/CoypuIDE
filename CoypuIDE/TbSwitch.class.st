@@ -12,14 +12,14 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-TbSwitch class >> Switchexample [ 
+TbSwitch class >> AllSwitchexamples [ 
 	<script>
-	| container e1 e2 e3 e4 e5 e6|
+	| container e1 e2 e3 e4 e5 e6 e7 e8|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 6;
+		columnCount: 10;
 		cellSpacing: 10
 		);
 		constraintsDo: [:c |
@@ -34,8 +34,10 @@ e3:= TbSwitch toggleable.
 e4:= TbHorizontalSwitch new.
 e5:= TbHorizontalSwitch toggleable.
 e6:= TbOnOffSwitch toggleable.
+e7:= TbHorizontalSwitch2 new.
+e8:= TbHorizontalSwitch2 toggleable.
 
-container addChildren: { e1. e2. e3. e4. e5. e6}.
+container addChildren: { e1. e2. e3. e4. e5. e6. e7. e8}.
 container openInSpace.
 	
 ]
