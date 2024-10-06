@@ -29,3 +29,12 @@ BlElement >> fromDictionary: aDictionary forDsp: aDsp [
 		  fromDictionary: aDictionary
 		  forDsp: aDsp
 ]
+
+{ #category : '*CoypuIDE' }
+BlElement >> removeGateAndFreqElement [
+
+"remove button and knob labeled freq and gate from a Phauso UI"
+| childToRemove |
+childToRemove := self children select: [ :l | (l inputText = 'freq') or: (l inputText = 'gate')  ].
+childToRemove do: [ :e | self removeChild: e ]
+]
