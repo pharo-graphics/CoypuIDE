@@ -52,7 +52,7 @@ ICPianoKeyboardElement class >> computerKeysToMIDINN [
 		"G#"add: 'Y' -> 69;
 		"A"add: '7' -> 70;
 		"A#"add: '8' -> 71;
-		"B"add: 'I' -> 72.
+		"B"add: 'U' -> 72.
 
 	^ computerKeys
 ]
