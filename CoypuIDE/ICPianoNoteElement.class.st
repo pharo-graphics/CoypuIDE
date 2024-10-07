@@ -1,3 +1,6 @@
+"
+I am an ICPianoNoteElement I have black and white subclasses
+"
 Class {
 	#name : 'ICPianoNoteElement',
 	#superclass : 'ToElement',
@@ -5,15 +8,43 @@ Class {
 		'width',
 		'height',
 		'isPressed',
-		'bgColor'
+		'bgColor',
+		'noteNumber'
 	],
 	#classVars : [
-		'note'
+		'CallbackDown',
+		'CallbackUp'
 	],
 	#category : 'CoypuIDE-PianoKeyboard',
 	#package : 'CoypuIDE',
 	#tag : 'PianoKeyboard'
 }
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackDown [
+
+	^ CallbackDown ifNil: [
+		  CallbackDown := [ :x | (x asString , ' keyDown ') traceCr ] ]
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackDown: aCallback [
+
+	CallbackDown := aCallback
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackUp [
+
+	^ CallbackUp ifNil: [
+		  CallbackUp := [ :x | (x asString , ' keyUp ') traceCr ] ]
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement class >> callbackUp: aCallback [
+
+	CallbackUp := aCallback
+]
 
 { #category : 'accessing' }
 ICPianoNoteElement >> bgColor [
@@ -50,13 +81,21 @@ ICPianoNoteElement >> initialize [
 { #category : 'initialization' }
 ICPianoNoteElement >> initializeEvents [
 
+	| cbUp cbDown |
+	cbUp := self class callbackUp.
+	cbUp traceCr.
+	cbDown := self class callbackDown.
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :anEvent | self toggle ]).
+			 do: [ :anEvent |
+				 self toggle.
+				 cbDown value: self noteNumber ]).
 
 	self addEventHandler: (BlEventHandler
 			 on: BlMouseUpEvent
-			 do: [ :anEvent | self toggle. Transcript show: 'ley up' ])
+			 do: [ :anEvent |
+				 self toggle.
+				 cbUp value: self noteNumber ])
 ]
 
 { #category : 'accessing' }
@@ -69,6 +108,18 @@ ICPianoNoteElement >> isPressed [
 ICPianoNoteElement >> isPressed: aBoolean [
 
 	isPressed := aBoolean
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement >> noteNumber [
+
+	^ noteNumber
+]
+
+{ #category : 'accessing' }
+ICPianoNoteElement >> noteNumber: anInteger [
+
+	noteNumber := anInteger
 ]
 
 { #category : 'evaluating' }
