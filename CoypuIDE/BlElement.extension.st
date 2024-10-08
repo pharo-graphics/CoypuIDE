@@ -1,6 +1,23 @@
 Extension { #name : 'BlElement' }
 
 { #category : '*CoypuIDE' }
+BlElement >> connectToOSCServer [
+	| callback server |
+	callback := [ :a :v |
+    a ifNotNil: [ 
+        v ifNotNil: [ 
+            ((self children detect: [ :el | el inputText = a ] ifNone: [ nil ]) ifNotNil: [ :foundElement | 
+                foundElement setValue: v.
+            ]).
+        ].
+    ].
+].
+
+server := OSCServer new messageCallback: callback.
+^ server
+]
+
+{ #category : '*CoypuIDE' }
 BlElement >> fromDictionary: aDictionary [
 	"creates a UI element from a Dictionary"
 
