@@ -294,12 +294,13 @@ ICKnob >> initialize [
 
 { #category : 'accessing' }
 ICKnob >> initializeDefaultValues [
+
 	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
-	diameter := 100.
+	diameter := 60.
 	minAngle := -135.
-	maxAngle := 135.
+	maxAngle := 135
 ]
 
 { #category : 'initialization' }
