@@ -11,7 +11,7 @@ Class {
 	#tag : 'Acid'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'example' }
 TbLED class >> LEDexample [ 
 	<script>
 	| container e1 e2 |
@@ -37,12 +37,12 @@ container openInSpace.
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 TbLED >> indicator [
 	^indicator
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 TbLED >> indicator: aBlock [
 	indicator:= aBlock.
 ]
@@ -58,7 +58,7 @@ TbLED >> initialize [
 	self initializeIndicator.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 TbLED >> initializeIndicator [	
 	|e|
 	self indicator: (BlElement new
@@ -100,13 +100,13 @@ TbLED >> initializeWidgetSize [
 	widgetSize:= 60@55.
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'accessing' }
 TbLED >> offColor [
 	^ (Color r: 115 g:1  b:1  range:255).
 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbLED >> setValue: req [
 	self value = req 
 		ifFalse: [ 
@@ -114,7 +114,7 @@ TbLED >> setValue: req [
 			].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - operations' }
 TbLED >> toggle [
 	self toggleValue.
 	self value = 1 
@@ -134,7 +134,6 @@ TbLED >> toggle [
 	 ] 
 		ifFalse: [ 
 			"Off Mode"
-			"indicator background: self offColor;"
 			indicator background: self offColor;
 			effect: (BlGaussianShadowEffect color: (Color green alpha:0.0)   offset: 5@ 0  width: 35);
 			childrenDo: [ :i|   
@@ -143,26 +142,25 @@ TbLED >> toggle [
 						scaleBy: 1.
 					].
 					i background: Color veryLightGray.
-			
 			].
-			
-		
 	].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - operations' }
 TbLED >> toggleValue [
 	self value = 0 
+		"Off"
 		ifTrue: [ self value: 1 ] 
+		"On"
 		ifFalse: [ self value: 0 ].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 TbLED >> value [
 	^value
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbLED >> value: anInteger [
 	value:= anInteger.
 ]
