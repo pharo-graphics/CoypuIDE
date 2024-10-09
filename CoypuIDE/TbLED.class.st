@@ -60,6 +60,7 @@ TbLED >> initialize [
 
 { #category : 'initialization' }
 TbLED >> initializeIndicator [	
+	"This method initializes the led indicator"
 	|e|
 	self indicator: (BlElement new
             geometry: BlCircleGeometry new;
@@ -90,6 +91,7 @@ TbLED >> initializeIndicator [
 
 { #category : 'initialization' }
 TbLED >> initializeWidget [
+"This method initializes the widget"
 	self size: widgetSize.
 	self background: (Color gray alpha:0.0).
 	self layout: BlFrameLayout new.
@@ -97,6 +99,7 @@ TbLED >> initializeWidget [
 
 { #category : 'initialization' }
 TbLED >> initializeWidgetSize [
+"This method initializes the size of the widget."
 	widgetSize:= 60@55.
 ]
 
@@ -108,6 +111,7 @@ TbLED >> offColor [
 
 { #category : 'setting' }
 TbLED >> setValue: req [
+"This method takes a request integer and toggles the led if the requested integer is opposite to the value."
 	self value = req 
 		ifFalse: [ 
 			self toggle.
@@ -116,6 +120,7 @@ TbLED >> setValue: req [
 
 { #category : 'api - operations' }
 TbLED >> toggle [
+"This method changes both the value and the graphic of the widget."
 	self toggleValue.
 	self value = 1 
 		ifTrue: [ 
@@ -148,6 +153,7 @@ TbLED >> toggle [
 
 { #category : 'api - operations' }
 TbLED >> toggleValue [
+"This mathod changes the value of the widget."
 	self value = 0 
 		"Off"
 		ifTrue: [ self value: 1 ] 
