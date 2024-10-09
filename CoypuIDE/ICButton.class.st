@@ -182,10 +182,10 @@ ICButton >> isOn: anObject [
 
 { #category : 'evaluating' }
 ICButton >> setValue: req [
-	self value = req 
-		ifFalse: [ 
-			self toggle.
-			].
+
+"setting the value eternally correspond to a callback action"
+	self value = req ifFalse: [ self toggle ].
+	self callback  value: req
 ]
 
 { #category : 'evaluating' }
