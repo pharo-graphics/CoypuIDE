@@ -1,5 +1,5 @@
 Class {
-	#name : 'TbWidget_RunStop',
+	#name : 'TbWidget_PitchMode',
 	#superclass : 'BlElement',
 	#instVars : [
 		'widgetSize',
@@ -12,8 +12,8 @@ Class {
 	#tag : 'Acid'
 }
 
-{ #category : 'as yet unclassified' }
-TbWidget_RunStop class >> Example [ 
+{ #category : 'examples' }
+TbWidget_PitchMode class >> Example [ 
 	<script>
 	| container e1 |
 	container:= BlElement new
@@ -30,7 +30,7 @@ TbWidget_RunStop class >> Example [
 		background: (Color r: 249 g:239  b:224  range:255).
 		"background: Color white."
 
-e1:=TbWidget_RunStop new.
+e1:=TbWidget_PitchMode new.
 
 
 
@@ -40,41 +40,41 @@ container openInSpace.
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> configuredString: aString [ 
+TbWidget_PitchMode >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> configuredString: aString size: anInteger [
+TbWidget_PitchMode >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> configuredStringDark: aString [ 
+TbWidget_PitchMode >> configuredStringDark: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:15) }
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> configuredStringDark: aString size: anInteger [
+TbWidget_PitchMode >> configuredStringDark: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
 ]
 
 { #category : 'accessing' }
-TbWidget_RunStop >> indicator [
+TbWidget_PitchMode >> indicator [
 	^indicator.
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> indicator: aBlock [
+TbWidget_PitchMode >> indicator: aBlock [
 	indicator:= aBlock.
 ]
 
 { #category : 'initialization' }
-TbWidget_RunStop >> initialize [
+TbWidget_PitchMode >> initialize [
 
 	super initialize.
 	self value: 0.
@@ -86,7 +86,7 @@ TbWidget_RunStop >> initialize [
 ]
 
 { #category : 'initialization' }
-TbWidget_RunStop >> initializeEvents [
+TbWidget_PitchMode >> initializeEvents [
 	"Mouse Up Event is chosen instead of down to make a smooth transition when the user unclicks the switch."
 	switch
 		childrenDo: [ :i|   
@@ -101,81 +101,56 @@ TbWidget_RunStop >> initializeEvents [
 ]
 
 { #category : 'initialization' }
-TbWidget_RunStop >> initializeLayout [
-	|label l1 l2|
+TbWidget_PitchMode >> initializeLayout [
+	|label|
 	
-	self border: (BlBorder paint: (Color gray) width: 2).
-	
-	l1 := BlTextElement new.
-	l1 text: (self configuredString: 'RUN ' size: 14);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignLeft.
-		c frame vertical alignTop.
-		].
-	l1 transformDo: [ :t|
-		t translateBy:22@ 10. 
-		].
-	l2 := BlTextElement new.
-	l2 text: (self configuredString: 'BATTERY' size: 14);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignRight.
-		c frame vertical alignTop.
-		].
-	l2 transformDo: [ :t|
-		t translateBy:5@ 10. 
-		].
+	"self border: (BlBorder paint: (Color gray) width: 2)."
 
-	
-	
 	label := BlTextElement new.
-	label text: (self configuredString: 'RUN / STOP' size:16).
+	label text: (self configuredStringDark: 'PITCH MODE' size:16).
 	label constraintsDo: [ :c | 
 		c frame horizontal alignCenter.
-		c frame vertical alignBottom.
+		c frame vertical alignTop.
 		].
 	label transformDo: [ :t|
-		t translateBy:0@ -30. 
+		t translateBy:0@ 0. 
 		].
 	
-	self switch: (TbHorizontalSwitch2 toggleable).
+	self switch: (TbHorizontalSwitch toggleable ).
 	switch constraintsDo: [ :c |
 					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				];
-		transformDo: [ :t|
-			t translateBy:0@ 0. 
-		].
+					c frame vertical alignBottom.
+	].	
+	switch switch effect: (BlGaussianShadowEffect color: (Color veryDarkGray alpha:0.7)   offset: 0@ 4  width: 10).
 	self indicator: (TbLED new).
 	indicator constraintsDo: [ :c |
 					c frame horizontal alignCenter.
 					c frame vertical alignTop.
 				];
 				transformDo: [ :t|
-			t translateBy:0@ 0. 
+			t translateBy:0@ 10. 
 		].
 	
 	
 	
-	self addChildren: {l1. l2. label.self indicator. self switch}.
+	self addChildren: {label.self indicator. self switch}.
 	
 ]
 
 { #category : 'initialization' }
-TbWidget_RunStop >> initializeWidget [
+TbWidget_PitchMode >> initializeWidget [
 	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
+	self background: (Color veryVeryDarkGray alpha:1.0).
 	self layout: BlFrameLayout new.
 ]
 
 { #category : 'initialization' }
-TbWidget_RunStop >> initializeWidgetSize [
-	widgetSize:= 160@180.
+TbWidget_PitchMode >> initializeWidgetSize [
+		widgetSize:= 160@120.
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> setValue: req [
+TbWidget_PitchMode >> setValue: req [
 	self value = req 
 		ifFalse: [ 
 			self toggle.
@@ -183,23 +158,23 @@ TbWidget_RunStop >> setValue: req [
 ]
 
 { #category : 'accessing' }
-TbWidget_RunStop >> shadowColor [
+TbWidget_PitchMode >> shadowColor [
 	^ (Color orange alpha:1.0)
 	"^ (Color darkGray alpha:1.0)"
 ]
 
 { #category : 'accessing' }
-TbWidget_RunStop >> switch [
+TbWidget_PitchMode >> switch [
 	^switch
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> switch: aBlock [
+TbWidget_PitchMode >> switch: aBlock [
 	switch:= aBlock.
 ]
 
 { #category : 'api - operations' }
-TbWidget_RunStop >> toggle [
+TbWidget_PitchMode >> toggle [
 	"Toggles the value of indicator and the widget (The switch is toggled automatically due to its own toggle nature)"
 	self toggleValue.
 	self indicator toggle.
@@ -207,7 +182,7 @@ TbWidget_RunStop >> toggle [
 ]
 
 { #category : 'api - operations' }
-TbWidget_RunStop >> toggleValue [
+TbWidget_PitchMode >> toggleValue [
 	"Toggles the value of widget (not the value of inner elements)"
 	self value = 0 
 		ifTrue: [ 
@@ -219,11 +194,11 @@ TbWidget_RunStop >> toggleValue [
 ]
 
 { #category : 'accessing' }
-TbWidget_RunStop >> value [
+TbWidget_PitchMode >> value [
 	^value
 ]
 
 { #category : 'setting' }
-TbWidget_RunStop >> value: anInteger [
+TbWidget_PitchMode >> value: anInteger [
 	value:= anInteger.
 ]

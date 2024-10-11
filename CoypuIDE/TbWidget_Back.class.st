@@ -20,7 +20,7 @@ TbWidget_Back class >> AllWidgetExamples [
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 2;
+		columnCount: 3;
 		cellSpacing: 10
 		);
 		constraintsDo: [:c |
@@ -35,10 +35,11 @@ e1:=TbWidget_Back new.
 e2:=TbWidget_WriteNext new.
 e3:=TbWidget_PatternClear new.
 e4:=TbWidget_RunStop new.
+e5:=TbWidget_PitchMode new.
 
 
 
-container addChildren: { e1. e3. e2. e4}.
+container addChildren: { e1. e3. e5. e2. e4. }.
 container openInSpace.
 	
 ]
