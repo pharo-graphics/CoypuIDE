@@ -42,7 +42,7 @@ TbLED >> indicator [
 	^indicator
 ]
 
-{ #category : 'accessing' }
+{ #category : 'setting' }
 TbLED >> indicator: aBlock [
 	indicator:= aBlock.
 ]

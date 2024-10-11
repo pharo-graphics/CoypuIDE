@@ -39,25 +39,25 @@ container openInSpace.
 	
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'setting' }
 TbWidget_RunStop >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'setting' }
 TbWidget_RunStop >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbWidget_RunStop >> configuredStringDark: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:15) }
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbWidget_RunStop >> configuredStringDark: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
@@ -68,7 +68,7 @@ TbWidget_RunStop >> indicator [
 	^indicator.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'setting' }
 TbWidget_RunStop >> indicator: aBlock [
 	indicator:= aBlock.
 ]
@@ -85,13 +85,13 @@ TbWidget_RunStop >> initialize [
 	self initializeEvents.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 TbWidget_RunStop >> initializeEvents [
-
+	"Mouse Up Event is chosen instead of down to make a smooth transition when the user unclicks the switch."
 	switch
 		childrenDo: [ :i|   
 				i addEventHandler: (BlEventHandler
-				 	on: BlMouseDownEvent
+				 	on: BlMouseUpEvent
 				 	do: [ :anEvent |
 						self toggle.
 					]).
@@ -139,7 +139,7 @@ TbWidget_RunStop >> initializeLayout [
 		t translateBy:0@ -30. 
 		].
 	
-	self switch: (TbHorizontalSwitch2 new).
+	self switch: (TbHorizontalSwitch2 toggleable).
 	switch constraintsDo: [ :c |
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter.
@@ -174,7 +174,7 @@ TbWidget_RunStop >> initializeWidgetSize [
 	widgetSize:= 160@180.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbWidget_RunStop >> setValue: req [
 	self value = req 
 		ifFalse: [ 
@@ -182,32 +182,33 @@ TbWidget_RunStop >> setValue: req [
 			].
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 TbWidget_RunStop >> shadowColor [
 	^ (Color orange alpha:1.0)
 	"^ (Color darkGray alpha:1.0)"
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 TbWidget_RunStop >> switch [
 	^switch
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'setting' }
 TbWidget_RunStop >> switch: aBlock [
 	switch:= aBlock.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - operations' }
 TbWidget_RunStop >> toggle [
-	self indicator toggle.
-	self switch toggle.
-
+	"Toggles the value of indicator and the widget (The switch is toggled automatically due to its own toggle nature)"
 	self toggleValue.
+	self indicator toggle.
+	
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - operations' }
 TbWidget_RunStop >> toggleValue [
+	"Toggles the value of widget (not the value of inner elements)"
 	self value = 0 
 		ifTrue: [ 
 			self value: 1.
@@ -217,12 +218,12 @@ TbWidget_RunStop >> toggleValue [
 			].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 TbWidget_RunStop >> value [
 	^value
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbWidget_RunStop >> value: anInteger [
 	value:= anInteger.
 ]
