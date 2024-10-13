@@ -15,12 +15,12 @@ Class {
 { #category : 'as yet unclassified' }
 TbWidget_Back class >> AllWidgetExamples [
 	<script>
-	| container e1 e2 e3 e4 e5 e6|
+	| container e1 e2 e3 e4 e5 e6 e7|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 3;
+		columnCount: 4;
 		cellSpacing: 10
 		);
 		constraintsDo: [:c |
@@ -37,10 +37,11 @@ e3:=TbWidget_PatternClear new.
 e4:=TbWidget_RunStop new.
 e5:=TbWidget_PitchMode new.
 e6:=TbWidget_Function new.
+e7:=TbWidget_TimeMode new.
 
 
 
-container addChildren: { e1. e3. e5. e2. e4. e6}.
+container addChildren: { e1. e3. e5. e7. e2. e4. e6}.
 container openInSpace.
 	
 ]
