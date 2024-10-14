@@ -101,6 +101,41 @@ TbWidget_TimeMode >> initializeEvents [
 ]
 
 { #category : 'initialization' }
+TbWidget_TimeMode >> initializeIcons [
+	|i1 i2 i3|
+	i1:= TbIcon_Accent new.
+	i1 constraintsDo:[:c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+				];
+			transformDo:[:t|
+			t translateBy: 40@0.
+				].
+			
+	i2:= TbIcon_TransposeDown new.
+	i2 constraintsDo:[:c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+				];
+			transformDo:[:t|
+			t translateBy: -120@0.
+				].
+			
+	i3:= TbIcon_TransposeUp new.
+	i3 constraintsDo:[:c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+				];
+			transformDo:[:t|
+			t translateBy: -40@0.
+				].
+	
+	
+	
+	self addChildren:{i1. i2. i3}.
+]
+
+{ #category : 'initialization' }
 TbWidget_TimeMode >> initializeLayout [
 	"gi are the background shades."
 	|label g1 g2 |
@@ -159,10 +194,11 @@ TbWidget_TimeMode >> initializeLayout [
 		].
 		
 		
-	
+	self initializeIcons.
 	self addChildren: {label.self indicator. g2. self switch. g1}.
 	self initializeLines.
-		self initializeTexts.
+	self initializeTexts.
+	
 ]
 
 { #category : 'initialization' }
