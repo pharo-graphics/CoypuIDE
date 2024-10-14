@@ -227,7 +227,9 @@ ICKnob >> currentValue [
 ICKnob >> currentValue: aNumber [
 
 	currentValue := aNumber.
-	self callBack ifNotNil: [ :c | c value: currentValue  ]
+	self callBack ifNotNil: [ :c | c value: currentValue ].
+	self currentLabel text: (aNumber rounded asRopedText attributes:
+			 { (BlTextForegroundAttribute paint: self valueColor) })
 ]
 
 { #category : 'accessing' }
@@ -298,7 +300,7 @@ ICKnob >> initializeDefaultValues [
 	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
-	diameter := 60.
+	diameter := 30.
 	minAngle := -135.
 	maxAngle := 135
 ]
@@ -394,17 +396,17 @@ ICKnob >> initializeGeometry [
 
 { #category : 'initialization' }
 ICKnob >> initializeLabel [
+
 	inputLabel := BlTextElement new.
-	inputLabel text: (self inputText asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor ) }).
-	inputLabel text fontSize: 15.
+	inputLabel text: (self inputText asRopedText attributes:
+			 { (BlTextForegroundAttribute paint: self textColor) }).
+	inputLabel text fontSize: 12.
 	inputLabel text bold.
-	inputLabel constraintsDo: [ :c | 
+	inputLabel constraintsDo: [ :c |
 		c frame horizontal alignCenter.
-		c frame vertical alignTop.
-		].
+		c frame vertical alignTop ].
 	"inputLabel transformDo: [ :t | t translateBĀ: 0 @ 10 ]."
-	self addChild: inputLabel.
+	self addChild: inputLabel
 ]
 
 { #category : 'initialization' }
