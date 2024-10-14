@@ -11,7 +11,7 @@ Class {
 	#tag : 'Acid'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'example' }
 TbLED class >> LEDexample [ 
 	<script>
 	| container e1 e2 |
@@ -37,12 +37,12 @@ container openInSpace.
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 TbLED >> indicator [
 	^indicator
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'setting' }
 TbLED >> indicator: aBlock [
 	indicator:= aBlock.
 ]
@@ -58,8 +58,9 @@ TbLED >> initialize [
 	self initializeIndicator.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 TbLED >> initializeIndicator [	
+	"This method initializes the led indicator"
 	|e|
 	self indicator: (BlElement new
             geometry: BlCircleGeometry new;
@@ -90,6 +91,7 @@ TbLED >> initializeIndicator [
 
 { #category : 'initialization' }
 TbLED >> initializeWidget [
+"This method initializes the widget"
 	self size: widgetSize.
 	self background: (Color gray alpha:0.0).
 	self layout: BlFrameLayout new.
@@ -97,25 +99,28 @@ TbLED >> initializeWidget [
 
 { #category : 'initialization' }
 TbLED >> initializeWidgetSize [
+"This method initializes the size of the widget."
 	widgetSize:= 60@55.
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'accessing' }
 TbLED >> offColor [
 	^ (Color r: 115 g:1  b:1  range:255).
 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbLED >> setValue: req [
+"This method takes a request integer and toggles the led if the requested integer is opposite to the value."
 	self value = req 
 		ifFalse: [ 
 			self toggle.
 			].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - operations' }
 TbLED >> toggle [
+"This method changes both the value and the graphic of the widget."
 	self toggleValue.
 	self value = 1 
 		ifTrue: [ 
@@ -134,7 +139,6 @@ TbLED >> toggle [
 	 ] 
 		ifFalse: [ 
 			"Off Mode"
-			"indicator background: self offColor;"
 			indicator background: self offColor;
 			effect: (BlGaussianShadowEffect color: (Color green alpha:0.0)   offset: 5@ 0  width: 35);
 			childrenDo: [ :i|   
@@ -143,26 +147,26 @@ TbLED >> toggle [
 						scaleBy: 1.
 					].
 					i background: Color veryLightGray.
-			
 			].
-			
-		
 	].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - operations' }
 TbLED >> toggleValue [
+"This mathod changes the value of the widget."
 	self value = 0 
+		"Off"
 		ifTrue: [ self value: 1 ] 
+		"On"
 		ifFalse: [ self value: 0 ].
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 TbLED >> value [
 	^value
 ]
 
-{ #category : 'initialization' }
+{ #category : 'setting' }
 TbLED >> value: anInteger [
 	value:= anInteger.
 ]
