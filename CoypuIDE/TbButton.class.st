@@ -22,31 +22,6 @@ Class {
 	#tag : 'Acid'
 }
 
-{ #category : 'examples' }
-TbButton class >> allButtonExamples [
-	<script>
-	| container e1 e2 e3 e4 e5 e6 |
-	container:= BlElement new
-		
-		geometry: BlRectangleGeometry new;
-		layout: (BlGridLayout new
-		columnCount: 6;
-		cellSpacing: 0
-		);
-		constraintsDo: [:c |
-			c horizontal matchParent.
-			c vertical matchParent.
-			];
-		background: Color darkGray.
-
-e1:= TbButton new.
-
-
-container addChildren: { e1}.
-container openInSpace.
-
-]
-
 { #category : 'as yet unclassified' }
 TbButton class >> layoutViewExample_1560_720 [
 	<script>
