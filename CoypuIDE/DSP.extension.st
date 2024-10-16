@@ -1,6 +1,12 @@
 Extension { #name : 'DSP' }
 
 { #category : '*CoypuIDE' }
+DSP >> connectToOSCServerOnPort: aPort [
+"should we check for all children???"
+(self displayedUI children at: 1) connectToOSCServer listenOnPort: aPort
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> displayUI [
 	"full UI made with Toplo"
 
