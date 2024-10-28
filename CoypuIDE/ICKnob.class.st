@@ -25,7 +25,7 @@ Class {
 	#tag : 'knob'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 ICKnob class >> allKnobExamples [
 
 	<script>
