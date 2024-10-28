@@ -25,7 +25,7 @@ Class {
 	#tag : 'knob'
 }
 
-{ #category : 'examples' }
+{ #category : 'as yet unclassified' }
 ICKnob class >> allKnobExamples [
 
 	<script>
@@ -300,7 +300,7 @@ ICKnob >> initializeDefaultValues [
 	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
-	diameter := 30.
+	diameter :=100.
 	minAngle := -135.
 	maxAngle := 135
 ]
