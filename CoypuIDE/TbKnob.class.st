@@ -1,5 +1,5 @@
 Class {
-	#name : 'ICKnob',
+	#name : 'TbKnob',
 	#superclass : 'BlElement',
 	#instVars : [
 		'inputText',
@@ -20,63 +20,84 @@ Class {
 		'maxLabel',
 		'currentLabel'
 	],
-	#category : 'CoypuIDE-knob',
+	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
-	#tag : 'knob'
+	#tag : 'Acid'
 }
 
 { #category : 'examples' }
-ICKnob class >> allKnobExamples [
+TbKnob class >> AllExamples [
 
 	<script>
-	| container e1 e2 e3 e4 e5 e6 e7|
+
+	|container k1 k2 k3 k4 k5 k6 k7 k8 k9|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 4;
+		columnCount: 8;
 		cellSpacing: 0
 		);
 		constraintsDo: [:c |
 			c horizontal matchParent.
 			c vertical matchParent.
 			];
-		background: Color darkGray.
+		background: (Color r: 233 g:224  b:208  range:255).
+		"background: (Color r: 249 g:239  b:224  range:255)."
+		"background: Color white."
+	
+	k1 := TbKnob label:'TUNING'.
+	k2 := TbKnob label:'CUT OFF FREQ'.
+	k3 := TbKnob label:'RESONANCE'.
+	k4 := TbKnob label:'ENV MOD'.
+	k5 := TbKnob label:'DECAY'.
+	k6 := TbKnob label:'ACCENT'.
+	
+	
 
+	
+	
+	container addChildren: { k1. k2. k3. k4. k5. k6. 
+	}. 
+	container openInSpace.
 
-e1:= ICKnob label: 'Label1'.
-
-
-e2:= ICLightKnob label: 'Label 2'.
-e3:= ICDarkKnob2 label: 'LABEL 3'. 
-e4:= ICDarkKnob3 label: 'LABEL 4'. 
-e5:= ICDarkKnob4 label:'LABEL 5'. 
-e6:= ICDarkKnob5 label:'LABEL 6'.
-e7:= ICDialKnob label: 'LABEL 7'.
-
-
-container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7}.
-container openInNewSpace.
+	"knob callBack: [ :v | v inspect ]"
 ]
 
 { #category : 'examples' }
-ICKnob class >> basicExample [
+TbKnob class >> basicExample [
 
 	<script>
-	| knob |
-	knob := self new position: 100 @ 100.
 
-	knob openInSpace.
+	|container knob |
+	container:= BlElement new
+		
+		geometry: BlRectangleGeometry new;
+		layout: (BlGridLayout new
+		columnCount: 2;
+		cellSpacing: 50
+		);
+		constraintsDo: [:c |
+			c horizontal matchParent.
+			c vertical matchParent.
+			];
+		background: (Color r: 233 g:224  b:208  range:255).
+		"background: (Color r: 249 g:239  b:224  range:255)."
+		"background: Color white."
+	
+	knob := self label:'RESONANCE'.
+	container addChildren: { knob }. 
+	container openInSpace.
 
 	"knob callBack: [ :v | v inspect ]"
 ]
 
 { #category : 'instance creation' }
-ICKnob class >> fromDictionary: aDictionary [
+TbKnob class >> fromDictionary: aDictionary [
 ]
 
 { #category : 'instance creation' }
-ICKnob class >> fromDictionary: aDictionary forDsp: aDsp [
+TbKnob class >> fromDictionary: aDictionary forDsp: aDsp [
 
 	^ (self 
 			        label: (aDictionary at: #label)
@@ -87,7 +108,7 @@ ICKnob class >> fromDictionary: aDictionary forDsp: aDsp [
 ]
 
 { #category : 'initialization' }
-ICKnob class >> label: aString [
+TbKnob class >> label: aString [
 	|e|
 	e:= self new inputText: aString.
 	e initializeLabel.
@@ -96,7 +117,7 @@ ICKnob class >> label: aString [
 ]
 
 { #category : 'initialization' }
-ICKnob class >> label: aString minValue: min maxValue: max [
+TbKnob class >> label: aString minValue: min maxValue: max [
 	|e|
 	e:= self new inputText: aString.
 	e minValue: min.
@@ -108,7 +129,7 @@ ICKnob class >> label: aString minValue: min maxValue: max [
 ]
 
 { #category : 'initialization' }
-ICKnob class >> label: aString minValue: min maxValue: max callBack: aBlock [
+TbKnob class >> label: aString minValue: min maxValue: max callBack: aBlock [
 
 	| e |
 	e := self label: aString minValue: min maxValue: max.
@@ -117,7 +138,7 @@ ICKnob class >> label: aString minValue: min maxValue: max callBack: aBlock [
 ]
 
 { #category : 'initialization' }
-ICKnob class >> openForAllParameters: aDsp [
+TbKnob class >> openForAllParameters: aDsp [
 
 	| container allParams allKnobs |
 	allParams := aDsp allParameters.
@@ -142,13 +163,13 @@ ICKnob class >> openForAllParameters: aDsp [
 ]
 
 { #category : 'accessing' }
-ICKnob >> angle [ 
+TbKnob >> angle [ 
 
 	^ angle 
 ]
 
 { #category : 'accessing' }
-ICKnob >> angle: aNumber [
+TbKnob >> angle: aNumber [
 
 	| tmp |
 	tmp := aNumber.
@@ -162,7 +183,7 @@ ICKnob >> angle: aNumber [
 ]
 
 { #category : 'api - operations' }
-ICKnob >> angleToValue [
+TbKnob >> angleToValue [
 
 	| normalized mapped |
 	normalized := self angle - self minAngle
@@ -173,36 +194,36 @@ ICKnob >> angleToValue [
 ]
 
 { #category : 'initialization' }
-ICKnob >> backColor [
+TbKnob >> backColor [
 	^ (Color veryVeryDarkGray)
 ]
 
 { #category : 'accessing' }
-ICKnob >> callBack [ 
+TbKnob >> callBack [ 
 
 	^ callBack 
 ]
 
 { #category : 'accessing' }
-ICKnob >> callBack: aBlock [
+TbKnob >> callBack: aBlock [
 
 	callBack := aBlock 
 ]
 
 { #category : 'accessing' }
-ICKnob >> centerPosition [
+TbKnob >> centerPosition [
 
 	^ centerPosition 
 ]
 
 { #category : 'accessing' }
-ICKnob >> centerPosition: aPosition [
+TbKnob >> centerPosition: aPosition [
 
 	centerPosition := aPosition
 ]
 
 { #category : 'accessing' }
-ICKnob >> clickAt: aPoint [
+TbKnob >> clickAt: aPoint [
 
 	| vector newAngle |
 	vector := aPoint - centerPosition.
@@ -211,82 +232,112 @@ ICKnob >> clickAt: aPoint [
 	
 ]
 
+{ #category : 'initialization' }
+TbKnob >> color1 [
+	^ (Color r: 249 g:239  b:224  range:255).
+]
+
+{ #category : 'initialization' }
+TbKnob >> color2 [
+	"^ (Color r: 233 g:208  b:168  range:255)."
+	^ (Color r: 215 g:173  b:106  range:255).
+]
+
+{ #category : 'initialization' }
+TbKnob >> color3 [
+	"^ (Color r: 233 g:208  b:168  range:255)."
+	^ (Color r: 174 g:138  b:80  range:255).
+]
+
+{ #category : 'initialization' }
+TbKnob >> color4 [
+	"^ (Color r: 233 g:208  b:168  range:255)."
+	^ (Color r: 99 g:78  b:44  range:255).
+]
+
+{ #category : 'initialization' }
+TbKnob >> color5 [
+	"^ (Color r:189 g:240  b:240  range:255)."
+	"^ (Color orange alpha:0.7)"
+	^ (Color r:196 g:179  b:126  range:255).
+]
+
 { #category : 'accessing' }
-ICKnob >> currentLabel [ 
+TbKnob >> currentLabel [ 
 
 	^ currentLabel 
 ]
 
 { #category : 'accessing' }
-ICKnob >> currentValue [
+TbKnob >> currentValue [
 
 	^ currentValue
 ]
 
 { #category : 'accessing' }
-ICKnob >> currentValue: aNumber [
+TbKnob >> currentValue: aNumber [
 
 	currentValue := aNumber.
 	self callBack ifNotNil: [ :c | c value: currentValue ].
-	self currentLabel text: (aNumber rounded asRopedText attributes:
-			 { (BlTextForegroundAttribute paint: self valueColor) })
+	"self currentLabel text: (aNumber rounded asRopedText attributes:
+			 { (BlTextForegroundAttribute paint: self valueColor) })"
 ]
 
 { #category : 'accessing' }
-ICKnob >> diameter [
+TbKnob >> diameter [
 
 	^ diameter
 ]
 
 { #category : 'accessing' }
-ICKnob >> diameter: aNumber [
+TbKnob >> diameter: aNumber [
 
 	diameter := aNumber
 ]
 
 { #category : 'accessing' }
-ICKnob >> disk [
+TbKnob >> disk [
 
 	^ disk
 ]
 
 { #category : 'accessing' }
-ICKnob >> disk: anElement [
+TbKnob >> disk: anElement [
 
 	disk := anElement 
 ]
 
 { #category : 'initialization' }
-ICKnob >> diskColor [ 
+TbKnob >> diskColor [ 
 	^ (Color cyan)
 ]
 
 { #category : 'initialization' }
-ICKnob >> diskSize [
+TbKnob >> diskSize [
 
 	^ self diameter + 40
 ]
 
 { #category : 'api - operations' }
-ICKnob >> doOperations [
+TbKnob >> doOperations [
 
 	self knob transformDo: [ :t | t rotateBy: angle ].
 	self knob zIndex: 100.
-	self disk geometry endAngle: angle - 90.
+	"self disk geometry endAngle: angle - 90."
 	self currentValue: self angleToValue.
 
 ]
 
 { #category : 'initialization' }
-ICKnob >> initialize [
+TbKnob >> initialize [
 
 	super initialize.
 	self initializeDefaultValues.
 	self initializeGeometry.
 	self initializeEvents.
-	self initializeOuterRing.
-	self initializeValueLabels.
-	self initializeDisks.
+	"self initializeOuterRing."
+	"self initializeValueLabels."
+	"self initializeDisks."
 	"self initializeLabel."
 
 	"Here to define the centerPosition once layouted"
@@ -295,18 +346,18 @@ ICKnob >> initialize [
 ]
 
 { #category : 'accessing' }
-ICKnob >> initializeDefaultValues [
+TbKnob >> initializeDefaultValues [
 
 	minValue := 0.
 	maxValue := 100.
 	stepValue := nil.
-	diameter :=100.
+	diameter :=80.
 	minAngle := -135.
 	maxAngle := 135
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeDisk [
+TbKnob >> initializeDisk [
 	
 	self disk: (BlElement new
 		          "background: (Color r:63 g:162 b:227 range:255);"
@@ -328,13 +379,13 @@ ICKnob >> initializeDisk [
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeDisks [
+TbKnob >> initializeDisks [
 
 	self initializeDisk.
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeEvents [
+TbKnob >> initializeEvents [
 
 	self addEventHandlerOn: BlKeyDownEvent do: [ :e |
 		e key name = #LEFT ifTrue: [
@@ -360,47 +411,144 @@ ICKnob >> initializeEvents [
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeGeometry [
+TbKnob >> initializeGeometry [
 	
-	| marker |
-	self size: (diameter + 100) asPoint.
-	self background: self backColor.
+	|e1 e2  st marker k kb k1 |
+
+	self size: 140 @ 150.
+	self background: (self backColor alpha:0.0).
+   "self border: (BlBorder paint: (Color gray) width: 2)."
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
 	self padding:(BlInsets all: 7).
+	
+	e1:= BlElement new
+	size: 86 asPoint;
+	geometry: (BlCircleGeometry new);
+	"transformDo: [ :t | t translateBy: 30@30 ];"
+	background: Color veryDarkGray;
+	transformDo:[:t | 
+		t translateBy: -1.2@ -1.2];
+	constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter];
+			transformDo:[:t | t translateBy:-1.2@ 7.8];
+		effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 8@25  width: 50).
+	
+	e2:= BlElement new
+	size: 80 asPoint;
+	geometry: (BlCircleGeometry new);
+	"transformDo: [ :t | t translateBy: 30@30 ];"
+	background: (BlRadialGradientPaint new
+	stops: { 0 -> self color2. 1 -> self color1 };
+	center: 15@15;
+	radius: 150;
+	yourself);
+	constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter];
+		transformDo:[:t | t translateBy:0@ 9].
+	
+	
+		self addChildren:{ e1. e2}.
+	
+	
+	st:= -280.
+	1 to: 11 do: [:i |
+	|dash curr|
+	curr:= (i * 30).
+	curr:= curr + st.
+	curr:= curr + 10. 
+	dash:= 
+	 BlElement new
+		           background: Color veryVeryDarkGray ;
+		           size: diameter+ 30 asPoint;
+	geometry: (BlAnnulusSectorGeometry new
+			 startAngle: curr;
+			 endAngle: curr + 2.5;
+			 innerRadius: 0.85;
+			 outerRadius: 1.0);	
+
+	constraintsDo: [ :c |
+	c frame horizontal alignCenter.
+	c frame vertical alignCenter ];
+	transformDo:[:t | t translateBy:0@ 9].	
+	self addChild:dash.].
+		
 
 	
-	self knob: (BlElement new
+
+
+	k:= BlElement new
 			 geometry: BlCircleGeometry new;
-			 size: self knobSize asPoint;
-			 clipChildren: false;
-			 background: self knobColor ;
+			 size: self knobSize+5 asPoint;
+			 clipChildren: true;
+			 background: (self color1 alpha:1);
 			 constraintsDo: [ :c |
 				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter]).
+				 c frame vertical alignCenter];
+			layout: BlFrameLayout new.
+		
 	
-	self addChild: self knob.
+	kb:= BlElement new
+			 geometry: BlCircleGeometry new;
+			 size: self knobSize+5 asPoint;
+			 clipChildren: false;
+			 background: (self color4 alpha:1);
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter];
+			transformDo:[:t | t translateBy:0@ 12];
+			effect: (BlGaussianShadowEffect color: (Color brown alpha:0.7)   offset: 0@6  width: 10).
+	
+		self addChild:kb.
+	
+
 
 	
 	marker := BlElement new
-		          size: 10 @ 20;
+		          size: 15 @ 6;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
 					
-		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
-		          background: self markerColor;
-		          position: self knobSize / 2 @ 5.
+		          geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		          background: self color4;
+		          "position: self knobSize / 2 @ 5."
+					transformDo:[:t | t rotateBy:90.
+						t translateBy: 0@ 5];
+					 constraintsDo: [ :c |
+				 	c frame horizontal alignCenter.
+					 c frame vertical alignTop].
+					
+			marker zIndex: 100.
+		k1 := BlElement new
+		          size: 15 @ 80;
+		          transformDo: [ :t | t translateBy: -2 @ 0 ];
+					
+		          geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		          background: self color5 ;
+		          "position: self knobSize / 2 @ 5."
+					transformDo:[:t | t rotateBy:90.
+						t translateBy: 0@ 0];
+					 constraintsDo: [ :c |
+				 	c frame horizontal alignCenter.
+					 c frame vertical alignBottom].
+					
 			marker zIndex: 100.
 			
-	self knob addChild: marker
+	k addChildren: {k1. marker}.
+	
+		
+	self knob: k.
+	self addChild: self knob.
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeLabel [
+TbKnob >> initializeLabel [
 
 	inputLabel := BlTextElement new.
 	inputLabel text: (self inputText asRopedText attributes:
-			 { (BlTextForegroundAttribute paint: self textColor) }).
-	inputLabel text fontSize: 12.
+			 { (BlTextForegroundAttribute paint: self backColor) }).
+	inputLabel text fontSize: 18.
 	inputLabel text bold.
 	inputLabel constraintsDo: [ :c |
 		c frame horizontal alignCenter.
@@ -410,7 +558,7 @@ ICKnob >> initializeLabel [
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeOuterRing [
+TbKnob >> initializeOuterRing [
 	
 	|outerRing|
 	outerRing := (BlElement new
@@ -429,7 +577,7 @@ ICKnob >> initializeOuterRing [
 ]
 
 { #category : 'initialization' }
-ICKnob >> initializeValueLabels [
+TbKnob >> initializeValueLabels [
 
 	minLabel := BlTextElement new text: (self minValue asRopedText attributes: { (BlTextForegroundAttribute
 paint: self textColor) });
@@ -457,71 +605,71 @@ paint: self valueColor) })].
 ]
 
 { #category : 'accessing' }
-ICKnob >> inputText [
+TbKnob >> inputText [
 	^ inputText.
 
 ]
 
 { #category : 'accessing' }
-ICKnob >> inputText: aString [
+TbKnob >> inputText: aString [
 	inputText := aString.
 
 ]
 
 { #category : 'accessing' }
-ICKnob >> knob [ 
+TbKnob >> knob [ 
 
 	^ knob 
 ]
 
 { #category : 'accessing' }
-ICKnob >> knob: anElement [
+TbKnob >> knob: anElement [
 
 	knob := anElement 
 ]
 
 { #category : 'initialization' }
-ICKnob >> knobColor [
-	^(Color veryDarkGray)
-]
-
-{ #category : 'initialization' }
-ICKnob >> knobSize [
-
-	^ self diameter
-]
-
-{ #category : 'initialization' }
-ICKnob >> markerColor [
+TbKnob >> knobColor [
 	^(Color white)
 ]
 
+{ #category : 'initialization' }
+TbKnob >> knobSize [
+
+	^ self diameter-35
+]
+
+{ #category : 'initialization' }
+TbKnob >> markerColor [
+	^(Color gray)
+]
+
 { #category : 'accessing' }
-ICKnob >> maxAngle [
+TbKnob >> maxAngle [
 
 	^ maxAngle
 ]
 
 { #category : 'accessing' }
-ICKnob >> maxAngle: aNumber [
+TbKnob >> maxAngle: aNumber [
 
 	maxAngle := aNumber 
 ]
 
 { #category : 'accessing' }
-ICKnob >> maxLabel [ 
+TbKnob >> maxLabel [ 
 
 	^ maxLabel 
 ]
 
 { #category : 'accessing' }
-ICKnob >> maxValue [
+TbKnob >> maxValue [
 
 	^ maxValue
 ]
 
 { #category : 'accessing' }
-ICKnob >> maxValue: aNumber [
+TbKnob >> maxValue: aNumber [
 
 	maxValue := aNumber.
 	maxLabel text: ((maxValue asFloat round:3 )asRopedText attributes: { (BlTextForegroundAttribute
@@ -529,31 +677,31 @@ paint: self textColor) })
 ]
 
 { #category : 'accessing' }
-ICKnob >> minAngle [ 
+TbKnob >> minAngle [ 
 
 	^ minAngle 
 ]
 
 { #category : 'accessing' }
-ICKnob >> minAngle: aNumber [
+TbKnob >> minAngle: aNumber [
 
 	minAngle := aNumber
 ]
 
 { #category : 'accessing' }
-ICKnob >> minLabel [ 
+TbKnob >> minLabel [ 
 
 	^ minLabel 
 ]
 
 { #category : 'accessing' }
-ICKnob >> minValue [
+TbKnob >> minValue [
 
 	^ minValue 
 ]
 
 { #category : 'accessing' }
-ICKnob >> minValue: aNumber [
+TbKnob >> minValue: aNumber [
 
 	minValue := aNumber.
 	minLabel text: ((minValue asFloat round:3 ) asRopedText attributes: { (BlTextForegroundAttribute
@@ -561,7 +709,7 @@ paint: self textColor) })
 ]
 
 { #category : 'ui building' }
-ICKnob >> openForParam: aString dsp: aDsp [
+TbKnob >> openForParam: aString dsp: aDsp [
 
 	| index space spaceExtent |
 	spaceExtent := self diameter * 2.
@@ -584,18 +732,18 @@ ICKnob >> openForParam: aString dsp: aDsp [
 ]
 
 { #category : 'initialization' }
-ICKnob >> outerRingColor [
+TbKnob >> outerRingColor [
 	^(Color darkGray )
 ]
 
 { #category : 'initialization' }
-ICKnob >> outerRingSize [
+TbKnob >> outerRingSize [
 
 	^self diameter + 40
 ]
 
 { #category : 'api - bounds' }
-ICKnob >> position: aPoint [
+TbKnob >> position: aPoint [
 
 	super position: aPoint.
 	self whenLayoutedDoOnce: [
@@ -603,49 +751,57 @@ ICKnob >> position: aPoint [
 ]
 
 { #category : 'initialization' }
-ICKnob >> setToMax [
+TbKnob >> setToMax [
 
 	self setValue: self maxValue.
 ]
 
 { #category : 'initialization' }
-ICKnob >> setToMin [ 
+TbKnob >> setToMin [ 
 
 	self setValue: self minValue.
 ]
 
 { #category : 'initialization' }
-ICKnob >> setValue: aNumber [
+TbKnob >> setValue: aNumber [
 
 	|newAngle|
 	newAngle := self valueToAngle: aNumber.
 	self angle: newAngle.
 ]
 
+{ #category : 'initialization' }
+TbKnob >> shadowColor [
+	"^ (Color r: 233 g:208  b:168  range:255)."
+	"^ (Color r: 103 g:80  b:42  range:255)."
+	"^ (Color orange)."
+	^ (Color r: 215 g:160  b:70  range:255).
+]
+
 { #category : 'accessing' }
-ICKnob >> stepValue [
+TbKnob >> stepValue [
 
 	^ stepValue
 ]
 
 { #category : 'accessing' }
-ICKnob >> stepValue: aNumber [
+TbKnob >> stepValue: aNumber [
 
 	stepValue := aNumber
 ]
 
 { #category : 'initialization' }
-ICKnob >> textColor [
+TbKnob >> textColor [
 	^Color white.
 ]
 
 { #category : 'initialization' }
-ICKnob >> valueColor [
+TbKnob >> valueColor [
 	^Color white.
 ]
 
 { #category : 'api - operations' }
-ICKnob >> valueToAngle: aNumber [
+TbKnob >> valueToAngle: aNumber [
 
 	| normalized mapped |
 	normalized := aNumber - self minValue
