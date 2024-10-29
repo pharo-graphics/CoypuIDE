@@ -30,7 +30,7 @@ TbKnob class >> AllExamples [
 
 	<script>
 
-	|container k1 k2 k3 k4 k5 k6 k7 k8 k9|
+	|container k1 k2 k3 k4 k5 k6|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -47,14 +47,12 @@ TbKnob class >> AllExamples [
 		"background: Color white."
 	
 	k1 := TbKnob label:'TUNING'.
-	k2 := TbKnob label:'CUT OFF FREQ'.
+	k2 := TbKnob label:'CUTOFF FREQ'.
 	k3 := TbKnob label:'RESONANCE'.
 	k4 := TbKnob label:'ENV MOD'.
 	k5 := TbKnob label:'DECAY'.
 	k6 := TbKnob label:'ACCENT'.
 	
-	
-
 	
 	
 	container addChildren: { k1. k2. k3. k4. k5. k6. 
