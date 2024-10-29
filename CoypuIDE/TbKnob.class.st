@@ -335,10 +335,6 @@ TbKnob >> initialize [
 	self initializeDefaultValues.
 	self initializeGeometry.
 	self initializeEvents.
-	"self initializeOuterRing."
-	"self initializeValueLabels."
-	"self initializeDisks."
-	"self initializeLabel."
 
 	"Here to define the centerPosition once layouted"
 	self setValue: self minValue.
@@ -354,34 +350,6 @@ TbKnob >> initializeDefaultValues [
 	diameter :=80.
 	minAngle := -135.
 	maxAngle := 135
-]
-
-{ #category : 'initialization' }
-TbKnob >> initializeDisk [
-	
-	self disk: (BlElement new
-		          "background: (Color r:63 g:162 b:227 range:255);"
-		   			background: self diskColor;
-		           size: self diskSize asPoint;
-						
-					geometry: (BlAnnulusSectorGeometry new
-			 					startAngle: -225;
-			 					endAngle: -210;
-			 					innerRadius: 0.83;
-			 					outerRadius: 1);
-					
-					constraintsDo: [ :c |
-						c frame horizontal alignCenter.
-					c frame vertical alignCenter. ]).
-	
-	
-	self addChild: self disk.
-]
-
-{ #category : 'initialization' }
-TbKnob >> initializeDisks [
-
-	self initializeDisk.
 ]
 
 { #category : 'initialization' }
@@ -555,53 +523,6 @@ TbKnob >> initializeLabel [
 		c frame vertical alignTop ].
 	"inputLabel transformDo: [ :t | t translateBĀ: 0 @ 10 ]."
 	self addChild: inputLabel
-]
-
-{ #category : 'initialization' }
-TbKnob >> initializeOuterRing [
-	
-	|outerRing|
-	outerRing := (BlElement new
-		           background: self outerRingColor;
-		           size: self outerRingSize asPoint;
-					"effect: (BlGaussianShadowEffect color: Color white offset: 0@ -10  width: 10);"
-					geometry: (BlAnnulusSectorGeometry new
-			 					startAngle: 135;
-			 					endAngle: 45;
-			 					innerRadius: 0.83;
-			 					outerRadius: 1);
-					constraintsDo: [ :c |
-						c frame horizontal alignCenter.
-					c frame vertical alignCenter. ]).
-	self addChild: outerRing.
-]
-
-{ #category : 'initialization' }
-TbKnob >> initializeValueLabels [
-
-	minLabel := BlTextElement new text: (self minValue asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor) });
-					transformDo: [ :t | t translateBy: 20 @ -20];
-					constraintsDo: [ :c |c frame horizontal alignLeft. c frame vertical alignBottom.].
-				
-	maxLabel := BlTextElement new text: (self maxValue asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor) });
-					transformDo: [ :t | t translateBy: -20 @ -20];
-					constraintsDo: [ :c |c frame horizontal alignRight. c frame vertical alignBottom.].
-
-currentLabel := BlTextElement new text: (self currentValue asRopedText  attributes:{(BlTextForegroundAttribute
-paint: self valueColor) });
-					transformDo: [ :t | t translateBy: 0 @ -10];
-					constraintsDo: [ :c |c frame horizontal alignCenter. c frame vertical alignBottom.].
-
-	self addChild: minLabel.
-	self addChild: currentLabel.
-	self addChild: maxLabel.
-
-	self callBack: [ :v |
-		currentLabel text: (v rounded asRopedText attributes:{(BlTextForegroundAttribute
-paint: self valueColor) })].
-
 ]
 
 { #category : 'accessing' }
