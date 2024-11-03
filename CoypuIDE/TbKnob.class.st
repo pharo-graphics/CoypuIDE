@@ -30,13 +30,13 @@ TbKnob class >> AllExamples [
 
 	<script>
 
-	|container k1 k2 k3 k4 k5 k6|
+	|container k1 k2 k3 k4 k5 k6 k7 k8|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 8;
-		cellSpacing: 0
+		columnCount: 6;
+		cellSpacing: 10
 		);
 		constraintsDo: [:c |
 			c horizontal matchParent.
@@ -52,10 +52,12 @@ TbKnob class >> AllExamples [
 	k4 := TbKnob label:'ENV MOD'.
 	k5 := TbKnob label:'DECAY'.
 	k6 := TbKnob label:'ACCENT'.
+		k7 := TbKnob1 label:'BIGGER KNOB'.
+			k8 := TbKnob1 label:'BIGGER KNOB'.
 	
 	
 	
-	container addChildren: { k1. k2. k3. k4. k5. k6. 
+	container addChildren: { k1. k2. k3. k4. k5. k6. k7. k8
 	}. 
 	container openInSpace.
 
@@ -514,7 +516,7 @@ TbKnob >> initializeLabel [
 	inputLabel := BlTextElement new.
 	inputLabel text: (self inputText asRopedText attributes:
 			 { (BlTextForegroundAttribute paint: self backColor) }).
-	inputLabel text fontSize: 18.
+	inputLabel text fontSize:self labelSize.
 	inputLabel text bold.
 	inputLabel constraintsDo: [ :c |
 		c frame horizontal alignCenter.
@@ -556,6 +558,11 @@ TbKnob >> knobColor [
 TbKnob >> knobSize [
 
 	^ self diameter-35
+]
+
+{ #category : 'initialization' }
+TbKnob >> labelSize [
+	^ 18.
 ]
 
 { #category : 'initialization' }
