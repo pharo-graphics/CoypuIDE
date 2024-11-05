@@ -11,29 +11,48 @@ Class {
 	#tag : 'Acid'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 TbLabel class >> LabelExample [
 	<script>
-	| container e1  |
+	| container e1  e2 e3|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
-		columnCount: 6;
-		cellSpacing: 2
+		columnCount: 1;
+		cellSpacing: 4
 		);
 		constraintsDo: [:c |
 			c horizontal matchParent.
 			c vertical matchParent.
 			];
 		"background: Color white ."
-		background: (Color r: 249 g:239  b:224  range:255).
+		background: (Color r: 233 g:224  b:208  range:255).
 
-e1:=TbLabel new.
-
-container addChildren: { e1}.
+e1:=TbLabel_BassLine new.
+e2:=TbLabel_Phausto new.
+e3:=TbLabel_TP33 new.
+container addChildren: { e1. e2. e3}.
 container openInSpace.
 	
+]
+
+{ #category : 'initialization' }
+TbLabel >> configuredString: aString [ 
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute
+	paint: self fontColor) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:self fontSize) }
+]
+
+{ #category : 'initialization' }
+TbLabel >> configuredString: aString size: anInteger [
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute
+	paint: self fontColor ) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}.
+]
+
+{ #category : 'initialization' }
+TbLabel >> configuredStringDark: aString [ 
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute
+	paint: self fontColor) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:35) }
 ]
 
 { #category : 'initialization' }
@@ -44,6 +63,11 @@ TbLabel >> fontColor [
 { #category : 'initialization' }
 TbLabel >> fontColor: aColor [
 	fontColor:= aColor.
+]
+
+{ #category : 'initialization' }
+TbLabel >> fontSize [
+	^40.
 ]
 
 { #category : 'initialization' }
@@ -61,15 +85,22 @@ TbLabel >> initializeLabel [
 	|labelText label|
 	self fontColor: Color veryVeryDarkGray.
 	
-	labelText := 'Sample' asRopedText
+	"labelText := 'Sample' asRopedText
  						foreground: self fontColor;
  						fontSize: 26;
- 						"fontName: 'Helvetica';"
-						"fontName:'Cascadia Code';"
+						fontName: 'Helvetica';
+ 					
  						bold.
- 	
 	label := BlTextElement new;
-				text: labelText.
+				text: labelText."
+				
+	label := BlTextElement new;
+				text: (self configuredString: 'SAMple' ).
+	"label := BlAttributedTextElement new.
+	label text: 'SAMple' asRopedText ;
+				fontSize:18;
+				bold."
+				
 	label constraintsDo:[:c | c frame horizontal alignCenter. c frame vertical alignCenter].
 	
 	
@@ -83,7 +114,7 @@ TbLabel >> initializeLabel [
 
 { #category : 'initialization' }
 TbLabel >> initializeLayout [
-	self background: (Color gray alpha:0.1).
+	self background: (Color gray alpha:0.0).
 	self padding: (BlInsets  top:1 left:1  bottom:1  right:1 ).
 	self size: self widgetSize.
 	self layout: BlFrameLayout new.
@@ -93,7 +124,7 @@ TbLabel >> initializeLayout [
 
 { #category : 'initialization' }
 TbLabel >> initializeSize [
-	self widgetSize: 200@60.
+	self widgetSize: 400@80.
 ]
 
 { #category : 'initialization' }
