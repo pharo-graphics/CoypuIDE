@@ -52,6 +52,36 @@ container openInSpace.
 	
 ]
 
+{ #category : 'as yet unclassified' }
+TbButton class >> layoutViewExample_1560_800 [
+	<script>
+	| container e1 e2 e3 e4 e5|
+container:= BlElement new
+	geometry: BlRectangleGeometry new;
+	layout: (BlGridLayout new
+		columnCount: 10;
+		cellSpacing: 10
+		);
+	"size: 1280@720;"
+	size: 1560@800;
+	"background: Color veryVeryDarkGray ."
+		"background: Color veryDarkGray ."
+			background: Color black .
+
+
+e1:= TbButton new.
+e2:= TbLEDButton new.
+e3:= TbLEDButton toggleable.
+e4:= TbLEDDarkButton new.
+e5:= TbLEDDarkButton toggleable.
+
+container addChildren: { e1 . e2 . e3 . e4 . e5 }.
+container openInSpace.
+		
+		
+	
+]
+
 { #category : 'api - attribute' }
 TbButton class >> toggleable [
 	|ele|
