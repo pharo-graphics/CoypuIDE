@@ -14,7 +14,7 @@ Class {
 { #category : 'examples' }
 TbLabel class >> LabelExample [
 	<script>
-	| container e1  e2 e3|
+	| container e0 e1  e2 e3|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -29,10 +29,11 @@ TbLabel class >> LabelExample [
 		"background: Color white ."
 		background: (Color r: 233 g:224  b:208  range:255).
 
+e0:=TbLabel new.
 e1:=TbLabel_BassLine new.
 e2:=TbLabel_Phausto new.
 e3:=TbLabel_TP33 new.
-container addChildren: { e1. e2. e3}.
+container addChildren: {e0. e1. e2. e3}.
 container openInSpace.
 	
 ]
@@ -40,7 +41,14 @@ container openInSpace.
 { #category : 'initialization' }
 TbLabel >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: self fontColor) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:self fontSize) }
+	paint: self fontColor) . 
+	"(BlFontWeightAttribute bold) . "
+	(BlFontEmphasisAttribute italic).
+	(BlFontSizeAttribute size:self fontSize) }
+	
+"configuredString: aString 
+	^ aString asRopedText italic foreground: self fontColor; defaultFontSize: 40."
+
 ]
 
 { #category : 'initialization' }
@@ -87,19 +95,20 @@ TbLabel >> initializeLabel [
 	
 	"labelText := 'Sample' asRopedText
  						foreground: self fontColor;
- 						fontSize: 26;
-						fontName: 'Helvetica';
- 					
- 						bold.
+ 						fontSize: 40;
+						fontName: 'Inria Serif'.
+ 						
 	label := BlTextElement new;
 				text: labelText."
 				
 	label := BlTextElement new;
 				text: (self configuredString: 'SAMple' ).
+				
 	"label := BlAttributedTextElement new.
 	label text: 'SAMple' asRopedText ;
 				fontSize:18;
 				bold."
+	
 				
 	label constraintsDo:[:c | c frame horizontal alignCenter. c frame vertical alignCenter].
 	
