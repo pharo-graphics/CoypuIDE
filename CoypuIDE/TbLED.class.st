@@ -79,7 +79,6 @@ TbLED >> initializeIndicator [
 				transformDo: [ :t|
 					t translateBy: -4@ -4.
 		 		];
-				effect: (BlGaussianShadowEffect color: (Color white alpha:1.0)   offset: 0@ 0  width: 7);
            	constraintsDo: [ :c |
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter.

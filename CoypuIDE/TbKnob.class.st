@@ -52,8 +52,8 @@ TbKnob class >> AllExamples [
 	k4 := TbKnob label:'ENV MOD'.
 	k5 := TbKnob label:'DECAY'.
 	k6 := TbKnob label:'ACCENT'.
-		k7 := TbKnob1 label:'BIGGER KNOB'.
-			k8 := TbKnob1 label:'BIGGER KNOB'.
+		k7 := TbKnob1 label:'BIGGER KNOB1'.
+			k8 := TbKnob2 label:'BIGGER KNOB2'.
 	
 	
 	
@@ -462,7 +462,7 @@ TbKnob >> initializeGeometry [
 			 geometry: BlCircleGeometry new;
 			 size: self knobSize+5 asPoint;
 			 clipChildren: false;
-			 background: (self color4 alpha:1);
+			 background: (self color4 alpha:1.0);
 			 constraintsDo: [ :c |
 				 c frame horizontal alignCenter.
 				 c frame vertical alignCenter];
