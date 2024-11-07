@@ -18,7 +18,12 @@ Class {
 		'knob_Decay',
 		'knob_Accent',
 		'label_Phausto',
-		'lable_BassLine'
+		'label_BassLine',
+		'label_TP33',
+		'knob_Tempo',
+		'knob_Volume',
+		'knob_PattGroup',
+		'knob_Mode'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -55,6 +60,11 @@ Tp33 >> color3 [
 	 ^(Color r: 252 g:243  b:242  range:255).
 ]
 
+{ #category : 'accessing' }
+Tp33 >> color4 [
+	 ^(Color r: 98 g:85  b:62  range:255).
+]
+
 { #category : 'initialization' }
 Tp33 >> initialize [
 
@@ -89,56 +99,99 @@ Tp33 >> initializeLayout [
 
 { #category : 'initialization' }
 Tp33 >> initializeUpperhalf [
-	|r1 r2 R3|
+	|l1 l2 l3|
 	self lED_MixIn: ((TbLabelledLED label:'MIX IN')
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 30@0.]).
+		transformDo:[:t| t translateBy: 10@0.]).
 	self switch_Waveform: (TbOnOffSwitch toggleable
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 130@20.]).
+		transformDo:[:t| t translateBy: 120@10.]).
 	self lED_SyncIn:  ((TbLabelledLED label:'SYNC IN')
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 250@0.]).
+		transformDo:[:t| t translateBy: 230@0.]).
 		
 	self lED_Cv: ((TbLabelledLED label:'CV')
 		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -30@0.]).
+		transformDo:[:t| t translateBy: -10@0.]).
 	self lED_Gate:((TbLabelledLED label:'GATE')
 	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -90@0.]).
+		transformDo:[:t| t translateBy: -70@0.]).
 	self lED_Headphone:((TbLabelledLED label:'HEADPHONE')
 	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -150@0.]).
+		transformDo:[:t| t translateBy: -130@0.]).
 	self lED_Output: ((TbLabelledLED label:'OUTPUT')
 	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -240@0.]).
+		transformDo:[:t| t translateBy: -220@0.]).
 	self lED_Dc:((TbLabelledLED label:'DC 9V')
 	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -310@0.]).
+		transformDo:[:t| t translateBy: -290@0.]).
 	
 	
 	self label_Phausto: (TbLabel_Phausto new
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 20@60.]).
-	self lable_BassLine: (TbLabel_BassLine new
+		transformDo:[:t| t translateBy: 10@60.]).
+	self label_BassLine: (TbLabel_BassLine new
 		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -50@60.]).
+		transformDo:[:t| t translateBy: -40@60.]).
 
 	
-	self knob_Tuning: (TbKnob label:'TUNING').
-	self knob_CutoffFreq: (TbKnob label:'CUTOFF  FREQ').
-	self knob_Resonance: (TbKnob label:'RESONANCE').
- 	self knob_EnvMod: (TbKnob label:'ENV MOD').
-	self knob_Decay: (TbKnob label:'DECAY').
-	self knob_Accent: (TbKnob label:'ACCENT').
+	self knob_Tuning: ((TbKnob label:'TUNING')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -325@0.]).
+	self knob_CutoffFreq: ((TbKnob label:'CUTOFF  FREQ')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -195@0.]).
+	self knob_Resonance: ((TbKnob label:'RESONANCE')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -65@0.]).
+ 	self knob_EnvMod: ((TbKnob label:'ENV MOD')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 65@0.]).
+	self knob_Decay: ((TbKnob label:'DECAY')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 195@0.]).
+	self knob_Accent: ((TbKnob label:'ACCENT')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 325@0.]).
 	
+	l1:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:3@120;background: Color veryDarkGray;
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 360@5.].
+		
+	l2:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:3@120;background: Color veryDarkGray;
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -360@5.].
 	
+	l3:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:1520@4;background: (self color4 alpha:0.5);
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop.];
+		transformDo:[:t| t translateBy: 0@145.].
+	
+	self label_TP33: (TbLabel_TP33 new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 280@180.]).
+	self knob_Tempo:((TbKnob1 label:'TEMPO')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 80@160.]).
+	self knob_Volume:((TbKnob1 label:'VOLUME')
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -90@160.]).
+	self knob_PattGroup:((TbKnob2 label:'.          PATT  GROUP')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 320@160.]). 
+	self knob_Mode:((TbKnob2 label:'MODE')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 560@160.]).
 	
 	self addChildren: { 
 		self lED_MixIn.
 		self switch_Waveform.
 		self lED_SyncIn.
-		
 		
 		self lED_Cv .
 		self lED_Gate .
@@ -147,8 +200,23 @@ Tp33 >> initializeUpperhalf [
 		self lED_Dc .
 		
 		self label_Phausto.
-		self lable_BassLine.
-	
+		self label_BassLine.
+		
+		self knob_Tuning.
+		self knob_CutoffFreq. 
+		self knob_Resonance. 
+		self knob_EnvMod. 
+		self knob_Decay.
+		self knob_Accent.
+		
+		l1.l2.l3.
+		
+		self label_TP33.
+		self knob_Tempo.
+		self knob_Volume.
+		self knob_PattGroup.
+		self knob_Mode.
+		
 	}.
 
 
@@ -216,6 +284,30 @@ Tp33 >> knob_EnvMod: anObject [
 ]
 
 { #category : 'accessing' }
+Tp33 >> knob_Mode [
+
+	^ knob_Mode
+]
+
+{ #category : 'accessing' }
+Tp33 >> knob_Mode: anObject [
+
+	knob_Mode := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> knob_PattGroup [
+
+	^ knob_PattGroup
+]
+
+{ #category : 'accessing' }
+Tp33 >> knob_PattGroup: anObject [
+
+	knob_PattGroup := anObject
+]
+
+{ #category : 'accessing' }
 Tp33 >> knob_Resonance [
 
 	^ knob_Resonance
@@ -228,6 +320,18 @@ Tp33 >> knob_Resonance: anObject [
 ]
 
 { #category : 'accessing' }
+Tp33 >> knob_Tempo [
+
+	^ knob_Tempo
+]
+
+{ #category : 'accessing' }
+Tp33 >> knob_Tempo: anObject [
+
+	knob_Tempo := anObject
+]
+
+{ #category : 'accessing' }
 Tp33 >> knob_Tuning [
 
 	^ knob_Tuning
@@ -237,6 +341,18 @@ Tp33 >> knob_Tuning [
 Tp33 >> knob_Tuning: anObject [
 
 	knob_Tuning := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> knob_Volume [
+
+	^ knob_Volume
+]
+
+{ #category : 'accessing' }
+Tp33 >> knob_Volume: anObject [
+
+	knob_Volume := anObject
 ]
 
 { #category : 'accessing' }
@@ -324,6 +440,18 @@ Tp33 >> lED_SyncIn: anObject [
 ]
 
 { #category : 'accessing' }
+Tp33 >> label_BassLine [
+
+	^ label_BassLine
+]
+
+{ #category : 'accessing' }
+Tp33 >> label_BassLine: anObject [
+
+	label_BassLine := anObject
+]
+
+{ #category : 'accessing' }
 Tp33 >> label_Phausto [
 
 	^ label_Phausto
@@ -336,15 +464,15 @@ Tp33 >> label_Phausto: anObject [
 ]
 
 { #category : 'accessing' }
-Tp33 >> lable_BassLine [
+Tp33 >> label_TP33 [
 
-	^ lable_BassLine
+	^ label_TP33
 ]
 
 { #category : 'accessing' }
-Tp33 >> lable_BassLine: anObject [
+Tp33 >> label_TP33: anObject [
 
-	lable_BassLine := anObject
+	label_TP33 := anObject
 ]
 
 { #category : 'accessing' }

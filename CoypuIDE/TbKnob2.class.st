@@ -55,7 +55,7 @@ TbKnob2 >> initializeGeometry [
 	
 	|e1 e2  st st2 marker k kb kb2 kf k1 |
 
-	self size: 180 @ 220.
+	self size: 180 @ 230.
 	self background: (self backColor alpha:0.0).
    "self border: (BlBorder paint: (Color gray) width: 2)."
 	self clipChildren: false.

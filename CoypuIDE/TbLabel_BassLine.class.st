@@ -13,7 +13,7 @@ TbLabel_BassLine >> initializeLabel [
 
 				
 	label := BlTextElement new;
-				text: (self configuredString: 'Bass Line' size:60).
+				text: (self configuredString: 'Bass Line' size:50).
 				
 	label constraintsDo:[:c | c frame horizontal alignCenter. c frame vertical alignCenter].
 		
