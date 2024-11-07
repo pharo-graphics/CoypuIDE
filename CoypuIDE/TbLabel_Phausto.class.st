@@ -13,7 +13,7 @@ TbLabel_Phausto >> initializeLabel [
 	self fontColor: Color veryVeryDarkGray.
 	BlTextElement new.
 	label := BlTextElement text:
-		        (self configuredString: 'Phausto' size: 80).
+		        (self configuredString: 'Phausto' size: 60).
 	label constraintsDo: [ :c |
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
@@ -23,5 +23,5 @@ TbLabel_Phausto >> initializeLabel [
 { #category : 'initialization' }
 TbLabel_Phausto >> initializeSize [
 
-	self widgetSize: 400 @ 100
+	self widgetSize: 300 @ 80
 ]

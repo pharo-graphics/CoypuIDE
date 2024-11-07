@@ -13,7 +13,7 @@ TbLabel_BassLine >> initializeLabel [
 
 				
 	label := BlTextElement new;
-				text: (self configuredString: 'Bass Line' size:80).
+				text: (self configuredString: 'Bass Line' size:60).
 				
 	label constraintsDo:[:c | c frame horizontal alignCenter. c frame vertical alignCenter].
 		
@@ -25,5 +25,5 @@ TbLabel_BassLine >> initializeLabel [
 
 { #category : 'initialization' }
 TbLabel_BassLine >> initializeSize [
-	self widgetSize: 400@100.
+	self widgetSize: 300@80.
 ]
