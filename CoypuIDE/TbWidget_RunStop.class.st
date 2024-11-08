@@ -42,13 +42,13 @@ container openInSpace.
 { #category : 'setting' }
 TbWidget_RunStop >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 ]
 
 { #category : 'setting' }
 TbWidget_RunStop >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
 ]
 
 { #category : 'setting' }
@@ -103,7 +103,7 @@ TbWidget_RunStop >> initializeEvents [
 { #category : 'initialization' }
 TbWidget_RunStop >> initializeLayout [
 	|label l1 l2|
-	
+	self padding:(BlInsets top:10 right:10  bottom:30  left:10 ).
 	self border: (BlBorder paint: (Color gray) width: 2).
 	
 	l1 := BlTextElement new.
@@ -171,7 +171,7 @@ TbWidget_RunStop >> initializeWidget [
 
 { #category : 'initialization' }
 TbWidget_RunStop >> initializeWidgetSize [
-	widgetSize:= 160@180.
+	widgetSize:= 160@200.
 ]
 
 { #category : 'setting' }

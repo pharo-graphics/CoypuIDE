@@ -42,13 +42,13 @@ container openInSpace.
 { #category : 'setting' }
 TbWidget_PitchMode >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 ]
 
 { #category : 'setting' }
 TbWidget_PitchMode >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
 ]
 
 { #category : 'setting' }

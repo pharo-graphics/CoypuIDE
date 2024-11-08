@@ -23,7 +23,14 @@ Class {
 		'knob_Tempo',
 		'knob_Volume',
 		'knob_PattGroup',
-		'knob_Mode'
+		'knob_Mode',
+		'widget_PatternClear',
+		'widget_PitchMode',
+		'widget_TimeMode',
+		'widget_Back',
+		'widget_RunStop',
+		'widget_Function',
+		'widget_WriteNext'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -65,6 +72,18 @@ Tp33 >> color4 [
 	 ^(Color r: 98 g:85  b:62  range:255).
 ]
 
+{ #category : 'setting' }
+Tp33 >> configuredString: aString size: anInteger [
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute
+	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
+]
+
+{ #category : 'setting' }
+Tp33 >> configuredString: aString size: anInteger color:aColor [
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute
+	paint: aColor) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
+]
+
 { #category : 'initialization' }
 Tp33 >> initialize [
 
@@ -94,7 +113,75 @@ Tp33 >> initializeBackground [
 Tp33 >> initializeLayout [
 	self initializeBackground.
 	self initializeUpperhalf.
-	"self initializeLowerhalf."
+	self initializeLowerhalf.
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeLowerhalf [
+	|r1 r2 s1 s2 s3 b1|
+	self widget_PatternClear:  (TbWidget_PatternClear new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 20@100.]).
+	self widget_RunStop: (TbWidget_RunStop new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: 20@ -25.]).
+	
+	self widget_PitchMode: (TbWidget_PitchMode new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 185@100.]).
+	self widget_Function: (TbWidget_Function new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: 185@ -25.]).
+		
+	self widget_Back: (TbWidget_Back new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -20@100.]).
+	self widget_WriteNext: (TbWidget_WriteNext new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: -20@ -25.]).
+	self widget_TimeMode: (TbWidget_TimeMode new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -185@ 100.]).
+	
+	r1:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:700@28;background: Color veryVeryDarkGray;
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -510@54.].
+	r2:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 8);
+		size:740@35;background: Color veryVeryDarkGray;
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: -520@ -65.].
+	b1:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius:0);
+		size:64@40;background: Color veryVeryDarkGray ;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: -458@ -95.].
+	s1:=  BlTextElement new
+		text: (self configuredString: 'C              C#              D             D#' size: 20);
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -300@52.].
+	s2:=  BlTextElement new
+		text: (self configuredString: ' 1              2              3             4' size: 24 color:(Color orange));
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: -270@ -75.].
+	s3:=  BlTextElement new
+		text: (self configuredString: 'PATTERN' size: 18 color:(Color orange));
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: -445@ -75.].
+	
+	self addChildren: { 
+		self widget_PatternClear.
+		self widget_RunStop.
+		self widget_PitchMode.
+		self widget_Function.
+		self widget_Back.
+		self widget_WriteNext.
+		self widget_TimeMode.
+		
+		r1.r2.b1.s1.s2.s3.
+	 }
 ]
 
 { #category : 'initialization' }
@@ -497,4 +584,88 @@ Tp33 >> widgetSize [
 Tp33 >> widgetSize: anObject [
 
 	widgetSize := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_Back [
+
+	^ widget_Back
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_Back: anObject [
+
+	widget_Back := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_Function [
+
+	^ widget_Function
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_Function: anObject [
+
+	widget_Function := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_PatternClear [
+
+	^ widget_PatternClear
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_PatternClear: anObject [
+
+	widget_PatternClear := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_PitchMode [
+
+	^ widget_PitchMode
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_PitchMode: anObject [
+
+	widget_PitchMode := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_RunStop [
+
+	^ widget_RunStop
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_RunStop: anObject [
+
+	widget_RunStop := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_TimeMode [
+
+	^ widget_TimeMode
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_TimeMode: anObject [
+
+	widget_TimeMode := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_WriteNext [
+
+	^ widget_WriteNext
+]
+
+{ #category : 'accessing' }
+Tp33 >> widget_WriteNext: anObject [
+
+	widget_WriteNext := anObject
 ]

@@ -153,6 +153,12 @@ TbButton >> callbackDown: aBlock [
 	callbackDown := aBlock
 ]
 
+{ #category : 'initialization' }
+TbButton >> color4 [
+	"^ (Color r: 233 g:208  b:168  range:255)."
+	^ (Color r: 99 g:78  b:44  range:255).
+]
+
 { #category : 'evaluating' }
 TbButton >> indicator [
 	^ indicator.
@@ -180,7 +186,8 @@ TbButton >> initializeButton [
 	|s|
 	self button: (BlElement new
             geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOnColor;
+					"background: self switchOnColor;"
+				background: (self color4 alpha:0.7);
 				transformDo: [ :t|
 					t translateBy: 0@ -4 ];
 				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
@@ -392,7 +399,7 @@ TbButton >> toggle [
 			
 			].
 			
-			button background: (self switchOnColor alpha: 1.0);
+			button 
 				childrenDo: [ :i|   
 				    i constraintsDo: [ :c |
 					c frame horizontal alignCenter.
@@ -414,7 +421,7 @@ TbButton >> toggle [
 					i background:Color veryVeryLightGray.
 					
 			].
-			button background: (self switchOnColor alpha: 1.0);
+			button 
 			childrenDo: [ :i|   
 				    i constraintsDo: [ :c |
 						c frame horizontal alignCenter.

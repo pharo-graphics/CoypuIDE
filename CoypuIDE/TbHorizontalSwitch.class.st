@@ -11,7 +11,8 @@ TbHorizontalSwitch >> initializeSwitch [
 	|s|
 	self switch: (BlElement new
             geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOnColor;
+					"background: self switchOnColor;"
+				background: (self color4 alpha:0.7);
 				transformDo: [ :t|
 					t translateBy: 0@ -4 ];
 				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
