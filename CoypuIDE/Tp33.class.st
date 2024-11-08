@@ -163,9 +163,9 @@ Tp33 >> initializeLowerhalf [
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
 		transformDo:[:t| t translateBy: -300@52.].
 	s2:=  BlTextElement new
-		text: (self configuredString: ' 1              2              3             4' size: 24 color:(Color orange));
+		text: (self configuredString: '1              2              3              4              5              6              7              8' size: 24 color:(Color orange));
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -270@ -75.].
+		transformDo:[:t| t translateBy: -90@ -75.].
 	s3:=  BlTextElement new
 		text: (self configuredString: 'PATTERN' size: 18 color:(Color orange));
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
