@@ -118,7 +118,7 @@ Tp33 >> initializeLayout [
 
 { #category : 'initialization' }
 Tp33 >> initializeLowerhalf [
-	|r1 r2 s1 s2 s3 b1|
+	|r1 r2 s1 s2 s3 b1 l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12|
 	self widget_PatternClear:  (TbWidget_PatternClear new
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
 		transformDo:[:t| t translateBy: 20@100.]).
@@ -150,26 +150,87 @@ Tp33 >> initializeLowerhalf [
 		transformDo:[:t| t translateBy: -510@54.].
 	r2:= BlElement new
 	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 8);
-		size:740@35;background: Color veryVeryDarkGray;
+		size:745@35;background: Color veryVeryDarkGray;
 		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -520@ -65.].
+		transformDo:[:t| t translateBy: -515@ -65.].
 	b1:= BlElement new
 	 	geometry:(BlRoundedRectangleGeometry cornerRadius:0);
 		size:64@40;background: Color veryVeryDarkGray ;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
 		transformDo:[:t| t translateBy: -458@ -95.].
 	s1:=  BlTextElement new
-		text: (self configuredString: 'C              C#              D             D#' size: 20);
+		text: (self configuredString: 'C      C#      D      D#      E                 F       F#      G       G#       A       A#       B                 C' size: 20);
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -300@52.].
+		transformDo:[:t| t translateBy: -90@52.].
 	s2:=  BlTextElement new
-		text: (self configuredString: '1              2              3              4              5              6              7              8' size: 24 color:(Color orange));
+		text: (self configuredString: '1               2               3               4               5               6               7               8' size: 24 color:(Color orange));
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -90@ -75.].
+		transformDo:[:t| t translateBy: -85@ -75.].
 	s3:=  BlTextElement new
 		text: (self configuredString: 'PATTERN' size: 18 color:(Color orange));
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
 		transformDo:[:t| t translateBy: -445@ -75.].
+	
+	l1:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -340@180.].
+	l2:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -255@180.].
+	l3:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -170@180.].
+	l4:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -85@180.].
+	l5:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 0@180.].
+	l6:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 85@180.].
+	l7:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 170@180.].
+	l8:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@230;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 255@180.].
+	l9:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@166;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 338@242.].
+	l10:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@150;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 420@234.].
+	l11:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@150;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 502@234.].
+	l12:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
+		size:2@206;background: Color red;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 583.5@262.].
 	
 	self addChildren: { 
 		self widget_PatternClear.
@@ -180,7 +241,13 @@ Tp33 >> initializeLowerhalf [
 		self widget_WriteNext.
 		self widget_TimeMode.
 		
+		l1.l2.l3.l4.l5.l6.l7.l8.
+		
+		l9.l10.l11.l12.
+		
 		r1.r2.b1.s1.s2.s3.
+		
+	
 	 }
 ]
 
