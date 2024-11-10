@@ -30,7 +30,24 @@ Class {
 		'widget_Back',
 		'widget_RunStop',
 		'widget_Function',
-		'widget_WriteNext'
+		'widget_WriteNext',
+		'note_C1',
+		'note_CSharp',
+		'note_D',
+		'note_DSharp',
+		'note_E',
+		'note_F',
+		'note_FSharp',
+		'note_G',
+		'note_GSharp',
+		'note_A',
+		'note_ASharp',
+		'note_B',
+		'note_C',
+		'note_9',
+		'note_0',
+		'note_100',
+		'note_200'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -194,7 +211,9 @@ Tp33 >> initializeLayout [
 
 { #category : 'initialization' }
 Tp33 >> initializeLowerhalf [
-
+	self initializeGridlines.
+	self initializeNotes.
+	
 	self widget_PatternClear:  (TbWidget_PatternClear new
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
 		transformDo:[:t| t translateBy: 20@100.]).
@@ -229,8 +248,92 @@ Tp33 >> initializeLowerhalf [
 		self widget_TimeMode.	
 	 }.
 	
-	self initializeGridlines.
+	
 	self initializeSymbols.
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeNotes [
+	self note_C1: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -382@230.]).
+	self note_D: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -297@230.]).
+	self note_E: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -212@230.]).
+	self note_F: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -127@230.]).
+	self note_G: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -42@230.]).
+	self note_A: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 43@230.]).
+	self note_B: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 128@230.]).
+	self note_C: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 213@230.]).
+		
+		
+		
+	self note_CSharp: (TbLEDDarkButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -340@125.]).
+	self note_DSharp: (TbLEDDarkButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -255@125.]).
+	self note_FSharp: (TbLEDDarkButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -85@125.]).
+	self note_GSharp: (TbLEDDarkButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -0@125.]).
+	self note_ASharp: (TbLEDDarkButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 85@125.]).
+		
+		
+	self note_9: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 298@230.]).
+	self note_0: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 380@230.]).
+	self note_100: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 462@230.]).
+	self note_200: (TbLEDButton new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 543@230.]).
+		
+	
+	self addChildren:{
+		self note_C1.
+		self note_D.
+		self note_E.
+		self note_F.
+		self note_G.
+		self note_A.
+		self note_B.
+		self note_C.
+		
+		
+		self note_CSharp.
+		self note_DSharp.
+		self note_FSharp.
+		self note_GSharp.
+		self note_ASharp.
+		
+		self note_9.
+		self note_0.
+		self note_100.
+		self note_200.
+	}. 
 ]
 
 { #category : 'initialization' }
@@ -669,6 +772,210 @@ Tp33 >> label_TP33 [
 Tp33 >> label_TP33: anObject [
 
 	label_TP33 := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_0 [
+
+	^ note_0
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_0: anObject [
+
+	note_0 := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_100 [
+
+	^ note_100
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_100: anObject [
+
+	note_100 := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_200 [
+
+	^ note_200
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_200: anObject [
+
+	note_200 := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_9 [
+
+	^ note_9
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_9: anObject [
+
+	note_9 := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_A [
+
+	^ note_A
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_A: anObject [
+
+	note_A := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_ASharp [
+
+	^ note_ASharp
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_ASharp: anObject [
+
+	note_ASharp := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_B [
+
+	^ note_B
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_B: anObject [
+
+	note_B := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_C [
+
+	^ note_C
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_C1 [
+
+	^ note_C1
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_C1: anObject [
+
+	note_C1 := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_C: anObject [
+
+	note_C := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_CSharp [
+
+	^ note_CSharp
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_CSharp: anObject [
+
+	note_CSharp := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_D [
+
+	^ note_D
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_D: anObject [
+
+	note_D := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_DSharp [
+
+	^ note_DSharp
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_DSharp: anObject [
+
+	note_DSharp := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_E [
+
+	^ note_E
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_E: anObject [
+
+	note_E := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_F [
+
+	^ note_F
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_F: anObject [
+
+	note_F := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_FSharp [
+
+	^ note_FSharp
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_FSharp: anObject [
+
+	note_FSharp := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_G [
+
+	^ note_G
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_G: anObject [
+
+	note_G := anObject
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_GSharp [
+
+	^ note_GSharp
+]
+
+{ #category : 'accessing' }
+Tp33 >> note_GSharp: anObject [
+
+	note_GSharp := anObject
 ]
 
 { #category : 'accessing' }

@@ -288,7 +288,7 @@ TbButton >> initializeSwitch [
 TbButton >> initializeWidget [
 	self size: widgetSize.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	self padding: (BlInsets all: 5).
+	self padding: (BlInsets top: 15 right:5  bottom:15  left:5 ).
 	self background: self backColor.
 	self layout: BlFrameLayout new.
 
@@ -299,7 +299,7 @@ TbButton >> initializeWidget [
 
 { #category : 'evaluating' }
 TbButton >> initializeWidgetSize [
-	widgetSize:= 60@120.
+	widgetSize:= 50@135.
 ]
 
 { #category : 'accessing' }
