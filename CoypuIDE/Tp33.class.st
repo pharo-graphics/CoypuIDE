@@ -112,7 +112,7 @@ Tp33 >> initialize [
 
 { #category : 'initialization' }
 Tp33 >> initializeBackground [
-	|l h|
+	|l |
 	self border: (BlBorder builder paint: self color3; width: 10; build).
 	l:= BlElement new
 	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
@@ -203,6 +203,140 @@ Tp33 >> initializeGridlines [
 ]
 
 { #category : 'initialization' }
+Tp33 >> initializeKnobs [
+	self knob_Tuning: ((TbKnob label:'TUNING')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -325@0.]).
+	self knob_CutoffFreq: ((TbKnob label:'CUTOFF  FREQ')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -195@0.]).
+	self knob_Resonance: ((TbKnob label:'RESONANCE')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -65@0.]).
+ 	self knob_EnvMod: ((TbKnob label:'ENV MOD')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 65@0.]).
+	self knob_Decay: ((TbKnob label:'DECAY')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 195@0.]).
+	self knob_Accent: ((TbKnob label:'ACCENT')
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 325@0.]).
+	
+	
+	
+		
+	self knob_Tempo:((TbKnob1 label:'TEMPO')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 80@160.]).
+	self knob_Volume:((TbKnob1 label:'VOLUME')
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -90@160.]).
+	self knob_PattGroup:((TbKnob2 label:'.          PATT  GROUP')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 320@160.]). 
+	self knob_Mode:((TbKnob2 label:'MODE')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 560@160.]).
+	
+	self addChildren: { 
+		
+		self knob_Tuning.
+		self knob_CutoffFreq. 
+		self knob_Resonance. 
+		self knob_EnvMod. 
+		self knob_Decay.
+		self knob_Accent.
+		self knob_Tempo.
+		self knob_Volume.
+		self knob_PattGroup.
+		self knob_Mode.
+		
+	}.
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeLEDs [
+
+	self lED_MixIn: ((TbLabelledLED label:'MIX IN')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 10@0.]).
+	self switch_Waveform: (TbOnOffSwitch toggleable
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 120@10.]).
+	self lED_SyncIn:  ((TbLabelledLED label:'SYNC IN')
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 230@0.]).
+		
+	self lED_Cv: ((TbLabelledLED label:'CV')
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -10@0.]).
+	self lED_Gate:((TbLabelledLED label:'GATE')
+	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -70@0.]).
+	self lED_Headphone:((TbLabelledLED label:'HEADPHONE')
+	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -130@0.]).
+	self lED_Output: ((TbLabelledLED label:'OUTPUT')
+	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -220@0.]).
+	self lED_Dc:((TbLabelledLED label:'DC 9V')
+	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -290@0.]).
+		
+	self addChildren: { 
+		self lED_MixIn.
+		self switch_Waveform.
+		self lED_SyncIn.
+		
+		self lED_Cv .
+		self lED_Gate .
+		self lED_Headphone .
+		self lED_Output .
+		self lED_Dc .
+		
+	}.
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeLabels [
+	|l1 l2 l3|.
+	l1:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:3@120;background: Color veryDarkGray;
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 360@5.].
+		
+	l2:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:3@120;background: Color veryDarkGray;
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -360@5.].
+	
+	l3:= BlElement new
+	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
+		size:1520@4;background: (self color4 alpha:0.5);
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop.];
+		transformDo:[:t| t translateBy: 0@145.].
+	self label_Phausto: (TbLabel_Phausto new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 10@60.]).
+	self label_BassLine: (TbLabel_BassLine new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: -40@60.]).
+	self label_TP33: (TbLabel_TP33 new
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
+		transformDo:[:t| t translateBy: 280@180.]).
+		
+	self addChildren:{
+		l1.l2.l3.
+		self label_Phausto.
+		self label_BassLine.
+		self label_TP33.
+	}.
+]
+
+{ #category : 'initialization' }
 Tp33 >> initializeLayout [
 	self initializeBackground.
 	self initializeUpperhalf.
@@ -211,44 +345,10 @@ Tp33 >> initializeLayout [
 
 { #category : 'initialization' }
 Tp33 >> initializeLowerhalf [
+
 	self initializeGridlines.
 	self initializeNotes.
-	
-	self widget_PatternClear:  (TbWidget_PatternClear new
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 20@100.]).
-	self widget_RunStop: (TbWidget_RunStop new
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 20@ -25.]).
-	
-	self widget_PitchMode: (TbWidget_PitchMode new
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 185@100.]).
-	self widget_Function: (TbWidget_Function new
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 185@ -25.]).
-		
-	self widget_Back: (TbWidget_Back new
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -20@100.]).
-	self widget_WriteNext: (TbWidget_WriteNext new
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -20@ -25.]).
-	self widget_TimeMode: (TbWidget_TimeMode new
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -185@ 100.]).
-	
-	self addChildren: { 
-		self widget_PatternClear.
-		self widget_RunStop.
-		self widget_PitchMode.
-		self widget_Function.
-		self widget_Back.
-		self widget_WriteNext.
-		self widget_TimeMode.	
-	 }.
-	
-	
+	self initializeWidgets.
 	self initializeSymbols.
 ]
 
@@ -398,126 +498,10 @@ Tp33 >> initializeSymbols [
 
 { #category : 'initialization' }
 Tp33 >> initializeUpperhalf [
-	|l1 l2 l3|
-	self lED_MixIn: ((TbLabelledLED label:'MIX IN')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 10@0.]).
-	self switch_Waveform: (TbOnOffSwitch toggleable
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 120@10.]).
-	self lED_SyncIn:  ((TbLabelledLED label:'SYNC IN')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 230@0.]).
-		
-	self lED_Cv: ((TbLabelledLED label:'CV')
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -10@0.]).
-	self lED_Gate:((TbLabelledLED label:'GATE')
-	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -70@0.]).
-	self lED_Headphone:((TbLabelledLED label:'HEADPHONE')
-	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -130@0.]).
-	self lED_Output: ((TbLabelledLED label:'OUTPUT')
-	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -220@0.]).
-	self lED_Dc:((TbLabelledLED label:'DC 9V')
-	constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -290@0.]).
 	
-	
-	self label_Phausto: (TbLabel_Phausto new
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 10@60.]).
-	self label_BassLine: (TbLabel_BassLine new
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -40@60.]).
-
-	
-	self knob_Tuning: ((TbKnob label:'TUNING')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -325@0.]).
-	self knob_CutoffFreq: ((TbKnob label:'CUTOFF  FREQ')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -195@0.]).
-	self knob_Resonance: ((TbKnob label:'RESONANCE')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -65@0.]).
- 	self knob_EnvMod: ((TbKnob label:'ENV MOD')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 65@0.]).
-	self knob_Decay: ((TbKnob label:'DECAY')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 195@0.]).
-	self knob_Accent: ((TbKnob label:'ACCENT')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 325@0.]).
-	
-	l1:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:3@120;background: Color veryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 360@5.].
-		
-	l2:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:3@120;background: Color veryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -360@5.].
-	
-	l3:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:1520@4;background: (self color4 alpha:0.5);
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop.];
-		transformDo:[:t| t translateBy: 0@145.].
-	
-	self label_TP33: (TbLabel_TP33 new
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 280@180.]).
-	self knob_Tempo:((TbKnob1 label:'TEMPO')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 80@160.]).
-	self knob_Volume:((TbKnob1 label:'VOLUME')
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -90@160.]).
-	self knob_PattGroup:((TbKnob2 label:'.          PATT  GROUP')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 320@160.]). 
-	self knob_Mode:((TbKnob2 label:'MODE')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 560@160.]).
-	
-	self addChildren: { 
-		self lED_MixIn.
-		self switch_Waveform.
-		self lED_SyncIn.
-		
-		self lED_Cv .
-		self lED_Gate .
-		self lED_Headphone .
-		self lED_Output .
-		self lED_Dc .
-		
-		self label_Phausto.
-		self label_BassLine.
-		
-		self knob_Tuning.
-		self knob_CutoffFreq. 
-		self knob_Resonance. 
-		self knob_EnvMod. 
-		self knob_Decay.
-		self knob_Accent.
-		
-		l1.l2.l3.
-		
-		self label_TP33.
-		self knob_Tempo.
-		self knob_Volume.
-		self knob_PattGroup.
-		self knob_Mode.
-		
-	}.
-
+	self initializeLEDs.
+	self initializeKnobs.
+	self initializeLabels.
 
 ]
 
@@ -532,6 +516,43 @@ Tp33 >> initializeWidget [
 { #category : 'initialization' }
 Tp33 >> initializeWidgetSize [
 	self widgetSize: 1560@800.
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeWidgets [
+	self widget_PatternClear:  (TbWidget_PatternClear new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 20@100.]).
+	self widget_RunStop: (TbWidget_RunStop new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: 20@ -25.]).
+	
+	self widget_PitchMode: (TbWidget_PitchMode new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 185@100.]).
+	self widget_Function: (TbWidget_Function new
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: 185@ -25.]).
+		
+	self widget_Back: (TbWidget_Back new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -20@100.]).
+	self widget_WriteNext: (TbWidget_WriteNext new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
+		transformDo:[:t| t translateBy: -20@ -25.]).
+	self widget_TimeMode: (TbWidget_TimeMode new
+		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -185@ 100.]).
+	
+	self addChildren: { 
+		self widget_PatternClear.
+		self widget_RunStop.
+		self widget_PitchMode.
+		self widget_Function.
+		self widget_Back.
+		self widget_WriteNext.
+		self widget_TimeMode.	
+	 }.
 ]
 
 { #category : 'accessing' }
