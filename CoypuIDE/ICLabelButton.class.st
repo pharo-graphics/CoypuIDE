@@ -46,14 +46,14 @@ ICLabelButton >> buttonColor [
 { #category : 'evaluating' }
 ICLabelButton >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color black) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:24) }
+	paint: Color black) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:16) }
 
 ]
 
 { #category : 'evaluating' }
 ICLabelButton >> configuredStringDark: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:24) }
+	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:16) }
 ]
 
 { #category : 'evaluating' }
@@ -97,7 +97,7 @@ ICLabelButton >> initializeLabel [
 
 { #category : 'evaluating' }
 ICLabelButton >> initializeWidgetSize [ 
-	widgetSize:= 200@80.
+	widgetSize:= 200@200.
 ]
 
 { #category : 'evaluating' }

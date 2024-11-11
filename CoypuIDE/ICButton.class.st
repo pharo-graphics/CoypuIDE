@@ -165,7 +165,7 @@ ICButton >> initializeWidget [
 
 { #category : 'evaluating' }
 ICButton >> initializeWidgetSize [
-	widgetSize:= 80@80.
+	widgetSize:= 200@200.
 ]
 
 { #category : 'accessing' }
