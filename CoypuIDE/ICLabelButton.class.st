@@ -97,7 +97,7 @@ ICLabelButton >> initializeLabel [
 
 { #category : 'evaluating' }
 ICLabelButton >> initializeWidgetSize [ 
-	widgetSize:= 200@80.
+	widgetSize:= 200@200.
 ]
 
 { #category : 'evaluating' }
