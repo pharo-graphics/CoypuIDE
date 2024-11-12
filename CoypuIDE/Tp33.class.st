@@ -128,7 +128,8 @@ Tp33 >> initializeBackground [
 	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		background: self color2;
 		size:1540@390;
-		"effect: (BlGaussianShadowEffect color: (Color orange)   offset: 0@0  width: 30);"
+		"border: (BlBorder builder paint: self color1; width: 15; build);"
+		effect: (BlGaussianShadowEffect color: (Color gray alpha:1)   offset: 2@10  width: 30);
 		constraintsDo: [ :c| 
 			c frame horizontal alignCenter.
 			c frame vertical alignBottom.
@@ -162,7 +163,7 @@ Tp33 >> initializeDialTexts [
 		transformDo:[:t| t translateBy: -315@ -175.].
 	l4:= BlElement new
 	geometry: (BlPolylineGeometry vertices: {(5 @ 10). (40 @
- 10). ( 40@ 40) });
+ 10). ( 40@ 30) });
 	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
 	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
 		transformDo:[:t| t translateBy: -265@ -115.].
@@ -273,12 +274,32 @@ Tp33 >> initializeDialTexts [
 		transformDo:[:t| t translateBy: -278@ -127.].
 		
 		
-	"t14:=BlTextElement new
-		text: (self configuredString: 'Ⅳ' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
+	t14:=BlTextElement new
+		text: (self configuredString: 'II' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
 		border:(BlBorder paint: (self color1) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -428@ -189.]."
+		transformDo:[:t| t translateBy: -428@ -189.].
+	t15:=BlTextElement new
+		text: (self configuredString: 'III' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
+		border:(BlBorder paint: (self color1) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -290@ -189.].
+	t16:=BlTextElement new
+		text: (self configuredString: 'I' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
+		border:(BlBorder paint: (self color1) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -464@ -112.].
+	t17:=BlTextElement new
+		text: (self configuredString: 'IV' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
+		border:(BlBorder paint: (self color1) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -252@ -112.].
+
+
 		
 	self addChildren: { 
 		l1.l2.l3.l4.l5.l6.l7.l8.
@@ -286,7 +307,7 @@ Tp33 >> initializeDialTexts [
 		t1.t2.t3.t4.t5.t6.
 		
 		t7.t8.t9.t10.t11.t12.t13.
-		
+		t14.t15.t16.t17.
 	 }
 ]
 
