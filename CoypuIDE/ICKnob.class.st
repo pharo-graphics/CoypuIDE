@@ -228,7 +228,7 @@ ICKnob >> currentValue: aNumber [
 
 	currentValue := aNumber.
 	self callBack ifNotNil: [ :c | c value: currentValue ].
-	self currentLabel text: (aNumber rounded asRopedText attributes:
+	self currentLabel text: ((aNumber printShowingDecimalPlaces: 3) asRopedText attributes:
 			 { (BlTextForegroundAttribute paint: self valueColor) })
 ]
 
@@ -299,7 +299,7 @@ ICKnob >> initializeDefaultValues [
 
 	minValue := 0.
 	maxValue := 100.
-	stepValue := nil.
+	stepValue := 0.01.
 	diameter :=100.
 	minAngle := -135.
 	maxAngle := 135
