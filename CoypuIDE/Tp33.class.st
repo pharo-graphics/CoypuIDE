@@ -90,6 +90,11 @@ Tp33 >> color4 [
 ]
 
 { #category : 'setting' }
+Tp33 >> configuredString2: aString size: anInteger color:aColor back:bColor [
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute paint: aColor). (BlTextBackgroundAttribute paint: bColor) .  (BlFontSizeAttribute size:anInteger) }
+]
+
+{ #category : 'setting' }
 Tp33 >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
@@ -118,17 +123,171 @@ Tp33 >> initialize [
 { #category : 'initialization' }
 Tp33 >> initializeBackground [
 	|l |
-	self border: (BlBorder builder paint: self color3; width: 10; build).
+	"self border: (BlBorder builder paint: self color3; width: 10; build)."
 	l:= BlElement new
 	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		background: self color2;
 		size:1540@390;
+		"effect: (BlGaussianShadowEffect color: (Color orange)   offset: 0@0  width: 30);"
 		constraintsDo: [ :c| 
 			c frame horizontal alignCenter.
 			c frame vertical alignBottom.
 			 ].
 		
 	self addChildren:{l}
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeDialTexts [
+	|l1 l2 l3 l4 l5 l6 l7 l8 t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12 t13 t14 t15 t16 t17|
+	
+	l1:= BlElement new
+	geometry: (BlPolylineGeometry vertices: {(70 @ 10). (10 @
+ 10). (10 @ 45).(40 @ 45) });
+	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -435@ -175.].
+		
+	l2:= BlElement new
+	geometry: (BlPolylineGeometry vertices: {(40 @ 10). (5 @
+ 10). ( 5@ 50).(40 @ 50) });
+	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -445@ -115.].
+	l3:= BlElement new
+	geometry: (BlPolylineGeometry vertices: {(20 @ 10). (70 @
+ 10). (70 @ 45).(50 @ 45) });
+	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -315@ -175.].
+	l4:= BlElement new
+	geometry: (BlPolylineGeometry vertices: {(5 @ 10). (40 @
+ 10). ( 40@ 40) });
+	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -265@ -115.].
+	
+	l5:= BlElement new
+	geometry: (BlPolylineGeometry vertices: {(10 @ 10). (85 @
+ 10). (85 @ 45).(40 @ 45) });
+	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -50@ -160.].
+		
+	l6:= BlElement new
+	geometry: (BlPolylineGeometry vertices: {(75 @ 10). (85 @
+ 10). (85 @ 45).(65 @ 45) });
+	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: -50@ -90.].
+	l7:= BlElement new
+	geometry: BlRectangleGeometry new;
+	size:40@1.5;
+	background:Color veryVeryDarkGray;
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 30@ -157.].
+	l8:= BlElement new
+	geometry: BlRectangleGeometry new;
+	size:10@1.5;
+	background:Color veryVeryDarkGray;
+	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 15@ -87.].
+	
+	t1:=BlTextElement new
+		text: (self configuredString: 'WRITE' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -40@ -175.].
+	t2:=BlTextElement new
+		text: (self configuredString: 'PLAY' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -20@ -140.].
+	
+	t3:=BlTextElement new
+		text: (self configuredString: 'PLAY' size: 16 color:(Color veryVeryDarkGray ));
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -20@ -105.].
+	t4:=BlTextElement new
+		text: (self configuredString: 'WRITE' size: 16 color:(Color veryVeryDarkGray ));
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -37@ -72.].
+	
+	t5:=BlTextElement new
+		text: (self configuredString: 'TRACK' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: 50@ -158.].
+		
+	t6:=BlTextElement new
+		text: (self configuredString: 'PATTERN' size: 16 color:(Color veryVeryDarkGray ));
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: 55@ -88.].
+		
+	t7:=BlTextElement new
+		text: (self configuredString: ' 4 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -398@ -189.].
+	t8:=BlTextElement new
+		text: (self configuredString: '3 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -427@ -158.].
+	t9:=BlTextElement new
+		text: (self configuredString: '2 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -437@ -127.].
+	t10:=BlTextElement new
+		text: (self configuredString: '1 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -437@ -95.].
+		
+	
+	t11:=BlTextElement new
+		text: (self configuredString: ' 5 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -315@ -189.].
+	t12:=BlTextElement new
+		text: (self configuredString: '6 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -289@ -158.].
+	t13:=BlTextElement new
+		text: (self configuredString: '7 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -278@ -127.].
+		
+		
+	"t14:=BlTextElement new
+		text: (self configuredString: 'Ⅳ' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
+		border:(BlBorder paint: (self color1) width: 7);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
+		transformDo:[:t| t translateBy: -428@ -189.]."
+		
+	self addChildren: { 
+		l1.l2.l3.l4.l5.l6.l7.l8.
+		
+		t1.t2.t3.t4.t5.t6.
+		
+		t7.t8.t9.t10.t11.t12.t13.
+		
+	 }
 ]
 
 { #category : 'initialization' }
@@ -527,7 +686,7 @@ Tp33 >> initializeSymbols [
 
 { #category : 'initialization' }
 Tp33 >> initializeTexts [
-   |t1 t2 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 tf |.
+   |t1 t2 t3 t4 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 tf |.
 	t1:=  BlElement new
 		geometry: BlRectangleGeometry new;
 		size:10@38;
@@ -541,16 +700,26 @@ Tp33 >> initializeTexts [
 		);
 		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
 		transformDo:[:t| t translateBy: 270@ -40.].  
-	"t3:=  BlTextElement new  
-		text: (self configuredString: '1' 
-		size: 20
+	t3:=  BlTextElement new  
+		text: (self configuredString: 'DEL' 
+		size: 16
 		color:(Color white)
 		back: Color veryVeryDarkGray
 		);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 20);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 2);
 		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 370@ -40.]."
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 417@ 180.].
+	t4:=  BlTextElement new  
+		text: (self configuredString: 'INS' 
+		size: 16
+		color:(Color white)
+		back: Color veryVeryDarkGray
+		);
+		border:(BlBorder paint: (Color veryVeryDarkGray) width: 2);
+		outskirts: BlOutskirts centered;
+		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
+		transformDo:[:t| t translateBy: 505@ 180.].
 	
 	b1:=  BlElement new
 		geometry: BlRectangleGeometry new;
@@ -632,7 +801,7 @@ Tp33 >> initializeTexts [
 	self addChildren:{
 		t1.t2.
 		b1.b2.b3. b4.b5.b6.b7.b8.b9.b10.b11.b12.
-		
+		t3.t4.
 		tf.
 	}.
 	
@@ -645,6 +814,7 @@ Tp33 >> initializeUpperhalf [
 	self initializeLEDs.
 	self initializeKnobs.
 	self initializeLabels.
+	self initializeDialTexts.
 
 ]
 
