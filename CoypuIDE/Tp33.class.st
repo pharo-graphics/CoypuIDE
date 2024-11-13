@@ -122,20 +122,35 @@ Tp33 >> initialize [
 
 { #category : 'initialization' }
 Tp33 >> initializeBackground [
-	|l |
-	"self border: (BlBorder builder paint: self color3; width: 10; build)."
+	|l h|
+	"self border: (BlBorder builder paint: self color4 ; width: 10; build)."
 	l:= BlElement new
 	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		background: self color2;
-		size:1540@390;
+		size:1540@360;
 		"border: (BlBorder builder paint: self color1; width: 15; build);"
-		effect: (BlGaussianShadowEffect color: (Color gray alpha:1)   offset: 2@10  width: 30);
+		effect: (BlGaussianShadowEffect color: (self color4 alpha:1)   offset: 2@10  width: 50);
 		constraintsDo: [ :c| 
 			c frame horizontal alignCenter.
 			c frame vertical alignBottom.
+			 ];
+		transformDo: [ :t| 
+			t translateBy: 0@ -10.
 			 ].
-		
-	self addChildren:{l}
+	h:= BlElement new
+	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		background: self color2;
+		size:1540@360;
+		"border: (BlBorder builder paint: self color1; width: 15; build);"
+		effect: (BlGaussianShadowEffect color: (self color4 alpha:1)   offset: 30@30  width: 50);
+		constraintsDo: [ :c| 
+			c frame horizontal alignCenter.
+			c frame vertical alignBottom.
+			 ];
+		transformDo: [ :t| 
+			t translateBy: 0@ -10.
+			 ].
+	self addChildren:{l.h}
 ]
 
 { #category : 'initialization' }
@@ -195,13 +210,13 @@ Tp33 >> initializeDialTexts [
 		transformDo:[:t| t translateBy: 15@ -87.].
 	
 	t1:=BlTextElement new
-		text: (self configuredString: 'WRITE' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: 'WRITE' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
 		transformDo:[:t| t translateBy: -40@ -175.].
 	t2:=BlTextElement new
-		text: (self configuredString: 'PLAY' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: 'PLAY' size: 16 color:(self color1 ) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
@@ -217,7 +232,7 @@ Tp33 >> initializeDialTexts [
 		transformDo:[:t| t translateBy: -37@ -72.].
 	
 	t5:=BlTextElement new
-		text: (self configuredString: 'TRACK' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: 'TRACK' size: 16 color:(self color1 ) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
@@ -229,25 +244,25 @@ Tp33 >> initializeDialTexts [
 		transformDo:[:t| t translateBy: 55@ -88.].
 		
 	t7:=BlTextElement new
-		text: (self configuredString: ' 4 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: ' 4 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
 		transformDo:[:t| t translateBy: -398@ -189.].
 	t8:=BlTextElement new
-		text: (self configuredString: '3 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: '3 ' size: 16 color:(self color1 ) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
 		transformDo:[:t| t translateBy: -427@ -158.].
 	t9:=BlTextElement new
-		text: (self configuredString: '2 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: '2 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
 		transformDo:[:t| t translateBy: -437@ -127.].
 	t10:=BlTextElement new
-		text: (self configuredString: '1 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: '1 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
@@ -255,19 +270,19 @@ Tp33 >> initializeDialTexts [
 		
 	
 	t11:=BlTextElement new
-		text: (self configuredString: ' 5 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: ' 5 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
 		transformDo:[:t| t translateBy: -315@ -189.].
 	t12:=BlTextElement new
-		text: (self configuredString: '6 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: '6 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
 		transformDo:[:t| t translateBy: -289@ -158.].
 	t13:=BlTextElement new
-		text: (self configuredString: '7 ' size: 16 color:(Color white ) back:Color veryVeryDarkGray);
+		text: (self configuredString: '7 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
 		outskirts: BlOutskirts centered;
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
@@ -528,7 +543,7 @@ Tp33 >> initializeLabels [
 	t3:=  BlTextElement new  
 		text: (self configuredString: 'TRACK' 
 		size: 20
-		color:(Color white)
+		color:(self color1)
 		back: Color veryVeryDarkGray
 		);
 		border:(BlBorder paint: (Color veryVeryDarkGray) width: 8);
