@@ -220,7 +220,7 @@ ICPianoKeyboardElement >> initialize [
 	super initialize.
 
 	self
-		extent: 1000 @ 200;
+		extent: 1400 @ 200;
 		background: Color black.
 	self initializeKeys.
 	self initalizeWhiteKeys.
@@ -356,7 +356,7 @@ ICPianoKeyboardElement >> initializeEvents [
 	| keysToMIDInn |
 	
 	keysToMIDInn := self class computerKeysToMIDINN.
-.
+
 	self addEventHandler: (BlEventHandler
 			 on: BlKeyDownEvent
 			 do: [ :anEvent |

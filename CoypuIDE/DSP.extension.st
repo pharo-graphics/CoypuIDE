@@ -20,7 +20,7 @@ DSP >> displayUI [
 
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
-		                  extent: 1400 @ 750;
+		                  extent: 1100 @ 550;
 		                  layout: (BlGridLayout new
 				                   columnCount: 8;
 				                   cellSpacing: 0);
@@ -29,7 +29,7 @@ DSP >> displayUI [
 			                  "c vertical matchParent " ];
 		                  background: Color black.
 	container := BlElement new
-		             extent: 1400 @ 800;
+		             extent: 1100 @ 800;
 		             layout: BlLinearLayout new beVertical;
 		             background: Color darkGray.
 
@@ -42,7 +42,7 @@ DSP >> displayUI [
 	"we can later access the container if we need"
 	displayedUI := container.
 
-	space := BlSpace new extent: 1400 @ 800.
+	space := BlSpace new extent: 1100 @ 800.
 	space root addChild: container.
 	space show.
 	^ space
