@@ -182,7 +182,7 @@ ICPianoKeyboardElement >> getNoteAtPosition: aPoint [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> highestNote [
 
-	^ 86
+	^ 96
 ]
 
 { #category : 'accessing' }
@@ -237,7 +237,7 @@ ICPianoKeyboardElement >> initializeBlackKeys [
 	blackNoteX := self pianoX + (self whiteKeyWidth * 0.75).
 	
 	"Number of octaves in the keyboard"
-	numOctaves := 4. "You have a 4-octave keyboard"
+	numOctaves := 6. "You have a 6-octave keyboard"
 	
 	"Total number of black keys"
 	blackKeyCount := 5. "Five black keys per octave"
@@ -419,7 +419,7 @@ ICPianoKeyboardElement >> keyHeight: anObject [
 { #category : 'accessing' }
 ICPianoKeyboardElement >> lowestNote [
 
-	^ 48
+	^ 24
 ]
 
 { #category : 'accessing' }
