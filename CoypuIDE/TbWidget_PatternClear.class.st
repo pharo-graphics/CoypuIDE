@@ -42,13 +42,13 @@ container openInSpace.
 { #category : 'evaluating' }
 TbWidget_PatternClear >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 ]
 
 { #category : 'evaluating' }
 TbWidget_PatternClear >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
 ]
 
 { #category : 'initialization' }

@@ -6,7 +6,7 @@ Class {
 	#tag : 'Acid'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 TbTriangleLED class >> TriangleLEDexample [ 
 	<script>
 	| container e1 e2 e3 |
@@ -60,7 +60,6 @@ TbTriangleLED >> initializeIndicator [
 					
 					t translateBy: 2@ -2.
 		 		];
-				effect: (BlGaussianShadowEffect color: (Color gray alpha:1.0)   offset: 0@ 0  width: 2);
            	constraintsDo: [ :c |
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter.

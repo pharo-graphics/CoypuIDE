@@ -42,13 +42,13 @@ container openInSpace.
 { #category : 'evaluating' }
 TbWidget_WriteNext >> configuredString: aString [ 
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:18) }
 ]
 
 { #category : 'evaluating' }
 TbWidget_WriteNext >> configuredString: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color veryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
+	paint: Color veryVeryDarkGray) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger)}. 
 ]
 
 { #category : 'initialization' }
@@ -100,7 +100,7 @@ TbWidget_WriteNext >> initializeLayout [
 	|label l1 l2|
 	
 	self border: (BlBorder paint: (Color gray) width: 2).
-	
+	self padding:(BlInsets top:10 right:10  bottom:30  left:10 ).
 	l1 := BlTextElement new.
 	l1 text: (self configuredString: 'D. S. ' size: 16).
 	l1 border: (BlBorder paint: (Color gray) width: 2);
@@ -156,7 +156,7 @@ TbWidget_WriteNext >> initializeWidget [
 
 { #category : 'initialization' }
 TbWidget_WriteNext >> initializeWidgetSize [
-	widgetSize:= 160@180.
+	widgetSize:= 160@200.
 ]
 
 { #category : 'initialization' }

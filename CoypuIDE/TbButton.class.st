@@ -52,6 +52,36 @@ container openInSpace.
 	
 ]
 
+{ #category : 'as yet unclassified' }
+TbButton class >> layoutViewExample_1560_800 [
+	<script>
+	| container e1 e2 e3 e4 e5|
+container:= BlElement new
+	geometry: BlRectangleGeometry new;
+	layout: (BlGridLayout new
+		columnCount: 10;
+		cellSpacing: 10
+		);
+	"size: 1280@720;"
+	size: 1560@800;
+	"background: Color veryVeryDarkGray ."
+		"background: Color veryDarkGray ."
+			background: Color black .
+
+
+e1:= TbButton new.
+e2:= TbLEDButton new.
+e3:= TbLEDButton toggleable.
+e4:= TbLEDDarkButton new.
+e5:= TbLEDDarkButton toggleable.
+
+container addChildren: { e1 . e2 . e3 . e4 . e5 }.
+container openInSpace.
+		
+		
+	
+]
+
 { #category : 'api - attribute' }
 TbButton class >> toggleable [
 	|ele|
@@ -123,6 +153,12 @@ TbButton >> callbackDown: aBlock [
 	callbackDown := aBlock
 ]
 
+{ #category : 'initialization' }
+TbButton >> color4 [
+	"^ (Color r: 233 g:208  b:168  range:255)."
+	^ (Color r: 99 g:78  b:44  range:255).
+]
+
 { #category : 'evaluating' }
 TbButton >> indicator [
 	^ indicator.
@@ -150,7 +186,8 @@ TbButton >> initializeButton [
 	|s|
 	self button: (BlElement new
             geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOnColor;
+					"background: self switchOnColor;"
+				background: (self color4 alpha:0.7);
 				transformDo: [ :t|
 					t translateBy: 0@ -4 ];
 				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
@@ -251,7 +288,7 @@ TbButton >> initializeSwitch [
 TbButton >> initializeWidget [
 	self size: widgetSize.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	self padding: (BlInsets all: 5).
+	self padding: (BlInsets top: 15 right:5  bottom:15  left:5 ).
 	self background: self backColor.
 	self layout: BlFrameLayout new.
 
@@ -262,7 +299,7 @@ TbButton >> initializeWidget [
 
 { #category : 'evaluating' }
 TbButton >> initializeWidgetSize [
-	widgetSize:= 60@120.
+	widgetSize:= 50@135.
 ]
 
 { #category : 'accessing' }
@@ -362,7 +399,7 @@ TbButton >> toggle [
 			
 			].
 			
-			button background: (self switchOnColor alpha: 1.0);
+			button 
 				childrenDo: [ :i|   
 				    i constraintsDo: [ :c |
 					c frame horizontal alignCenter.
@@ -384,7 +421,7 @@ TbButton >> toggle [
 					i background:Color veryVeryLightGray.
 					
 			].
-			button background: (self switchOnColor alpha: 1.0);
+			button 
 			childrenDo: [ :i|   
 				    i constraintsDo: [ :c |
 						c frame horizontal alignCenter.
