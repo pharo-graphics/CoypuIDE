@@ -20,7 +20,7 @@ DSP >> displayUI [
 
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
-		                  extent: 1100 @ 550;
+		                  extent: 1100 @ 674;
 		                  layout: (BlGridLayout new
 				                   columnCount: 8;
 				                   cellSpacing: 0);
