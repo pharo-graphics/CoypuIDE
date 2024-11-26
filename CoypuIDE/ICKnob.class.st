@@ -78,12 +78,13 @@ ICKnob class >> fromDictionary: aDictionary [
 { #category : 'instance creation' }
 ICKnob class >> fromDictionary: aDictionary forDsp: aDsp [
 
-	^ (self 
-			        label: (aDictionary at: #label)
-			        minValue: (aDictionary at: #min)
-			        maxValue: (aDictionary at: #max)
-			        callBack: [ :i |
-			        aDsp setValue: i parameter: (aDictionary at: #label) ])  setValue: (aDictionary at: #init)
+	^ (self
+		   label: (aDictionary at: #label)
+		   minValue: (aDictionary at: #min)
+		   maxValue: (aDictionary at: #max)
+		   callBack: [ :i |
+		   aDsp setValue: i parameter: (aDictionary at: #label) ])
+		  setValue: (aDictionary at: #init); stepValue: (aDictionary at: #step)
 ]
 
 { #category : 'initialization' }
@@ -226,9 +227,12 @@ ICKnob >> currentValue [
 { #category : 'accessing' }
 ICKnob >> currentValue: aNumber [
 
-	currentValue := aNumber.
+|  roundedValue |
+  roundedValue :=  aNumber roundTo: self stepValue .
+	currentValue :=roundedValue .
 	self callBack ifNotNil: [ :c | c value: currentValue ].
-	self currentLabel text: ((aNumber printShowingDecimalPlaces: 3) asRopedText attributes:
+	self currentLabel text:
+		((roundedValue printShowingDecimalPlaces: 3) asRopedText attributes:
 			 { (BlTextForegroundAttribute paint: self valueColor) })
 ]
 
