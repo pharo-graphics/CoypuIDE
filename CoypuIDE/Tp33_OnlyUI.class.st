@@ -581,9 +581,12 @@ Tp33_OnlyUI >> initializeLowerhalf [
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeNotes [
+    
+  
 	self note_C1: (TbLEDButton new
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
 		transformDo:[:t| t translateBy: -382@230.]).
+
 	self note_D: (TbLEDButton new
 		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
 		transformDo:[:t| t translateBy: -297@230.]).
