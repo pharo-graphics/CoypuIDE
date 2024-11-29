@@ -6,7 +6,9 @@ Class {
 	#superclass : 'Tp33_OnlyUI',
 	#instVars : [
 		'audioEngine',
-		'notesArray'
+		'notesArray',
+		'isRunning',
+		'patternPlay'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -28,9 +30,10 @@ Tp33 >> audioEngine: aDsp [
 { #category : 'initialization' }
 Tp33 >> initialize [
 
-	| dsp |
+	| dsp p |
 	super initialize.
 	self initializeNotesArray.
+	isRunning := false.
 
 
 	dsp := Acid new stereo asDsp.
@@ -38,7 +41,13 @@ Tp33 >> initialize [
 	dsp start.
 	audioEngine := dsp.
 	self initializeNotesCallbacks.
-	'acido engine iniz' traceCr.
+	"just temporary patternPlay"
+	p := Performance uniqueInstance forDsp: dsp.
+	'35 , 48 , 56 , 71, ~ , ~ , 52 , 38, 39 , 43, ~ , 53 , ~ , 36 , 46 , 51 , 65'
+		asDirtNotes to: #Acid.
+
+   self initializeWidgetsCallbacks .
+	'acido engine iniz' traceCr
 ]
 
 { #category : 'initialization' }
@@ -80,6 +89,28 @@ Tp33 >> initializeNotesCallbacks [
 		key callBackUp: [ audioEngine setValue: 0 parameter: 'AcidGate' ] ]
 ]
 
+{ #category : 'initialization' }
+Tp33 >> initializeWidgetsCallbacks [
+
+	self widget_RunStop callback: [ :v |
+		self isRunning: v = 1.
+		self isRunning
+			ifTrue: [ Performance uniqueInstance playFor: 88 bars]
+			ifFalse: [ Performance uniqueInstance stop ] ]
+]
+
+{ #category : 'accessing' }
+Tp33 >> isRunning [
+
+^ isRunning 
+]
+
+{ #category : 'accessing' }
+Tp33 >> isRunning: aBoolean [
+
+isRunning := aBoolean 
+]
+
 { #category : 'instance creation' }
 Tp33 >> newWithDsp: aDsp [
 
@@ -97,4 +128,16 @@ Tp33 >> notesArray [
 Tp33 >> notesArray: anArrayOfBlElements [
 
 	notesArray := anArrayOfBlElements 
+]
+
+{ #category : 'accessing' }
+Tp33 >> patternPlay [
+
+	^ patternPlay
+]
+
+{ #category : 'accessing' }
+Tp33 >> patternPlay: anObject [
+
+	patternPlay := anObject
 ]

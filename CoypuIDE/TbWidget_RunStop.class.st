@@ -5,7 +5,8 @@ Class {
 		'widgetSize',
 		'switch',
 		'indicator',
-		'value'
+		'value',
+		'callback'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -37,6 +38,18 @@ e1:=TbWidget_RunStop new.
 container addChildren: { e1}.
 container openInSpace.
 	
+]
+
+{ #category : 'accessing' }
+TbWidget_RunStop >> callback [
+
+	^ callback
+]
+
+{ #category : 'accessing' }
+TbWidget_RunStop >> callback: anObject [
+
+	callback := anObject
 ]
 
 { #category : 'setting' }
@@ -209,13 +222,10 @@ TbWidget_RunStop >> toggle [
 { #category : 'api - operations' }
 TbWidget_RunStop >> toggleValue [
 	"Toggles the value of widget (not the value of inner elements)"
-	self value = 0 
-		ifTrue: [ 
-			self value: 1.
-			] 
-		ifFalse: [ 
-			self value: 0. 
-			].
+
+	self value = 0
+		ifTrue: [ self value: 1 . self callback value: 1]
+		ifFalse: [ self value: 0 . self callback value: 0]
 ]
 
 { #category : 'accessing' }
@@ -226,4 +236,16 @@ TbWidget_RunStop >> value [
 { #category : 'setting' }
 TbWidget_RunStop >> value: anInteger [
 	value:= anInteger.
+]
+
+{ #category : 'accessing' }
+TbWidget_RunStop >> widgetSize [
+
+	^ widgetSize
+]
+
+{ #category : 'accessing' }
+TbWidget_RunStop >> widgetSize: anObject [
+
+	widgetSize := anObject
 ]
