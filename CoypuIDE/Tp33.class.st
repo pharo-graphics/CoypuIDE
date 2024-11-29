@@ -54,18 +54,26 @@ Tp33 >> initialize [
 
 { #category : 'initialization' }
 Tp33 >> initializeKnobsCallbacks [
-	"CUTOFF FREQ"
 
 	self knob_CutoffFreq callBack: [ :v |
-		self audioEngine setValue: v parameter: 'AcidCutoffFreq' ]
+		self audioEngine setValue: v parameter: 'AcidCutoffFreq' ].
+	self knob_Resonance callBack: [ :v |
+		self audioEngine setValue: v parameter: 'AcidResonance'.
+		 ]
 ]
 
 { #category : 'initialization' }
 Tp33 >> initializeKnobsValuesAndRanges [
-	"CUTOFF FREQ"
 
-	self knob_CutoffFreq minValue: 0 ; maxValue: 1; stepValue: 0.001
-		
+	self knob_CutoffFreq
+		minValue: 0;
+		maxValue: 1;
+		stepValue: 0.001.
+
+	self knob_Resonance
+		minValue: 0;
+		maxValue: 31;
+		stepValue: 0.001
 ]
 
 { #category : 'initialization' }
