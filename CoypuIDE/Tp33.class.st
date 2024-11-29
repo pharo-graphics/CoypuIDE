@@ -26,7 +26,19 @@ Tp33 >> audioEngine: aDsp [
 ]
 
 { #category : 'initialization' }
-Tp33 >> initalizeNotesArray [
+Tp33 >> initialize [
+
+| dsp |
+super initialize .
+self initializeNotesArray. 
+self initializeNotesCallbacks .
+dsp := Acid new stereo asDsp.
+dsp init.
+dsp start.
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeNotesArray [
 
 	notesArray := Array new: 13.
 	notesArray
@@ -48,7 +60,10 @@ Tp33 >> initalizeNotesArray [
 { #category : 'initialization' }
 Tp33 >> initializeNotesCallbacks [
 
-^ self shouldBeImplemented 
+| noteNumbers |
+noteNumbers := #(36 37 38 39 40 41 42 43 44 45 46 47 48 49).
+
+notesArray do: [ :key  | key callBackUp: [ (noteNumbers at: ( notesArray  indexOf: key))  traceCr] ]
 ]
 
 { #category : 'instance creation' }

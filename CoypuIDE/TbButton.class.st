@@ -215,7 +215,7 @@ TbButton >> initializeEvents [
 
 	button addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :anEvent | self toggle ]).
+			 do: [ :anEvent | self toggle. self callBackUp value .]).
 	self isToggleable ifFalse: [
 		button addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
