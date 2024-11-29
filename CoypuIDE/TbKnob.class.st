@@ -598,8 +598,8 @@ TbKnob >> maxValue [
 TbKnob >> maxValue: aNumber [
 
 	maxValue := aNumber.
-	maxLabel text: ((maxValue asFloat round:3 )asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor) })
+	"maxLabel text: ((maxValue asFloat round:3 )asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor) })"
 ]
 
 { #category : 'accessing' }
@@ -630,8 +630,8 @@ TbKnob >> minValue [
 TbKnob >> minValue: aNumber [
 
 	minValue := aNumber.
-	minLabel text: ((minValue asFloat round:3 ) asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor) })
+	"minLabel text: ((minValue asFloat round:3 ) asRopedText attributes: { (BlTextForegroundAttribute
+paint: self textColor) })"
 ]
 
 { #category : 'ui building' }

@@ -45,9 +45,27 @@ Tp33 >> initialize [
 	p := Performance uniqueInstance forDsp: dsp.
 	'35 , 48 , 56 , 71, ~ , ~ , 52 , 38, 39 , 43, ~ , 53 , ~ , 36 , 46 , 51 , 65'
 		asDirtNotes to: #Acid.
+ self initializeKnobsValuesAndRanges .
 
-   self initializeWidgetsCallbacks .
-	'acido engine iniz' traceCr
+	self initializeWidgetsCallbacks.
+	self initializeKnobsCallbacks.
+
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeKnobsCallbacks [
+	"CUTOFF FREQ"
+
+	self knob_CutoffFreq callBack: [ :v |
+		self audioEngine setValue: v parameter: 'AcidCutoffFreq' ]
+]
+
+{ #category : 'initialization' }
+Tp33 >> initializeKnobsValuesAndRanges [
+	"CUTOFF FREQ"
+
+	self knob_CutoffFreq minValue: 0 ; maxValue: 1; stepValue: 0.001
+		
 ]
 
 { #category : 'initialization' }
