@@ -28,13 +28,17 @@ Tp33 >> audioEngine: aDsp [
 { #category : 'initialization' }
 Tp33 >> initialize [
 
-| dsp |
-super initialize .
-self initializeNotesArray. 
-self initializeNotesCallbacks .
-dsp := Acid new stereo asDsp.
-dsp init.
-dsp start.
+	| dsp |
+	super initialize.
+	self initializeNotesArray.
+
+
+	dsp := Acid new stereo asDsp.
+	dsp init.
+	dsp start.
+	audioEngine := dsp.
+	self initializeNotesCallbacks.
+	'acido engine iniz' traceCr.
 ]
 
 { #category : 'initialization' }
@@ -42,28 +46,38 @@ Tp33 >> initializeNotesArray [
 
 	notesArray := Array new: 13.
 	notesArray
-		at: 1 put: self note_C;
+		at: 1 put: self note_C1;
 		at: 2 put: self note_CSharp;
 		at: 3 put: self note_D;
-		at: 4 put: self note_DSharp; 
+		at: 4 put: self note_DSharp;
 		at: 5 put: self note_E;
 		at: 6 put: self note_F;
 		at: 7 put: self note_FSharp;
-		at: 8 put: self note_G; 
-		at: 9 put: self note_GSharp; 
+		at: 8 put: self note_G;
+		at: 9 put: self note_GSharp;
 		at: 10 put: self note_A;
 		at: 11 put: self note_ASharp;
 		at: 12 put: self note_B;
-		at: 13 put: self note_C1 . 
+		at: 13 put: self note_C
 ]
 
 { #category : 'initialization' }
 Tp33 >> initializeNotesCallbacks [
 
-| noteNumbers |
-noteNumbers := #(36 37 38 39 40 41 42 43 44 45 46 47 48 49).
+	| noteNumbers |
+	noteNumbers := #( 60 61 62 63 64 65 66 67 68 69 70 71 72 73 ).
 
-notesArray do: [ :key  | key callBackUp: [ (noteNumbers at: ( notesArray  indexOf: key))  traceCr] ]
+	notesArray do: [ :key | "callbacks on mouseDown"
+		key callbackDown: [
+			audioEngine
+				setValue:
+					(noteNumbers at: (notesArray indexOf: key)) midiNoteToFreq
+				parameter: 'AcidNote'.
+			audioEngine setValue: 1 parameter: 'AcidGate'.
+			(noteNumbers at: (notesArray indexOf: key)) midiNoteToFreq traceCr ].
+
+		"On mouseUp"
+		key callBackUp: [ audioEngine setValue: 0 parameter: 'AcidGate' ] ]
 ]
 
 { #category : 'instance creation' }
