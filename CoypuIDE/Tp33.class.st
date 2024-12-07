@@ -8,7 +8,9 @@ Class {
 		'audioEngine',
 		'notesArray',
 		'isRunning',
-		'patternPlay'
+		'patternPlay',
+		'isPitchMode',
+		'pattern1'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -43,13 +45,12 @@ Tp33 >> initialize [
 	self initializeNotesCallbacks.
 	"just temporary patternPlay"
 	p := Performance uniqueInstance forDsp: dsp.
-	'35 , 48 , 56 , 71, ~ , ~ , 52 , 38, 39 , 43, ~ , 53 , ~ , 36 , 46 , 51 , 65'
+	'35 , 48 ,62 , 71, ~ , ~ , 52 , 38, 39 , 43, ~ , 53 , ~ , 36 , 46 , 51 , 75'
 		asDirtNotes to: #Acid.
- self initializeKnobsValuesAndRanges .
+	self initializeKnobsValuesAndRanges.
 
 	self initializeWidgetsCallbacks.
-	self initializeKnobsCallbacks.
-
+	self initializeKnobsCallbacks
 ]
 
 { #category : 'initialization' }
@@ -60,7 +61,9 @@ Tp33 >> initializeKnobsCallbacks [
 	self knob_Resonance callBack: [ :v |
 		self audioEngine setValue: v parameter: 'AcidResonance' ].
 	self knob_EnvMod callBack: [ :v |
-		self audioEngine setValue: v parameter: 'AcidEnvMod' ]
+		self audioEngine setValue: v parameter: 'AcidEnvMod' ].
+	self knob_Tempo callBack: [ :v |
+		Performance uniqueInstance freq: v bpm ]
 ]
 
 { #category : 'initialization' }
@@ -71,7 +74,6 @@ Tp33 >> initializeKnobsValuesAndRanges [
 		maxValue: 1;
 		stepValue: 0.001.
 
-
 	self knob_Resonance
 		minValue: 0;
 		maxValue: 24;
@@ -80,7 +82,13 @@ Tp33 >> initializeKnobsValuesAndRanges [
 	self knob_EnvMod
 		minValue: 0.1;
 		maxValue: 1;
-		stepValue: 0.001
+		stepValue: 0.001.
+		
+		self knob_Tempo 
+		minValue: 80;
+		maxValue: 180;
+		stepValue: 0.001.
+		
 ]
 
 { #category : 'initialization' }
@@ -128,8 +136,24 @@ Tp33 >> initializeWidgetsCallbacks [
 	self widget_RunStop callback: [ :v |
 		self isRunning: v = 1.
 		self isRunning
-			ifTrue: [ Performance uniqueInstance playFor: 88 bars]
-			ifFalse: [ Performance uniqueInstance stop ] ]
+			ifTrue: [ Performance uniqueInstance playFor: 88 bars ]
+			ifFalse: [ Performance uniqueInstance stop ] ].
+		
+	self widget_PitchMode callback: [ :v |
+		self isPitchMode not.
+		 ]
+]
+
+{ #category : 'accessing' }
+Tp33 >> isPitchMode [
+
+	^ isPitchMode 
+]
+
+{ #category : 'accessing' }
+Tp33 >> isPitchMode: aBoolean [
+
+	isPitchMode := aBoolean 
 ]
 
 { #category : 'accessing' }
