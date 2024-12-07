@@ -36,6 +36,7 @@ Tp33 >> initialize [
 	super initialize.
 	self initializeNotesArray.
 	isRunning := false.
+	isPitchMode := false.
 
 
 	dsp := Acid new stereo asDsp.
@@ -138,10 +139,8 @@ Tp33 >> initializeWidgetsCallbacks [
 		self isRunning
 			ifTrue: [ Performance uniqueInstance playFor: 88 bars ]
 			ifFalse: [ Performance uniqueInstance stop ] ].
-		
-	self widget_PitchMode callback: [ :v |
-		self isPitchMode not.
-		 ]
+
+	self widget_PitchMode callback: [ self isPitchMode not ]
 ]
 
 { #category : 'accessing' }
