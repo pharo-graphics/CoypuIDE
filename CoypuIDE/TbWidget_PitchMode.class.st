@@ -5,7 +5,8 @@ Class {
 		'widgetSize',
 		'switch',
 		'indicator',
-		'value'
+		'value',
+		'callback'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -37,6 +38,18 @@ e1:=TbWidget_PitchMode new.
 container addChildren: { e1}.
 container openInSpace.
 	
+]
+
+{ #category : 'accessing' }
+TbWidget_PitchMode >> callback [
+
+	^ callback
+]
+
+{ #category : 'accessing' }
+TbWidget_PitchMode >> callback: anObject [
+
+	callback := anObject
 ]
 
 { #category : 'setting' }
@@ -184,13 +197,18 @@ TbWidget_PitchMode >> toggle [
 { #category : 'api - operations' }
 TbWidget_PitchMode >> toggleValue [
 	"Toggles the value of widget (not the value of inner elements)"
-	self value = 0 
-		ifTrue: [ 
+
+
+"Toggles the value of widget (not the value of inner elements)"
+
+	self value = 0
+		ifTrue: [
 			self value: 1.
-			] 
-		ifFalse: [ 
-			self value: 0. 
-			].
+			self callback value ]
+		ifFalse: [
+			self value: 0.
+			self callback value ]
+
 ]
 
 { #category : 'accessing' }
