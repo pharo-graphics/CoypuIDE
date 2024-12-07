@@ -198,17 +198,15 @@ TbWidget_PitchMode >> toggle [
 TbWidget_PitchMode >> toggleValue [
 	"Toggles the value of widget (not the value of inner elements)"
 
-
-"Toggles the value of widget (not the value of inner elements)"
+	"Toggles the value of widget (not the value of inner elements)"
 
 	self value = 0
 		ifTrue: [
 			self value: 1.
-			self callback value ]
+			self callback value: self parent ]
 		ifFalse: [
 			self value: 0.
-			self callback value ]
-
+			self callback value: self parent  ]
 ]
 
 { #category : 'accessing' }

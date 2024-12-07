@@ -140,7 +140,7 @@ Tp33 >> initializeWidgetsCallbacks [
 			ifTrue: [ Performance uniqueInstance playFor: 88 bars ]
 			ifFalse: [ Performance uniqueInstance stop ] ].
 
-	self widget_PitchMode callback: [ self isPitchMode not ]
+	self widget_PitchMode callback: [ :v | v isPitchMode: v isPitchMode not ]
 ]
 
 { #category : 'accessing' }
