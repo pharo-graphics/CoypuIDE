@@ -11,7 +11,8 @@ Class {
 		'value',
 		'callbackDown',
 		'callBackUp',
-		'callback'
+		'callback',
+		'isToggleable'
 	],
 	#category : 'CoypuIDE-button',
 	#package : 'CoypuIDE',
@@ -114,6 +115,7 @@ ICButton >> initialize [
 
 	super initialize.
 	self value: 0.
+	self isToggleable: false.
 	self initializeWidgetSize.
 	self initializeWidget.
 	self initializeButton.
@@ -137,20 +139,19 @@ ICButton >> initializeButton [
 { #category : 'evaluating' }
 ICButton >> initializeEvents [
 
-	'sto inizializzando eventi bottino' traceCr.
 	button
 		addEventHandler: (BlEventHandler
 				 on: BlMouseDownEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 1
-					]);
+					 self callback value: 1 ]).
+	self isToggleable ifTrue: [  
+		button			
 		addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 0
-					])
+					 self callback value: 0 ])]
 ]
 
 { #category : 'evaluating' }
@@ -178,6 +179,18 @@ ICButton >> isOn [
 ICButton >> isOn: anObject [
 
 	isOn := anObject
+]
+
+{ #category : 'accessing' }
+ICButton >> isToggleable [
+
+	^ isToggleable
+]
+
+{ #category : 'accessing' }
+ICButton >> isToggleable: aBoolean [
+
+	isToggleable := aBoolean
 ]
 
 { #category : 'evaluating' }
