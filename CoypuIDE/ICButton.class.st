@@ -11,7 +11,11 @@ Class {
 		'value',
 		'callbackDown',
 		'callBackUp',
-		'callback'
+		'callback',
+		'isToggleable',
+		'onColor',
+		'offColor',
+		'id'
 	],
 	#category : 'CoypuIDE-button',
 	#package : 'CoypuIDE',
@@ -109,53 +113,67 @@ ICButton >> callbackDown: aBlock [
 	callbackDown := aBlock
 ]
 
+{ #category : 'accessing' }
+ICButton >> id [ 
+^ id
+]
+
+{ #category : 'accessing' }
+ICButton >> id: anIntegerOrAString [
+
+	"set an id to the Button to control its behvaiour in compositional contexts"
+	id := anIntegerOrAString 
+]
+
 { #category : 'evaluating' }
 ICButton >> initialize [
 
 	super initialize.
+	self widgetSize: 80@80.
 	self value: 0.
-	self initializeWidgetSize.
+	self isToggleable: false.
+	self onColor: Color red.
+	self offColor: Color darkGray.
+	"self initializeWidgetSize."
 	self initializeWidget.
 	self initializeButton.
 	self initializeEvents
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICButton >> initializeButton [
-	
+
 	self button: (BlElement new
-            geometry: BlCircleGeometry new;
-				background: Color red;
-            size: widgetSize -20 asPoint;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				]).
-	self addChild: self button.
+			 geometry: BlCircleGeometry new;
+			 background: self offColor;
+			 size: self widgetSize - 20 asPoint;
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter ]).
+	self addChild: self button
 ]
 
 { #category : 'evaluating' }
 ICButton >> initializeEvents [
 
-	'sto inizializzando eventi bottino' traceCr.
 	button
 		addEventHandler: (BlEventHandler
 				 on: BlMouseDownEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 1
-					]);
+					 self callback value: 1 ]).
+	self isToggleable ifTrue: [  
+		button			
 		addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 0
-					])
+					 self callback value: 0 ])]
 ]
 
 { #category : 'evaluating' }
 ICButton >> initializeWidget [
-	self size: widgetSize.
+	self size: self widgetSize.
 	self background: self backColor.
 	self layout: BlFrameLayout new.
 	self padding: (BlInsets all: 10).
@@ -180,6 +198,41 @@ ICButton >> isOn: anObject [
 	isOn := anObject
 ]
 
+{ #category : 'accessing' }
+ICButton >> isToggleable [
+
+	^ isToggleable
+]
+
+{ #category : 'accessing' }
+ICButton >> isToggleable: aBoolean [
+
+	isToggleable := aBoolean
+]
+
+{ #category : 'accessing' }
+ICButton >> offColor [
+
+	^ offColor
+]
+
+{ #category : 'accessing' }
+ICButton >> offColor: aColor [
+
+	offColor := aColor
+]
+
+{ #category : 'accessing' }
+ICButton >> onColor [ 
+^ onColor
+]
+
+{ #category : 'accessing' }
+ICButton >> onColor: aColor [
+
+	onColor := aColor
+]
+
 { #category : 'evaluating' }
 ICButton >> setValue: req [
 
@@ -190,12 +243,11 @@ ICButton >> setValue: req [
 
 { #category : 'evaluating' }
 ICButton >> toggle [
+
 	self toggleValue.
-	self value = 0 
-		ifTrue: [ button background: (Color red alpha:
-	1.0) ] 
-		ifFalse: [ button background: (Color green alpha:
-	1.0)].
+	self value = 0
+		ifTrue: [ button background: (self offColor alpha:  1.0) ]
+		ifFalse: [ button background: (self onColor alpha: 1.0) ]
 ]
 
 { #category : 'evaluating' }
