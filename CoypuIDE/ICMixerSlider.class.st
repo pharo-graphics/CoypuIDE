@@ -49,7 +49,7 @@ ICMixerSlider class >> example [
 
 	<script>
 	| slider  container |
-	slider := self label:'New Mixer'.
+	slider := self label:'Mixer'.
 	container := BlElement new clipChildren: false.
 	container addChild: slider.
 	container openInSpace.
