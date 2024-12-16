@@ -156,19 +156,17 @@ ICButton >> initializeButton [
 { #category : 'evaluating' }
 ICButton >> initializeEvents [
 
-	button
-		addEventHandler: (BlEventHandler
-				 on: BlMouseDownEvent
-				 do: [ :anEvent |
-					 self toggle.
-					 self callback value: 1 ]).
-	self isToggleable ifTrue: [  
-		button			
-		addEventHandler: (BlEventHandler
+	button addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :anEvent |
+				 self toggle.
+				 self callback value: self value ]).
+	self isToggleable ifTrue: [
+		button addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
 				 do: [ :anEvent |
 					 self toggle.
-					 self callback value: 0 ])]
+					 self callback value: self value ]) ]
 ]
 
 { #category : 'evaluating' }

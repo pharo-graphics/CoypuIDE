@@ -6,12 +6,27 @@ Class {
 	#name : 'IcStepSequencerRow',
 	#superclass : 'BlElement',
 	#instVars : [
-		'stepNumber'
+		'stepNumber',
+		'backingSequencer',
+		'widgetSize',
+		'key'
 	],
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',
 	#tag : 'stepSequencer'
 }
+
+{ #category : 'accessing' }
+IcStepSequencerRow >> backingSequencer [
+
+^ backingSequencer
+]
+
+{ #category : 'accessing' }
+IcStepSequencerRow >> backingSequencer: aSequencer [
+
+ backingSequencer := aSequencer 
+]
 
 { #category : 'initialization' }
 IcStepSequencerRow >> initialize [
@@ -23,11 +38,34 @@ IcStepSequencerRow >> initialize [
 	self constraintsDo: [ :aLayoutConstraints |
 		aLayoutConstraints horizontal fitContent.
 		aLayoutConstraints vertical fitContent ].
+	self initializeSteps.
+	
+	^ self
+]
+
+{ #category : 'initialization' }
+IcStepSequencerRow >> initializeSteps [
+
 	1 to: self stepNumber do: [ :i |
 		self addChild: (ICButton new
 				 isToggleable: true;
-				 widgetSize: 30 @ 30) ].
-			^ self
+				 id: i;
+				 callback: [  :v | (Performance uniqueInstance at: self key ) gates at: i put: v];
+				 widgetSize: self widgetSize) ]
+]
+
+{ #category : 'accessing' }
+IcStepSequencerRow >> key [ 
+^ key 
+]
+
+{ #category : 'accessing' }
+IcStepSequencerRow >> key: aSymbol [
+
+	key := aSymbol.
+	
+	16 rests notes: '60'; to: aSymbol.
+	backingSequencer := Performance uniqueInstance at: aSymbol .
 ]
 
 { #category : 'accessing' }
@@ -40,4 +78,16 @@ IcStepSequencerRow >> stepNumber [
 IcStepSequencerRow >> stepNumber: anInteger [
 
 	stepNumber := anInteger 
+]
+
+{ #category : 'accessing' }
+IcStepSequencerRow >> widgetSize [
+
+^ widgetSize
+]
+
+{ #category : 'accessing' }
+IcStepSequencerRow >> widgetSize: aSize [
+
+	widgetSize := aSize
 ]
