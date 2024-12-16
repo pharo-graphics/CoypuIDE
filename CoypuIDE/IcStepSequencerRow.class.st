@@ -9,3 +9,8 @@ Class {
 	#package : 'CoypuIDE',
 	#tag : 'stepSequencer'
 }
+
+{ #category : 'initialization' }
+IcStepSequencerRow >> initialize [
+super initialize
+]

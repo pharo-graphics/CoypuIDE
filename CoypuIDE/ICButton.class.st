@@ -14,7 +14,8 @@ Class {
 		'callback',
 		'isToggleable',
 		'onColor',
-		'offColor'
+		'offColor',
+		'id'
 	],
 	#category : 'CoypuIDE-button',
 	#package : 'CoypuIDE',
@@ -110,6 +111,18 @@ ICButton >> callbackDown [
 ICButton >> callbackDown: aBlock [
 
 	callbackDown := aBlock
+]
+
+{ #category : 'accessing' }
+ICButton >> id [ 
+^ id
+]
+
+{ #category : 'accessing' }
+ICButton >> id: anIntegerOrAString [
+
+	"set an id to the Button to control its behvaiour in compositional contexts"
+	id := anIntegerOrAString 
 ]
 
 { #category : 'evaluating' }
