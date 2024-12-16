@@ -1,5 +1,5 @@
 Class {
-	#name : 'ICSlider',
+	#name : 'ICMixerSlider',
 	#superclass : 'BlElement',
 	#instVars : [
 		'widgetSize',
@@ -23,6 +23,7 @@ Class {
 		'maxLabel',
 		'label',
 		'valueLabel',
+		'currValueLabel',
 		'name'
 	],
 	#category : 'CoypuIDE-slider',
@@ -31,40 +32,52 @@ Class {
 }
 
 { #category : 'accessing' }
-ICSlider class >> beHorizontal [
+ICMixerSlider class >> beHorizontal [
 
 	^ self new beHorizontal 
 ]
 
 { #category : 'accessing' }
-ICSlider class >> beVertical [ 
+ICMixerSlider class >> beVertical [ 
 	
 	^ self new beVertical 
 ]
 
+{ #category : 'example' }
+ICMixerSlider class >> example [
+	"The values of the slider are also written in the transcript"
+
+	<script>
+	| slider  container |
+	slider := self label:'New Mixer'.
+	container := BlElement new clipChildren: false.
+	container addChild: slider.
+	container openInSpace.
+]
+
 { #category : 'accessing' }
-ICSlider class >> label: aString [ 
+ICMixerSlider class >> label: aString [ 
 
 	|slider|
 	slider := self new name: aString.
-	slider initializeLabel.
+	slider initializeLabelText.
 	^ slider
 ]
 
 { #category : 'instance creation' }
-ICSlider class >> new [
+ICMixerSlider class >> new [
 
 	^ self readOnly initializeEvents
 ]
 
 { #category : 'instance creation' }
-ICSlider class >> readOnly [
+ICMixerSlider class >> readOnly [
 
 	^ self basicNew initialize
 ]
 
 { #category : 'instance creation' }
-ICSlider class >> readOnlyLabel: aString [
+ICMixerSlider class >> readOnlyLabel: aString [
 
 	| slider |
 	slider := self readOnly name: aString.
@@ -72,107 +85,65 @@ ICSlider class >> readOnlyLabel: aString [
 	^ slider
 ]
 
-{ #category : 'as yet unclassified' }
-ICSlider class >> simpleExampleHorizontal [
-	"The values of the slider are also written in the transcript"
-
-	<script>
-	| slider textElt container |
-	slider := self beHorizontal.
-	textElt := BlTextElement new position: slider defaultSize.
-
-	textElt text: slider value asRopedText.
-
-	slider callBack: [ :value | textElt text: value asRopedText ].
-
-	container := BlElement new clipChildren: false.
-
-	container addChild: slider.
-	container addChild: textElt.
-
-	container openInSpace
-]
-
-{ #category : 'as yet unclassified' }
-ICSlider class >> simpleExampleVertical [
-	"The values of the slider are also written in the transcript"
-
-	<script>
-	| slider textElt container |
-	slider := self beVertical.
-	textElt := BlTextElement new position: slider defaultSize.
-
-	textElt text: slider value asRopedText.
-
-	slider callBack: [ :value | textElt text: value asRopedText ].
-
-	container := BlElement new clipChildren: false.
-
-	container addChild: slider.
-	container addChild: textElt.
-
-	container openInSpace
-]
-
 { #category : 'accessing' }
-ICSlider >> bar [
+ICMixerSlider >> bar [
 	^ bar
 ]
 
 { #category : 'accessing' }
-ICSlider >> bar: aBlElement [ 
+ICMixerSlider >> bar: aBlElement [ 
 	bar := aBlElement
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> barDefaultColor [ 
+ICMixerSlider >> barDefaultColor [ 
 
-	^ Color lightGray
+	^ Color veryVeryDarkGray.
 
 ]
 
 { #category : 'accessing' }
-ICSlider >> barLength [
+ICMixerSlider >> barLength [
 
 	^ barLength
 ]
 
 { #category : 'accessing' }
-ICSlider >> barLength: aNumber [
+ICMixerSlider >> barLength: aNumber [
 
 	barLength := aNumber.
 	self rebuild
 ]
 
 { #category : 'accessing' }
-ICSlider >> barThickness [ 
+ICMixerSlider >> barThickness [ 
 
 	^ barThickness 
 ]
 
 { #category : 'accessing' }
-ICSlider >> barThickness: aNumber [
+ICMixerSlider >> barThickness: aNumber [
 
 	barThickness := aNumber.
 	self rebuild
 ]
 
 { #category : 'api - values' }
-ICSlider >> basicSetValue: aNumber [
+ICMixerSlider >> basicSetValue: aNumber [
 
 	value := aNumber.
 	self callBack ifNotNil: [ :e | e value: value ]
 ]
 
 { #category : 'accessing' }
-ICSlider >> beHorizontal [
+ICMixerSlider >> beHorizontal [
 
 	self horizontal: true.
 	self rebuild
 ]
 
 { #category : 'building' }
-ICSlider >> beSegmented [
+ICMixerSlider >> beSegmented [
 
 	self stepValue
 		ifNil: [ self error: 'Cannot segment a slider with a nil stepValue' ]
@@ -181,7 +152,7 @@ ICSlider >> beSegmented [
 ]
 
 { #category : 'building' }
-ICSlider >> beSmooth [
+ICMixerSlider >> beSmooth [
 
 	self segmented: false.
 	self segmentedValues: nil.
@@ -189,14 +160,14 @@ ICSlider >> beSmooth [
 ]
 
 { #category : 'accessing' }
-ICSlider >> beVertical [
+ICMixerSlider >> beVertical [
 
 	self horizontal: false.
 	self buildVertical
 ]
 
 { #category : 'building' }
-ICSlider >> buildHorizontal [
+ICMixerSlider >> buildHorizontal [
 
 	widgetSize y > widgetSize x ifTrue: [
 		self widgetSize: widgetSize y @ widgetSize x ].
@@ -205,7 +176,7 @@ ICSlider >> buildHorizontal [
 ]
 
 { #category : 'building' }
-ICSlider >> buildVertical [
+ICMixerSlider >> buildVertical [
 
 	widgetSize y > widgetSize x ifFalse: [
 		self widgetSize: widgetSize y @ widgetSize x ].
@@ -215,19 +186,19 @@ ICSlider >> buildVertical [
 ]
 
 { #category : 'accessing' }
-ICSlider >> callBack [ 
+ICMixerSlider >> callBack [ 
 
 	^ callBack 
 ]
 
 { #category : 'accessing' }
-ICSlider >> callBack: aBlock [
+ICMixerSlider >> callBack: aBlock [
 
 	callBack := aBlock 
 ]
 
 { #category : 'as yet unclassified' }
-ICSlider >> changeMaxValueLabelTo: aValue [
+ICMixerSlider >> changeMaxValueLabelTo: aValue [
 
 	maxLabel text: (aValue asRopedText attributes: {
 				 (BlTextForegroundAttribute paint: Color white).
@@ -237,7 +208,7 @@ ICSlider >> changeMaxValueLabelTo: aValue [
 ]
 
 { #category : 'as yet unclassified' }
-ICSlider >> changeMinValueLabelTo: aValue [
+ICMixerSlider >> changeMinValueLabelTo: aValue [
 
 	minLabel text: (aValue asRopedText attributes: {
 				 (BlTextForegroundAttribute paint: Color white).
@@ -253,24 +224,42 @@ ICSlider >> changeMinValueLabelTo: aValue [
 ]
 
 { #category : 'accessing' }
-ICSlider >> coloredBar [ 
+ICMixerSlider >> coloredBar [ 
 
 	^ coloredBar 
 ]
 
 { #category : 'accessing' }
-ICSlider >> coloredBar: aBlElement [
+ICMixerSlider >> coloredBar: aBlElement [
 
 	coloredBar := aBlElement 
 ]
 
 { #category : 'accessing' }
-ICSlider >> coloredBarDefaultColor [
-	^ Color green alpha: 0.6
+ICMixerSlider >> coloredBarDefaultColor [
+	^ Color veryVeryLightGray.
+]
+
+{ #category : 'setting' }
+ICMixerSlider >> configuredStringDark: aString size: anInteger [
+	^ aString asRopedText attributes:{(BlTextForegroundAttribute
+	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
+]
+
+{ #category : 'accessing' }
+ICMixerSlider >> currValueLabel [
+
+	^ currValueLabel
+]
+
+{ #category : 'accessing' }
+ICMixerSlider >> currValueLabel: anObject [
+
+	currValueLabel := anObject
 ]
 
 { #category : 'api - slider' }
-ICSlider >> decrementValue: aValue [
+ICMixerSlider >> decrementValue: aValue [
 
 	| tmp |
 	tmp := value - aValue.
@@ -278,44 +267,45 @@ ICSlider >> decrementValue: aValue [
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultBar [
+ICMixerSlider >> defaultBar [
 
 	| size |
 	size := self
 		        ifHorizontal: [
-		        self defaultBarLength @ self defaultBarThickness ]
+		        self defaultBarLength @ self defaultBarThickness-70 ]
 		        ifVertical: [
-		        self defaultBarThickness @ self defaultBarLength ].
+		        self defaultBarThickness-70 @ (self defaultBarLength) ].
 
 	^ BlElement new
-		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
+		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		  background: self barDefaultColor;
 		  size: size;
-		constraintsDo: [ :c | c ignoreByLayout ];
+		  constraintsDo: [ :c | c frame horizontal alignCenter. c frame vertical alignCenter. ];
+			"constraintsDo: [ :c | c ignoreByLayout ];"
 		  yourself
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultBarLength [
+ICMixerSlider >> defaultBarLength [
 
-	^ 100
+	^ 200
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultBarThickness [
+ICMixerSlider >> defaultBarThickness [
 
-	^ 20
+	^ 80
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultColor [
+ICMixerSlider >> defaultColor [
 
 	^ Color veryDarkGray
 
 ]
 
 { #category : 'accessing' }
-ICSlider >> defaultColoredBar [
+ICMixerSlider >> defaultColoredBar [
 
 	| size |
 	size := self
@@ -323,89 +313,99 @@ ICSlider >> defaultColoredBar [
 		        ifVertical: [ self defaultBarThickness @ 0.1 ].
 
 	^ BlElement new
-		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
-		  background: self coloredBarDefaultColor;
+		  geometry: (BlRoundedRectangleGeometry cornerRadius: 0);
+		  background: (self coloredBarDefaultColor alpha:0.0);
 		constraintsDo: [ :c | c ignoreByLayout ];
 		  size: size;
 		  yourself
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultHandle [
+ICMixerSlider >> defaultHandle [
 
-	| size elt |
+	| e1 e2 size elt  |
 	size := self
 		        ifHorizontal: [ 5 @ barThickness ]
-		        ifVertical: [ barThickness @ 5 ].
+		        ifVertical: [ 25 @ 40 ].
 
 	elt := BlElement new
 		       background: self handleDefaultColor;
-		       geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		effect: (BlGaussianShadowEffect color: (Color black alpha:0.6)   offset: 4@4  width: 15);
+		border: (BlBorder paint: Color veryLightGray width: 2);
 		constraintsDo: [ :c | c ignoreByLayout ];
 		       size: size;
-		       transformDo: [ :t | "so the position is now the center"
+		       transformDo: [ :t | 
+			
 			       t translateBy: size negated / 2 ];
 		       yourself.
-
-	^ elt
+	"e1:=BlElement new
+		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		  background: self barDefaultColor;
+		  size: 30@60;
+		  constraintsDo: [ :c | c frame horizontal alignCenter. c frame vertical alignCenter. ];
+		  yourself.
+		
+	^ e1."
+	^elt.
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultMarginLength [
+ICMixerSlider >> defaultMarginLength [
 
 	^ 5
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultMarginThickness [
+ICMixerSlider >> defaultMarginThickness [
 
 	^ 5
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> defaultSize [
+ICMixerSlider >> defaultSize [
 	"self bar size maybe"
 
 	^ self
 		  ifHorizontal: [
-			  self defaultBarLength + (2 * self defaultMarginLength)
+			  self defaultBarLength+120 + (2 * self defaultMarginLength)
 			  @ (self defaultBarThickness + (2 * self defaultMarginThickness)) ]
 		  ifVertical: [
 			  self defaultBarThickness + (2 * self defaultMarginThickness)
-			  @ (self defaultBarLength + (2 * self defaultMarginLength)) ]
+			  @ (self defaultBarLength+120 + (2 * self defaultMarginLength)) ]
 ]
 
 { #category : 'accessing' }
-ICSlider >> direction [
+ICMixerSlider >> direction [
 	"Returns true if horizontal else false"
 	^ self ifHorizontal: [ true ]
 			 ifVertical: [ false ].
 ]
 
 { #category : 'accessing' }
-ICSlider >> handle [
+ICMixerSlider >> handle [
 	^ handle
 ]
 
 { #category : 'accessing' }
-ICSlider >> handle: aBlElement [ 
+ICMixerSlider >> handle: aBlElement [ 
 	handle := aBlElement
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> handleDefaultColor [
+ICMixerSlider >> handleDefaultColor [
 
-	^ Color green
+	^ Color veryVeryLightGray 
 ]
 
 { #category : 'accessing' }
-ICSlider >> horizontal: aBoolean [
+ICMixerSlider >> horizontal: aBoolean [
 
 	isHorizontal := aBoolean 
 ]
 
 { #category : 'building' }
-ICSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
+ICMixerSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 
 	^ self isHorizontal
 		ifTrue: horizontalBlock
@@ -413,7 +413,7 @@ ICSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 ]
 
 { #category : 'api - slider' }
-ICSlider >> incrementValue: aValue [
+ICMixerSlider >> incrementValue: aValue [
 
 	| tmp |
 	tmp := value + aValue.
@@ -421,23 +421,23 @@ ICSlider >> incrementValue: aValue [
 ]
 
 { #category : 'initialization' }
-ICSlider >> initialize [
+ICMixerSlider >> initialize [
 
 	super initialize.
-	isHorizontal := true.
+	isHorizontal := false.
 	segmented := false.
 	self initializeSizes.
+	self name:''.
 	self widgetSize: self defaultSize.
 	self background: self defaultColor.
 	self layout: BlFrameLayout new.
 	self initializeValues.
 	self initializeParts.
-	self initializeValueLabels
-	"self initializeEvents"
+	self initializeEvents.
 ]
 
 { #category : 'initialization' }
-ICSlider >> initializeEvents [ 
+ICMixerSlider >> initializeEvents [ 
 
 	self addEventHandlerOn: BlMouseDownEvent do: [ :event | self moveHandleTo: event position].
 	self addEventHandlerOn: BlDragStartEvent do: [ :event | event consumed: true].
@@ -445,24 +445,165 @@ ICSlider >> initializeEvents [
 ]
 
 { #category : 'initialization' }
-ICSlider >> initializeLabel [
-
-	label := BlTextElement new.
-	label text: (self name asRopedText attributes:
-			 { (BlTextForegroundAttribute paint: Color white) }).
-	label text fontSize: 15.
-	label text bold.
-	label constraintsDo: [ :c |
-		c padding: (BlInsets all: 5).
-		c frame horizontal alignLeft.
-		c frame vertical alignTop ].
+ICMixerSlider >> initializeLabel [
+	|l1|
+	l1 := BlTextElement new.
+	l1 text: (self configuredStringDark: self name size: 16).
+	l1 border: (BlBorder paint: (Color veryDarkGray) width: 2);
+	 	padding: (BlInsets all:5);
+		constraintsDo: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignTop.
+		];
+	transformDo: [ :t | 
+		t translateBy: 0@10.
+		].
 	
-	self addChild: label
+	self addChild: l1.
 ]
 
 { #category : 'initialization' }
-ICSlider >> initializeParts [
+ICMixerSlider >> initializeLabelText [
+	|l1|
+	l1 := BlTextElement new.
+	l1 text: (self configuredStringDark: self name size: 16).
+	l1 border: (BlBorder paint: (Color veryDarkGray) width: 2);
+	 	padding: (BlInsets all:5);
+		constraintsDo: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignTop.
+		];
+	transformDo: [ :t | 
+		t translateBy: 0@10.
+		].
+	
+	self addChild: l1.
+]
 
+{ #category : 'initialization' }
+ICMixerSlider >> initializeLabels [
+	| l2|
+
+	
+	l2 := BlTextElement new.
+	l2 text: (self configuredStringDark: value size: 16).
+	l2 border: (BlBorder paint: (Color veryDarkGray) width: 2);
+	 	padding: (BlInsets all:5);
+		constraintsDo: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignBottom.
+		];
+	transformDo: [ :t | 
+		t translateBy: 0@ -10.
+		].
+	
+		
+	 currValueLabel := l2.
+    self addChildren: { currValueLabel}.
+
+	
+	 self callBack: [ :v |
+		currValueLabel text: (v rounded asRopedText attributes: {
+					 (BlTextForegroundAttribute paint: Color white).
+					 (BlFontSizeAttribute size: 15).
+					 BlFontWeightAttribute bold }) ].
+]
+
+{ #category : 'initialization' }
+ICMixerSlider >> initializeLines [
+	|l1 l2 l3 l4 l5 l6 l7|
+	
+	l1:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0@0.
+			].
+	
+	l2:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0@ -25.
+			].
+	l3:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0@25.
+			].
+	l4:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0@ -50.
+			].
+	l5:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0 @50.
+			].
+	l6:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0 @ -75.
+			].
+	l7:= BlElement new
+		geometry: BlRectangleGeometry new;
+		size:  self barThickness-30 @ 3;
+		background: Color veryLightGray;
+		constraintsDo: [ :c|
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter.
+		];
+		transformDo:[:t|
+			t translateBy:0 @ 75.
+			].
+	
+	
+	self addChildren: { l1. l2. l3. l4. l5. l6. l7}.
+		 
+]
+
+{ #category : 'initialization' }
+ICMixerSlider >> initializeParts [
+	
+	self initializeLines.
+	self initializeLabelText.
+	self initializeLabels.
+	
 	self bar: self defaultBar.
 	self positionDefaultBar: self bar.
 	self addChild: self bar.
@@ -483,7 +624,7 @@ ICSlider >> initializeParts [
 ]
 
 { #category : 'initialization' }
-ICSlider >> initializeSizes [ 
+ICMixerSlider >> initializeSizes [ 
 
 	barLength := self defaultBarLength.
 	barThickness := self defaultBarThickness.
@@ -492,7 +633,7 @@ ICSlider >> initializeSizes [
 ]
 
 { #category : 'initialization' }
-ICSlider >> initializeValueLabels [
+ICMixerSlider >> initializeValueLabels [
 
 	minLabel := BlTextElement new
 		            text: (self minValue asRopedText attributes: {
@@ -535,95 +676,95 @@ ICSlider >> initializeValueLabels [
 ]
 
 { #category : 'initialization' }
-ICSlider >> initializeValues [
+ICMixerSlider >> initializeValues [
 
 	self minValue: 0.
-	self maxValue: 50.
+	self maxValue: 100.
 	value := self minValue 
 ]
 
 { #category : 'accessing' }
-ICSlider >> isHorizontal [ 
+ICMixerSlider >> isHorizontal [ 
 
 	^ isHorizontal 
 ]
 
 { #category : 'testing' }
-ICSlider >> isSegmented [ 
+ICMixerSlider >> isSegmented [ 
 
 	^ segmented 
 ]
 
 { #category : 'accessing' }
-ICSlider >> label [
+ICMixerSlider >> label [
 
 	^ label
 ]
 
 { #category : 'accessing' }
-ICSlider >> marginLength [
+ICMixerSlider >> marginLength [
 
 	^ marginLength
 ]
 
 { #category : 'accessing' }
-ICSlider >> marginLength: aNumber [
+ICMixerSlider >> marginLength: aNumber [
 
 	marginLength := aNumber.
 	self rebuild
 ]
 
 { #category : 'accessing' }
-ICSlider >> marginThickness [ 
+ICMixerSlider >> marginThickness [ 
 
 	^ marginThickness 
 ]
 
 { #category : 'accessing' }
-ICSlider >> marginThickness: aNumber [
+ICMixerSlider >> marginThickness: aNumber [
 
 	marginThickness := aNumber.
 	self rebuild
 ]
 
 { #category : 'accessing' }
-ICSlider >> maxLabel [
+ICMixerSlider >> maxLabel [
 
 	^ maxLabel
 ]
 
 { #category : 'accessing' }
-ICSlider >> maxValue [
+ICMixerSlider >> maxValue [
 
 	^ maxValue
 ]
 
 { #category : 'accessing' }
-ICSlider >> maxValue: aNumber [
+ICMixerSlider >> maxValue: aNumber [
 
 	maxValue := aNumber
 ]
 
 { #category : 'accessing' }
-ICSlider >> minLabel [ 
+ICMixerSlider >> minLabel [ 
 
 	^ minLabel 
 ]
 
 { #category : 'accessing' }
-ICSlider >> minValue [ 
+ICMixerSlider >> minValue [ 
 
 	^ minValue 
 ]
 
 { #category : 'accessing' }
-ICSlider >> minValue: aNumber [
+ICMixerSlider >> minValue: aNumber [
 
 	minValue := aNumber 
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> moveHandleTo: aPosition [
+ICMixerSlider >> moveHandleTo: aPosition [
 
 	| newPos |
 	newPos := aPosition.
@@ -654,19 +795,19 @@ ICSlider >> moveHandleTo: aPosition [
 ]
 
 { #category : 'accessing' }
-ICSlider >> name [ 
+ICMixerSlider >> name [ 
 
 	^ name
 ]
 
 { #category : 'accessing' }
-ICSlider >> name: aString [ 
+ICMixerSlider >> name: aString [ 
 
 	name := aString 
 ]
 
 { #category : 'api - values' }
-ICSlider >> nearestValue: aValue [
+ICMixerSlider >> nearestValue: aValue [
 
 	| val minResult tmp tmp2 values |
 	self isSegmented ifFalse: [ ^ aValue].
@@ -683,7 +824,7 @@ ICSlider >> nearestValue: aValue [
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> positionDefaultBar: aBar [
+ICMixerSlider >> positionDefaultBar: aBar [
 
 	self
 		ifHorizontal: [
@@ -695,18 +836,19 @@ ICSlider >> positionDefaultBar: aBar [
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> positionDefaultHandle [
+ICMixerSlider >> positionDefaultHandle [
 
 	self
 		ifHorizontal: [
 		handle position: self defaultMarginLength @ (widgetSize y / 2) ]
 		ifVertical: [
 			handle position:
-				widgetSize x / 2 @ (self defaultMarginLength + barLength) ]
+				widgetSize x / 2 @ (self defaultMarginLength + barLength + 60)
+		]
 ]
 
 { #category : 'building' }
-ICSlider >> rebuild [
+ICMixerSlider >> rebuild [
 
 	self
 		ifHorizontal: [ self buildHorizontal ]
@@ -714,7 +856,7 @@ ICSlider >> rebuild [
 ]
 
 { #category : 'removing' }
-ICSlider >> removeParts [
+ICMixerSlider >> removeParts [
 
 	self removeChildren. 
 	bar := nil.
@@ -722,13 +864,13 @@ ICSlider >> removeParts [
 ]
 
 { #category : 'accessing' }
-ICSlider >> segmented: aBoolean [ 
+ICMixerSlider >> segmented: aBoolean [ 
 
 	segmented := aBoolean
 ]
 
 { #category : 'accessing' }
-ICSlider >> segmentedValues [
+ICMixerSlider >> segmentedValues [
 
 	segmentedValues ifNil: [	segmentedValues := (self minValue to: self maxValue by:
 	                    self stepValue) asOrderedCollection].
@@ -736,27 +878,27 @@ ICSlider >> segmentedValues [
 ]
 
 { #category : 'accessing' }
-ICSlider >> segmentedValues: aCollection [ 
+ICMixerSlider >> segmentedValues: aCollection [ 
 
 	segmentedValues := aCollection 
 ]
 
 { #category : 'initialization' }
-ICSlider >> setToMax [
+ICMixerSlider >> setToMax [
 
 	"this method is created with a button that would set to max in the widget"
 	self setValue: self maxValue.
 ]
 
 { #category : 'initialization' }
-ICSlider >> setToMin [ 
+ICMixerSlider >> setToMin [ 
 
 	"this method is created with a button that would set to max in the widget"
 	self setValue: self minValue.
 ]
 
 { #category : 'accessing' }
-ICSlider >> setValue: aNumber [
+ICMixerSlider >> setValue: aNumber [
 
 	| newValue |
 	newValue := aNumber.
@@ -767,7 +909,7 @@ ICSlider >> setValue: aNumber [
 ]
 
 { #category : 'api - bounds' }
-ICSlider >> size: aValue [
+ICMixerSlider >> size: aValue [
 	"just to keep the widgset size"
 
 	super size: aValue.
@@ -779,20 +921,20 @@ ICSlider >> size: aValue [
 ]
 
 { #category : 'accessing' }
-ICSlider >> stepValue [
+ICMixerSlider >> stepValue [
 
 	^ stepValue 
 ]
 
 { #category : 'accessing' }
-ICSlider >> stepValue: aNumber [
+ICMixerSlider >> stepValue: aNumber [
 
 	stepValue := aNumber 
 	
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> updateColoredBarTo: aPosition [
+ICMixerSlider >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
@@ -805,13 +947,13 @@ ICSlider >> updateColoredBarTo: aPosition [
 ]
 
 { #category : 'accessing' }
-ICSlider >> value [ 
+ICMixerSlider >> value [ 
 
 	^ value 
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> valueAtCoord: aPoint [
+ICMixerSlider >> valueAtCoord: aPoint [
 
 	^ self
 		  ifHorizontal: [ self valueAtX: aPoint ]
@@ -819,7 +961,7 @@ ICSlider >> valueAtCoord: aPoint [
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> valueAtX: aPoint [
+ICMixerSlider >> valueAtX: aPoint [
 
 	| dist valueDiff value coeff |
 	dist := (aPoint - bar position) x.
@@ -835,7 +977,7 @@ ICSlider >> valueAtX: aPoint [
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> valueAtY: aPoint [
+ICMixerSlider >> valueAtY: aPoint [
 
 	| dist valueDiff value coeff |
 	dist := bar position y + barLength - aPoint y.
@@ -850,13 +992,13 @@ ICSlider >> valueAtY: aPoint [
 ]
 
 { #category : 'accessing' }
-ICSlider >> valueLabel [
+ICMixerSlider >> valueLabel [
 
 	^ valueLabel
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> valueToCoord: aNumber [
+ICMixerSlider >> valueToCoord: aNumber [
 
 	^ self
 		  ifHorizontal: [ self valueToX: aNumber ]
@@ -864,7 +1006,7 @@ ICSlider >> valueToCoord: aNumber [
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> valueToX: aNumber [
+ICMixerSlider >> valueToX: aNumber [
 
 	| dist valueDiff coeff |
 	valueDiff := aNumber - minValue.
@@ -876,7 +1018,7 @@ ICSlider >> valueToX: aNumber [
 ]
 
 { #category : 'api - transformations' }
-ICSlider >> valueToY: aNumber [
+ICMixerSlider >> valueToY: aNumber [
 
 	| dist valueDiff coeff |
 	valueDiff := aNumber - minValue.
@@ -888,13 +1030,13 @@ ICSlider >> valueToY: aNumber [
 ]
 
 { #category : 'accessing' }
-ICSlider >> widgetSize [ 
+ICMixerSlider >> widgetSize [ 
 
 	^ widgetSize 
 ]
 
 { #category : 'accessing' }
-ICSlider >> widgetSize: aNumber [
+ICMixerSlider >> widgetSize: aNumber [
 
 	widgetSize := aNumber.
 	self size: aNumber 
