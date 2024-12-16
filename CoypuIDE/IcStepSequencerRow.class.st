@@ -3,7 +3,7 @@ I am a single row of the ICStepSequencer. I am connected to a key in the Perform
 If you click on the dice on my right side you randomise the gates in the Sequencer
 "
 Class {
-	#name : 'IcStepSequencerRow',
+	#name : 'ICStepSequencerRow',
 	#superclass : 'BlElement',
 	#instVars : [
 		'stepNumber',
@@ -17,19 +17,19 @@ Class {
 }
 
 { #category : 'accessing' }
-IcStepSequencerRow >> backingSequencer [
+ICStepSequencerRow >> backingSequencer [
 
 ^ backingSequencer
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> backingSequencer: aSequencer [
+ICStepSequencerRow >> backingSequencer: aSequencer [
 
  backingSequencer := aSequencer 
 ]
 
 { #category : 'initialization' }
-IcStepSequencerRow >> initialize [
+ICStepSequencerRow >> initialize [
 
 	super initialize.
 	stepNumber := 16.
@@ -44,7 +44,7 @@ IcStepSequencerRow >> initialize [
 ]
 
 { #category : 'initialization' }
-IcStepSequencerRow >> initializeSteps [
+ICStepSequencerRow >> initializeSteps [
 
 	1 to: self stepNumber do: [ :i |
 		self addChild: (ICButton new
@@ -55,12 +55,12 @@ IcStepSequencerRow >> initializeSteps [
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> key [ 
+ICStepSequencerRow >> key [ 
 ^ key 
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> key: aSymbol [
+ICStepSequencerRow >> key: aSymbol [
 
 	key := aSymbol.
 	
@@ -69,25 +69,25 @@ IcStepSequencerRow >> key: aSymbol [
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> stepNumber [
+ICStepSequencerRow >> stepNumber [
 
 ^ stepNumber
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> stepNumber: anInteger [
+ICStepSequencerRow >> stepNumber: anInteger [
 
 	stepNumber := anInteger 
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> widgetSize [
+ICStepSequencerRow >> widgetSize [
 
 ^ widgetSize
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> widgetSize: aSize [
+ICStepSequencerRow >> widgetSize: aSize [
 
 	widgetSize := aSize
 ]
