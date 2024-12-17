@@ -29,7 +29,7 @@ Class {
 ICKnob class >> allKnobExamples [
 
 	<script>
-	| container e1 e2 e3 e4 e5 e6 e7|
+	| container e1 e2 e3 e4 e5 e6 e7 e8|
 	container:= BlElement new
 		
 		geometry: BlRectangleGeometry new;
@@ -53,9 +53,10 @@ e4:= ICDarkKnob3 label: 'LABEL 4'.
 e5:= ICDarkKnob4 label:'LABEL 5'. 
 e6:= ICDarkKnob5 label:'LABEL 6'.
 e7:= ICDialKnob label: 'LABEL 7'.
+e8:= ICSimpleKnob label: 'Release 1'.
 
 
-container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7}.
+container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7. e8}.
 container openInNewSpace.
 ]
 
@@ -281,6 +282,11 @@ ICKnob >> doOperations [
 
 ]
 
+{ #category : 'accessing' }
+ICKnob >> fontSz [
+  ^12
+]
+
 { #category : 'initialization' }
 ICKnob >> initialize [
 
@@ -404,7 +410,7 @@ ICKnob >> initializeLabel [
 	inputLabel := BlTextElement new.
 	inputLabel text: (self inputText asRopedText attributes:
 			 { (BlTextForegroundAttribute paint: self textColor) }).
-	inputLabel text fontSize: 12.
+	inputLabel text fontSize: self fontSz.
 	inputLabel text bold.
 	inputLabel constraintsDo: [ :c |
 		c frame horizontal alignCenter.
