@@ -5,7 +5,7 @@ I can contain many ICStepSequencerRows each one of them is connected to a key(he
 
 "
 Class {
-	#name : 'IcStepSequencer',
+	#name : 'ICStepSequencer',
 	#superclass : 'BlElement',
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',

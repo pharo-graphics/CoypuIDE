@@ -3,18 +3,33 @@ I am a single row of the ICStepSequencer. I am connected to a key in the Perform
 If you click on the dice on my right side you randomise the gates in the Sequencer
 "
 Class {
-	#name : 'IcStepSequencerRow',
+	#name : 'ICStepSequencerRow',
 	#superclass : 'BlElement',
 	#instVars : [
-		'stepNumber'
+		'stepNumber',
+		'backingSequencer',
+		'widgetSize',
+		'key'
 	],
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',
 	#tag : 'stepSequencer'
 }
 
+{ #category : 'accessing' }
+ICStepSequencerRow >> backingSequencer [
+
+^ backingSequencer
+]
+
+{ #category : 'accessing' }
+ICStepSequencerRow >> backingSequencer: aSequencer [
+
+ backingSequencer := aSequencer 
+]
+
 { #category : 'initialization' }
-IcStepSequencerRow >> initialize [
+ICStepSequencerRow >> initialize [
 
 	super initialize.
 	stepNumber := 16.
@@ -23,21 +38,56 @@ IcStepSequencerRow >> initialize [
 	self constraintsDo: [ :aLayoutConstraints |
 		aLayoutConstraints horizontal fitContent.
 		aLayoutConstraints vertical fitContent ].
+	self initializeSteps.
+	
+	^ self
+]
+
+{ #category : 'initialization' }
+ICStepSequencerRow >> initializeSteps [
+
 	1 to: self stepNumber do: [ :i |
 		self addChild: (ICButton new
 				 isToggleable: true;
-				 widgetSize: 30 @ 30) ].
-			^ self
+				 id: i;
+				 callback: [  :v | (Performance uniqueInstance at: self key ) gates at: i put: v];
+				 widgetSize: self widgetSize) ]
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> stepNumber [
+ICStepSequencerRow >> key [ 
+^ key 
+]
+
+{ #category : 'accessing' }
+ICStepSequencerRow >> key: aSymbol [
+
+	key := aSymbol.
+	
+	16 rests notes: '60'; to: aSymbol.
+	backingSequencer := Performance uniqueInstance at: aSymbol .
+]
+
+{ #category : 'accessing' }
+ICStepSequencerRow >> stepNumber [
 
 ^ stepNumber
 ]
 
 { #category : 'accessing' }
-IcStepSequencerRow >> stepNumber: anInteger [
+ICStepSequencerRow >> stepNumber: anInteger [
 
 	stepNumber := anInteger 
+]
+
+{ #category : 'accessing' }
+ICStepSequencerRow >> widgetSize [
+
+^ widgetSize
+]
+
+{ #category : 'accessing' }
+ICStepSequencerRow >> widgetSize: aSize [
+
+	widgetSize := aSize
 ]
