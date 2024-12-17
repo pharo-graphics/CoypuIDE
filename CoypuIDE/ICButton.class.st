@@ -131,7 +131,7 @@ ICButton >> initialize [
 	super initialize.
 	self widgetSize: 80@80.
 	self value: 0.
-	self isToggleable: false.
+	
 	self onColor: Color red.
 	self offColor: Color darkGray.
 	"self initializeWidgetSize."
@@ -161,7 +161,9 @@ ICButton >> initializeEvents [
 			 do: [ :anEvent |
 				 self toggle.
 				 self callback value: self value ]).
-	self isToggleable ifTrue: [
+
+	self isToggleable ifFalse: [
+	
 		button addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
 				 do: [ :anEvent |
@@ -199,13 +201,15 @@ ICButton >> isOn: anObject [
 { #category : 'accessing' }
 ICButton >> isToggleable [
 
-	^ isToggleable
+	^ isToggleable ifNil: [ isToggleable := false ]
 ]
 
 { #category : 'accessing' }
 ICButton >> isToggleable: aBoolean [
 
-	isToggleable := aBoolean
+	isToggleable := aBoolean.
+	"if toggleable state is changed, reinizializ event handlers"
+	self  initializeEvents
 ]
 
 { #category : 'accessing' }
