@@ -1,3 +1,7 @@
+"
+A button with a label.
+By default a click button, can become a toggle by sending the message isToggleable: true
+"
 Class {
 	#name : 'ICLabelButton',
 	#superclass : 'ICButton',
@@ -65,31 +69,34 @@ ICLabelButton >> glowColor [
 ]
 
 { #category : 'evaluating' }
-ICLabelButton >> initializeButton [ 
+ICLabelButton >> initializeButton [
 
+   self layout: BlGridLayout horizontal .
+   self constraintsDo: [ :c | c horizontal fitContent ].
 	self button: (BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
-				background: self offColor;
-            size: widgetSize -25 asPoint;
-            border: (BlBorder paint: (Color darkGray ) width: 4);
-				layout: BlFrameLayout new;
-				"effect: (BlGaussianShadowEffect color: (Color gray alpha:1.0)   offset: 0@ 0  width: 4);"
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				]).
-	
-	self addChild: button. 
+			 geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
+			 background: self offColor;
+			 size: widgetSize - 25 asPoint;
+			 border: (BlBorder paint: Color darkGray width: 4);
+			 "layout: BlFrameLayout new;"layout:
+				 (BlGridLayout horizontal cellSpacing: 20);
+			 "effect: (BlGaussianShadowEffect color: (Color gray alpha:1.0)   offset: 0@ 0  width: 4);"
+			 constraintsDo: [ :c |
+				 c horizontal fitContent
+				 " c frame horizontal alignCenter.
+				 c frame vertical alignCenter" ]).
+
+	self addChild: button
 ]
 
 { #category : 'evaluating' }
-ICLabelButton >> initializeLabel [ 
+ICLabelButton >> initializeLabel [
+
 	inputLabel := BlTextElement new.
-	inputLabel text: (self configuredStringDark: inputText ).
-	inputLabel constraintsDo: [ :c | 
+	inputLabel text: (self configuredStringDark: inputText).
+	inputLabel constraintsDo: [ :c |
 		c frame horizontal alignCenter.
-		c frame vertical alignCenter.
-		].
+		c frame vertical alignCenter ].
 	inputLabel zIndex: 200.
 	self button addChild: inputLabel.
 
