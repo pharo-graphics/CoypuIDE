@@ -17,11 +17,15 @@ Class {
 { #category : 'instance creation' }
 ICLabelButton class >> fromDictionary: aDictionary forDsp: aDsp [
 
-	| paramLabel btn |
+	| paramLabel btn paramLabelAndType |
 	paramLabel := aDictionary at: #label.
-
-	btn := self label: paramLabel.
+	"we split the actual label from its type"
+	paramLabelAndType := paramLabel splitOn: $~.
+	btn := self label: (paramLabelAndType at: 1).
 	btn callback: [ :x | aDsp setValue: x parameter: paramLabel ].
+	"if the button is a checkbox"
+	
+	paramLabelAndType size > 1 ifTrue: [ btn isToggleable: true ].
 
 	^ btn
 ]
@@ -71,20 +75,22 @@ ICLabelButton >> glowColor [
 { #category : 'evaluating' }
 ICLabelButton >> initializeButton [
 
-   self layout: BlGridLayout horizontal .
-   self constraintsDo: [ :c | c horizontal fitContent ].
+	self layout: BlGridLayout horizontal.
+	self constraintsDo: [ :c | c horizontal fitContent ].
 	self button: (BlElement new
 			 geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
-			 background: self offColor;
-			 size: widgetSize - 25 asPoint;
-			 border: (BlBorder paint: Color darkGray width: 4);
-			 "layout: BlFrameLayout new;"layout:
-				 (BlGridLayout horizontal cellSpacing: 20);
-			 "effect: (BlGaussianShadowEffect color: (Color gray alpha:1.0)   offset: 0@ 0  width: 4);"
+			 background: self offColor ;
+			 "size: widgetSize - 25 asPoint;"border:
+				 (BlBorder paint: Color darkGray width: 4);
+			 layout: BlFrameLayout new;
+			 padding: (BlInsets all: 10);
 			 constraintsDo: [ :c |
-				 c horizontal fitContent
-				 " c frame horizontal alignCenter.
-				 c frame vertical alignCenter" ]).
+				 c horizontal fitContent.
+				 c vertical fitContent ];
+			 effect: (BlGaussianShadowEffect
+					  color: (Color gray alpha: 1.0)
+					  offset: 0 @ 0
+					  width: 4)).
 
 	self addChild: button
 ]
@@ -97,9 +103,8 @@ ICLabelButton >> initializeLabel [
 	inputLabel constraintsDo: [ :c |
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
-	inputLabel zIndex: 200.
-	self button addChild: inputLabel.
-
+	"inputLabel zIndex: 200."
+	self button addChild: inputLabel
 ]
 
 { #category : 'evaluating' }

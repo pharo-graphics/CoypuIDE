@@ -25,7 +25,8 @@ DSP >> displayUI [
 				                   columnCount: 8;
 				                   cellSpacing: 0);
 		                  constraintsDo: [ :c |
-			                  c horizontal matchParent
+			                  c horizontal matchParent.
+			                  c vertical fitContent
 			                  "c vertical matchParent " ];
 		                  background: Color black.
 	container := BlElement new
@@ -43,6 +44,7 @@ DSP >> displayUI [
 	displayedUI := container.
 
 	space := BlSpace new extent: 1400 @ 800.
+	
 	space root addChild: container.
 	space show.
 	^ space
