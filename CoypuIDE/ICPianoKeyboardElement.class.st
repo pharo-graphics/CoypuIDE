@@ -62,8 +62,7 @@ ICPianoKeyboardElement class >> newForDsp: aDsp [
 	"the keyboard can play a DSP designed for MIDI control following Phausto/Faust rules"
 
 	| anICPianoKeyboardElement |
-	anICPianoKeyboardElement := self new.
-	anICPianoKeyboardElement initializeComputerKeysEventsTo: aDsp.
+	
 	aDsp requirePianoKeyboard
 		ifFalse: [
 		Error new signal: 'This is not a MIDI DSP check its creation' ]
@@ -72,9 +71,11 @@ ICPianoKeyboardElement class >> newForDsp: aDsp [
 				aDsp setValue: x midiNoteToFreq parameter: 'freq'.
 				aDsp setValue: 1 parameter: 'gate' ].
 			ICPianoNoteElement callbackUp: [ :x |
-				
-				aDsp setValue: 0 parameter: 'gate' ] ].
-	^ anICPianoKeyboardElement 
+				aDsp setValue: 0 parameter: 'gate' ].
+			anICPianoKeyboardElement := self new.
+	anICPianoKeyboardElement initializeComputerKeysEventsTo: aDsp.
+			].
+	^ anICPianoKeyboardElement
 ]
 
 { #category : 'examples' }

@@ -39,12 +39,13 @@ DSP >> displayUI [
 	container addChild: containerKnobs.
 	self requirePianoKeyboard ifTrue: [
 		containerKnobs removeGateAndFreqElement.
+self traceCr.
 		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
 	"we can later access the container if we need"
 	displayedUI := container.
 
 	space := BlSpace new extent: 1400 @ 800.
-	
+
 	space root addChild: container.
 	space show.
 	^ space
