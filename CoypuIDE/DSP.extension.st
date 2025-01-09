@@ -11,6 +11,8 @@ DSP >> displayUI [
 	"full UI made with Toplo"
 
 	| container allParams allKnobs containerKnobs sortedKnobs space |
+	space := BlSpace new.
+
 	allParams := self getUIItemsLabeledDictionary.
 	allKnobs := OrderedCollection new.
 	allParams keysAndValuesDo: [ :k :v |
@@ -20,7 +22,6 @@ DSP >> displayUI [
 
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
-		                  extent: 1400 @ 674;
 		                  layout: (BlGridLayout new
 				                   columnCount: 8;
 				                   cellSpacing: 0);
@@ -30,8 +31,10 @@ DSP >> displayUI [
 			                  "c vertical matchParent " ];
 		                  background: Color black.
 	container := BlElement new
-		             extent: 1400 @ 800;
 		             layout: BlLinearLayout new beVertical;
+		             constraintsDo: [ :c |
+			             c horizontal fitContent.
+			             c vertical fitContent ];
 		             background: Color darkGray.
 
 	containerKnobs addChildren: sortedKnobs.
@@ -39,12 +42,14 @@ DSP >> displayUI [
 	container addChild: containerKnobs.
 	self requirePianoKeyboard ifTrue: [
 		containerKnobs removeGateAndFreqElement.
-self traceCr.
+		self traceCr.
 		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
 	"we can later access the container if we need"
 	displayedUI := container.
 
-	space := BlSpace new extent: 1400 @ 800.
+	container
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
 
 	space root addChild: container.
 	space show.
