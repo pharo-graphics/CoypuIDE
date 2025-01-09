@@ -31,11 +31,11 @@ DSP >> displayUI [
 			                  "c vertical matchParent " ];
 		                  background: Color black.
 	container := BlElement new
-		             layout: BlLinearLayout new beVertical;
+		             layout: BlLinearLayout new beVertical; 
 		             constraintsDo: [ :c |
 			             c horizontal fitContent.
 			             c vertical fitContent ];
-		             background: Color darkGray.
+		             background: Color black.
 
 	containerKnobs addChildren: sortedKnobs.
 

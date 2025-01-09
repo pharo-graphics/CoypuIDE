@@ -220,9 +220,12 @@ ICPianoKeyboardElement >> initialize [
 
 	super initialize.
 
-	self
-		extent: 1400 @ 200;
-		background: Color black.
+	self background: Color black;
+	"constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent ];"
+	"layout: BlLinearLayout new beHorizontal;"
+	extent: 1200 @ 200.
 	self initializeKeys.
 	self initalizeWhiteKeys.
 	self initializeBlackKeys.
