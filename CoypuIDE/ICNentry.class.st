@@ -9,7 +9,8 @@ Class {
 		'minus',
 		'inputValue',
 		'value',
-		'inputLabel'
+		'inputLabel',
+		'callback'
 	],
 	#category : 'CoypuIDE-numericalEntry',
 	#package : 'CoypuIDE',
@@ -26,6 +27,12 @@ ICNentry >> backgroundPaint [
 ICNentry >> borderPaint [
 
 ^ Color green
+]
+
+{ #category : 'accessing' }
+ICNentry >> callback: aBlock [
+
+callback := aBlock.
 ]
 
 { #category : 'buttons' }
@@ -59,9 +66,9 @@ ICNentry >> createRect [
 ]
 
 { #category : 'buttons' }
-ICNentry >> decreaseInput [ 
+ICNentry >> decreaseInput [
 
-self changeValueTo: value + 1.
+	self changeValueTo: value - 1
 ]
 
 { #category : 'buttons' }
