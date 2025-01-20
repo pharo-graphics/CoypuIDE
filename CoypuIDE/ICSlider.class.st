@@ -660,9 +660,10 @@ ICSlider >> name [
 ]
 
 { #category : 'accessing' }
-ICSlider >> name: aString [ 
+ICSlider >> name: aString [
 
-	name := aString 
+	name := aString.
+	self initializeLabel.
 ]
 
 { #category : 'api - values' }
