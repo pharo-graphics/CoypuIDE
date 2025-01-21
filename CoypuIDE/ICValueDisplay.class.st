@@ -8,6 +8,9 @@ Class {
 		'labelText',
 		'valueText'
 	],
+	#classInstVars : [
+		'isUpdating'
+	],
 	#category : 'CoypuIDE-numericalEntry',
 	#package : 'CoypuIDE',
 	#tag : 'numericalEntry'
@@ -18,6 +21,20 @@ ICValueDisplay class >> fromDictionary: aDictionary forDsp: aDsp [
 
 	^ self new
 		   label: (aDictionary at: #label)
+]
+
+{ #category : 'accessing' }
+ICValueDisplay class >> isUpdating [
+
+
+^ isUpdating ifNil: [  ^ true ]
+]
+
+{ #category : 'accessing' }
+ICValueDisplay class >> isUpdating: aBoolean [
+
+
+isUpdating  := aBoolean
 ]
 
 { #category : 'evaluating' }
@@ -40,7 +57,7 @@ ICValueDisplay >> initialize [
 		c frame vertical alignCenter ].
 	self initializeValueText.
 	self initializeLabel: 'Value'.
-
+   self updateValue .
 	self addChild: valueText
 ]
 
@@ -88,6 +105,12 @@ ICValueDisplay >> label: aString [
 ICValueDisplay >> textPaint [
 
 ^ Color red
+]
+
+{ #category : 'protocol' }
+ICValueDisplay >> updateValue [ 
+
+^ [[ self class isUpdating ] whileTrue: [ self value: (Random new nextIntegerBetween: 10 and: 99 ). (Delay forMilliseconds: 90) wait. ]] forkAt: 10.
 ]
 
 { #category : 'accessing' }

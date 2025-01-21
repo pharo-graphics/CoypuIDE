@@ -11,8 +11,8 @@ DSP >> displayUI [
 	"full UI made with Toplo"
 
 	| container allParams allKnobs containerKnobs sortedKnobs space |
-	space := BlSpace new.
-
+	space := BlSpace new title: 'DSP UI'.
+   ICValueDisplay isUpdating: true.
 	allParams := self getUIItemsLabeledDictionary.
 	allKnobs := OrderedCollection new.
 	allParams keysAndValuesDo: [ :k :v |
@@ -53,6 +53,7 @@ DSP >> displayUI [
 
 	space root addChild: container.
 	space show.
+	space addEventFilterOn: [ BlSpaceClosedEvent ] do: [ ICValueDisplay isUpdating: false ].
 	^ space
 ]
 
