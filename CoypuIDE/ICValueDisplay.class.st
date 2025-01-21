@@ -13,6 +13,13 @@ Class {
 	#tag : 'numericalEntry'
 }
 
+{ #category : 'instance creation' }
+ICValueDisplay class >> fromDictionary: aDictionary forDsp: aDsp [
+
+	^ self new
+		   label: (aDictionary at: #label)
+]
+
 { #category : 'evaluating' }
 ICValueDisplay >> configuredString: aString [
 
@@ -24,7 +31,7 @@ ICValueDisplay >> configuredString: aString [
 ICValueDisplay >> initialize [
 
 	super initialize.
-	self background: Color black.
+	self background: Color black lighter.
 	self layout: BlFrameLayout new.
 
 	self size: self widgetSize.
@@ -44,6 +51,7 @@ ICValueDisplay >> initializeLabel: aString [
 	labelText text: (self configuredString: aString).
 	labelText text fontSize: 20.
 	labelText constraintsDo: [ :c | c frame horizontal alignCenter ].
+		valueText transformDo: [ :t | t translateBy: 0 @ 2 ].
 
 
 	self addChild: labelText
@@ -61,6 +69,12 @@ ICValueDisplay >> initializeValueText [
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
 	valueText transformDo: [ :t | t translateBy: 0@6 ]
+]
+
+{ #category : 'accessing' }
+ICValueDisplay >> inputText [
+
+	^ labelText  asString
 ]
 
 { #category : 'accessing' }

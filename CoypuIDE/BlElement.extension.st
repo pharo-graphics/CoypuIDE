@@ -39,7 +39,8 @@ BlElement >> fromDictionary: aDictionary forDsp: aDsp [
 	widgetDictionary := Dictionary new.
 	widgetDictionary
 		add: #hslider -> #ICDarkKnob3;
-		add: #button -> #ICLabelButton.
+		add: #button -> #ICLabelButton;
+		add: #hbargraph -> #ICValueDisplay.  
 
 	^ (self class environment at:
 		   (widgetDictionary at: (aDictionary at: #type)))
