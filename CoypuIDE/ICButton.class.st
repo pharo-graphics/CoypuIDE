@@ -129,13 +129,14 @@ ICButton >> id: anIntegerOrAString [
 ICButton >> initialize [
 
 	super initialize.
-	self widgetSize: 80@80.
+	self widgetSize: 80 @ 80.
 	self value: 0.
-	
+
 	self onColor: Color red.
 	self offColor: Color darkGray.
 	"self initializeWidgetSize."
 	self initializeWidget.
+	self initializeClickBox.
 	self initializeButton.
 	self initializeEvents
 ]
@@ -151,6 +152,12 @@ ICButton >> initializeButton [
 				 c frame horizontal alignCenter.
 				 c frame vertical alignCenter ]).
 	self addChild: self button
+]
+
+{ #category : 'initialization' }
+ICButton >> initializeClickBox [ 
+
+^ 'Must be implemented in clickBox subclass'
 ]
 
 { #category : 'evaluating' }
