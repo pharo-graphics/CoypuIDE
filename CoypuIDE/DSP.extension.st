@@ -52,8 +52,12 @@ DSP >> displayUI [
 		do: [ :evt | space extent: evt target extent ].
 
 	space root addChild: container.
+
+	space     addEventHandlerOn: BlSpaceClosedEvent
+    do: [ Transcript show: 'Space closed' ].
 	space show.
-	space addEventFilterOn: [ BlSpaceClosedEvent ] do: [ ICValueDisplay isUpdating: false ].
+    
+
 	^ space
 ]
 

@@ -78,13 +78,13 @@ ICKnob class >> fromDictionary: aDictionary [
 
 { #category : 'instance creation' }
 ICKnob class >> fromDictionary: aDictionary forDsp: aDsp [
-
+( aDictionary at: #label ) traceCr.
 	^ (self
-		   label: (aDictionary at: #label)
+		   label: (aDictionary at: #shortname)
 		   minValue: (aDictionary at: #min)
 		   maxValue: (aDictionary at: #max)
 		   callBack: [ :i |
-		   aDsp setValue: i parameter: (aDictionary at: #label) ])
+		   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
 		  setValue: (aDictionary at: #init); stepValue: (aDictionary at: #step)
 ]
 

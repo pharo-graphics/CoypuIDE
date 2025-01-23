@@ -18,13 +18,13 @@ Class {
 ICLabelButton class >> fromDictionary: aDictionary forDsp: aDsp [
 
 	| paramLabel btn paramLabelAndType |
-	paramLabel := aDictionary at: #label.
+	paramLabel := (aDictionary at: #address) afterLastSlash .
 	"we split the actual label from its type"
 	paramLabelAndType := paramLabel splitOn: $~.
 	btn := self label: (paramLabelAndType at: 1).
 	btn callback: [ :x | aDsp setValue: x parameter: paramLabel ].
 	"if the button is a checkbox"
-	
+
 	paramLabelAndType size > 1 ifTrue: [ btn isToggleable: true ].
 
 	^ btn
