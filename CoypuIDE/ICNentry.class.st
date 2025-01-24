@@ -24,10 +24,10 @@ ICNentry class >> fromDictionary: aDictionary forDsp: aDsp [
 	^ (self new
 		   label: (aDictionary at: #shortname);
 		   
-		   callBack: [ :i |
+		   callback: [ :i |
 			   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
 		  setValue: (aDictionary at: #init);
-		  stepValue: (aDictionary at: #step);
+		  "stepValue: (aDictionary at: #step);"
 		  yourself
 ]
 
@@ -172,6 +172,12 @@ ICNentry >> initializelabel: aString [
 ICNentry >> inputExtent [
 
 	^ 200 @ 80
+]
+
+{ #category : 'accessing' }
+ICNentry >> inputText [
+
+	^ inputLabel text asString 
 ]
 
 { #category : 'accessing' }
