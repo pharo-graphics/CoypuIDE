@@ -41,10 +41,9 @@ BlElement >> fromDictionary: aDictionary forDsp: aDsp [
 		add: #hslider -> #ICDarkKnob3;
 		add: #vslider -> #ICDarkKnob3;
 		add: #button -> #ICLabelButton;
-		add: #hbargraph -> #ICValueDisplay; 
-	   add: #nentry -> #ICDarkKnob3; 
+		add: #hbargraph -> #ICValueDisplay;
+		add: #nentry -> #ICNentry;
 		add: #checkbox -> #ICLabelButton.
-
 	^ (self class environment at:
 		   (widgetDictionary at: (aDictionary at: #type)))
 		  fromDictionary: aDictionary

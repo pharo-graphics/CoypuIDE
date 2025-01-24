@@ -17,6 +17,20 @@ Class {
 	#tag : 'numericalEntry'
 }
 
+{ #category : 'instance creation' }
+ICNentry class >> fromDictionary: aDictionary forDsp: aDsp [
+
+	(aDictionary at: #label) traceCr.
+	^ (self new
+		   label: (aDictionary at: #shortname);
+		   
+		   callBack: [ :i |
+			   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
+		  setValue: (aDictionary at: #init);
+		  stepValue: (aDictionary at: #step);
+		  yourself
+]
+
 { #category : 'visual properties' }
 ICNentry >> backgroundPaint [
 
@@ -30,17 +44,15 @@ ICNentry >> borderPaint [
 ]
 
 { #category : 'accessing' }
+ICNentry >> callback [
+
+	^ callback ifNil: [  callback :=  [ :v | Transcript show: v ]]
+]
+
+{ #category : 'accessing' }
 ICNentry >> callback: aBlock [
 
 callback := aBlock.
-]
-
-{ #category : 'buttons' }
-ICNentry >> changeValueTo: aValue [
-
-inputValue text: ( self configuredString: aValue asString).
-inputValue text fontSize: 30.
-value := aValue
 ]
 
 { #category : 'evaluating' }
@@ -68,13 +80,13 @@ ICNentry >> createRect [
 { #category : 'buttons' }
 ICNentry >> decreaseInput [
 
-	self changeValueTo: value - 1
+	self setValue: self value - 1
 ]
 
 { #category : 'buttons' }
-ICNentry >> increaseInput [ 
+ICNentry >> increaseInput [
 
-self changeValueTo: value + 1.
+	self setValue: self value + 1
 ]
 
 { #category : 'initialization' }
@@ -86,7 +98,7 @@ ICNentry >> initialize [
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 10).
 
 	self border: (BlBorder paint: self borderPaint width: 4).
-	"self label: 'Input'."
+	self initializelabel: 'Input'.
 	self initializePlusButton.
 	self initializeMinusButton.
 	self initializeInputValue: 0.
@@ -101,7 +113,7 @@ ICNentry >> initializeInputValue: aValue [
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
 	inputValue transformDo: [ :t | t translateBy: 0 @ 10 ].
-	self changeValueTo: aValue.
+	self setValue: aValue.
 	self addChild: inputValue
 ]
 
@@ -118,9 +130,9 @@ ICNentry >> initializeMinusButton [
 	plus constraintsDo: [ :c |
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
-	rect
-		addEventHandlerOn: BlMouseDownEvent
-		do: [ :e | self increaseInput ].
+	rect addEventHandlerOn: BlMouseDownEvent do: [ :e |
+		self decreaseInput.
+		self callback value: self value ].
 	rect addChild: plus.
 	self addChild: rect
 ]
@@ -131,7 +143,7 @@ ICNentry >> initializePlusButton [
 	| rect |
 	rect := self createRect.
 	rect constraintsDo: [ :c | c frame horizontal alignRight ].
-	
+
 	plus := BlTextElement new text: (self configuredString: '+').
 	plus text fontSize: 30.
 	plus constraintsDo: [ :c |
@@ -139,9 +151,21 @@ ICNentry >> initializePlusButton [
 		c frame vertical alignCenter ].
 	rect
 		addEventHandlerOn: BlMouseDownEvent
-		do: [ :e | self increaseInput ].
+		do: [ :e | self increaseInput. self callback value: self value  ].
 	rect addChild: plus.
 	self addChild: rect
+]
+
+{ #category : 'accessing' }
+ICNentry >> initializelabel: aString [
+
+	inputLabel := BlTextElement new.
+	inputLabel text: (self configuredString: aString).
+	inputLabel text fontSize: 20.
+	inputLabel constraintsDo: [ :c | c frame horizontal alignCenter ].
+	inputLabel transformDo: [ :t | t translateBy: 0 @ 10 ].
+
+	self addChild: inputLabel
 ]
 
 { #category : 'accessing' }
@@ -153,11 +177,25 @@ ICNentry >> inputExtent [
 { #category : 'accessing' }
 ICNentry >> label: aString [
 
-	inputLabel := BlTextElement new.
+	
 	inputLabel text: (self configuredString: aString).
 	inputLabel text fontSize: 20.
 	inputLabel constraintsDo: [ :c | c frame horizontal alignCenter ].
 	inputLabel transformDo: [ :t | t translateBy: 0 @ 10 ].
 
-	self addChild: inputLabel
+
+]
+
+{ #category : 'buttons' }
+ICNentry >> setValue: aValue [
+
+inputValue text: ( self configuredString: aValue asString).
+inputValue text fontSize: 30.
+value := aValue
+]
+
+{ #category : 'buttons' }
+ICNentry >> value [ 
+
+^ inputValue text asString asNumber
 ]

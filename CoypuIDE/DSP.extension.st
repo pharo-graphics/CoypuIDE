@@ -12,7 +12,7 @@ DSP >> displayUI [
 
 	| container allParams allKnobs containerKnobs sortedKnobs space |
 	space := BlSpace new title: 'DSP UI'.
-   ICValueDisplay isUpdating: true.
+	ICValueDisplay isUpdating: true.
 	allParams := self getUIItemsLabeledDictionary.
 	allKnobs := OrderedCollection new.
 	allParams keysAndValuesDo: [ :k :v |
@@ -31,7 +31,7 @@ DSP >> displayUI [
 			                  "c vertical matchParent " ];
 		                  background: Color black.
 	container := BlElement new
-		             layout: BlLinearLayout new beVertical; 
+		             layout: BlLinearLayout new beVertical;
 		             constraintsDo: [ :c |
 			             c horizontal fitContent.
 			             c vertical fitContent ];
@@ -53,10 +53,12 @@ DSP >> displayUI [
 
 	space root addChild: container.
 
-	space     addEventHandlerOn: BlSpaceClosedEvent
-    do: [ Transcript show: 'Space closed' ].
+"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
+	space
+		addEventHandlerOn: BlSpaceClosedEvent
+		do: [ Transcript show: 'Space closed' ].
 	space show.
-    
+
 
 	^ space
 ]
