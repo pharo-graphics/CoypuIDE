@@ -36,7 +36,7 @@ Tp33 >> initialize [
 	super initialize.
 	self initializeNotesArray.
 	isRunning := false.
-	isPitchMode := false.
+	
 
 
 	dsp := Acid new stereo asDsp.
@@ -134,25 +134,32 @@ Tp33 >> initializeNotesCallbacks [
 { #category : 'initialization' }
 Tp33 >> initializeWidgetsCallbacks [
 
+	| perf |
+	perf := Performance uniqueInstance.
 	self widget_RunStop callback: [ :v |
 		self isRunning: v = 1.
 		self isRunning
 			ifTrue: [ Performance uniqueInstance playFor: 88 bars ]
 			ifFalse: [ Performance uniqueInstance stop ] ].
 
-	self widget_PitchMode callback: [ :v | v isPitchMode: v isPitchMode not ]
+	self widget_PitchMode callback: [ :v |
+		v isPitchMode: v isPitchMode not ].
+
+	"we need to access the button inside the widget"
+	(self widget_PatternClear children at: 4) callback: [ 
+		16 rests to: #Acid ]
 ]
 
 { #category : 'accessing' }
 Tp33 >> isPitchMode [
 
-	^ isPitchMode 
+	^ isPitchMode
 ]
 
 { #category : 'accessing' }
 Tp33 >> isPitchMode: aBoolean [
 
-	isPitchMode := aBoolean 
+	isPitchMode := aBoolean
 ]
 
 { #category : 'accessing' }

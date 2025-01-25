@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'widgetSize',
 		'switch',
-		'value'
+		'value',
+		'callback'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -57,6 +58,18 @@ TbSwitch >> backColor [
 
 ]
 
+{ #category : 'accessing' }
+TbSwitch >> callback [
+
+	^ callback ifNil: [   callback := [ ] ]  
+]
+
+{ #category : 'accessing' }
+TbSwitch >> callback: aBlock [
+
+	callback := aBlock
+]
+
 { #category : 'initialization' }
 TbSwitch >> color4 [
 	"^ (Color r: 233 g:208  b:168  range:255)."
@@ -76,10 +89,9 @@ TbSwitch >> initialize [
 ]
 
 { #category : 'as yet unclassified' }
-TbSwitch >> initializeEvents [
+TbSwitch >> initializeEvents [ 
 
-
-	switch
+switch
 		addEventHandler: (BlEventHandler
 				 on: BlMouseDownEvent
 				 do: [ :anEvent |
