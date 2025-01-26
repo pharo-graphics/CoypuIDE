@@ -10,7 +10,8 @@ Class {
 		'isRunning',
 		'patternPlay',
 		'isPitchMode',
-		'pattern1'
+		'pattern1',
+		'mode'
 	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
@@ -34,9 +35,11 @@ Tp33 >> initialize [
 
 	| dsp p |
 	super initialize.
+	mode := TpIdleMode new.
+	"notesArrray is neeeded to map the keyboard buttons to note numbers"
 	self initializeNotesArray.
 	isRunning := false.
-	
+
 
 
 	dsp := Acid new stereo asDsp.
@@ -172,6 +175,11 @@ Tp33 >> isRunning [
 Tp33 >> isRunning: aBoolean [
 
 isRunning := aBoolean 
+]
+
+{ #category : 'accessing' }
+Tp33 >> mode [
+	^ mode
 ]
 
 { #category : 'instance creation' }
