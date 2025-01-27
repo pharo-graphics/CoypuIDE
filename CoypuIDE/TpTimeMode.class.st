@@ -10,6 +10,19 @@ Class {
 }
 
 { #category : 'action  handling' }
+TpTimeMode >> handleSwitchPitchMode [
+	"change the state"
+
+	
+
+	self machine mode: (TpPitchMode new machine: machine).
+	"switch the UI toggle"
+	self machine widget_TimeMode switch toggle.
+	"switch the UI led"
+	self machine widget_TimeMode  toggle.
+]
+
+{ #category : 'action  handling' }
 TpTimeMode >> handleSwitchTimeMode [
 
 	self machine mode: (TpIdleMode new machine: self machine)

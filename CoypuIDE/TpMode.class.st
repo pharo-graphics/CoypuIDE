@@ -17,6 +17,12 @@ Class {
 }
 
 { #category : 'action  handling' }
+TpMode >> handleSwitchPitchMode [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'action  handling' }
 TpMode >> handleSwitchTimeMode [
 
 ^ self subclassResponsibility 

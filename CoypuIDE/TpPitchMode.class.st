@@ -9,3 +9,19 @@ Class {
 	#package : 'CoypuIDE',
 	#tag : 'Acid'
 }
+
+{ #category : 'action  handling' }
+TpPitchMode >> handleSwitchPitchMode [
+
+
+	self machine mode: (TpIdleMode new machine: self machine)
+]
+
+{ #category : 'action  handling' }
+TpPitchMode >> handleSwitchTimeMode [
+
+	self machine mode: (TpTimeMode new machine: self machine).
+	"switch the UI toggle and led"
+	self machine widget_PitchMode switch toggle.
+	
+]

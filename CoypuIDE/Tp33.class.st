@@ -30,6 +30,13 @@ Tp33 >> audioEngine: aDsp [
 	audioEngine := aDsp
 ]
 
+{ #category : 'as yet unclassified' }
+Tp33 >> halfSize [
+
+"approximately half size"
+self transformDo: [ :t | t scaleBy:0.55. t translateBy: -350 @ (-180) ].
+]
+
 { #category : 'initialization' }
 Tp33 >> initialize [
 
@@ -144,13 +151,14 @@ Tp33 >> initializeWidgetsCallbacks [
 		self isRunning
 			ifTrue: [ Performance uniqueInstance playFor: 88 bars ]
 			ifFalse: [ Performance uniqueInstance stop ] ].
-
-	self widget_PitchMode callback: [ :v |
-		v isPitchMode: v isPitchMode not ].
-
+	"we change the state and toggle the other button on the UI "
+	self widget_PitchMode callback: [
+		self mode handleSwitchPitchMode.
+	 ].
 	"ENTER TIME MODE"
 	self widget_TimeMode switch callback: [
-		self mode  handleSwitchTimeMode ].
+		self mode handleSwitchTimeMode.
+		].
 	"we need to access the button inside the widget"
 	(self widget_PatternClear children at: 4) callback: [
 		16 rests to: #Acid ]

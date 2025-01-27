@@ -101,16 +101,11 @@ TbWidget_PitchMode >> initialize [
 { #category : 'initialization' }
 TbWidget_PitchMode >> initializeEvents [
 	"Mouse Up Event is chosen instead of down to make a smooth transition when the user unclicks the switch."
-	switch
-		childrenDo: [ :i|   
-				i addEventHandler: (BlEventHandler
-				 	on: BlMouseUpEvent
-				 	do: [ :anEvent |
-						self toggle.
-					]).
-	].
-		
-	
+
+	switch childrenDo: [ :i |
+		i addEventHandler: (BlEventHandler
+				 on: BlMouseUpEvent
+				 do: [ :anEvent | self toggle . self callback value]) ]
 ]
 
 { #category : 'initialization' }
@@ -203,10 +198,10 @@ TbWidget_PitchMode >> toggleValue [
 	self value = 0
 		ifTrue: [
 			self value: 1.
-			self callback value: self parent ]
+			]
 		ifFalse: [
 			self value: 0.
-			self callback value: self parent  ]
+			 ]
 ]
 
 { #category : 'accessing' }

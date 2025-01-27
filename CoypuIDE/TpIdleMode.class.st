@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : 'action  handling' }
+TpIdleMode >> handleSwitchPitchMode [
+
+
+self machine mode: (TpPitchMode new machine: machine)
+]
+
+{ #category : 'action  handling' }
 TpIdleMode >> handleSwitchTimeMode [
 
 	self machine mode: (TpTimeMode new machine: self machine )
