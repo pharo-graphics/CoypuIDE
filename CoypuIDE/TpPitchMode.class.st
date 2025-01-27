@@ -17,7 +17,13 @@ Class {
 { #category : 'as yet unclassified' }
 TpPitchMode >> handleFunctionSwitch [
 
-	(Performance uniqueInstance at: #Acid) notes: self tempNotesPattern asArray
+	(Performance uniqueInstance at: #Acid) notes:
+		self tempNotesPattern asArray.
+		self machine mode: (TpIdleMode new machine: self machine).
+		"switch the UI toggle"
+	self machine widget_PitchMode switch toggle.
+	"switch the UI led"
+	self machine widget_PitchMode indicator toggle
 ]
 
 { #category : 'action  handling' }
