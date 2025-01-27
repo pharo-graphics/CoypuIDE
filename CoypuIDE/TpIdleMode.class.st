@@ -8,3 +8,9 @@ Class {
 	#package : 'CoypuIDE',
 	#tag : 'Acid'
 }
+
+{ #category : 'action  handling' }
+TpIdleMode >> handleSwitchTimeMode [
+
+	self machine mode: (TpTimeMode new machine: self machine )
+]

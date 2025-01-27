@@ -8,7 +8,28 @@ PlayMode: keyboard select different patterns in memory
 Class {
 	#name : 'TpMode',
 	#superclass : 'Object',
+	#instVars : [
+		'machine'
+	],
 	#category : 'CoypuIDE-Acid',
 	#package : 'CoypuIDE',
 	#tag : 'Acid'
 }
+
+{ #category : 'action  handling' }
+TpMode >> handleSwitchTimeMode [
+
+^ self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
+TpMode >> machine [
+
+^ machine 
+]
+
+{ #category : 'accessing' }
+TpMode >> machine: aTp33 [
+
+machine := aTp33
+]

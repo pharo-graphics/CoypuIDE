@@ -89,20 +89,14 @@ TbSwitch >> initialize [
 ]
 
 { #category : 'as yet unclassified' }
-TbSwitch >> initializeEvents [ 
+TbSwitch >> initializeEvents [
 
-switch
-		addEventHandler: (BlEventHandler
-				 on: BlMouseDownEvent
-				 do: [ :anEvent |
-					 self toggle.
-					]).
-	switch
-		addEventHandler: (BlEventHandler
-				 on: BlMouseUpEvent
-				 do: [ :anEvent |
-					 self toggle.
-					]).
+	switch addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :anEvent | self toggle. self callback value ]).
+	switch addEventHandler: (BlEventHandler
+			 on: BlMouseUpEvent
+			 do: [ :anEvent | self toggle ])
 ]
 
 { #category : 'as yet unclassified' }
@@ -236,9 +230,11 @@ TbSwitch >> toggle [
 
 { #category : 'initialization' }
 TbSwitch >> toggleValue [
-	self value = 0 
-		ifTrue: [ self value: 1 ] 
+
+	self value = 0
+		ifTrue: [ self value: 1 ]
 		ifFalse: [ self value: 0 ].
+		
 ]
 
 { #category : 'initialization' }

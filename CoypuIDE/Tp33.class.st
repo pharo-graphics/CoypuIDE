@@ -35,7 +35,7 @@ Tp33 >> initialize [
 
 	| dsp p |
 	super initialize.
-	mode := TpIdleMode new.
+	mode := TpIdleMode new machine: self.
 	"notesArrray is neeeded to map the keyboard buttons to note numbers"
 	self initializeNotesArray.
 	isRunning := false.
@@ -49,7 +49,7 @@ Tp33 >> initialize [
 	self initializeNotesCallbacks.
 	"just temporary patternPlay"
 	p := Performance uniqueInstance forDsp: dsp.
-	'35 , 48 ,62 , 71, ~ , ~ , 52 , 38, 39 , 43, ~ , 53 , ~ , 36 , 46 , 51 , 75'
+	'40 , 40 , 41, 41, 43, 43, 40, 40, 40, 38, 38, 40, 38, 43, 43, 43'
 		asDirtNotes to: #Acid.
 	self initializeKnobsValuesAndRanges.
 
@@ -148,8 +148,11 @@ Tp33 >> initializeWidgetsCallbacks [
 	self widget_PitchMode callback: [ :v |
 		v isPitchMode: v isPitchMode not ].
 
+	"ENTER TIME MODE"
+	self widget_TimeMode switch callback: [
+		self mode  handleSwitchTimeMode ].
 	"we need to access the button inside the widget"
-	(self widget_PatternClear children at: 4) callback: [ 
+	(self widget_PatternClear children at: 4) callback: [
 		16 rests to: #Acid ]
 ]
 
@@ -180,6 +183,12 @@ isRunning := aBoolean
 { #category : 'accessing' }
 Tp33 >> mode [
 	^ mode
+]
+
+{ #category : 'accessing' }
+Tp33 >> mode: aTpMode [
+
+	mode := aTpMode 
 ]
 
 { #category : 'instance creation' }
