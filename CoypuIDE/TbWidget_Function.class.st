@@ -88,24 +88,17 @@ TbWidget_Function >> initialize [
 { #category : 'initialization' }
 TbWidget_Function >> initializeEvents [
 
-	switch
-		childrenDo: [ :i|   
-				i addEventHandler: (BlEventHandler
-				 	on: BlMouseDownEvent
-				 	do: [ :anEvent |
-						self toggleValue.
-						self indicator toggle.
-					]).
-				i addEventHandler: (BlEventHandler
-				 	on: BlMouseUpEvent
-				 	do: [ :anEvent |
-						self toggleValue.
-						self indicator toggle.
-					]).
-				
-	].
-		
-	
+	switch childrenDo: [ :i |
+		i addEventHandler: (BlEventHandler
+				 on: BlMouseDownEvent
+				 do: [ :anEvent |
+					 self toggleValue.
+					 self indicator toggle . ]).
+		i addEventHandler: (BlEventHandler
+				 on: BlMouseUpEvent
+				 do: [ :anEvent |
+					 self toggleValue.
+					 self indicator toggle ]) ]
 ]
 
 { #category : 'initialization' }

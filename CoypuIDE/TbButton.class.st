@@ -132,7 +132,7 @@ TbButton >> callBackUp: aBlock [
 { #category : 'accessing' }
 TbButton >> callback [
 
-	^ callback
+	^ callback ifNil: [ callback := [ ] ] 
 ]
 
 { #category : 'accessing' }
@@ -217,11 +217,13 @@ TbButton >> initializeEvents [
 			 on: BlMouseDownEvent
 			 do: [ :anEvent |
 				 self toggle.
-				 self callbackDown value ]).
+				 self callbackDown value. self callback value ]).
 	self isToggleable ifFalse: [
 		button addEventHandler: (BlEventHandler
 				 on: BlMouseUpEvent
-				 do: [ :anEvent | self toggle. self callBackUp value ]) ]
+				 do: [ :anEvent |
+					 self toggle.
+					 self callBackUp value ]) ]
 ]
 
 { #category : 'initialization' }

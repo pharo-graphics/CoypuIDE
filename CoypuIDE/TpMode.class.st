@@ -16,6 +16,36 @@ Class {
 	#tag : 'Acid'
 }
 
+{ #category : 'as yet unclassified' }
+TpMode >> handleFunctionSwitch [
+
+^ self subclassResponsibility 
+]
+
+{ #category : 'as yet unclassified' }
+TpMode >> handleKeyboardNotes [
+
+^ self subclassResponsibility 
+]
+
+{ #category : 'action  handling' }
+TpMode >> handleNote_0 [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'action  handling' }
+TpMode >> handleNote_100 [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'action  handling' }
+TpMode >> handleNote_9 [
+
+	^ self subclassResponsibility
+]
+
 { #category : 'action  handling' }
 TpMode >> handleSwitchPitchMode [
 

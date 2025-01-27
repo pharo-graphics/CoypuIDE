@@ -125,20 +125,7 @@ Tp33 >> initializeNotesArray [
 { #category : 'initialization' }
 Tp33 >> initializeNotesCallbacks [
 
-	| noteNumbers |
-	noteNumbers := #( 60 61 62 63 64 65 66 67 68 69 70 71 72 73 ).
-
-	notesArray do: [ :key | "callbacks on mouseDown"
-		key callbackDown: [
-			audioEngine
-				setValue:
-					(noteNumbers at: (notesArray indexOf: key)) midiNoteToFreq
-				parameter: 'AcidNote'.
-			audioEngine setValue: 1 parameter: 'AcidGate'.
-			(noteNumbers at: (notesArray indexOf: key)) midiNoteToFreq traceCr ].
-
-		"On mouseUp"
-		key callBackUp: [ audioEngine setValue: 0 parameter: 'AcidGate' ] ]
+	self mode handleKeyboardNotes.
 ]
 
 { #category : 'initialization' }
@@ -152,16 +139,20 @@ Tp33 >> initializeWidgetsCallbacks [
 			ifTrue: [ Performance uniqueInstance playFor: 88 bars ]
 			ifFalse: [ Performance uniqueInstance stop ] ].
 	"we change the state and toggle the other button on the UI "
-	self widget_PitchMode callback: [
-		self mode handleSwitchPitchMode.
-	 ].
+	self widget_PitchMode callback: [ self mode handleSwitchPitchMode ].
 	"ENTER TIME MODE"
 	self widget_TimeMode switch callback: [
-		self mode handleSwitchTimeMode.
-		].
+		self mode handleSwitchTimeMode ].
 	"we need to access the button inside the widget"
-	(self widget_PatternClear children at: 4) callback: [
-		16 rests to: #Acid ]
+	self widget_PatternClear switch callback: [ 16 rests to: #Acid ].
+
+	"note_9 , note_0 and note_100 behaviour depends on the mode"
+	self note_9 callback: [ self mode handleNote_9 ].
+	self note_0 callback: [ self mode handleNote_0 ].
+	self note_100 callback: [ self mode handleNote_100 ].
+
+	"function button"
+	self widget_Function switch callback: [ self mode handleFunctionSwitch ]
 ]
 
 { #category : 'accessing' }
@@ -207,6 +198,14 @@ self initialize.
 ]
 
 { #category : 'accessing' }
+Tp33 >> noteNumbers [
+
+"MIDI NOTE NUMBERS at CENTER POSITION"
+
+^ #( 48 49 50 51 52 53 54 55 56 57 58 59 60 )
+]
+
+{ #category : 'accessing' }
 Tp33 >> notesArray [
 
 	^ notesArray
@@ -216,6 +215,13 @@ Tp33 >> notesArray [
 Tp33 >> notesArray: anArrayOfBlElements [
 
 	notesArray := anArrayOfBlElements 
+]
+
+{ #category : 'as yet unclassified' }
+Tp33 >> octaves [
+	"Tp33 has 3 octaves, they can be changed with the transpose switches both for execution and writing"
+^ self shouldBeImplemented 
+	
 ]
 
 { #category : 'accessing' }
