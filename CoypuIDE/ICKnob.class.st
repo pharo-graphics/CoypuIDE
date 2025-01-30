@@ -44,16 +44,16 @@ ICKnob class >> allKnobExamples [
 		background: Color darkGray.
 
 
-e1:= ICKnob label: 'Label1'.
+e1:= ICKnob label: 'ICKnbob'.
 
 
-e2:= ICLightKnob label: 'Label 2'.
-e3:= ICDarkKnob2 label: 'LABEL 3'. 
-e4:= ICDarkKnob3 label: 'LABEL 4'. 
-e5:= ICDarkKnob4 label:'LABEL 5'. 
-e6:= ICDarkKnob5 label:'LABEL 6'.
-e7:= ICDialKnob label: 'LABEL 7'.
-e8:= ICSimpleKnob label: 'Release 1'.
+e2:= ICLightKnob label: 'ICLightKnob'.
+e3:= ICDarkKnob2 label: 'ICDarkKnob2'. 
+e4:= ICDarkKnob3 label: 'ICDarkKnob3'. 
+e5:= ICDarkKnob4 label:'ICDarkKnob4'. 
+e6:= ICDarkKnob5 label:'ICDarkKnob5'.
+e7:= ICDialKnob label: 'ICDialKnob'.
+e8:= ICSimpleKnob label: 'ICSimpleKnob'.
 
 
 container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7. e8}.

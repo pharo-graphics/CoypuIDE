@@ -40,7 +40,7 @@ ICNentry >> backgroundPaint [
 { #category : 'accessing' }
 ICNentry >> borderPaint [
 
-^ Color green
+^ Color cyan
 ]
 
 { #category : 'accessing' }

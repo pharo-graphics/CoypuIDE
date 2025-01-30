@@ -70,9 +70,11 @@ Tp33 >> initializeKnobsCallbacks [
 	self knob_CutoffFreq callBack: [ :v |
 		self audioEngine setValue: v parameter: 'AcidCutoffFreq' ].
 	self knob_Resonance callBack: [ :v |
-		self audioEngine setValue: v parameter: 'AcidResonance' ].
+		self audioEngine setValue: v parameter: 'AcidResonance'.
+		'Reso' , v asString traceCr ].
 	self knob_EnvMod callBack: [ :v |
 		self audioEngine setValue: v parameter: 'AcidEnvMod' ].
+	self knob_Decay callBack: [ :v |  self audioEngine setValue: v parameter: 'AcidEnvDecay' ].
 	self knob_Tempo callBack: [ :v |
 		Performance uniqueInstance freq: v bpm ]
 ]
@@ -87,19 +89,20 @@ Tp33 >> initializeKnobsValuesAndRanges [
 
 	self knob_Resonance
 		minValue: 0;
-		maxValue: 24;
+		maxValue: 6;
 		stepValue: 0.001.
 
 	self knob_EnvMod
 		minValue: 0.1;
 		maxValue: 1;
 		stepValue: 0.001.
-		
-		self knob_Tempo 
+
+	self knob_Tempo
 		minValue: 80;
 		maxValue: 180;
 		stepValue: 0.001.
 		
+	self knob_Decay minValue: 0.1; maxValue: 2 ;stepValue: 0.001
 ]
 
 { #category : 'initialization' }

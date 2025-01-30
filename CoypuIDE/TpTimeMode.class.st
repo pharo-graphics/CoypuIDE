@@ -16,7 +16,12 @@ Class {
 { #category : 'as yet unclassified' }
 TpTimeMode >> handleFunctionSwitch [
 
-(Performance uniqueInstance at: #Acid) gates: self tempNotesPattern
+(Performance uniqueInstance at: #Acid) gates: self tempGatesPattern asArray .
+
+"switch the UI toggle"
+	self machine widget_TimeMode switch toggle.
+	"switch the UI led"
+	self machine widget_TimeMode indicator toggle
 ]
 
 { #category : 'action  handling' }

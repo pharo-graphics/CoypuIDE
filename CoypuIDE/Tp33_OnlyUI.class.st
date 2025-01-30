@@ -407,55 +407,75 @@ Tp33_OnlyUI >> initializeGridlines [
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeKnobs [
-	self knob_Tuning: ((TbKnob label:'TUNING')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -325@0.]).
-	self knob_CutoffFreq: ((TbKnob label:'CUTOFF  FREQ')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -195@0.]).
-	self knob_Resonance: ((TbKnob label:'RESONANCE')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -65@0.]).
- 	self knob_EnvMod: ((TbKnob label:'ENV MOD')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 65@0.]).
-	self knob_Decay: ((TbKnob label:'DECAY')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 195@0.]).
-	self knob_Accent: ((TbKnob label:'ACCENT')
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 325@0.]).
-	
-	
-	
-		
-	self knob_Tempo:((TbKnob1 label:'TEMPO')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 80@160.]).
-	self knob_Volume:((TbKnob1 label:'VOLUME')
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -90@160.]).
-	self knob_PattGroup:((TbKnob2 label:'.                   PATT  GROUP')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 320@160.]). 
-	self knob_Mode:((TbKnob2 label:'MODE')
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 560@160.]).
-	
-	self addChildren: { 
-		
-		self knob_Tuning.
-		self knob_CutoffFreq. 
-		self knob_Resonance. 
-		self knob_EnvMod. 
-		self knob_Decay.
-		self knob_Accent.
-		self knob_Tempo.
-		self knob_Volume.
-		self knob_PattGroup.
-		self knob_Mode.
-		
-	}.
+	"AS THE TP33 UI WAS DEVELOPED BEFORE ITS AUDIO ENGINE, RANGE OF KNOBS IS SET HERE"
+
+	self knob_Tuning: ((TbKnob label: 'TUNING')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: -325 @ 0 ]).
+	self knob_CutoffFreq: ((TbKnob label: 'CUTOFF  FREQ')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: -195 @ 0 ]).
+	self knob_Resonance: ((TbKnob label: 'RESONANCE')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: -65 @ 0 ]).
+	self knob_EnvMod: ((TbKnob label: 'ENV MOD')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 65 @ 0 ]).
+	self knob_Decay: ((TbKnob label: 'DECAY')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 195 @ 0 ]).
+	self knob_Accent: ((TbKnob label: 'ACCENT')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignCenter.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 325 @ 0 ]).
+
+
+
+
+	self knob_Tempo: ((TbKnob1 label: 'TEMPO')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignLeft.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 80 @ 160 ]).
+	self knob_Volume: ((TbKnob1 label: 'VOLUME')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignRight.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: -90 @ 160 ]).
+	self knob_PattGroup:
+		((TbKnob2 label: '.                   PATT  GROUP')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignLeft.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 320 @ 160 ]).
+	self knob_Mode: ((TbKnob2 label: 'MODE')
+			 constraintsDo: [ :c |
+				 c frame horizontal alignLeft.
+				 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 560 @ 160 ]).
+
+	self addChildren: {
+			self knob_Tuning.
+			self knob_CutoffFreq.
+			self knob_Resonance.
+			self knob_EnvMod.
+			self knob_Decay.
+			self knob_Accent.
+			self knob_Tempo.
+			self knob_Volume.
+			self knob_PattGroup.
+			self knob_Mode }
 ]
 
 { #category : 'initialization' }
