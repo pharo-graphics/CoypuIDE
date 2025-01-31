@@ -15,3 +15,10 @@ ManifestCoypuIDE class >> ruleBlocWidthV1FalsePositive [
 	<ignoreForCoverage>
 	^ #(#(#(#RGMethodDefinition #(#ICPianoNoteElement #initializeEvents #false)) #'2025-01-08T21:49:26.541018+01:00') )
 ]
+
+{ #category : 'code-critics' }
+ManifestCoypuIDE class >> ruleModifiesCollectionRuleV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMethodDefinition #(#TpPitchMode #handleKeyboardNotes #false)) #'2025-01-31T10:21:53.507124+01:00') )
+]

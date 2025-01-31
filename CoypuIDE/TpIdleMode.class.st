@@ -55,11 +55,17 @@ TpIdleMode >> handleNote_9 [
 { #category : 'action  handling' }
 TpIdleMode >> handleSwitchPitchMode [
 
-	self machine mode: (TpPitchMode new machine: machine; handleKeyboardNotes )
+	self machine mode: (TpPitchMode new
+			 machine: machine;
+			 handleKeyboardNotes).
+	self machine note_0 isToggleable: true.
+	self machine note_9 isToggleable: true.
 ]
 
 { #category : 'action  handling' }
 TpIdleMode >> handleSwitchTimeMode [
 
-	self machine mode: (TpTimeMode new machine: self machine )
+	self machine mode: (TpTimeMode new machine: self machine).
+"	self machine note_0 isToggleable: false.
+	self machine note_9 isToggleable: false"
 ]
