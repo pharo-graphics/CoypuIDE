@@ -1,3 +1,7 @@
+"
+I display the value of an array in range [-1.0 1.0], as an Oscilloscope.
+My main use is to diplay audio waveforms
+"
 Class {
 	#name : 'ICAudioDisplay',
 	#superclass : 'BlElement',
@@ -20,6 +24,43 @@ ICAudioDisplay class >> Example [
 | e |
 e:= ICAudioDisplay new.
 e openInSpace.
+]
+
+{ #category : 'as yet unclassified' }
+ICAudioDisplay class >> fromAiffFileName: anAiffFileName [ 
+
+| f channel normalizedData bitDepthNormalization step downsampledData visualizer|
+
+f := AIFFFileReader new readFromFile: anAiffFileName .
+
+channel := f channelData at: 1.
+ 
+bitDepthNormalization  := 2 raisedTo: (f bitsPerSample - 1).
+
+normalizedData := channel collect: [ :s | s / 32768.0 ].
+
+
+step := (normalizedData size // self new y) max: 1.
+
+"SIMPLE DOWNSAMPLING"
+"downsampled := (1 to: normal size by: step) collect: [ :i | normal at: i ]"
+
+"AVERAGE DOWNSAMPLING : SMOOTHER LOOK"
+"downsampled := (1 to: normal size by: step) collect: [ :i |
+    (normal copyFrom: i to: (i + step - 1 min: normal size)) average.
+]."
+
+"MIN-MAX SAMPLING : preserves the peaks of the waveform."
+downsampledData := (1 to: normalizedData size by: step) flatCollect: [ :i |
+    | segment minVal maxVal |
+    segment := normalizedData  copyFrom: i to: (i + step - 1 min: normalizedData size).  "Extract the segment"
+    minVal := segment inject: segment first into: [ :min :val | val < min ifTrue: [val] ifFalse: [min] ].
+    maxVal := segment inject: segment first into: [ :max :val | val > max ifTrue: [val] ifFalse: [max] ].
+    Array with: minVal with: maxVal  "Store min and max values for the segment"
+].
+
+visualizer := self fromArray:  downsampledData.  
+^ visualizer
 ]
 
 { #category : 'as yet unclassified' }
@@ -248,8 +289,8 @@ ICAudioDisplay >> sections: anInteger [
 
 { #category : 'initialization' }
 ICAudioDisplay >> x [
-	^400
 
+	^ 1200
 ]
 
 { #category : 'initialization' }
