@@ -1,14 +1,8 @@
 Extension { #name : 'DSP' }
 
 { #category : '*CoypuIDE' }
-DSP >> connectToOSCServerOnPort: aPort [
-"should we check for all children???"
-(self displayedUI children at: 1) connectToOSCServer listenOnPort: aPort
-]
-
-{ #category : '*CoypuIDE' }
-DSP >> displayUI [
-	"full UI made with Toplo"
+DSP >> buildUI [
+	"build full UI made with Bloc"
 
 	| container allParams allKnobs containerKnobs sortedKnobs space |
 	space := BlSpace new title: 'DSP UI'.
@@ -23,7 +17,7 @@ DSP >> displayUI [
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
 		                  layout: (BlGridLayout new
-				                   columnCount: 8;
+				                   columnCount: 6;
 				                   cellSpacing: 0);
 		                  constraintsDo: [ :c |
 			                  c horizontal matchParent.
@@ -51,9 +45,56 @@ DSP >> displayUI [
 		addEventHandlerOn: BlElementExtentChangedEvent
 		do: [ :evt | space extent: evt target extent ].
 
-	space root addChild: container.
+	^ displayedUI
+]
 
-"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
+{ #category : '*CoypuIDE' }
+DSP >> connectToOSCServerOnPort: aPort [
+"should we check for all children???"
+(self displayedUI children at: 1) connectToOSCServer listenOnPort: aPort
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> displayUI [
+	"fdisplay the IU made with Bloc"
+
+	| space |
+	
+	"first we build the UI"
+	self buildUI .
+	space := BlSpace new title: 'DSP UI'.
+	space root addChild: self displayedUI.
+	self displayedUI
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
+
+
+	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
+	space
+		addEventHandlerOn: BlSpaceClosedEvent
+		do: [ Transcript show: 'Space closed' ].
+	space show.
+
+
+	^ space
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> displayUIScaledBy: aScaleFactor [
+	"display a scaled UI made with Bloc"
+
+	| space |
+	"first we build the UI"
+	self buildUI.
+	displayedUI transformDo: [ :t | t scaleBy: aScaleFactor ].
+	space := BlSpace new title: 'DSP UI'.
+	space root addChild: self displayedUI.
+	self displayedUI
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
+
+
+	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
 	space
 		addEventHandlerOn: BlSpaceClosedEvent
 		do: [ Transcript show: 'Space closed' ].

@@ -173,7 +173,7 @@ TbButton >> indicator: anElement [
 TbButton >> initialize [
 
 	super initialize.
-	isToggleable  := false.
+	isToggleable := true.
 	self value: 0.
 	self initializeWidgetSize.
 	self initializeWidget.
@@ -217,7 +217,7 @@ TbButton >> initializeEvents [
 			 on: BlMouseDownEvent
 			 do: [ :anEvent |
 				 self toggle.
-			
+
 				 self callbackDown value.
 				 self callback value ]).
 
@@ -225,8 +225,9 @@ TbButton >> initializeEvents [
 			 on: BlMouseUpEvent
 			 do: [ :anEvent |
 				 self isToggleable ifFalse: [
+					'Toggeling' traceCr.
 					 self toggle.
-					 
+
 					 self callBackUp value ] ])
 ]
 
@@ -438,7 +439,7 @@ TbButton >> toggle [
 
 { #category : 'evaluating' }
 TbButton >> toggleValue [
-	self value = 0 
+	(self value = 0 )
 		ifTrue: [ self value: 1 ] 
 		ifFalse: [ self value: 0 ].
 ]

@@ -76,6 +76,8 @@ TpTimeMode >> handleSwitchPitchMode [
 	self machine widget_TimeMode toggle.
 	self machine note_0 isToggleable: true.
 	self machine note_9 isToggleable: true.
+	
+
 ]
 
 { #category : 'action  handling' }
@@ -85,7 +87,8 @@ TpTimeMode >> handleSwitchTimeMode [
 	tempGatesPattern := OrderedCollection new.
 	tempGatesPatternIndex := 1.
 	self machine note_0 isToggleable: false.
-	self machine note_9 isToggleable: false
+	self machine note_9 isToggleable: false.
+
 ]
 
 { #category : 'initialization' }
