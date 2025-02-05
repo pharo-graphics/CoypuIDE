@@ -206,11 +206,26 @@ ICKnob >> centerPosition: aPosition [
 { #category : 'accessing' }
 ICKnob >> clickAt: aPoint [
 
-	| vector newAngle |
+	| vector newAngle stepSize quantizedAngle rotationRange knobValue quantizedValue |
+	rotationRange := self minAngle abs + self maxAngle.
+
+
+
 	vector := aPoint - centerPosition.
 	newAngle := (0 @ -1 angleWith: vector) radiansToDegrees.
-	self angle: newAngle.
-	
+	"map angle to a value within the min and max range"
+	knobValue := newAngle / rotationRange
+	             * (self maxValue - self minValue) + self minValue.
+
+	"Quantize the knobValue to the nearest step"
+	quantizedValue := (knobValue / self stepValue) rounded
+	                  * self stepValue.
+
+	"Quantize the new angle to the nearest step"
+	quantizedAngle := quantizedValue - self minValue
+	                  / (self maxValue - self minValue) * rotationRange.
+ 
+	self angle: quantizedAngle
 ]
 
 { #category : 'accessing' }
