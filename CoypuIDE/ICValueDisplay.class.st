@@ -6,7 +6,9 @@ Class {
 	#superclass : 'BlElement',
 	#instVars : [
 		'labelText',
-		'valueText'
+		'valueText',
+		'label',
+		'attachedDsp'
 	],
 	#classInstVars : [
 		'isUpdating'
@@ -19,8 +21,7 @@ Class {
 { #category : 'instance creation' }
 ICValueDisplay class >> fromDictionary: aDictionary forDsp: aDsp [
 
-	^ self new
-		   label: (aDictionary at: #label)
+	^ self new label: (aDictionary at: #label); attachedDsp: aDsp
 ]
 
 { #category : 'accessing' }
@@ -37,7 +38,21 @@ ICValueDisplay class >> isUpdating: aBoolean [
 isUpdating  := aBoolean
 ]
 
-{ #category : 'evaluating' }
+{ #category : 'accessing' }
+ICValueDisplay >> attachedDsp [ 
+
+^ attachedDsp
+]
+
+{ #category : 'accessing' }
+ICValueDisplay >> attachedDsp: aDsp [
+
+	attachedDsp := aDsp.
+	"after having assigned a Dsp, we can start the mechainsm to upate value"
+	self updateValue.
+]
+
+{ #category : 'accessing' }
 ICValueDisplay >> configuredString: aString [
 
 	^ aString asRopedText attributes:
@@ -57,7 +72,7 @@ ICValueDisplay >> initialize [
 		c frame vertical alignCenter ].
 	self initializeValueText.
 	self initializeLabel: 'Value'.
-   self updateValue .
+	
 	self addChild: valueText
 ]
 
@@ -95,22 +110,33 @@ ICValueDisplay >> inputText [
 ]
 
 { #category : 'accessing' }
+ICValueDisplay >> label [
+
+^ label
+]
+
+{ #category : 'accessing' }
 ICValueDisplay >> label: aString [
 
 	labelText text: (self configuredString: aString).
-   labelText text fontSize: 20.
+	labelText text fontSize: 20.
+	label := aString
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ICValueDisplay >> textPaint [
 
 ^ Color red
 ]
 
 { #category : 'protocol' }
-ICValueDisplay >> updateValue [ 
+ICValueDisplay >> updateValue [
 
-^ [[ self class isUpdating ] whileTrue: [ self value: (Random new nextIntegerBetween: 10 and: 99 ). (Delay forMilliseconds: 90) wait. ]] forkAt: 10.
+attachedDsp isNull ifTrue: [^ Error new signal: 'Invalid DSP'] ifFalse: [  
+	^ [
+	  [ self class isUpdating ] whileTrue: [
+		  self value: (self attachedDsp getParamValue: self label).
+		  (Delay forMilliseconds: 200) wait ] ] forkAt: 10]
 ]
 
 { #category : 'accessing' }
@@ -120,7 +146,7 @@ ICValueDisplay >> value: aNumber [
 	valueText text fontSize: 80
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ICValueDisplay >> widgetSize [
 
 	^ 200 @ 80

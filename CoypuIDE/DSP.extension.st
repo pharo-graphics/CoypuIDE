@@ -59,9 +59,8 @@ DSP >> displayUI [
 	"fdisplay the IU made with Bloc"
 
 	| space |
-	
 	"first we build the UI"
-	self buildUI .
+	self buildUI.
 	space := BlSpace new title: 'DSP UI'.
 	space root addChild: self displayedUI.
 	self displayedUI
@@ -72,7 +71,7 @@ DSP >> displayUI [
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
 	space
 		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ Transcript show: 'Space closed' ].
+		do: [ ICValueDisplay isUpdating: false ].
 	space show.
 
 
