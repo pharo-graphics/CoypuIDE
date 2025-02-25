@@ -126,11 +126,10 @@ PhaustoClassReference >> initializeList [
 					c vertical fitContent.
 					c horizontal matchParent ].
 				album minHeight: 50.
-				album text: cls comment.
+				album text: (Microdown asRichText: (Microdown parse: cls comment)).
+"cls comment".
 				body addChild: album ];
-			yourself ].
-	
-	
+			yourself ]
 ]
 
 { #category : 'initialization' }
