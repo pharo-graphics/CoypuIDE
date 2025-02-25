@@ -1,19 +1,65 @@
+"
+Search and see the documentation for Phausto classes.
+
+```language=pharo
+ref := PhaustoClassReference new.
+ref openInSpace
+```
+"
 Class {
 	#name : 'PhaustoClassReference',
 	#superclass : 'ToPane',
+	#instVars : [
+		'filterField',
+		'list',
+		'phaustoClasses',
+		'group'
+	],
 	#category : 'CoypuIDE-reference',
 	#package : 'CoypuIDE',
 	#tag : 'reference'
 }
 
+{ #category : 'accessing' }
+PhaustoClassReference >> group [
+
+^ group 
+]
+
 { #category : 'initialization' }
 PhaustoClassReference >> initialize [
 
-	| filterField list sieve pane phaustoClasses |
+	| phaustoClasses |
+	"reject: [ :cls | cls comment isEmpty ]""list selectionOption masked: true."
 	super initialize.
+	self initializeList.
+	self initializeFilterField.
+	self initializeTypeCheckboxGroup.
+
 	self
 		beVertical;
 		matchParent.
+
+	phaustoClasses := Smalltalk globals allClasses select: [ :c |
+		                  c package name = #Phausto ].
+	list dataAccessor addAll: phaustoClasses.
+	list matchParent.
+	self addChild: list.
+	self addChild: filterField.
+	self addChildren: self group registeredCheckables
+]
+
+{ #category : 'initialization' }
+PhaustoClassReference >> initializeCollectionOfClasses [
+
+phaustoClasses := Smalltalk globals allClasses select: [ :c |
+		                  c package name = #Phausto ].
+]
+
+{ #category : 'initialization' }
+PhaustoClassReference >> initializeFilterField [
+
+	|  sieve |
 	filterField := ToTextField new.
 	filterField margin: (BlInsets all: 2).
 	filterField placeholderBuilder: [ :placeholder :e |
@@ -21,18 +67,23 @@ PhaustoClassReference >> initialize [
 			((ToAttributedLabel text: 'Class name filter')
 				 foreground: Color lightGray;
 				 yourself) ].
-	list := ToAccordionListElement new.
-	list withRowNumbers.
-	list selectionMode multiple: true.
-	sieve := ToListElementSieve new.
+			sieve := ToListElementSieve new.
 	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
-
 	filterField whenTextEditedDo: [
 		| pattern |
 		pattern := filterField text asString.
 		sieve pattern: pattern ].
+	
+]
+
+{ #category : 'initialization' }
+PhaustoClassReference >> initializeList [
+
+	list := ToAccordionListElement new.
+	list withRowNumbers.
+	list selectionMode multiple: true.
 
 	list placeholderBuilder: [ :ph :e |
 		| lab |
@@ -42,7 +93,6 @@ PhaustoClassReference >> initialize [
 			       fontSize: 24;
 			       yourself.
 		ph addChild: lab ].
-
 	list itemBuilder: [ :item :cls :holder |
 		item addAllStamps: { #borderless. #ghost }.
 		item
@@ -71,12 +121,29 @@ PhaustoClassReference >> initialize [
 				album text: cls comment.
 				body addChild: album ];
 			yourself ].
-   
-   phaustoClasses := Smalltalk globals allClasses select: [ :c | c package name = #Phausto ].
-	list dataAccessor addAll: phaustoClasses . "reject: [ :cls | cls comment isEmpty ]"
-	"list selectionOption masked: true."
-	list matchParent.
+	
+	
+]
 
-	self  addChild: list.
-	self addChild: filterField
+{ #category : 'initialization' }
+PhaustoClassReference >> initializeTypeCheckboxGroup [
+
+	| buttons labels|
+	labels := #('UnitGenerators' 'Synths' 'UIPrimitives' 'PhysicalModels' 'ToolKit' 'Demo' 'Filters' 'Effects' 'TurboPhausto').
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: labels size do: [ :idx |
+		| chb |
+		chb := ToCheckbox new
+			       beEndToStart;
+			       labelText: (labels at: idx) ;
+			       id: (labels at: idx ).
+		buttons add: chb ].
+	buttons second checked: true.
+	group registerAll: buttons.
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedList asString , ' unchecked: '
+				  , event uncheckedList asString) traceCr ])
 ]
