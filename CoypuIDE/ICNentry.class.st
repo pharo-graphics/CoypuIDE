@@ -10,7 +10,12 @@ Class {
 		'inputValue',
 		'value',
 		'inputLabel',
-		'callback'
+		'callback',
+		'maxValue',
+		'minValue'
+	],
+	#classInstVars : [
+		'aNumber'
 	],
 	#category : 'CoypuIDE-numericalEntry',
 	#package : 'CoypuIDE',
@@ -23,12 +28,12 @@ ICNentry class >> fromDictionary: aDictionary forDsp: aDsp [
 	(aDictionary at: #label) traceCr.
 	^ (self new
 		   label: (aDictionary at: #shortname);
-		   
+		   minValue: (aDictionary at: #min);
+		   maxValue: (aDictionary at: #max);
 		   callback: [ :i |
 			   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
 		  setValue: (aDictionary at: #init);
-		  "stepValue: (aDictionary at: #step);"
-		  yourself
+		  "stepValue: (aDictionary at: #step);"yourself
 ]
 
 { #category : 'visual properties' }
@@ -62,7 +67,7 @@ ICNentry >> configuredString: aString [
 		  { (BlTextForegroundAttribute paint: self borderPaint ) }
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICNentry >> createRect [
 
 	| rect |
@@ -80,13 +85,13 @@ ICNentry >> createRect [
 { #category : 'buttons' }
 ICNentry >> decreaseInput [
 
-	self setValue: self value - 1
+	self setValue: (self value - 1 max: minValue )
 ]
 
 { #category : 'buttons' }
 ICNentry >> increaseInput [
 
-	self setValue: self value + 1
+	self setValue: ((self value + 1) min: self maxValue).
 ]
 
 { #category : 'initialization' }
@@ -117,7 +122,7 @@ ICNentry >> initializeInputValue: aValue [
 	self addChild: inputValue
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICNentry >> initializeMinusButton [
 
 	| rect |
@@ -137,7 +142,7 @@ ICNentry >> initializeMinusButton [
 	self addChild: rect
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 ICNentry >> initializePlusButton [
 
 	| rect |
@@ -190,6 +195,30 @@ ICNentry >> label: aString [
 	inputLabel transformDo: [ :t | t translateBy: 0 @ 10 ].
 
 
+]
+
+{ #category : 'accessing' }
+ICNentry >> maxValue [
+
+	^ maxValue
+]
+
+{ #category : 'accessing' }
+ICNentry >> maxValue: aNumber [
+
+
+	maxValue := aNumber
+]
+
+{ #category : 'accessing' }
+ICNentry >> minValue [ 
+^ minValue
+]
+
+{ #category : 'accessing' }
+ICNentry >> minValue: aNumber [
+
+	minValue := aNumber
 ]
 
 { #category : 'buttons' }
