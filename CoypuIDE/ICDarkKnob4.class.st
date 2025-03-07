@@ -1,3 +1,6 @@
+"
+Black and magenta knob with cyan thumb. The outer ring is slightly separated from the knob's disk
+"
 Class {
 	#name : 'ICDarkKnob4',
 	#superclass : 'ICKnob',

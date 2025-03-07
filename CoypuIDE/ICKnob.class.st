@@ -1,3 +1,20 @@
+"
+Super class for CoypuIDE circular knobs.
+All Knobs have 
+-_label_ , 
+- _a minValue_, 
+- a _MaxValue_, 
+- an _initValue_,
+- a _stepValue_,
+- a _callback_.
+
+## How to create a knob
+Knobs can be created in different ways
+```language=pharo
+ICKnob new label: 'MyKnob' minValue: 0 maxValue: 1 
+``` 
+
+"
 Class {
 	#name : 'ICKnob',
 	#superclass : 'BlElement',
@@ -29,35 +46,40 @@ Class {
 ICKnob class >> allKnobExamples [
 
 	<script>
-	| container e1 e2 e3 e4 e5 e6 e7 e8|
-	container:= BlElement new
-		
-		geometry: BlRectangleGeometry new;
-		layout: (BlGridLayout new
-		columnCount: 4;
-		cellSpacing: 0
-		);
-		constraintsDo: [:c |
-			c horizontal matchParent.
-			c vertical matchParent.
-			];
-		background: Color darkGray.
+	| container e1 e2 e3 e4 e5 e6 e7 e8 |
+	container := BlElement new
+		             geometry: BlRectangleGeometry new;
+		             layout: (BlGridLayout new
+				              columnCount: 4;
+				              cellSpacing: 0);
+		             constraintsDo: [ :c |
+			             c horizontal matchParent.
+			             c vertical matchParent ];
+		             background: Color darkGray.
 
 
-e1:= ICKnob label: 'ICKnbob'.
+	e1 := ICKnob label: 'ICDarkKnob'.
 
 
-e2:= ICLightKnob label: 'ICLightKnob'.
-e3:= ICDarkKnob2 label: 'ICDarkKnob2'. 
-e4:= ICDarkKnob3 label: 'ICDarkKnob3'. 
-e5:= ICDarkKnob4 label:'ICDarkKnob4'. 
-e6:= ICDarkKnob5 label:'ICDarkKnob5'.
-e7:= ICDialKnob label: 'ICDialKnob'.
-e8:= ICSimpleKnob label: 'ICSimpleKnob'.
+	e2 := ICLightKnob label: 'ICLightKnob'.
+	e3 := ICDarkKnob2 label: 'ICDarkKnob2'.
+	e4 := ICDarkKnob3 label: 'ICDarkKnob3'.
+	e5 := ICDarkKnob4 label: 'ICDarkKnob4'.
+	e6 := ICDarkKnob5 label: 'ICDarkKnob5'.
+	e7 := ICDialKnob label: 'ICDialKnob'.
+	e8 := ICSimpleKnob label: 'ICSimpleKnob'.
 
 
-container addChildren: { e1. e2 . e3 . e4 .  e5 . e6. e7. e8}.
-container openInNewSpace.
+	container addChildren: {
+			e1.
+			e2.
+			e3.
+			e4.
+			e5.
+			e6.
+			e7.
+			e8 }.
+	container openInNewSpace
 ]
 
 { #category : 'examples' }

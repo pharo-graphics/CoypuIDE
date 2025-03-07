@@ -1,3 +1,6 @@
+"
+Black and magenta knob with cyan thumb
+"
 Class {
 	#name : 'ICDarkKnob3',
 	#superclass : 'ICKnob',

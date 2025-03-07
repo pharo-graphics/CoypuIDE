@@ -1,3 +1,6 @@
+"
+Black and greu knob with cyan thumb, smaller inner ring and segmented outer one
+"
 Class {
 	#name : 'ICDialKnob',
 	#superclass : 'ICKnob',

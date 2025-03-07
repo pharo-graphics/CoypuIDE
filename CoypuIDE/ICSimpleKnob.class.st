@@ -1,3 +1,6 @@
+"
+White knob with simpler black thumb. The knob outer ring is a full circle. White background
+"
 Class {
 	#name : 'ICSimpleKnob',
 	#superclass : 'ICKnob',
