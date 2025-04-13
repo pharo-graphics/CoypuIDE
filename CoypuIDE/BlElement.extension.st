@@ -4,15 +4,15 @@ Extension { #name : 'BlElement' }
 BlElement >> connectToOSCServer [
 
 	| callback server |
-	callback := [ :a :v |
-	            a ifNotNil: [
-		            v ifNotNil: [
+	callback := [ :msg |
+	            msg first ifNotNil: [
+		            msg last ifNotNil: [
 			            (self children
-				             detect: [ :el | el inputText = a ]
+				             detect: [ :el | el inputText = (msg first findBetweenSubstrings: '/') last ]
 				             ifNone: [ nil ]) ifNotNil: [ :foundElement |
-				            foundElement setValue: v ] ] ] ].
+				            foundElement setValue: msg last ] ] ] ].
 
-	server := OSCServer new  messageCalback:  callback.
+	server := OSCServer new messageCalback: callback.
 	^ server
 ]
 
