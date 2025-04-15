@@ -5,7 +5,8 @@ DSP >> buildUI [
 	"build full UI made with Bloc"
 
 	| container allParams allKnobs containerKnobs sortedKnobs space |
-	space := BlSpace new title: 'DSP UI'.
+	space := BlSpace new title: self name , 'UI'.
+
 	ICValueDisplay isUpdating: true.
 	allParams := self getUIItemsLabeledDictionary.
 	allKnobs := OrderedCollection new.
@@ -61,7 +62,7 @@ DSP >> displayUI [
 	| space |
 	"first we build the UI"
 	self buildUI.
-	space := BlSpace new title: 'DSP UI'.
+	space := BlSpace new title: self name , ' UI'.
 	space root addChild: self displayedUI.
 	self displayedUI
 		addEventHandlerOn: BlElementExtentChangedEvent
