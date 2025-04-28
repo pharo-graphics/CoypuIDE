@@ -99,10 +99,9 @@ ICMixerSlider >> bar: aBlElement [
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> barDefaultColor [ 
+ICMixerSlider >> barDefaultColor [
 
-	^ Color veryVeryDarkGray.
-
+	^ Color "veryVeryDarkGray" red
 ]
 
 { #category : 'accessing' }
@@ -275,29 +274,30 @@ ICMixerSlider >> defaultBar [
 	| size |
 	size := self
 		        ifHorizontal: [
-		        self defaultBarLength @ self defaultBarThickness-70 ]
+		        self defaultBarLength @ self defaultBarThickness - 70 ]
 		        ifVertical: [
-		        self defaultBarThickness-70 @ (self defaultBarLength) ].
+		        (self defaultBarThickness - 60) @ self defaultBarLength ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		  background: self barDefaultColor;
 		  size: size;
-		  constraintsDo: [ :c | c frame horizontal alignCenter. c frame vertical alignCenter. ];
-			"constraintsDo: [ :c | c ignoreByLayout ];"
-		  yourself
+		  constraintsDo: [ :c |
+			  c frame horizontal alignCenter.
+			  c frame vertical alignCenter ];
+		  "constraintsDo: [ :c | c ignoreByLayout ];"yourself
 ]
 
 { #category : 'api - bounds' }
 ICMixerSlider >> defaultBarLength [
 
-	^ 200
+	^ 120
 ]
 
 { #category : 'api - bounds' }
 ICMixerSlider >> defaultBarThickness [
 
-	^ 80
+	^ 70
 ]
 
 { #category : 'api - bounds' }
@@ -326,21 +326,22 @@ ICMixerSlider >> defaultColoredBar [
 { #category : 'api - bounds' }
 ICMixerSlider >> defaultHandle [
 
-	| e1 e2 size elt  |
+	| e1 e2 size elt |
 	size := self
 		        ifHorizontal: [ 5 @ barThickness ]
-		        ifVertical: [ 25 @ 40 ].
+		        ifVertical: [ 20 @ 40 ].
 
 	elt := BlElement new
 		       background: self handleDefaultColor;
 		       geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		effect: (BlGaussianShadowEffect color: (Color black alpha:0.6)   offset: 4@4  width: 15);
-		border: (BlBorder paint: Color veryLightGray width: 2);
-		constraintsDo: [ :c | c ignoreByLayout ];
+		       effect: (BlGaussianShadowEffect
+				        color: (Color black alpha: 0.6)
+				        offset: 4 @ 4
+				        width: 15);
+		       border: (BlBorder paint: Color veryLightGray width: 2);
+		       constraintsDo: [ :c | c ignoreByLayout ];
 		       size: size;
-		       transformDo: [ :t | 
-			
-			       t translateBy: size negated / 2 ];
+		       transformDo: [ :t | t translateBy: size negated / 2 ];
 		       yourself.
 	"e1:=BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
@@ -350,7 +351,7 @@ ICMixerSlider >> defaultHandle [
 		  yourself.
 		
 	^ e1."
-	^elt.
+	^ elt
 ]
 
 { #category : 'api - bounds' }
@@ -444,13 +445,13 @@ ICMixerSlider >> initialize [
 	isHorizontal := false.
 	segmented := false.
 	self initializeSizes.
-	self name:''.
-	self widgetSize: self defaultSize.
+	self name: ''.
+	self widgetSize: self defaultSize .
 	self background: self defaultColor.
 	self layout: BlFrameLayout new.
 	self initializeValues.
 	self initializeParts.
-	self initializeEvents.
+	self initializeEvents
 ]
 
 { #category : 'initialization' }
@@ -528,90 +529,75 @@ ICMixerSlider >> initializeLabels [
 
 { #category : 'initialization' }
 ICMixerSlider >> initializeLines [
-	|l1 l2 l3 l4 l5 l6 l7|
-	
-	l1:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0@0.
-			].
-	
-	l2:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0@ -25.
-			].
-	l3:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0@25.
-			].
-	l4:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0@ -50.
-			].
-	l5:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0 @50.
-			].
-	l6:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0 @ -75.
-			].
-	l7:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:  self barThickness-30 @ 3;
-		background: Color veryLightGray;
-		constraintsDo: [ :c|
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		];
-		transformDo:[:t|
-			t translateBy:0 @ 75.
-			].
-	
-	
-	self addChildren: { l1. l2. l3. l4. l5. l6. l7}.
-		 
+
+	| l1 l2 l3 l4 l5 l6 l7 |
+	l1 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 0 ].
+
+	l2 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ -25 ].
+	l3 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 25 ].
+	l4 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ -50 ].
+	l5 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 50 ].
+	l6 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ -75 ].
+	l7 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: self barThickness - 30 @ 3;
+		      background: Color veryLightGray;
+		      constraintsDo: [ :c |
+			      c frame horizontal alignCenter.
+			      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 75 ].
+
+
+	self addChildren: {
+			l1.
+			l2.
+			l3.
+			l4.
+			l5.
+			"l6".
+			"l7 "}
 ]
 
 { #category : 'initialization' }
