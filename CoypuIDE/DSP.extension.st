@@ -58,7 +58,7 @@ DSP >> buildUIForLevels [
 
 	ICValueDisplay isUpdating: true.
 	otherLabels := self allParameters reject: [ :i |
-		               (i includesSubstring: 'Level')  ].
+		               i includesSubstring: 'Level' ].
 	levelParams := self getUIItemsLabeledDictionary.
 	otherLabels do: [ :i | levelParams removeKey: i ].
 	allKnobs := OrderedCollection new.
@@ -70,7 +70,7 @@ DSP >> buildUIForLevels [
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
 		                  layout: (BlGridLayout new
-				                   columnCount: 6;
+				                   columnCount: 14;
 				                   cellSpacing: 0);
 		                  constraintsDo: [ :c |
 			                  c horizontal matchParent.

@@ -101,7 +101,7 @@ ICMixerSlider >> bar: aBlElement [
 { #category : 'api - bounds' }
 ICMixerSlider >> barDefaultColor [
 
-	^ Color "veryVeryDarkGray" red
+	^ Color black 
 ]
 
 { #category : 'accessing' }
@@ -357,13 +357,13 @@ ICMixerSlider >> defaultHandle [
 { #category : 'api - bounds' }
 ICMixerSlider >> defaultMarginLength [
 
-	^ 5
+	^ 2
 ]
 
 { #category : 'api - bounds' }
 ICMixerSlider >> defaultMarginThickness [
 
-	^ 5
+	^ 2
 ]
 
 { #category : 'api - bounds' }
@@ -482,20 +482,19 @@ ICMixerSlider >> initializeLabel [
 
 { #category : 'initialization' }
 ICMixerSlider >> initializeLabelText [
-	|l1|
+
+	| l1 |
 	l1 := BlTextElement new.
-	l1 text: (self configuredStringDark: self name size: 16).
-	l1 border: (BlBorder paint: (Color veryDarkGray) width: 2);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignCenter.
-		c frame vertical alignTop.
-		];
-	transformDo: [ :t | 
-		t translateBy: 0@10.
-		].
-	
-	self addChild: l1.
+	l1 text: (self configuredStringDark: self name size: 12).
+	l1
+		border: (BlBorder paint: Color veryDarkGray width: 2);
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignTop ];
+		transformDo: [ :t | t translateBy: 0 @ 10 ].
+
+	self addChild: l1
 ]
 
 { #category : 'initialization' }
