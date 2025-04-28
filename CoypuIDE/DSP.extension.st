@@ -50,6 +50,58 @@ DSP >> buildUI [
 ]
 
 { #category : '*CoypuIDE' }
+DSP >> buildUIForLevels [
+	"build full UI made with Bloc"
+
+	| container allKnobs containerKnobs sortedKnobs space otherLabels levelParams |
+	space := BlSpace new title: self name , 'UI'.
+
+	ICValueDisplay isUpdating: true.
+	otherLabels := self allParameters reject: [ :i |
+		               (i includesSubstring: 'Level')  ].
+	levelParams := self getUIItemsLabeledDictionary.
+	otherLabels do: [ :i | levelParams removeKey: i ].
+	allKnobs := OrderedCollection new.
+	levelParams keysAndValuesDo: [ :k :v |
+		allKnobs add: (ICMixerSlider new fromDictionary: v forDsp: self) ].
+	sortedKnobs := allKnobs asSortedCollection: [ :a :b |
+		               a name asLowercase < b name asLowercase ].
+
+	containerKnobs := BlElement new
+		                  geometry: BlRectangleGeometry new;
+		                  layout: (BlGridLayout new
+				                   columnCount: 6;
+				                   cellSpacing: 0);
+		                  constraintsDo: [ :c |
+			                  c horizontal matchParent.
+			                  c vertical fitContent
+			                  "c vertical matchParent " ];
+		                  background: Color black.
+	container := BlElement new
+		             layout: BlLinearLayout new beVertical;
+		             constraintsDo: [ :c |
+			             c horizontal fitContent.
+			             c vertical fitContent ];
+		             background: Color black.
+
+	containerKnobs addChildren: sortedKnobs.
+
+	container addChild: containerKnobs.
+	self requirePianoKeyboard ifTrue: [
+		containerKnobs removeGateAndFreqElement.
+		self traceCr.
+		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
+	"we can later access the container if we need"
+	displayedUI := container.
+
+	container
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
+
+	^ displayedUI
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> connectToOSCServerOnPort: aPort [
 "should we check for all children???"
 (self displayedUI children at: 1) connectToOSCServer listenOnPort: aPort

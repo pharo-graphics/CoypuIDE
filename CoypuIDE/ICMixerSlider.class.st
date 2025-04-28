@@ -1,3 +1,6 @@
+"
+Mix console fader, usually used for level staging
+"
 Class {
 	#name : 'ICMixerSlider',
 	#superclass : 'BlElement',
@@ -380,6 +383,20 @@ ICMixerSlider >> direction [
 	"Returns true if horizontal else false"
 	^ self ifHorizontal: [ true ]
 			 ifVertical: [ false ].
+]
+
+{ #category : 'instance creation' }
+ICMixerSlider >> fromDictionary: aDictionary forDsp: aDsp [
+
+	
+	^ ((self class
+		   label: (aDictionary at: #shortname))
+		   minValue: (aDictionary at: #min);
+		   maxValue: (aDictionary at: #max);
+		   callBack: [ :i |
+			   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
+		  setValue: (aDictionary at: #init);
+		  stepValue: (aDictionary at: #step)
 ]
 
 { #category : 'accessing' }
@@ -801,9 +818,11 @@ ICMixerSlider >> name [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> name: aString [ 
+ICMixerSlider >> name: aString [
 
-	name := aString 
+	name := aString.
+	self initializeLabels 
+	
 ]
 
 { #category : 'api - values' }

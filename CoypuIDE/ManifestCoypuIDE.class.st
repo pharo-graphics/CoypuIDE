@@ -22,3 +22,10 @@ ManifestCoypuIDE class >> ruleModifiesCollectionRuleV1FalsePositive [
 	<ignoreForCoverage>
 	^ #(#(#(#RGMethodDefinition #(#TpPitchMode #handleKeyboardNotes #false)) #'2025-01-31T10:21:53.507124+01:00') )
 ]
+
+{ #category : 'code-critics' }
+ManifestCoypuIDE class >> ruleNotEliminationRuleV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMethodDefinition #(#DSP #buildUIForLevels #false)) #'2025-04-28T20:08:32.394039+02:00') )
+]
