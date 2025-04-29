@@ -389,12 +389,13 @@ ICMixerSlider >> direction [
 { #category : 'ui building' }
 ICMixerSlider >> fromDictionary: aDictionary forDsp: aDsp [
 
-	^ ((self class label: (aDictionary at: #shortname))
+| labelWithoutSuffix |
+labelWithoutSuffix := (aDictionary at: #shortname) allButLast: 6.
+	^ ((self class label: labelWithoutSuffix)
 		   minValue: (aDictionary at: #min);
 		   maxValue: (aDictionary at: #max);
 		   callBack: [ :i |
-			
-			   aDsp setValue: i parameter: (aDictionary at: #shortname)  ])
+			   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
 		  setValue: (aDictionary at: #init);
 		  stepValue: (aDictionary at: #step)
 ]

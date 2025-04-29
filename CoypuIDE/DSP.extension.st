@@ -156,6 +156,30 @@ DSP >> displayUIForLevels [
 ]
 
 { #category : '*CoypuIDE' }
+DSP >> displayUIForLevelsWithTitle: aString [
+	"display the level mixer UI made with Bloc"
+
+	| space |
+	"first we build the UI"
+	self buildUIForLevels.
+	space := BlSpace new title: aString .
+	space root addChild: self displayedUI.
+	self displayedUI
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
+
+
+	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
+	"space
+		addEventHandlerOn: BlSpaceClosedEvent
+		do: [ ICValueDisplay isUpdating: false ]."
+	space show.
+
+
+	^ space
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> displayUIScaledBy: aScaleFactor [
 	"display a scaled UI made with Bloc"
 
