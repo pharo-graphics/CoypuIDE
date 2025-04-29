@@ -54,7 +54,7 @@ DSP >> buildUIForLevels [
 	"build full UI made with Bloc"
 
 	| container allKnobs containerKnobs sortedKnobs space otherLabels levelParams |
-	space := BlSpace new title: self name , 'UI'.
+	space := BlSpace new title: self name , 'TurboPhausto MIXER'.
 
 	ICValueDisplay isUpdating: true.
 	otherLabels := self allParameters reject: [ :i |
@@ -137,7 +137,7 @@ DSP >> displayUIForLevels [
 
 	| space |
 	"first we build the UI"
-	self buildUIForLevels .
+	self buildUIForLevels.
 	space := BlSpace new title: self name , ' UI'.
 	space root addChild: self displayedUI.
 	self displayedUI
@@ -148,10 +148,10 @@ DSP >> displayUIForLevels [
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
 	"space
 		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ ICValueDisplay isUpdating: false ].
+		do: [ ICValueDisplay isUpdating: false ]."
 	space show.
 
-"
+
 	^ space
 ]
 
