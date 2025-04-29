@@ -199,7 +199,7 @@ ICMixerSlider >> callBack: aBlock [
 	callBack := aBlock 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ICMixerSlider >> changeMaxValueLabelTo: aValue [
 
 	maxLabel text: (aValue asRopedText attributes: {
@@ -209,7 +209,7 @@ ICMixerSlider >> changeMaxValueLabelTo: aValue [
 	maxValue := aValue
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ICMixerSlider >> changeMinValueLabelTo: aValue [
 
 	minLabel text: (aValue asRopedText attributes: {
@@ -389,13 +389,12 @@ ICMixerSlider >> direction [
 { #category : 'instance creation' }
 ICMixerSlider >> fromDictionary: aDictionary forDsp: aDsp [
 
-	
-	^ ((self class
-		   label: (aDictionary at: #shortname))
+	^ ((self class label: (aDictionary at: #shortname))
 		   minValue: (aDictionary at: #min);
 		   maxValue: (aDictionary at: #max);
 		   callBack: [ :i |
-			   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
+			    i traceCr.
+			   "aDsp setValue: i parameter: (aDictionary at: #shortname) "])
 		  setValue: (aDictionary at: #init);
 		  stepValue: (aDictionary at: #step)
 ]
@@ -455,11 +454,17 @@ ICMixerSlider >> initialize [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeEvents [ 
+ICMixerSlider >> initializeEvents [
 
-	self addEventHandlerOn: BlMouseDownEvent do: [ :event | self moveHandleTo: event position].
-	self addEventHandlerOn: BlDragStartEvent do: [ :event | event consumed: true].
-	self addEventHandlerOn: BlDragEvent do: [ :event | self moveHandleTo: event position]
+	self addEventHandlerOn: BlMouseDownEvent do: [ :event |
+		self moveHandleTo: event localPosition.
+		 ].
+	self
+		addEventHandlerOn: BlDragStartEvent
+		do: [ :event | event consumed: true ].
+	self
+		addEventHandlerOn: BlDragEvent
+		do: [ :event | self moveHandleTo: event localPosition ].
 ]
 
 { #category : 'initialization' }
@@ -772,7 +777,7 @@ ICMixerSlider >> moveHandleTo: aPosition [
 	newPos := aPosition.
 	"deal with segmentation"
 	self isSegmented ifTrue: [
-		| value |
+		"| value |"
 		value := self valueAtCoord: aPosition.
 		newPos := self valueToCoord: value ].
 	self
@@ -794,6 +799,8 @@ ICMixerSlider >> moveHandleTo: aPosition [
 			handle position: newPos ].
 	self updateColoredBarTo: newPos.
 	self basicSetValue: (self valueAtCoord: newPos)
+
+	
 ]
 
 { #category : 'accessing' }
