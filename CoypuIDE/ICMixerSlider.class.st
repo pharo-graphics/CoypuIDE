@@ -386,15 +386,15 @@ ICMixerSlider >> direction [
 			 ifVertical: [ false ].
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'ui building' }
 ICMixerSlider >> fromDictionary: aDictionary forDsp: aDsp [
 
 	^ ((self class label: (aDictionary at: #shortname))
 		   minValue: (aDictionary at: #min);
 		   maxValue: (aDictionary at: #max);
 		   callBack: [ :i |
-			    i traceCr.
-			   "aDsp setValue: i parameter: (aDictionary at: #shortname) "])
+			
+			   aDsp setValue: i parameter: (aDictionary at: #shortname)  ])
 		  setValue: (aDictionary at: #init);
 		  stepValue: (aDictionary at: #step)
 ]

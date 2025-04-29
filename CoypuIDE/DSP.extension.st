@@ -70,7 +70,7 @@ DSP >> buildUIForLevels [
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
 		                  layout: (BlGridLayout new
-				                   columnCount: 14;
+				                   columnCount: 16;
 				                   cellSpacing: 0);
 		                  constraintsDo: [ :c |
 			                  c horizontal matchParent.
@@ -128,6 +128,30 @@ DSP >> displayUI [
 	space show.
 
 
+	^ space
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> displayUIForLevels [
+	"display the level mixer UI made with Bloc"
+
+	| space |
+	"first we build the UI"
+	self buildUIForLevels .
+	space := BlSpace new title: self name , ' UI'.
+	space root addChild: self displayedUI.
+	self displayedUI
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
+
+
+	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
+	"space
+		addEventHandlerOn: BlSpaceClosedEvent
+		do: [ ICValueDisplay isUpdating: false ].
+	space show.
+
+"
 	^ space
 ]
 
