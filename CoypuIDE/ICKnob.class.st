@@ -283,7 +283,8 @@ ICKnob >> diameter [
 { #category : 'accessing' }
 ICKnob >> diameter: aNumber [
 
-	diameter := aNumber
+	diameter := aNumber.
+
 ]
 
 { #category : 'accessing' }

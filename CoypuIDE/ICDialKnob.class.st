@@ -29,9 +29,9 @@ ICDialKnob >> diskColor [
 ]
 
 { #category : 'initialization' }
-ICDialKnob >> diskSize [ 
+ICDialKnob >> diskSize [
 
-	^ self diameter +30
+	^ self diameter + 30
 ]
 
 { #category : 'initialization' }
