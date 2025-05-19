@@ -528,7 +528,7 @@ ICSlider >> initializeValueLabels [
 	self addChild: maxLabel.
 
 	self callBack: [ :v |
-		valueLabel text: (v rounded asRopedText attributes: {
+		valueLabel text: (v  asRopedText attributes: {
 					 (BlTextForegroundAttribute paint: Color black).
 					 (BlFontSizeAttribute size: 15).
 					 BlFontWeightAttribute bold }) ]
