@@ -37,9 +37,9 @@ ICSlider2 >> defaultBar [
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 0);
 		  background: self barDefaultColor;
-		border: (BlBorder paint: Color green width: 2);
+		  border: (BlBorder paint: Color yellow width: 2);
 		  size: size;
-		constraintsDo: [ :c | c ignoreByLayout ];
+		  constraintsDo: [ :c | c ignoreByLayout ];
 		  yourself
 ]
 
@@ -50,8 +50,9 @@ ICSlider2 >> defaultBarLength [
 ]
 
 { #category : 'accessing' }
-ICSlider2 >> defaultBarThickness [ 
-	^40
+ICSlider2 >> defaultBarThickness [
+
+	^ 25
 ]
 
 { #category : 'api - bounds' }

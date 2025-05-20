@@ -244,7 +244,7 @@ ICSlider >> changeMinValueLabelTo: aValue [
 				 (BlFontSizeAttribute size: 12).
 				 BlFontWeightAttribute bold }).
 	valueLabel text: (aValue asRopedText attributes: {
-				 (BlTextForegroundAttribute paint: Color black).
+				 (BlTextForegroundAttribute paint: Color white).
 				 (BlFontSizeAttribute size: 12).
 				 BlFontWeightAttribute bold }).
 
@@ -266,7 +266,8 @@ ICSlider >> coloredBar: aBlElement [
 
 { #category : 'accessing' }
 ICSlider >> coloredBarDefaultColor [
-	^ Color green alpha: 0.6
+
+	^ Color yellow alpha: 0.6
 ]
 
 { #category : 'api - slider' }
@@ -395,7 +396,7 @@ ICSlider >> handle: aBlElement [
 { #category : 'api - bounds' }
 ICSlider >> handleDefaultColor [
 
-	^ Color green
+	^ Color yellow
 ]
 
 { #category : 'accessing' }
@@ -516,7 +517,7 @@ ICSlider >> initializeValueLabels [
 
 	valueLabel := BlTextElement new
 		              text: (self value asRopedText attributes: {
-						               (BlTextForegroundAttribute paint: Color black).
+						               (BlTextForegroundAttribute paint: Color white).
 						               (BlFontSizeAttribute size: 15).
 						               BlFontWeightAttribute bold });
 		              constraintsDo: [ :c |
@@ -528,7 +529,7 @@ ICSlider >> initializeValueLabels [
 	self addChild: maxLabel.
 
 	self callBack: [ :v |
-		valueLabel text: (v  asRopedText attributes: {
+		valueLabel text: (v asRopedText attributes: {
 					 (BlTextForegroundAttribute paint: Color black).
 					 (BlFontSizeAttribute size: 15).
 					 BlFontWeightAttribute bold }) ]
