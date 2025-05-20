@@ -1,3 +1,6 @@
+"
+Slider with Logarithmic visualization
+"
 Class {
 	#name : 'ICLogarithmicSlider',
 	#superclass : 'ICSlider',

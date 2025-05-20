@@ -1,3 +1,6 @@
+"
+Cutoff widget for Mooflod
+"
 Class {
 	#name : 'ICMasterCutoff',
 	#superclass : 'BlElement',
@@ -76,7 +79,7 @@ ICMasterCutoff >> defaultLine [
 	| curve firstLine secondLine container |
 	curve := BlElement new
 		         background: Color transparent;
-		         border: (BlBorder paint: Color green width: 5);
+		         border: (BlBorder paint: Color yellow width: 5);
 		         outskirts: BlOutskirts centered;
 		         geometry: (BlBezierCurveGeometry controlPoints: {
 						          (0 @ 0).
@@ -90,7 +93,7 @@ ICMasterCutoff >> defaultLine [
 
 	firstLine := BlElement new
 		             geometry: (BlLineGeometry from: -1000 @ 0 to: 0 @ 0);
-		             border: (BlBorder paint: Color green width: 5);
+		             border: (BlBorder paint: Color yellow width: 5);
 		             outskirts: BlOutskirts centered.
 
 	"secondLine := BlElement new
