@@ -83,16 +83,16 @@ ICMasterCutoff >> defaultLine [
 		         outskirts: BlOutskirts centered;
 		         geometry: (BlBezierCurveGeometry controlPoints: {
 						          (0 @ 0).
-						          (12.5 @ 0).
-						          (25 @ 50).
-						          (37.5 @ 50)
+						          (-12.5 @ 0).
+						          (-25 @ 50).
+						          (-37.5 @ 50)
 						          "  (0 @ 0).
 						          (50 @ 0).
 						          (100 @ 200).
 						          (150 @ 200) " }).
 
 	firstLine := BlElement new
-		             geometry: (BlLineGeometry from: -1000 @ 0 to: 0 @ 0);
+		             geometry: (BlLineGeometry from: 0 @ 0 to: 200 @ 0);
 		             border: (BlBorder paint: Color yellow width: 5);
 		             outskirts: BlOutskirts centered.
 
@@ -148,6 +148,34 @@ ICMasterCutoff >> line [
 ICMasterCutoff >> line: aBlElement [
 
 	line := aBlElement 
+]
+
+{ #category : 'as yet unclassified' }
+ICMasterCutoff >> lowPassCurve [
+
+^ BlElement new
+		         background: Color transparent;
+		         border: (BlBorder paint: Color yellow width: 5);
+		         outskirts: BlOutskirts centered;
+		         geometry: (BlBezierCurveGeometry controlPoints: {
+						          (0 @ 0).
+						          (12.5 @ 0).
+						          (25 @ 50).
+						          (37.5 @ 50)
+						          "  (0 @ 0).
+						          (50 @ 0).
+						          (100 @ 200).
+						          (150 @ 200) " }).
+]
+
+{ #category : 'as yet unclassified' }
+ICMasterCutoff >> lowPassLine [
+
+^ BlElement new
+		             geometry: (BlLineGeometry from: -1000 @ 0 to: 0 @ 0);
+		             border: (BlBorder paint: Color yellow width: 5);
+		             outskirts: BlOutskirts centered.
+
 ]
 
 { #category : 'accessing' }
