@@ -127,9 +127,9 @@ ICMasterCutoff >> initialize [
 { #category : 'accessing' }
 ICMasterCutoff >> initializeDefaultValues [
 
-	minValue := 20.
-	maxValue := 22000.
-	self whenLayoutedDoOnce: [  self setValue: 20000].
+	minValue := 0.
+	maxValue := 127.
+	self whenLayoutedDoOnce: [ self setValue: 127 ]
 ]
 
 { #category : 'initialization' }
