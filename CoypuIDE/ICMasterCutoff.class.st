@@ -117,11 +117,10 @@ ICMasterCutoff >> defaultLine [
 ICMasterCutoff >> initialize [
 
 	super initialize.
-	self size: 125 @ 75.
+	self size: 127 @ 75.
 	self background: Color black.
 	self initializeLine.
-	self initializeDefaultValues.
-	
+	self initializeDefaultValues
 ]
 
 { #category : 'accessing' }
@@ -182,8 +181,8 @@ ICMasterCutoff >> setValue: aNumber [
 	value := aNumber.
 	aNumber > self maxValue ifTrue: [ value := self maxValue ].
 	aNumber < self minValue ifTrue: [ value := self minValue ].
-	newX := self valueToPosition: value.
-	self line position: newX @ 37.5
+	"newX := self valueToPosition: value."
+	self line position: aNumber @ 37.5
 ]
 
 { #category : 'accessing' }
