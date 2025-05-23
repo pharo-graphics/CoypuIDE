@@ -113,13 +113,53 @@ ICMasterCutoff >> defaultLine [
 	^ container
 ]
 
+{ #category : 'as yet unclassified' }
+ICMasterCutoff >> defaultLine: aResonanceValue [
+
+	| curve firstLine secondLine container |
+	curve := BlElement new
+		         background: Color transparent;
+		         border: (BlBorder paint: Color yellow width: 5);
+		         outskirts: BlOutskirts centered;
+		         geometry: (BlBezierCurveGeometry controlPoints: {
+						          (0 @ aResonanceValue).
+						          (-12.5 @ 0).
+						          (-25 @ 50).
+						          (-37.5 @ 50)
+						          "  (0 @ 0).
+						          (50 @ 0).
+						          (100 @ 200).
+						          (150 @ 200) " }).
+
+	firstLine := BlElement new
+		             geometry: (BlLineGeometry from: 0 @ aResonanceValue to: 200 @ 0);
+		             border: (BlBorder paint: Color yellow width: 5);
+		             outskirts: BlOutskirts centered.
+
+	"secondLine := BlElement new
+		              geometry:
+			              (BlLineGeometry from: 150 @ 200 to: 1000 @ 200);
+		              border: (BlBorder paint: Color lightRed width: 5);
+		              outskirts: BlOutskirts centered."
+
+	container := BlElement new
+		             clipChildren: false;
+		             position: 0 @ 37.5.
+
+	container addChildren: {
+			firstLine.
+			curve }.
+
+	^ container
+]
+
 { #category : 'initialization' }
 ICMasterCutoff >> initialize [
 
 	super initialize.
 	self size: 127 @ 75.
 	self background: Color black.
-	self initializeLine.
+	self initializeLine: 0.
 	self initializeDefaultValues
 ]
 
@@ -134,7 +174,14 @@ ICMasterCutoff >> initializeDefaultValues [
 { #category : 'initialization' }
 ICMasterCutoff >> initializeLine [
 
-	self line: self defaultLine.
+	self line: (self defaultLine: 0).
+	self addChild: line
+]
+
+{ #category : 'initialization' }
+ICMasterCutoff >> initializeLine: aResonanceValue [
+
+	self line: (self defaultLine: aResonanceValue ).
 	self addChild: line
 ]
 
@@ -200,6 +247,15 @@ ICMasterCutoff >> minValue [
 ICMasterCutoff >> minValue: aNumber [
 
 	minValue := aNumber
+]
+
+{ #category : 'initialization' }
+ICMasterCutoff >> resonance: aNumber [
+
+	self removeChildren.
+	self line: (self defaultLine: aNumber negated / 4).
+
+	self addChild: (line position: self value @ 37.5)
 ]
 
 { #category : 'accessing' }
