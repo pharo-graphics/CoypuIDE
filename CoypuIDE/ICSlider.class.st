@@ -530,7 +530,7 @@ ICSlider >> initializeValueLabels [
 
 	self callBack: [ :v |
 		valueLabel text: (v asRopedText attributes: {
-					 (BlTextForegroundAttribute paint: Color black).
+					 (BlTextForegroundAttribute paint: Color white).
 					 (BlFontSizeAttribute size: 15).
 					 BlFontWeightAttribute bold }) ]
 ]
