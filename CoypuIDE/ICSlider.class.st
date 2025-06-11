@@ -23,7 +23,8 @@ Class {
 		'maxLabel',
 		'label',
 		'valueLabel',
-		'name'
+		'name',
+		'offset'
 	],
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -439,9 +440,10 @@ ICSlider >> initialize [
 { #category : 'initialization' }
 ICSlider >> initializeEvents [ 
 
-	self addEventHandlerOn: BlMouseDownEvent do: [ :event | self moveHandleTo: event position].
+	self addEventHandlerOn: BlMouseDownEvent do: [ :event |
+		self moveHandleTo: (self globalPointToLocal: event position)].
 	self addEventHandlerOn: BlDragStartEvent do: [ :event | event consumed: true].
-	self addEventHandlerOn: BlDragEvent do: [ :event | self moveHandleTo: event position]
+	self addEventHandlerOn: BlDragEvent do: [ :event | self moveHandleTo: (self globalPointToLocal: event position)]
 ]
 
 { #category : 'initialization' }
