@@ -23,8 +23,7 @@ Class {
 		'maxLabel',
 		'label',
 		'valueLabel',
-		'name',
-		'offset'
+		'name'
 	],
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
