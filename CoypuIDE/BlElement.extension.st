@@ -42,6 +42,7 @@ BlElement >> fromDictionary: aDictionary forDsp: aDsp [
 		add: #button -> #ICLabelButton;
 		add: #hbargraph -> #ICValueDisplay;
 		add: #nentry -> #ICNentry;
+		add: #vbargraph -> #ICValueDisplay;
 		add: #checkbox -> #ICLabelButton.
 	^ (self class environment at:
 		   (widgetDictionary at: (aDictionary at: #type)))
