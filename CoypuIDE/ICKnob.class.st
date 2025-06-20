@@ -53,9 +53,9 @@ ICKnob class >> allKnobExamples [
 				              columnCount: 4;
 				              cellSpacing: 0);
 		             constraintsDo: [ :c |
-			             c horizontal matchParent.
-			             c vertical matchParent ];
-		             background: Color darkGray.
+				             c horizontal matchParent.
+				             c vertical matchParent ];
+		             background: Color black.
 
 
 	e1 := ICKnob label: 'ICDarkKnob'.

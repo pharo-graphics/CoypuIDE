@@ -311,7 +311,6 @@ ICSlider >> defaultBarThickness [
 ICSlider >> defaultColor [
 
 	^ Color veryDarkGray
-
 ]
 
 { #category : 'accessing' }

@@ -18,27 +18,27 @@ DSP >> buildUI [
 	containerKnobs := BlElement new
 		                  geometry: BlRectangleGeometry new;
 		                  layout: (BlGridLayout new
-				                   columnCount: 6;
+				                   columnCount: 8;
 				                   cellSpacing: 0);
 		                  constraintsDo: [ :c |
-			                  c horizontal matchParent.
-			                  c vertical fitContent
-			                  "c vertical matchParent " ];
-		                  background: Color black.
+				                  c horizontal matchParent.
+				                  c vertical fitContent
+				                  "c vertical matchParent " ];
+		                  background: Color veryVeryDarkGray.
 	container := BlElement new
 		             layout: BlLinearLayout new beVertical;
 		             constraintsDo: [ :c |
-			             c horizontal fitContent.
-			             c vertical fitContent ];
-		             background: Color black.
+				             c horizontal fitContent.
+				             c vertical fitContent ];
+		             background: Color black lighter.
 
 	containerKnobs addChildren: sortedKnobs.
 
 	container addChild: containerKnobs.
 	self requirePianoKeyboard ifTrue: [
-		containerKnobs removeGateAndFreqElement.
-		self traceCr.
-		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
+			containerKnobs removeGateAndFreqElement.
+			self traceCr.
+			container addChild: (ICPianoKeyboardElement newForDsp: self) ].
 	"we can later access the container if we need"
 	displayedUI := container.
 
@@ -164,6 +164,7 @@ DSP >> displayUI [
 	"first we build the UI"
 	self buildUI.
 	space := BlSpace new title: self name , ' UI'.
+	space root background: Color black lighter.
 	space root addChild: self displayedUI.
 	self displayedUI
 		addEventHandlerOn: BlElementExtentChangedEvent
