@@ -20,7 +20,7 @@ ICBassDrumIcon >> initializeIcon [
 	container:= BlElement new
 	size: 80 @ 80;
 	geometry:BlRectangleGeometry new;
-	background: background;
+	background: self backgroundColor;
 	layout: BlFrameLayout new;
 	padding:(BlInsets all: 5).
 

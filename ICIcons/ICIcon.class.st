@@ -3,11 +3,23 @@ Class {
 	#superclass : 'BlElement',
 	#instVars : [
 		'color',
-		'background'
+		'background',
+		'backgroundColor'
 	],
 	#category : 'ICIcons',
 	#package : 'ICIcons'
 }
+
+{ #category : 'accessing' }
+ICIcon >> backgroundColor [
+	^ backgroundColor
+]
+
+{ #category : 'accessing' }
+ICIcon >> backgroundColor: aColor [ 
+	backgroundColor := aColor.
+	self initializeIcon 
+]
 
 { #category : 'accessing' }
 ICIcon >> defaultBackColor [
@@ -33,10 +45,22 @@ ICIcon >> defaultLineColor [
 ]
 
 { #category : 'initialization' }
+ICIcon >> initialize [ 
+super initialize .
+backgroundColor := Color white 
+]
+
+{ #category : 'initialization' }
 ICIcon >> initializeBackColor [
 	"background:= self defaultDarkBackColor."
 	background:= self defaultBackColor.
 
+]
+
+{ #category : 'initialization' }
+ICIcon >> initializeIcon [
+
+self subclassResponsibility 
 ]
 
 { #category : 'initialization' }
