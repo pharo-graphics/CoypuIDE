@@ -11,7 +11,11 @@ Class {
 		'maxY',
 		'widgetSize',
 		'yLabel',
-		'xLabel'
+		'xLabel',
+		'cursorSize',
+		'cursorColor',
+		'arrowColor',
+		'backgroundColor'
 	],
 	#category : 'CoypuIDE-axis',
 	#package : 'CoypuIDE',
@@ -33,6 +37,18 @@ ICAxis class >> simpleExample [
 	axis openInSpace
 ]
 
+{ #category : 'accessing' }
+ICAxis >> arrowColor: aColor [
+
+	arrowColor := aColor
+]
+
+{ #category : 'accessing' }
+ICAxis >> backgroundColor: aColor [
+
+backgroundColor := aColor 
+]
+
 { #category : 'as yet unclassified' }
 ICAxis >> buildAxis [
 
@@ -44,7 +60,7 @@ ICAxis >> buildAxis [
 
 	vertical := BlElement new
 		            size: 10 @ h;
-		            background: Color black;
+		            background: self arrowColor;
 		            position: -5 @ 0;
 		            geometry: (BlPolygonGeometry vertices: {
 						             (5 @ 0).
@@ -57,7 +73,7 @@ ICAxis >> buildAxis [
 
 	horizontal := BlElement new
 		              size: w @ 10;
-		              background: Color black;
+		              background: self arrowColor;
 		              position: 0 @ (h - 5);
 		              geometry: (BlPolygonGeometry vertices: {
 						               (0 @ 4).
@@ -70,7 +86,7 @@ ICAxis >> buildAxis [
 
 	self addChild: vertical as: 'yAxis'.
 	self addChild: horizontal as: 'xAxis'.
-	
+
 	self buildAxisText
 ]
 
@@ -113,12 +129,35 @@ ICAxis >> clickAt: aPoint [
 	self removeChildWithId: 'current'.
 	self
 		addChild: (BlElement new
-				 size: 4 asPoint;
-				 background: Color red;
+				 size: self cursorSize asPoint;
+				 background: self cursorColor;
 				 position: aPoint;
 				 transformDo: [ :t | t translateBy: 2 asPoint negated ])
 		as: 'current'.
 	self valueAt: aPoint
+]
+
+{ #category : 'accessing' }
+ICAxis >> cursorColor [
+^ cursorColor 
+]
+
+{ #category : 'accessing' }
+ICAxis >> cursorColor: aColor [
+
+cursorColor := aColor 
+]
+
+{ #category : 'accessing' }
+ICAxis >> cursorSize [
+^ cursorSize
+]
+
+{ #category : 'accessing' }
+ICAxis >> cursorSize: anInteger [
+
+
+cursorSize := anInteger
 ]
 
 { #category : 'api - bounds' }
@@ -157,6 +196,8 @@ ICAxis >> initializeDefaultValues [
 	self maxY: 100.
 	self xLabel: 'x Label'.
 	self yLabel: 'y Label'.
+	self cursorSize: 8.
+	self cursorColor: Color green
 ]
 
 { #category : 'accessing' }
