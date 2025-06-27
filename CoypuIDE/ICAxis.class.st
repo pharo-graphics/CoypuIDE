@@ -1,3 +1,6 @@
+"
+XY widget controller
+"
 Class {
 	#name : 'ICAxis',
 	#superclass : 'BlElement',
@@ -38,9 +41,22 @@ ICAxis class >> simpleExample [
 ]
 
 { #category : 'accessing' }
+ICAxis >> arrowColor [
+
+^ arrowColor
+]
+
+{ #category : 'accessing' }
 ICAxis >> arrowColor: aColor [
 
-	arrowColor := aColor
+	arrowColor := aColor.
+	self buildAxis 
+]
+
+{ #category : 'accessing' }
+ICAxis >> backgroundColor [
+
+^ backgroundColor
 ]
 
 { #category : 'accessing' }
@@ -101,12 +117,12 @@ ICAxis >> buildAxisText [
 	self removeChildWithId: 'yLabel'.
 
 	xText := BlTextElement new
-		         text: self xLabel asRopedText;
+		         text: (self xLabel asRopedText foreground: Color white);
 		         position: 0 @ (h + 5).
 	yText := BlTextElement new
-		         text: self yLabel asRopedText;
-		         position: -50 @ (h - 10).
-
+		         text: (self yLabel asRopedText foreground: Color white);
+		         position: -50 @ (h - 50).
+	yText transformDo: [ :t | t rotateBy: 90 ].
 	self addChild: xText as: 'xLabel'.
 	self addChild: yText as: 'yLabel'
 ]
@@ -172,8 +188,14 @@ ICAxis >> initialize [
 	super initialize.
 	self background: Color veryLightGray.
 	self clipChildren: false.
+	
+	self cursorColor: Color green.
+	backgroundColor := Color gray .
+	arrowColor :=  Color black.
 	self initializeDefaultSize.
 	self initializeDefaultValues.
+	
+
 	self buildAxis.
 
 	self
@@ -197,7 +219,7 @@ ICAxis >> initializeDefaultValues [
 	self xLabel: 'x Label'.
 	self yLabel: 'y Label'.
 	self cursorSize: 8.
-	self cursorColor: Color green
+	
 ]
 
 { #category : 'accessing' }
