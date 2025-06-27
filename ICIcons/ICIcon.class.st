@@ -11,7 +11,7 @@ Class {
 
 { #category : 'accessing' }
 ICIcon >> defaultBackColor [
-	^(Color r:240 g:240 b:240 range:255)
+	^(Color r:255 g:255 b:255 range:255)
 ]
 
 { #category : 'accessing' }
