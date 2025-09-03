@@ -57,3 +57,10 @@ BlElement >> removeGateAndFreqElement [
 childToRemove := self children select: [ :l | (l inputText = 'freq') or: (l inputText = 'gate')  ].
 childToRemove do: [ :e | self removeChild: e ]
 ]
+
+{ #category : '*CoypuIDE' }
+BlElement >> traceClickPosition [
+
+self addEventHandlerOn: BlMouseDownEvent do: 
+[ :anEvent | Transcript show: anEvent  position x asString , '@' ,  anEvent position y asString; cr].
+]
