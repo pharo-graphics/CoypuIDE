@@ -25,12 +25,12 @@ BaselineOfCoypuIDE >> baseline: spec [
             baseline: 'Coypu'
             with: [ spec repository: 'github://lucretiomsp/Coypu/' ].
         spec
-            baseline: 'MoofLODforPharo'
+            baseline: 'Mooflod'
             with: [ spec repository: 'github://lucretiomsp/MoofLODforPharo/' ].
 
         "Linkink external dependencies"
         spec
-            package: 'CoypuIDE' with: [ spec requires: #( 'Toplo' 'MoofLODforPharo' 'Phausto' ) ];
+            package: 'CoypuIDE' with: [ spec requires: #( 'Toplo' 'Mooflod' 'Phausto' ) ];
             package: 'ICIcons' with: [ spec requires: #( 'Toplo' ) ].
 
         "Baseline groups"
