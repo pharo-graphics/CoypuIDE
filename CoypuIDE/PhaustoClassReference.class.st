@@ -77,7 +77,7 @@ PhaustoClassReference >> initializeFilterField [
 				 yourself) ].
 			sieve := ToListElementSieve new.
 	sieve onInstalledIn: list.
-	sieve dataFilter: [ :item :aPattern |
+	sieve filter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
 	filterField whenTextEditedDo: [
 		| pattern |
