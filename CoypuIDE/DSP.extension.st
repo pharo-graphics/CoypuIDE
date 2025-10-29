@@ -301,7 +301,7 @@ DSP >> widgetForParameter: aString [
 
 | dic |
 dic := self getUIItemsLabeledDictionary .
-(dic includesKey: aString) ifTrue: [^ BlElement new fromDictionary: dic forDsp: self] ifFalse: [ ^ Error new signal: 'Parameter ' ,  aString , ' does not exist in this DSP' ]
+(dic includesKey: aString) ifTrue: [^ BlElement new fromDictionary: (dic at: aString) forDsp: self] ifFalse: [ ^ Error new signal: 'Parameter ' ,  aString , ' does not exist in this DSP' ]
 
 	
 ]

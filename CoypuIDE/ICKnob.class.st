@@ -427,7 +427,7 @@ ICKnob >> initializeGeometry [
 
 
 	marker := BlElement new
-		          size: 10 @ 20;
+		          extent: 10 @ 20;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
 		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 		          background: self markerColor;
