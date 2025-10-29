@@ -354,24 +354,21 @@ ICKnob >> initializeDefaultValues [
 
 { #category : 'initialization' }
 ICKnob >> initializeDisk [
-	
+
 	self disk: (BlElement new
-		          "background: (Color r:63 g:162 b:227 range:255);"
-		   			background: self diskColor;
-		           size: self diskSize asPoint;
-						
-					geometry: (BlAnnulusSectorGeometry new
-			 					startAngle: -225;
-			 					endAngle: -210;
-			 					innerRadius: 0.83;
-			 					outerRadius: 1);
-					
-					constraintsDo: [ :c |
-						c frame horizontal alignCenter.
-					c frame vertical alignCenter. ]).
-	
-	
-	self addChild: self disk.
+			 background: self diskColor;
+			 extent: self diskSize asPoint;
+			 geometry: (BlAnnulusSectorGeometry new
+					  startAngle: -225;
+					  endAngle: -210;
+					  innerRadius: 0.83;
+					  outerRadius: 1);
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]). "background: (Color r:63 g:162 b:227 range:255);"
+
+
+	self addChild: self disk
 ]
 
 { #category : 'initialization' }
@@ -408,36 +405,35 @@ ICKnob >> initializeEvents [
 
 { #category : 'initialization' }
 ICKnob >> initializeGeometry [
-	
+
 	| marker |
-	self size: (diameter + 100) asPoint.
+	self extent: (diameter + 100) asPoint.
 	self background: self backColor.
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
-	self padding:(BlInsets all: 7).
+	self padding: (BlInsets all: 7).
 
-	
+
 	self knob: (BlElement new
 			 geometry: BlCircleGeometry new;
-			 size: self knobSize asPoint;
+			 extent: self knobSize asPoint;
 			 clipChildren: false;
-			 background: self knobColor ;
+			 background: self knobColor;
 			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter]).
-	
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]).
+
 	self addChild: self knob.
 
-	
+
 	marker := BlElement new
 		          size: 10 @ 20;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-					
 		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 		          background: self markerColor;
 		          position: self knobSize / 2 @ 5.
-			marker zIndex: 100.
-			
+	marker zIndex: 100.
+
 	self knob addChild: marker
 ]
 
@@ -458,21 +454,21 @@ ICKnob >> initializeLabel [
 
 { #category : 'initialization' }
 ICKnob >> initializeOuterRing [
-	
-	|outerRing|
-	outerRing := (BlElement new
-		           background: self outerRingColor;
-		           size: self outerRingSize asPoint;
-					"effect: (BlGaussianShadowEffect color: Color white offset: 0@ -10  width: 10);"
-					geometry: (BlAnnulusSectorGeometry new
-			 					startAngle: 135;
-			 					endAngle: 45;
-			 					innerRadius: 0.83;
-			 					outerRadius: 1);
-					constraintsDo: [ :c |
-						c frame horizontal alignCenter.
-					c frame vertical alignCenter. ]).
-	self addChild: outerRing.
+
+	| outerRing |
+	outerRing := BlElement new
+		             background: self outerRingColor;
+		             extent: self outerRingSize asPoint;
+		             "effect: (BlGaussianShadowEffect color: Color white offset: 0@ -10  width: 10);"geometry:
+			             (BlAnnulusSectorGeometry new
+				              startAngle: 135;
+				              endAngle: 45;
+				              innerRadius: 0.83;
+				              outerRadius: 1);
+		             constraintsDo: [ :c |
+				             c frame horizontal alignCenter.
+				             c frame vertical alignCenter ].
+	self addChild: outerRing
 ]
 
 { #category : 'initialization' }
@@ -645,8 +641,7 @@ ICKnob >> outerRingSize [
 ICKnob >> position: aPoint [
 
 	super position: aPoint.
-	self whenLayoutedDoOnce: [
-	self centerPosition: self positionInSpace + (self size / 2)]
+	self whenLayoutedDoOnce: [ self centerPosition: self positionInSpace + (self extent / 2) ]
 ]
 
 { #category : 'initialization' }
