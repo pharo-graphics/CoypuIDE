@@ -59,9 +59,9 @@ ICMixerSlider class >> example [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider class >> label: aString [ 
+ICMixerSlider class >> label: aString [
 
-	|slider|
+	| slider |
 	slider := self new name: aString.
 	slider initializeLabelText.
 	^ slider
@@ -273,18 +273,16 @@ ICMixerSlider >> defaultBar [
 
 	| size |
 	size := self
-		        ifHorizontal: [
-		        self defaultBarLength @ self defaultBarThickness - 70 ]
-		        ifVertical: [
-		        (self defaultBarThickness - 60) @ self defaultBarLength ].
+		        ifHorizontal: [ self defaultBarLength @ self defaultBarThickness - 70 ]
+		        ifVertical: [ self defaultBarThickness - 60 @ self defaultBarLength ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		  background: self barDefaultColor;
-		  size: size;
+		  extent: size;
 		  constraintsDo: [ :c |
-			  c frame horizontal alignCenter.
-			  c frame vertical alignCenter ];
+				  c frame horizontal alignCenter.
+				  c frame vertical alignCenter ];
 		  "constraintsDo: [ :c | c ignoreByLayout ];"yourself
 ]
 
@@ -311,15 +309,13 @@ ICMixerSlider >> defaultColor [
 ICMixerSlider >> defaultColoredBar [
 
 	| size |
-	size := self
-		        ifHorizontal: [ 0 @ self defaultBarThickness ]
-		        ifVertical: [ self defaultBarThickness @ 0.1 ].
+	size := self ifHorizontal: [ 0 @ self defaultBarThickness ] ifVertical: [ self defaultBarThickness @ 0.1 ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 0);
-		  background: (self coloredBarDefaultColor alpha:0.0);
-		constraintsDo: [ :c | c ignoreByLayout ];
-		  size: size;
+		  background: (self coloredBarDefaultColor alpha: 0.0);
+		  constraintsDo: [ :c | c ignoreByLayout ];
+		  extent: size;
 		  yourself
 ]
 
@@ -327,23 +323,17 @@ ICMixerSlider >> defaultColoredBar [
 ICMixerSlider >> defaultHandle [
 
 	| e1 e2 size elt |
-	size := self
-		        ifHorizontal: [ 5 @ barThickness ]
-		        ifVertical: [ 20 @ 40 ].
+	size := self ifHorizontal: [ 5 @ barThickness ] ifVertical: [ 20 @ 40 ].
 
 	elt := BlElement new
 		       background: self handleDefaultColor;
 		       geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		       effect: (BlGaussianShadowEffect
-				        color: (Color black alpha: 0.6)
-				        offset: 4 @ 4
-				        width: 15);
+		       effect: (BlGaussianShadowEffect color: (Color black alpha: 0.6) offset: 4 @ 4 width: 15);
 		       border: (BlBorder paint: Color veryLightGray width: 2);
 		       constraintsDo: [ :c | c ignoreByLayout ];
-		       size: size;
+		       extent: size;
 		       transformDo: [ :t | t translateBy: size negated / 2 ];
-		       yourself.
-	"e1:=BlElement new
+		       yourself. "e1:=BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		  background: self barDefaultColor;
 		  size: 30@60;
@@ -471,20 +461,19 @@ ICMixerSlider >> initializeEvents [
 
 { #category : 'initialization' }
 ICMixerSlider >> initializeLabel [
-	|l1|
+
+	| l1 |
 	l1 := BlTextElement new.
 	l1 text: (self configuredStringDark: self name size: 16).
-	l1 border: (BlBorder paint: (Color veryDarkGray) width: 2);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignCenter.
-		c frame vertical alignTop.
-		];
-	transformDo: [ :t | 
-		t translateBy: 0@10.
-		].
-	
-	self addChild: l1.
+	l1
+		border: (BlBorder paint: Color red width: 2);
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+				c frame horizontal alignCenter.
+				c frame vertical alignTop ];
+		transformDo: [ :t | t translateBy: 0 @ 10 ].
+
+	self addChild: l1
 ]
 
 { #category : 'initialization' }
@@ -506,31 +495,27 @@ ICMixerSlider >> initializeLabelText [
 
 { #category : 'initialization' }
 ICMixerSlider >> initializeLabels [
-	| l2|
 
-	
+	| l2 |
 	l2 := BlTextElement new.
-	l2 text: (self configuredStringDark: value size: 16).
-	l2 border: (BlBorder paint: (Color veryDarkGray) width: 2);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignCenter.
-		c frame vertical alignBottom.
-		];
-	transformDo: [ :t | 
-		t translateBy: 0@ -10.
-		].
-	
-		
-	 currValueLabel := l2.
-    self addChildren: { currValueLabel}.
+	l2 text: (self configuredStringDark: value size: 16). 
+	l2
+		border: (BlBorder paint: Color veryDarkGray width: 2);
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+				c frame horizontal alignCenter.
+				c frame vertical alignBottom ];
+		transformDo: [ :t | t translateBy: 0 @ -10 ].
 
-	
-	 self callBack: [ :v |
-		currValueLabel text: (v rounded asRopedText attributes: {
-					 (BlTextForegroundAttribute paint: Color white).
-					 (BlFontSizeAttribute size: 15).
-					 BlFontWeightAttribute bold }) ].
+	currValueLabel := l2.
+	self addChildren: { currValueLabel }.
+
+
+	self callBack: [ :v | "currValueLabel text: (v rounded asRopedText attributes: {
+						 (BlTextForegroundAttribute paint: Color white).
+						 (BlFontSizeAttribute size: 15).
+						 BlFontWeightAttribute bold }) "
+		 ]
 ]
 
 { #category : 'initialization' }
@@ -539,60 +524,60 @@ ICMixerSlider >> initializeLines [
 	| l1 l2 l3 l4 l5 l6 l7 |
 	l1 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ 0 ].
 
 	l2 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ -25 ].
 	l3 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ 25 ].
 	l4 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ -50 ].
 	l5 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ 50 ].
 	l6 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ -75 ].
 	l7 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: self barThickness - 30 @ 3;
+		      extent: self barThickness - 30 @ 3;
 		      background: Color veryLightGray;
 		      constraintsDo: [ :c |
-			      c frame horizontal alignCenter.
-			      c frame vertical alignCenter ];
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ 75 ].
 
 
@@ -601,18 +586,15 @@ ICMixerSlider >> initializeLines [
 			l2.
 			l3.
 			l4.
-			l5.
-			"l6".
-			"l7 "}
+			l5 "l6" "l7 " }
 ]
 
 { #category : 'initialization' }
 ICMixerSlider >> initializeParts [
-	
+
 	self initializeLines.
-	self initializeLabelText.
-	self initializeLabels.
-	
+	"self initializeLabelText." "	self initializeLabels."
+
 	self bar: self defaultBar.
 	self positionDefaultBar: self bar.
 	self addChild: self bar.
@@ -625,11 +607,7 @@ ICMixerSlider >> initializeParts [
 
 	self handle: self defaultHandle.
 	self positionDefaultHandle.
-	self addChild: self handle
-
-	"initialize segments if segmented"
-
-	"self initializeButtons."
+	self addChild: self handle "initialize segments if segmented" "self initializeButtons."
 ]
 
 { #category : 'initialization' }
@@ -646,13 +624,13 @@ ICMixerSlider >> initializeValueLabels [
 
 	minLabel := BlTextElement new
 		            text: (self minValue asRopedText attributes: {
-						             (BlTextForegroundAttribute paint: Color white).
+						             (BlTextForegroundAttribute paint: Color red).
 						             (BlFontSizeAttribute size: 15).
 						             BlFontWeightAttribute bold });
 		            constraintsDo: [ :c |
-			            c padding: (BlInsets horizontal: 15).
-			            c frame horizontal alignLeft.
-			            c frame vertical alignCenter ].
+				            c padding: (BlInsets horizontal: 15).
+				            c frame horizontal alignLeft.
+				            c frame vertical alignCenter ].
 
 	maxLabel := BlTextElement new
 		            text: (self maxValue asRopedText attributes: {
@@ -660,9 +638,9 @@ ICMixerSlider >> initializeValueLabels [
 						             (BlFontSizeAttribute size: 15).
 						             BlFontWeightAttribute bold });
 		            constraintsDo: [ :c |
-			            c padding: (BlInsets horizontal: 15).
-			            c frame horizontal alignRight.
-			            c frame vertical alignCenter ].
+				            c padding: (BlInsets horizontal: 15).
+				            c frame horizontal alignRight.
+				            c frame vertical alignCenter ].
 
 	valueLabel := BlTextElement new
 		              text: (self value asRopedText attributes: {
@@ -670,18 +648,15 @@ ICMixerSlider >> initializeValueLabels [
 						               (BlFontSizeAttribute size: 15).
 						               BlFontWeightAttribute bold });
 		              constraintsDo: [ :c |
-			              c frame horizontal alignCenter.
-			              c frame vertical alignCenter ].
-
-	self addChild: minLabel.
-	self addChild: valueLabel.
-	self addChild: maxLabel.
+				              c frame horizontal alignCenter.
+				              c frame vertical alignCenter ]. "self addChild: minLabel."
+	"self addChild: valueLabel." "self addChild: maxLabel."
 
 	self callBack: [ :v |
-		valueLabel text: (v rounded asRopedText attributes: {
-					 (BlTextForegroundAttribute paint: Color black).
-					 (BlFontSizeAttribute size: 15).
-					 BlFontWeightAttribute bold }) ]
+			valueLabel text: (v rounded asRopedText attributes: {
+						 (BlTextForegroundAttribute paint: Color black).
+						 (BlFontSizeAttribute size: 15).
+						 BlFontWeightAttribute bold }) ]
 ]
 
 { #category : 'initialization' }
@@ -815,8 +790,7 @@ ICMixerSlider >> name [
 ICMixerSlider >> name: aString [
 
 	name := aString.
-	self initializeLabels 
-	
+	"self initializeLabels"
 ]
 
 { #category : 'api - values' }
@@ -925,9 +899,7 @@ ICMixerSlider >> setValue: aNumber [
 ICMixerSlider >> size: aValue [
 	"just to keep the widgset size"
 
-	super size: aValue.
-	
-	" for now do not support resize
+	super extent: aValue " for now do not support resize
 	
 	self isBuildSlider ifTrue: [ self rebuildSlider ]
 	"
@@ -951,12 +923,11 @@ ICMixerSlider >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
-			coloredBar position: bar position.
-			coloredBar size: (aPosition - coloredBar position) x @ barThickness ]
+				coloredBar position: bar position.
+				coloredBar size: (aPosition - coloredBar position) x @ barThickness ]
 		ifVertical: [
-			coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
-			coloredBar size:
-				barThickness @ (bar position y + barLength - aPosition y) ]
+				coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
+				coloredBar extent: barThickness @ (bar position y + barLength - aPosition y) ]
 ]
 
 { #category : 'accessing' }

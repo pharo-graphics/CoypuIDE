@@ -180,12 +180,11 @@ ICButton >> initializeEvents [
 
 { #category : 'evaluating' }
 ICButton >> initializeWidget [
-	self size: self widgetSize.
+
+	self extent: self widgetSize.
 	self background: self backColor.
 	self layout: BlFrameLayout new.
-	self padding: (BlInsets all: 10).
-
-
+	self padding: (BlInsets all: 10)
 ]
 
 { #category : 'evaluating' }
