@@ -23,7 +23,7 @@ BaselineOfCoypuIDE >> baseline: spec [
             with: [ spec repository: 'github://lucretiomsp/phausto:main/' ].
         spec
             baseline: 'Coypu'
-            with: [ spec repository: 'github://lucretiomsp/Coypu/' ].
+            with: [ spec repository: 'github://lucretiomsp/coypu:master/' ].
         spec
             baseline: 'Mooflod'
             with: [ spec repository: 'github://lucretiomsp/MoofLODforPharo/' ].
