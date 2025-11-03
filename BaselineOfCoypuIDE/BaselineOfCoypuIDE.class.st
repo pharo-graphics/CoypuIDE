@@ -20,10 +20,10 @@ BaselineOfCoypuIDE >> baseline: spec [
             with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ].
         spec
             baseline: 'Phausto'
-            with: [ spec repository: 'github://lucretiomsp/Phausto:main/' ].
+            with: [ spec repository: 'github://lucretiomsp/phausto:main/' ].
         spec
             baseline: 'Coypu'
-            with: [ spec repository: 'github://lucretiomsp/Coypu/' ].
+            with: [ spec repository: 'github://lucretiomsp/coypu:master/' ].
         spec
             baseline: 'Mooflod'
             with: [ spec repository: 'github://lucretiomsp/MoofLODforPharo/' ].
