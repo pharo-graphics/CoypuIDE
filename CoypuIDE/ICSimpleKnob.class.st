@@ -30,37 +30,36 @@ ICSimpleKnob >> initializeDisk [
 
 { #category : 'initialization' }
 ICSimpleKnob >> initializeGeometry [
-	
+
 	| marker |
-	self size: (diameter + 100) asPoint.
+	self extent: (diameter + 100) asPoint.
 	self background: Color white.
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
-	self padding:(BlInsets all: 7).
+	self padding: (BlInsets all: 7).
 
-	
+
 	self knob: (BlElement new
 			 geometry: BlCircleGeometry new;
-			 size: self knobSize+25 asPoint;
+			 extent: self knobSize + 25 asPoint;
 			 clipChildren: false;
-			 background: self knobColor ;
+			 background: self knobColor;
 			 border: (BlBorder paint: Color black width: 13);
 			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter]).
-	
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]).
+
 	self addChild: self knob.
 
-	
+
 	marker := BlElement new
-		          size: 20 asPoint;
+		          extent: 20 asPoint;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-					
-		          geometry: (BlCircleGeometry new);
+		          geometry: BlCircleGeometry new;
 		          background: self markerColor;
 		          position: self knobSize / 2 @ 25.
-			marker zIndex: 100.
-			
+	marker zIndex: 100.
+
 	self knob addChild: marker
 ]
 
