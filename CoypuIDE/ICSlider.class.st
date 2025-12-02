@@ -8,3 +8,8 @@ Class {
 	#package : 'CoypuIDE',
 	#tag : 'slider'
 }
+
+{ #category : 'parameters' }
+ICSlider >> forMidi [
+	self minValue: 0 ; maxValue: 127; stepValue:  1.
+]

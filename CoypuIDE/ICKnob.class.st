@@ -37,9 +37,9 @@ Class {
 		'maxLabel',
 		'currentLabel'
 	],
-	#category : 'CoypuIDE-knob',
+	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
-	#tag : 'knob'
+	#tag : 'slider'
 }
 
 { #category : 'examples' }
@@ -322,11 +322,6 @@ ICKnob >> doOperations [
 { #category : 'accessing' }
 ICKnob >> fontSz [
   ^12
-]
-
-{ #category : 'as yet unclassified' }
-ICKnob >> forMidi [
-	self minValue: 0 ; maxValue: 127; stepValue:  1.
 ]
 
 { #category : 'initialization' }
