@@ -18,7 +18,7 @@ ICMasterCutoff class >> exampleLinearSlider [
 	| master slider container textElt |
 	master := self new.
 
-	slider := ICSlider new.
+	slider := ICFader new.
 
 	container := BlElement new layout: BlLinearLayout vertical;constraintsDo: [ :c |
 		c horizontal fitContent.
@@ -46,7 +46,7 @@ ICMasterCutoff class >> exampleLogarithmicSlider [
 	| master slider container textElt |
 	master := self new.
 
-	slider := ICLogarithmicSlider new.
+	slider := ICLogarithmicFader new.
 
 	container := BlElement new
 		             layout: BlLinearLayout vertical;

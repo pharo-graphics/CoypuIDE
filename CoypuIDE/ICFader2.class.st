@@ -1,5 +1,5 @@
 Class {
-	#name : 'ICSlider2',
+	#name : 'ICFader2',
 	#superclass : 'ICSlider',
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'examples' }
-ICSlider2 class >> example [
+ICFader2 class >> example [
 	"The values of the slider are also written in the transcript"
 
 	<script>
@@ -19,13 +19,13 @@ ICSlider2 class >> example [
 ]
 
 { #category : 'api - bounds' }
-ICSlider2 >> barDefaultColor [ 
+ICFader2 >> barDefaultColor [ 
 
 	^ (Color lightGray alpha:0.0).
 ]
 
 { #category : 'api - bounds' }
-ICSlider2 >> defaultBar [
+ICFader2 >> defaultBar [
 
 	| size |
 	size := self
@@ -44,31 +44,31 @@ ICSlider2 >> defaultBar [
 ]
 
 { #category : 'accessing' }
-ICSlider2 >> defaultBarLength [
+ICFader2 >> defaultBarLength [
 	
 	^150
 ]
 
 { #category : 'accessing' }
-ICSlider2 >> defaultBarThickness [ 
+ICFader2 >> defaultBarThickness [ 
 	^40
 ]
 
 { #category : 'api - bounds' }
-ICSlider2 >> defaultColor [
+ICFader2 >> defaultColor [
 
 	^ Color veryVeryDarkGray
 
 ]
 
 { #category : 'api - bounds' }
-ICSlider2 >> defaultMarginLength [
+ICFader2 >> defaultMarginLength [
 
 	^ 10
 ]
 
 { #category : 'api - bounds' }
-ICSlider2 >> defaultMarginThickness [
+ICFader2 >> defaultMarginThickness [
 
 	^ 10
 ]

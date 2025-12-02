@@ -112,7 +112,7 @@ DSP >> buildUIForLevels [
 	otherLabels do: [ :i | levelParams removeKey: i ].
 	allKnobs := OrderedCollection new.
 	levelParams keysAndValuesDo: [ :k :v |
-		allKnobs add: (ICMixerSlider new fromDictionary: v forDsp: self) ].
+		allKnobs add: (ICMixerFader new fromDictionary: v forDsp: self) ].
 	sortedKnobs := allKnobs asSortedCollection: [ :a :b |
 		               a name asLowercase < b name asLowercase ].
 

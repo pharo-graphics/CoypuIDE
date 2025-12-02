@@ -1,5 +1,5 @@
 Class {
-	#name : 'ICGradientGridSlider',
+	#name : 'ICGradientGridFader',
 	#superclass : 'ICSlider',
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'accessing' }
-ICGradientGridSlider >> coloredBarDefaultColor [
+ICGradientGridFader >> coloredBarDefaultColor [
 	"^ Color green alpha: 0.4"
 	|direc|
 	direc:= self 
@@ -18,7 +18,7 @@ ICGradientGridSlider >> coloredBarDefaultColor [
 ]
 
 { #category : 'initialization' }
-ICGradientGridSlider >> initializeParts [
+ICGradientGridFader >> initializeParts [
 
 	self bar: self defaultBar.
 	self positionDefaultBar: self bar.
@@ -43,7 +43,7 @@ ICGradientGridSlider >> initializeParts [
 ]
 
 { #category : 'api - bounds' }
-ICGradientGridSlider >> overLayer [
+ICGradientGridFader >> overLayer [
 	"additional layer on top for grid"
 	|size container direc num width|
 	size := self 
@@ -111,11 +111,11 @@ ICGradientGridSlider >> overLayer [
 ]
 
 { #category : 'accessing' }
-ICGradientGridSlider >> overlayer [
+ICGradientGridFader >> overlayer [
 	^ overlayer 
 ]
 
 { #category : 'accessing' }
-ICGradientGridSlider >> overlayer: aBlElement [ 
+ICGradientGridFader >> overlayer: aBlElement [ 
 	overlayer := aBlElement
 ]
