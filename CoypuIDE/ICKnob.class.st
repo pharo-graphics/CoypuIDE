@@ -17,7 +17,7 @@ ICKnob new label: 'MyKnob' minValue: 0 maxValue: 1
 "
 Class {
 	#name : 'ICKnob',
-	#superclass : 'BlElement',
+	#superclass : 'ICSlider',
 	#instVars : [
 		'inputText',
 		'inputLabel',
