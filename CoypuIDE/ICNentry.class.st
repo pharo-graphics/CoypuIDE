@@ -74,7 +74,7 @@ ICNentry >> createRect [
 	rect := BlElement new
 		        background: Color gray;
 		        border: (BlBorder paint: self borderPaint width: 2);
-		        size: 50 @ 28;
+		        extent: 50 @ 28;
 		        layout: BlFrameLayout new;
 		        margin: (BlInsets all: 8);
 		        geometry: (BlRoundedRectangleGeometry cornerRadius: 180).
@@ -98,7 +98,7 @@ ICNentry >> increaseInput [
 ICNentry >> initialize [
 
 	super initialize.
-	self size: self inputExtent.
+	self extent: self inputExtent.
 	self background: self backgroundPaint.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 10).
 

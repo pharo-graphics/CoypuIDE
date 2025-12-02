@@ -324,6 +324,11 @@ ICKnob >> fontSz [
   ^12
 ]
 
+{ #category : 'as yet unclassified' }
+ICKnob >> forMidi [
+	self minValue: 0 ; maxValue: 127; stepValue:  1.
+]
+
 { #category : 'initialization' }
 ICKnob >> initialize [
 
