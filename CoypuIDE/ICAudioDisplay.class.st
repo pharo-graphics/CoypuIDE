@@ -26,12 +26,12 @@ e:= ICAudioDisplay new.
 e openInSpace.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 ICAudioDisplay class >> fromAiffFileName: anAiffFileName [ 
 
 | f channel normalizedData bitDepthNormalization step downsampledData visualizer|
 
-f := AIFFFileReader new readFromFile: anAiffFileName .
+f := AiffFileReader new readFromFile: anAiffFileName .
 
 channel := f channelData at: 1.
  
@@ -63,7 +63,7 @@ visualizer := self fromArray:  downsampledData.
 ^ visualizer
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 ICAudioDisplay class >> fromArray: anArr [
 	 |ele|
 	ele:= self new.
@@ -72,6 +72,12 @@ ICAudioDisplay class >> fromArray: anArr [
 	ele initializeSections.
 	ele initializeGraph.
 	^ele.
+]
+
+{ #category : 'as yet unclassified' }
+ICAudioDisplay class >> openAsOscilloscope [
+
+self shouldBeImplemented 
 ]
 
 { #category : 'example' }
@@ -121,42 +127,37 @@ ICAudioDisplay >> initialize [
 
 { #category : 'initialization' }
 ICAudioDisplay >> initializeGeometry [
-	self size: widgetSize.
+
+	self extent: widgetSize.
 	self background: self backColor.
-	self layout: BlFrameLayout new.
-	
-
-
-	
-	
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }
 ICAudioDisplay >> initializeGraph [
-	|mul h|
-	self initializeMarkers.
-	mul:= self y/2.
-	h:= self y/2.
-	self screen: (BlElement new
-				size: self x@ self y;
-				background: (Color red alpha:0.0)
-				).
 
-	1 to: (self datapoints size - 1) do: [:i |
-		|p1 p2 e off|
-		p1:= self datapoints at: i.
-		p2:= self datapoints at: i+1.
-		off:= (i -1)* self sections.
-		e:= (BlElement new
-			geometry: (BlLineGeometry
-						from: off@ (h -(p1*mul))
-						to: (off+self sections)@  (h-(p2*mul)));
-						outskirts: BlOutskirts centered;
-						border: (BlBorder paint: Color green width: 2)).
-		screen addChild: e.
-		].
-	
-	self addChild: self screen.
+	| mul h |
+	self initializeMarkers.
+	mul := self y / 2.
+	h := self y / 2.
+	self screen: (BlElement new
+			 extent: self x @ self y;
+			 background: (Color red alpha: 0.0)).
+
+	1 to: self datapoints size - 1 do: [ :i |
+			| p1 p2 e off |
+			p1 := self datapoints at: i.
+			p2 := self datapoints at: i + 1.
+			off := i - 1 * self sections.
+			e := BlElement new
+				     geometry: (BlLineGeometry
+						      from: off @ (h - (p1 * mul))
+						      to: off + self sections @ (h - (p2 * mul)));
+				     outskirts: BlOutskirts centered;
+				     border: (BlBorder paint: Color green width: 2).
+			screen addChild: e ].
+
+	self addChild: self screen
 ]
 
 { #category : 'initialization' }
