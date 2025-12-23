@@ -39,7 +39,7 @@ ICOscilloscope >> initialize [
 	super initialize.
 	self initializeSampleData.
 	audioDisplay := ICAudioDisplay fromArray: sampleData.
-
+	audioDisplay extent: 300 @ 200
 ]
 
 { #category : 'initialization' }
@@ -65,8 +65,10 @@ ICOscilloscope >> openInSpace [
 	| space |
 	"first we build the UI"
 	space := BlSpace new title: 'ICOscilloscope'.
+	space useMorphicHost.
+
 	self isUpdating: true.
-	self updateSampleData .
+	self updateSampleData.
 	space root background: Color black lighter.
 	space root addChild: self audioDisplay.
 	self audioDisplay
