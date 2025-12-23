@@ -29,6 +29,8 @@ ICOscilloscope >> dsp [
 
 { #category : 'accessing' }
 ICOscilloscope >> dsp: aDsp [
+
+	dsp := aDsp
 ]
 
 { #category : 'initialization' }
@@ -62,8 +64,9 @@ ICOscilloscope >> openInSpace [
 
 	| space |
 	"first we build the UI"
-	space := BlSpace new title:  'ICOscilloscope'.
+	space := BlSpace new title: 'ICOscilloscope'.
 	self isUpdating: true.
+	self updateSampleData .
 	space root background: Color black lighter.
 	space root addChild: self audioDisplay.
 	self audioDisplay
@@ -72,9 +75,9 @@ ICOscilloscope >> openInSpace [
 
 
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	space
-		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ self isUpdating: false ].
+	space addEventHandlerOn: BlSpaceClosedEvent do: [
+			self isUpdating: false.
+			self updateSampleData terminate ].
 	space show.
 
 
@@ -91,12 +94,12 @@ ICOscilloscope >> sampleData [
 ICOscilloscope >> updateSampleData [
 
 	| buf |
-	[
-		self isUpdating whileTrue: [
-				buf := PhaustoDynamicEngine uniqueInstance getBuffer: self dsp.
-				sampleData := buf
-					              readArrayOf: FFIFloat32 new
-					              until: [ :eachFloat :count | count = 513 ].
-				self audioDisplay readArray: sampleData.
-				0.06 seconds wait ] ] fork
+	^ [
+		  [ self isUpdating ] whileTrue: [
+				  buf := PhaustoDynamicEngine uniqueInstance getBuffer: self dsp.
+				  sampleData := buf
+					                readArrayOf: FFIFloat32 new
+					                until: [ :eachFloat :count | count = 513 ].
+				  self audioDisplay readArray: sampleData.
+				  0.06 seconds wait ] ] fork
 ]
