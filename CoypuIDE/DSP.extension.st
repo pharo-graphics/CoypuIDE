@@ -158,7 +158,7 @@ DSP >> connectToOSCServerOnPort: aPort [
 
 { #category : '*CoypuIDE' }
 DSP >> displayUI [
-	"fdisplay the IU made with Bloc"
+	"display the IU made with Bloc"
 
 	| space |
 	"first we build the UI"
