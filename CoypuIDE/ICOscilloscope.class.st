@@ -8,7 +8,8 @@ Class {
 		'sampleData',
 		'audioDisplay',
 		'dsp',
-		'isUpdating'
+		'isUpdating',
+		'sampleUpdateProcess'
 	],
 	#category : 'CoypuIDE-oscilloscope',
 	#package : 'CoypuIDE',
@@ -59,7 +60,7 @@ ICOscilloscope >> isUpdating: aBoolean [
 	isUpdating := aBoolean
 ]
 
-{ #category : 'convenience' }
+{ #category : 'show' }
 ICOscilloscope >> openInSpace [
 
 	| space |
@@ -68,7 +69,7 @@ ICOscilloscope >> openInSpace [
 	space useMorphicHost.
 
 	self isUpdating: true.
-	self updateSampleData.
+	sampleUpdateProcess := self updateSampleData.
 	space root background: Color black lighter.
 	space root addChild: self audioDisplay.
 	self audioDisplay
@@ -78,8 +79,8 @@ ICOscilloscope >> openInSpace [
 
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
 	space addEventHandlerOn: BlSpaceClosedEvent do: [
-			self isUpdating: false.
-			self updateSampleData terminate ].
+			
+			sampleUpdateProcess terminate ].
 	space show.
 
 
@@ -92,16 +93,18 @@ ICOscilloscope >> sampleData [
 ^ sampleData
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 ICOscilloscope >> updateSampleData [
+    ^ [
+        [ true ] whileTrue: [
+            | buf |
+            buf := PhaustoDynamicEngine uniqueInstance getBuffer: self dsp.
+            sampleData := buf
+                readArrayOf: FFIFloat32 new
+                until: [ :each :count | count = 513 ].
+            self audioDisplay readArray: sampleData.
+            0.06 seconds wait
+        ]
+    ] fork
 
-	| buf |
-	^ [
-		  [ self isUpdating ] whileTrue: [
-				  buf := PhaustoDynamicEngine uniqueInstance getBuffer: self dsp.
-				  sampleData := buf
-					                readArrayOf: FFIFloat32 new
-					                until: [ :eachFloat :count | count = 513 ].
-				  self audioDisplay readArray: sampleData.
-				  0.06 seconds wait ] ] fork
 ]
