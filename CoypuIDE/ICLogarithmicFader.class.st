@@ -1,5 +1,5 @@
 Class {
-	#name : 'ICLogarithmicSlider',
+	#name : 'ICLogarithmicFader',
 	#superclass : 'ICSlider',
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'api - transformations' }
-ICLogarithmicSlider >> valueAtX: aPoint [
+ICLogarithmicFader >> valueAtX: aPoint [
 
 	| value minP maxP minV maxV scale position |
 	minP := 0.

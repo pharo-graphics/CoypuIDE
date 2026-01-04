@@ -2,8 +2,8 @@
 Mix console fader, usually used for level staging
 "
 Class {
-	#name : 'ICMixerSlider',
-	#superclass : 'BlElement',
+	#name : 'ICMixerFader',
+	#superclass : 'ICSlider',
 	#instVars : [
 		'widgetSize',
 		'handle',
@@ -35,19 +35,19 @@ Class {
 }
 
 { #category : 'accessing' }
-ICMixerSlider class >> beHorizontal [
+ICMixerFader class >> beHorizontal [
 
 	^ self new beHorizontal 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider class >> beVertical [ 
+ICMixerFader class >> beVertical [ 
 	
 	^ self new beVertical 
 ]
 
 { #category : 'example' }
-ICMixerSlider class >> example [
+ICMixerFader class >> example [
 	"The values of the slider are also written in the transcript"
 
 	<script>
@@ -59,7 +59,7 @@ ICMixerSlider class >> example [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider class >> label: aString [
+ICMixerFader class >> label: aString [
 
 	| slider |
 	slider := self new name: aString.
@@ -68,19 +68,19 @@ ICMixerSlider class >> label: aString [
 ]
 
 { #category : 'instance creation' }
-ICMixerSlider class >> new [
+ICMixerFader class >> new [
 
 	^ self readOnly initializeEvents
 ]
 
 { #category : 'instance creation' }
-ICMixerSlider class >> readOnly [
+ICMixerFader class >> readOnly [
 
 	^ self basicNew initialize
 ]
 
 { #category : 'instance creation' }
-ICMixerSlider class >> readOnlyLabel: aString [
+ICMixerFader class >> readOnlyLabel: aString [
 
 	| slider |
 	slider := self readOnly name: aString.
@@ -89,63 +89,63 @@ ICMixerSlider class >> readOnlyLabel: aString [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> bar [
+ICMixerFader >> bar [
 	^ bar
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> bar: aBlElement [ 
+ICMixerFader >> bar: aBlElement [ 
 	bar := aBlElement
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> barDefaultColor [
+ICMixerFader >> barDefaultColor [
 
 	^ Color black 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> barLength [
+ICMixerFader >> barLength [
 
 	^ barLength
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> barLength: aNumber [
+ICMixerFader >> barLength: aNumber [
 
 	barLength := aNumber.
 	self rebuild
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> barThickness [ 
+ICMixerFader >> barThickness [ 
 
 	^ barThickness 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> barThickness: aNumber [
+ICMixerFader >> barThickness: aNumber [
 
 	barThickness := aNumber.
 	self rebuild
 ]
 
 { #category : 'api - values' }
-ICMixerSlider >> basicSetValue: aNumber [
+ICMixerFader >> basicSetValue: aNumber [
 
 	value := aNumber.
 	self callBack ifNotNil: [ :e | e value: value ]
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> beHorizontal [
+ICMixerFader >> beHorizontal [
 
 	self horizontal: true.
 	self rebuild
 ]
 
 { #category : 'building' }
-ICMixerSlider >> beSegmented [
+ICMixerFader >> beSegmented [
 
 	self stepValue
 		ifNil: [ self error: 'Cannot segment a slider with a nil stepValue' ]
@@ -154,7 +154,7 @@ ICMixerSlider >> beSegmented [
 ]
 
 { #category : 'building' }
-ICMixerSlider >> beSmooth [
+ICMixerFader >> beSmooth [
 
 	self segmented: false.
 	self segmentedValues: nil.
@@ -162,14 +162,14 @@ ICMixerSlider >> beSmooth [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> beVertical [
+ICMixerFader >> beVertical [
 
 	self horizontal: false.
 	self buildVertical
 ]
 
 { #category : 'building' }
-ICMixerSlider >> buildHorizontal [
+ICMixerFader >> buildHorizontal [
 
 	widgetSize y > widgetSize x ifTrue: [
 		self widgetSize: widgetSize y @ widgetSize x ].
@@ -178,7 +178,7 @@ ICMixerSlider >> buildHorizontal [
 ]
 
 { #category : 'building' }
-ICMixerSlider >> buildVertical [
+ICMixerFader >> buildVertical [
 
 	widgetSize y > widgetSize x ifFalse: [
 		self widgetSize: widgetSize y @ widgetSize x ].
@@ -188,19 +188,19 @@ ICMixerSlider >> buildVertical [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> callBack [ 
+ICMixerFader >> callBack [ 
 
 	^ callBack 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> callBack: aBlock [
+ICMixerFader >> callBack: aBlock [
 
 	callBack := aBlock 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> changeMaxValueLabelTo: aValue [
+ICMixerFader >> changeMaxValueLabelTo: aValue [
 
 	maxLabel text: (aValue asRopedText attributes: {
 				 (BlTextForegroundAttribute paint: Color white).
@@ -210,7 +210,7 @@ ICMixerSlider >> changeMaxValueLabelTo: aValue [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> changeMinValueLabelTo: aValue [
+ICMixerFader >> changeMinValueLabelTo: aValue [
 
 	minLabel text: (aValue asRopedText attributes: {
 				 (BlTextForegroundAttribute paint: Color white).
@@ -226,42 +226,42 @@ ICMixerSlider >> changeMinValueLabelTo: aValue [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> coloredBar [ 
+ICMixerFader >> coloredBar [ 
 
 	^ coloredBar 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> coloredBar: aBlElement [
+ICMixerFader >> coloredBar: aBlElement [
 
 	coloredBar := aBlElement 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> coloredBarDefaultColor [
+ICMixerFader >> coloredBarDefaultColor [
 	^ Color veryVeryLightGray.
 ]
 
 { #category : 'setting' }
-ICMixerSlider >> configuredStringDark: aString size: anInteger [
+ICMixerFader >> configuredStringDark: aString size: anInteger [
 	^ aString asRopedText attributes:{(BlTextForegroundAttribute
 	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> currValueLabel [
+ICMixerFader >> currValueLabel [
 
 	^ currValueLabel
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> currValueLabel: anObject [
+ICMixerFader >> currValueLabel: anObject [
 
 	currValueLabel := anObject
 ]
 
 { #category : 'api - slider' }
-ICMixerSlider >> decrementValue: aValue [
+ICMixerFader >> decrementValue: aValue [
 
 	| tmp |
 	tmp := value - aValue.
@@ -269,7 +269,7 @@ ICMixerSlider >> decrementValue: aValue [
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultBar [
+ICMixerFader >> defaultBar [
 
 	| size |
 	size := self
@@ -287,26 +287,26 @@ ICMixerSlider >> defaultBar [
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultBarLength [
+ICMixerFader >> defaultBarLength [
 
 	^ 120
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultBarThickness [
+ICMixerFader >> defaultBarThickness [
 
 	^ 70
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultColor [
+ICMixerFader >> defaultColor [
 
 	^ Color veryDarkGray
 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> defaultColoredBar [
+ICMixerFader >> defaultColoredBar [
 
 	| size |
 	size := self ifHorizontal: [ 0 @ self defaultBarThickness ] ifVertical: [ self defaultBarThickness @ 0.1 ].
@@ -320,7 +320,7 @@ ICMixerSlider >> defaultColoredBar [
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultHandle [
+ICMixerFader >> defaultHandle [
 
 	| e1 e2 size elt |
 	size := self ifHorizontal: [ 5 @ barThickness ] ifVertical: [ 20 @ 40 ].
@@ -345,19 +345,19 @@ ICMixerSlider >> defaultHandle [
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultMarginLength [
+ICMixerFader >> defaultMarginLength [
 
 	^ 2
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultMarginThickness [
+ICMixerFader >> defaultMarginThickness [
 
 	^ 2
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> defaultSize [
+ICMixerFader >> defaultSize [
 	"self bar size maybe"
 
 	^ self
@@ -370,14 +370,14 @@ ICMixerSlider >> defaultSize [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> direction [
+ICMixerFader >> direction [
 	"Returns true if horizontal else false"
 	^ self ifHorizontal: [ true ]
 			 ifVertical: [ false ].
 ]
 
 { #category : 'ui building' }
-ICMixerSlider >> fromDictionary: aDictionary forDsp: aDsp [
+ICMixerFader >> fromDictionary: aDictionary forDsp: aDsp [
 
 	| labelWithoutSuffix |
 	labelWithoutSuffix := (aDictionary at: #shortname) allButLast: 6.
@@ -392,29 +392,29 @@ ICMixerSlider >> fromDictionary: aDictionary forDsp: aDsp [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> handle [
+ICMixerFader >> handle [
 	^ handle
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> handle: aBlElement [ 
+ICMixerFader >> handle: aBlElement [ 
 	handle := aBlElement
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> handleDefaultColor [
+ICMixerFader >> handleDefaultColor [
 
 	^ Color veryVeryLightGray 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> horizontal: aBoolean [
+ICMixerFader >> horizontal: aBoolean [
 
 	isHorizontal := aBoolean 
 ]
 
 { #category : 'building' }
-ICMixerSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
+ICMixerFader >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 
 	^ self isHorizontal
 		ifTrue: horizontalBlock
@@ -422,7 +422,7 @@ ICMixerSlider >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
 ]
 
 { #category : 'api - slider' }
-ICMixerSlider >> incrementValue: aValue [
+ICMixerFader >> incrementValue: aValue [
 
 	| tmp |
 	tmp := value + aValue.
@@ -430,7 +430,7 @@ ICMixerSlider >> incrementValue: aValue [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initialize [
+ICMixerFader >> initialize [
 
 	super initialize.
 	isHorizontal := false.
@@ -446,7 +446,7 @@ ICMixerSlider >> initialize [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeEvents [
+ICMixerFader >> initializeEvents [
 
 	self addEventHandlerOn: BlMouseDownEvent do: [ :event |
 		self moveHandleTo: event localPosition.
@@ -460,7 +460,7 @@ ICMixerSlider >> initializeEvents [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeLabel [
+ICMixerFader >> initializeLabel [
 
 	| l1 |
 	l1 := BlTextElement new.
@@ -477,7 +477,7 @@ ICMixerSlider >> initializeLabel [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeLabelText [
+ICMixerFader >> initializeLabelText [
 
 	| l1 |
 	l1 := BlTextElement new.
@@ -494,7 +494,7 @@ ICMixerSlider >> initializeLabelText [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeLabels [
+ICMixerFader >> initializeLabels [
 
 	| l2 |
 	l2 := BlTextElement new.
@@ -519,7 +519,7 @@ ICMixerSlider >> initializeLabels [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeLines [
+ICMixerFader >> initializeLines [
 
 	| l1 l2 l3 l4 l5 l6 l7 |
 	l1 := BlElement new
@@ -590,7 +590,7 @@ ICMixerSlider >> initializeLines [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeParts [
+ICMixerFader >> initializeParts [
 
 	self initializeLines.
 	"self initializeLabelText." "	self initializeLabels."
@@ -611,7 +611,7 @@ ICMixerSlider >> initializeParts [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeSizes [ 
+ICMixerFader >> initializeSizes [ 
 
 	barLength := self defaultBarLength.
 	barThickness := self defaultBarThickness.
@@ -620,7 +620,7 @@ ICMixerSlider >> initializeSizes [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeValueLabels [
+ICMixerFader >> initializeValueLabels [
 
 	minLabel := BlTextElement new
 		            text: (self minValue asRopedText attributes: {
@@ -660,7 +660,7 @@ ICMixerSlider >> initializeValueLabels [
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> initializeValues [
+ICMixerFader >> initializeValues [
 
 	self minValue: 0.
 	self maxValue: 100.
@@ -668,87 +668,87 @@ ICMixerSlider >> initializeValues [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> isHorizontal [ 
+ICMixerFader >> isHorizontal [ 
 
 	^ isHorizontal 
 ]
 
 { #category : 'testing' }
-ICMixerSlider >> isSegmented [ 
+ICMixerFader >> isSegmented [ 
 
 	^ segmented 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> label [
+ICMixerFader >> label [
 
 	^ label
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> marginLength [
+ICMixerFader >> marginLength [
 
 	^ marginLength
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> marginLength: aNumber [
+ICMixerFader >> marginLength: aNumber [
 
 	marginLength := aNumber.
 	self rebuild
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> marginThickness [ 
+ICMixerFader >> marginThickness [ 
 
 	^ marginThickness 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> marginThickness: aNumber [
+ICMixerFader >> marginThickness: aNumber [
 
 	marginThickness := aNumber.
 	self rebuild
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> maxLabel [
+ICMixerFader >> maxLabel [
 
 	^ maxLabel
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> maxValue [
+ICMixerFader >> maxValue [
 
 	^ maxValue
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> maxValue: aNumber [
+ICMixerFader >> maxValue: aNumber [
 
 	maxValue := aNumber
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> minLabel [ 
+ICMixerFader >> minLabel [ 
 
 	^ minLabel 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> minValue [ 
+ICMixerFader >> minValue [ 
 
 	^ minValue 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> minValue: aNumber [
+ICMixerFader >> minValue: aNumber [
 
 	minValue := aNumber 
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> moveHandleTo: aPosition [
+ICMixerFader >> moveHandleTo: aPosition [
 
 	| newPos |
 	newPos := aPosition.
@@ -781,20 +781,20 @@ ICMixerSlider >> moveHandleTo: aPosition [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> name [ 
+ICMixerFader >> name [ 
 
 	^ name
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> name: aString [
+ICMixerFader >> name: aString [
 
 	name := aString.
 	"self initializeLabels"
 ]
 
 { #category : 'api - values' }
-ICMixerSlider >> nearestValue: aValue [
+ICMixerFader >> nearestValue: aValue [
 
 	| val minResult tmp tmp2 values |
 	self isSegmented ifFalse: [ ^ aValue].
@@ -811,7 +811,7 @@ ICMixerSlider >> nearestValue: aValue [
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> positionDefaultBar: aBar [
+ICMixerFader >> positionDefaultBar: aBar [
 
 	self
 		ifHorizontal: [
@@ -823,7 +823,7 @@ ICMixerSlider >> positionDefaultBar: aBar [
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> positionDefaultHandle [
+ICMixerFader >> positionDefaultHandle [
 
 	self
 		ifHorizontal: [
@@ -835,7 +835,7 @@ ICMixerSlider >> positionDefaultHandle [
 ]
 
 { #category : 'building' }
-ICMixerSlider >> rebuild [
+ICMixerFader >> rebuild [
 
 	self
 		ifHorizontal: [ self buildHorizontal ]
@@ -843,7 +843,7 @@ ICMixerSlider >> rebuild [
 ]
 
 { #category : 'removing' }
-ICMixerSlider >> removeParts [
+ICMixerFader >> removeParts [
 
 	self removeChildren. 
 	bar := nil.
@@ -851,13 +851,13 @@ ICMixerSlider >> removeParts [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> segmented: aBoolean [ 
+ICMixerFader >> segmented: aBoolean [ 
 
 	segmented := aBoolean
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> segmentedValues [
+ICMixerFader >> segmentedValues [
 
 	segmentedValues ifNil: [	segmentedValues := (self minValue to: self maxValue by:
 	                    self stepValue) asOrderedCollection].
@@ -865,27 +865,27 @@ ICMixerSlider >> segmentedValues [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> segmentedValues: aCollection [ 
+ICMixerFader >> segmentedValues: aCollection [ 
 
 	segmentedValues := aCollection 
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> setToMax [
+ICMixerFader >> setToMax [
 
 	"this method is created with a button that would set to max in the widget"
 	self setValue: self maxValue.
 ]
 
 { #category : 'initialization' }
-ICMixerSlider >> setToMin [ 
+ICMixerFader >> setToMin [ 
 
 	"this method is created with a button that would set to max in the widget"
 	self setValue: self minValue.
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> setValue: aNumber [
+ICMixerFader >> setValue: aNumber [
 
 	| newValue |
 	newValue := aNumber.
@@ -896,7 +896,7 @@ ICMixerSlider >> setValue: aNumber [
 ]
 
 { #category : 'api - bounds' }
-ICMixerSlider >> size: aValue [
+ICMixerFader >> size: aValue [
 	"just to keep the widgset size"
 
 	super extent: aValue " for now do not support resize
@@ -906,20 +906,20 @@ ICMixerSlider >> size: aValue [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> stepValue [
+ICMixerFader >> stepValue [
 
 	^ stepValue 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> stepValue: aNumber [
+ICMixerFader >> stepValue: aNumber [
 
 	stepValue := aNumber 
 	
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> updateColoredBarTo: aPosition [
+ICMixerFader >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
@@ -931,13 +931,13 @@ ICMixerSlider >> updateColoredBarTo: aPosition [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> value [ 
+ICMixerFader >> value [ 
 
 	^ value 
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> valueAtCoord: aPoint [
+ICMixerFader >> valueAtCoord: aPoint [
 
 	^ self
 		  ifHorizontal: [ self valueAtX: aPoint ]
@@ -945,7 +945,7 @@ ICMixerSlider >> valueAtCoord: aPoint [
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> valueAtX: aPoint [
+ICMixerFader >> valueAtX: aPoint [
 
 	| dist valueDiff value coeff |
 	dist := (aPoint - bar position) x.
@@ -961,7 +961,7 @@ ICMixerSlider >> valueAtX: aPoint [
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> valueAtY: aPoint [
+ICMixerFader >> valueAtY: aPoint [
 
 	| dist valueDiff value coeff |
 	dist := bar position y + barLength - aPoint y.
@@ -976,13 +976,13 @@ ICMixerSlider >> valueAtY: aPoint [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> valueLabel [
+ICMixerFader >> valueLabel [
 
 	^ valueLabel
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> valueToCoord: aNumber [
+ICMixerFader >> valueToCoord: aNumber [
 
 	^ self
 		  ifHorizontal: [ self valueToX: aNumber ]
@@ -990,7 +990,7 @@ ICMixerSlider >> valueToCoord: aNumber [
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> valueToX: aNumber [
+ICMixerFader >> valueToX: aNumber [
 
 	| dist valueDiff coeff |
 	valueDiff := aNumber - minValue.
@@ -1002,7 +1002,7 @@ ICMixerSlider >> valueToX: aNumber [
 ]
 
 { #category : 'api - transformations' }
-ICMixerSlider >> valueToY: aNumber [
+ICMixerFader >> valueToY: aNumber [
 
 	| dist valueDiff coeff |
 	valueDiff := aNumber - minValue.
@@ -1014,13 +1014,13 @@ ICMixerSlider >> valueToY: aNumber [
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> widgetSize [ 
+ICMixerFader >> widgetSize [ 
 
 	^ widgetSize 
 ]
 
 { #category : 'accessing' }
-ICMixerSlider >> widgetSize: aNumber [
+ICMixerFader >> widgetSize: aNumber [
 
 	widgetSize := aNumber.
 	self size: aNumber 

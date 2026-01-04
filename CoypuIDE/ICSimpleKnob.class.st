@@ -4,9 +4,9 @@ White knob with simpler black thumb. The knob outer ring is a full circle. White
 Class {
 	#name : 'ICSimpleKnob',
 	#superclass : 'ICKnob',
-	#category : 'CoypuIDE-knob',
+	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
-	#tag : 'knob'
+	#tag : 'slider'
 }
 
 { #category : 'api - operations' }

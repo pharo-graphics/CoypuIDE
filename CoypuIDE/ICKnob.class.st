@@ -17,7 +17,7 @@ ICKnob new label: 'MyKnob' minValue: 0 maxValue: 1
 "
 Class {
 	#name : 'ICKnob',
-	#superclass : 'BlElement',
+	#superclass : 'ICSlider',
 	#instVars : [
 		'inputText',
 		'inputLabel',
@@ -37,9 +37,9 @@ Class {
 		'maxLabel',
 		'currentLabel'
 	],
-	#category : 'CoypuIDE-knob',
+	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
-	#tag : 'knob'
+	#tag : 'slider'
 }
 
 { #category : 'examples' }

@@ -18,7 +18,7 @@ ICMasterCutoff class >> exampleLinearSlider [
 	| master slider container textElt |
 	master := self new.
 
-	slider := ICSlider new.
+	slider := ICFader new.
 
 	container := BlElement new layout: BlLinearLayout vertical;constraintsDo: [ :c |
 		c horizontal fitContent.
@@ -46,7 +46,7 @@ ICMasterCutoff class >> exampleLogarithmicSlider [
 	| master slider container textElt |
 	master := self new.
 
-	slider := ICLogarithmicSlider new.
+	slider := ICLogarithmicFader new.
 
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
@@ -110,6 +110,42 @@ ICMasterCutoff >> defaultLine [
 	^ container
 ]
 
+{ #category : 'as yet unclassified' }
+ICMasterCutoff >> defaultLine: aResonanceValue [
+
+	| curve firstLine  container |
+	curve := BlElement new
+		         background: Color transparent;
+		         border: (BlBorder paint: Color yellow width: 5);
+		         outskirts: BlOutskirts centered;
+		         geometry: (BlBezierCurveGeometry controlPoints: {
+						          (0 @ aResonanceValue).
+						          (-12.5 @ 0).
+						          (-25 @ 50).
+						          (-37.5 @ 180)
+						          "  (0 @ 0).
+						          (50 @ 0).
+						          (100 @ 200).
+						          (150 @ 200) " }).
+
+	firstLine := BlElement new
+		             geometry:
+			             (BlLineGeometry from: 0 @ aResonanceValue to: 300 @ 0);
+		             border: (BlBorder paint: Color yellow width: 5);
+		             outskirts: BlOutskirts centered.
+
+
+	container := BlElement new
+		             clipChildren: false;
+		             position: 0 @ 37.5.
+
+	container addChildren: {
+			firstLine.
+			curve }.
+
+	^ container
+]
+
 { #category : 'initialization' }
 ICMasterCutoff >> initialize [
 
@@ -136,6 +172,13 @@ ICMasterCutoff >> initializeLine [
 	self addChild: line
 ]
 
+{ #category : 'initialization' }
+ICMasterCutoff >> initializeLine: aResonanceValue [
+
+	self line: (self defaultLine: aResonanceValue ).
+	self addChild: line
+]
+
 { #category : 'accessing' }
 ICMasterCutoff >> line [
 
@@ -146,6 +189,34 @@ ICMasterCutoff >> line [
 ICMasterCutoff >> line: aBlElement [
 
 	line := aBlElement 
+]
+
+{ #category : 'as yet unclassified' }
+ICMasterCutoff >> lowPassCurve [
+
+^ BlElement new
+		         background: Color transparent;
+		         border: (BlBorder paint: Color yellow width: 5);
+		         outskirts: BlOutskirts centered;
+		         geometry: (BlBezierCurveGeometry controlPoints: {
+						          (0 @ 0).
+						          (12.5 @ 0).
+						          (25 @ 50).
+						          (37.5 @ 50)
+						          "  (0 @ 0).
+						          (50 @ 0).
+						          (100 @ 200).
+						          (150 @ 200) " }).
+]
+
+{ #category : 'as yet unclassified' }
+ICMasterCutoff >> lowPassLine [
+
+^ BlElement new
+		             geometry: (BlLineGeometry from: -1000 @ 0 to: 0 @ 0);
+		             border: (BlBorder paint: Color yellow width: 5);
+		             outskirts: BlOutskirts centered.
+
 ]
 
 { #category : 'accessing' }
@@ -170,6 +241,15 @@ ICMasterCutoff >> minValue [
 ICMasterCutoff >> minValue: aNumber [
 
 	minValue := aNumber
+]
+
+{ #category : 'initialization' }
+ICMasterCutoff >> resonance: aNumber [
+
+	self removeChildren.
+	self line: (self defaultLine: aNumber negated / 4).
+
+	self addChild: (line position: self value @ 37.5)
 ]
 
 { #category : 'accessing' }

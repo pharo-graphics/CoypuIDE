@@ -4,9 +4,9 @@ Black and grey knob with cyan thumb
 Class {
 	#name : 'ICDarkKnob2',
 	#superclass : 'ICKnob',
-	#category : 'CoypuIDE-knob',
+	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
-	#tag : 'knob'
+	#tag : 'slider'
 }
 
 { #category : 'initialization' }
