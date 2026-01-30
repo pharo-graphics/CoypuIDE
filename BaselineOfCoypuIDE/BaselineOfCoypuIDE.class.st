@@ -17,7 +17,7 @@ BaselineOfCoypuIDE >> baseline: spec [
          "External Dependencies"
         spec
             baseline: 'Toplo'
-            with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ].
+            with: [ spec repository: 'github://pharo-graphics/Toplo:dev/src' ].
         spec
             baseline: 'Phausto'
             with: [ spec repository: 'github://lucretiomsp/phausto:main/' ].
