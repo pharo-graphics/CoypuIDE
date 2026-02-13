@@ -50,24 +50,21 @@ ICDarkKnob5 >> doOperations [
 
 { #category : 'initialization' }
 ICDarkKnob5 >> initializeDisk2 [
-	
+
 	self disk2: (BlElement new
-		          "background: (Color r:63 g:162 b:227 range:255);"
-		   			background: self disk2Color ;
-		           size: self diskSize -60 asPoint;
-						
-					geometry: (BlAnnulusSectorGeometry new
-			 					startAngle: -210;
-			 					endAngle: 45;
-			 					innerRadius: 0.73;
-			 					outerRadius: 0.9);
-					
-					constraintsDo: [ :c |
-						c frame horizontal alignCenter.
-					c frame vertical alignCenter. ]).
-	
-	
-	self addChild: self disk2.
+			 background: self disk2Color;
+			 extent: self diskSize - 60 asPoint;
+			 geometry: (BlAnnulusSectorGeometry new
+					  startAngle: -210;
+					  endAngle: 45;
+					  innerRadius: 0.73;
+					  outerRadius: 0.9);
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]). "background: (Color r:63 g:162 b:227 range:255);"
+
+
+	self addChild: self disk2
 ]
 
 { #category : 'initialization' }

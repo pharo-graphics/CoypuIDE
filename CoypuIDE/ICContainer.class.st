@@ -25,7 +25,7 @@ ICContainer >> initialize [
 	self extent: 80 @ 80.
 	innerContainer := BlElement new
 		                  border: (BlBorder paint: Color black width: 1);
-		                  background: (Color black alpha: 0.2);
+		                  background: (Color black );
 		                  layout: (BlGridLayout new
 				                   columnCount: 8;
 				                   cellSpacing: 0);

@@ -21,24 +21,21 @@ ICLightKnob >> diskColor [
 
 { #category : 'initialization' }
 ICLightKnob >> initializeDisk [
-	
+
 	self disk: (BlElement new
-		          "background: (Color r:63 g:162 b:227 range:255);"
-		   			background: self diskColor;
-		           size: diameter + 40 asPoint;
-						
-					geometry: (BlAnnulusSectorGeometry new
-			 					startAngle: -225;
-			 					endAngle: -210;
-			 					innerRadius: 0.83;
-			 					outerRadius: 1.0);
-					
-					constraintsDo: [ :c |
-						c frame horizontal alignCenter.
-					c frame vertical alignCenter. ]).
-	
-	
-	self addChild: self disk.
+			 background: self diskColor;
+			 extent: diameter + 40 asPoint;
+			 geometry: (BlAnnulusSectorGeometry new
+					  startAngle: -225;
+					  endAngle: -210;
+					  innerRadius: 0.83;
+					  outerRadius: 1.0);
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]). "background: (Color r:63 g:162 b:227 range:255);"
+
+
+	self addChild: self disk
 ]
 
 { #category : 'initialization' }

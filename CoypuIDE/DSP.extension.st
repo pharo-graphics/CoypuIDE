@@ -305,3 +305,15 @@ dic := self getUIItemsLabeledDictionary .
 
 	
 ]
+
+{ #category : '*CoypuIDE' }
+DSP >> widgetForParameter: aString type: aSymbol [
+	"creates a UI element for the Parameter, if it exists in the DSPy"
+
+	| dic |
+	dic := self getUIItemsLabeledDictionary.
+	(dic includesKey: aString)
+		ifTrue: [ ^ (BlElement  class environment at: aSymbol ) fromDictionary: (dic at: aString)  forDsp: self ]
+		ifFalse: [ ^ Error new signal: 'Parameter ' , aString , ' does not exist in this DSP' ].
+		
+]
