@@ -174,10 +174,8 @@ DSP >> displayUI [
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
 	"space
 		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ ICValueDisplay isUpdating: false ].
+		do: [ ICValueDisplay isUpdating: false ]."
 	space show.
-
-"
 	^ space
 ]
 
