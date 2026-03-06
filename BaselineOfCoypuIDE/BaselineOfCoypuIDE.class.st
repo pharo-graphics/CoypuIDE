@@ -16,7 +16,7 @@ BaselineOfCoypuIDE >> baseline: spec [
 			"External Dependencies"
 			spec
 				baseline: 'Toplo'
-				with: [ spec repository: 'github://pharo-graphics/Toplo:Pharo13/src' ].
+				with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ].
 			spec
 				baseline: 'Phausto'
 				with: [ spec repository: 'github://lucretiomsp/phausto:main/' ].
@@ -31,7 +31,7 @@ BaselineOfCoypuIDE >> baseline: spec [
 			"Linkink external dependencies"
 			spec
 				package: 'CoypuIDE'
-				with: [ spec requires: #( 'Toplo' " 'Mooflod' " 'Phausto' ) ];
+				with: [ spec requires: #( 'Toplo'  'Mooflod'  'Phausto' ) ];
 				package: 'ICIcons' with: [ spec requires: #( 'Toplo' ) ].
 
 			"Baseline groups"
