@@ -23,10 +23,10 @@ BaselineOfCoypuIDE >> baseline: spec [
 			spec
 				baseline: 'Coypu'
 				with: [ spec repository: 'github://lucretiomsp/coypu:master/' ].
-			"spec
+			spec
 				baseline: 'Mooflod'
 				with: [
-				spec repository: 'github://lucretiomsp/MoofLODforPharo:master/' ]."
+				spec repository: 'github://lucretiomsp/MoofLODforPharo:master/' ].
 
 			"Linkink external dependencies"
 			spec
