@@ -294,6 +294,22 @@ DSP >> displayedUI: aBlElement [
 ]
 
 { #category : '*CoypuIDE' }
+DSP >> openWidgetFor: aSymbol [
+
+	| allParams entry widget space |
+	allParams := self getUIItemsLabeledDictionary.
+	entry := allParams at: aSymbol.
+	widget := BlElement new fromDictionary: entry forDsp: self.
+	space := BlSpace new.
+	space show.
+	widget
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
+
+	space root addChild: widget
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> widgetForParameter: aString [
 	"creates a UI element for the Parameter, if it exists in the DSPy"
 
