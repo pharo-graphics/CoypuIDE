@@ -15,3 +15,12 @@ Metacello new
 	repository: 'github://pharo-graphics/CoypuIDE:master';
 	load.
  ```
+
+Useful methods
+```smalltalk
+"Display the full UI for a valid dsp"
+aDsp displayUI
+
+"open a widget for a given parameter"
+aDsp openWidgetFor: #aParameter
+```
