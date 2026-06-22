@@ -2,50 +2,68 @@ Extension { #name : 'DSP' }
 
 { #category : '*CoypuIDE' }
 DSP >> buildUI [
-	"build full UI made with Bloc"
+	"build the panel made with Bloc: grid sized to knob count, scaled to fit, top-left origin.
+	Does NOT create or show a space; displayUI owns that."
 
-	| container allParams allKnobs containerKnobs sortedKnobs space |
-	space := BlSpace new title: self name , 'UI'.
-
+	| container allParams allKnobs containerKnobs sortedKnobs
+	  count cellExtent budget aspect cols rows naturalExtent scale |
 	ICValueDisplay isUpdating: true.
+
+	"collect and sort knobs"
 	allParams := self getUIItemsLabeledDictionary.
 	allKnobs := OrderedCollection new.
 	allParams keysAndValuesDo: [ :k :v |
 		allKnobs add: (BlElement new fromDictionary: v forDsp: self) ].
 	sortedKnobs := allKnobs asSortedCollection: [ :a :b |
-		               a inputText asLowercase < b inputText asLowercase ].
+		a inputText asLowercase < b inputText asLowercase ].
 
+	"column count and scale from knob count + budget"
+	count := sortedKnobs size.
+	cellExtent := 150 @ 180.   "measured knob cell: knob + label + readout"
+	budget := 1400 @ 900.      "max panel size before shrinking kicks in"
+	count isZero
+		ifTrue: [ cols := 1. scale := 1.0 ]
+		ifFalse: [
+			aspect := (budget x / budget y) * (cellExtent y / cellExtent x).
+			cols := (count * aspect) sqrt rounded max: 1.
+			rows := (count / cols) ceiling.
+			naturalExtent := (cols * cellExtent x) @ (rows * cellExtent y).
+			scale := ((budget x / naturalExtent x)
+				min: (budget y / naturalExtent y)) min: 1.0 ].
+
+	"knob grid: fitContent so size flows up from the cells"
 	containerKnobs := BlElement new
-		                  geometry: BlRectangleGeometry new;
-		                  layout: (BlGridLayout new
-				                   columnCount: 8;
-				                   cellSpacing: 0);
-		                  constraintsDo: [ :c |
-				                  c horizontal matchParent.
-				                  c vertical fitContent
-				                  "c vertical matchParent " ];
-		                  background: Color veryVeryDarkGray.
-	container := BlElement new
-		             layout: BlLinearLayout new beVertical;
-		             constraintsDo: [ :c |
-				             c horizontal fitContent.
-				             c vertical fitContent ];
-		             background: Color black lighter.
-
+		geometry: BlRectangleGeometry new;
+		layout: (BlGridLayout new
+			columnCount: cols;
+			cellSpacing: 0);
+		constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent ];
+		background: Color veryVeryDarkGray;
+		yourself.
 	containerKnobs addChildren: sortedKnobs.
 
+	"outer container, scaled from its top-left corner"
+	container := BlElement new
+		layout: BlLinearLayout new beVertical;
+		constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent.
+			c accountTransformation ];
+		background: Color black lighter;
+		yourself.
 	container addChild: containerKnobs.
+
 	self requirePianoKeyboard ifTrue: [
-			containerKnobs removeGateAndFreqElement.
-			self traceCr.
-			container addChild: (ICPianoKeyboardElement newForDsp: self) ].
-	"we can later access the container if we need"
+		containerKnobs removeGateAndFreqElement.
+		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
+
+	container transformDo: [ :t |
+		t topLeftOrigin.
+		t scaleBy: scale ].
+
 	displayedUI := container.
-
-	container
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
-
 	^ displayedUI
 ]
 
@@ -158,23 +176,26 @@ DSP >> connectToOSCServerOnPort: aPort [
 
 { #category : '*CoypuIDE' }
 DSP >> displayUI [
-	"display the IU made with Bloc"
-
+	"display the UI made with Bloc"
 	| space |
-	"first we build the UI"
-	self buildUI.
+	self buildUI.   "sets displayedUI to the scaled, top-left-origin panel"
+
 	space := BlSpace new title: self name , ' UI'.
-	space root background: Color black lighter.
-	space root addChild: self displayedUI.
+	space root
+		background: Color black lighter;
+		layout: BlLinearLayout horizontal alignTopLeft;
+		addChild: self displayedUI.
+
+	"window follows the panel's scaled extent"
 	self displayedUI
 		addEventHandlerOn: BlElementExtentChangedEvent
 		do: [ :evt | space extent: evt target extent ].
 
-
-	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
+	"terminate every ICValueDisplay update process on close"
 	space
 		addEventHandlerOn: BlSpaceClosedEvent
 		do: [ ICValueDisplay isUpdating: false ].
+
 	space show.
 	^ space
 ]
