@@ -2,11 +2,9 @@ Extension { #name : 'DSP' }
 
 { #category : '*CoypuIDE' }
 DSP >> buildUI [
-	"build the panel made with Bloc: grid sized to knob count, scaled to fit, top-left origin.
-	Does NOT create or show a space; displayUI owns that."
+	"build the panel: natural-size knobs, 8 per row, vertical scrolling, no shrink"
 
-	| container allParams allKnobs containerKnobs sortedKnobs
-	  count cellExtent budget aspect cols rows naturalExtent scale |
+	| container allParams allKnobs containerKnobs sortedKnobs scrollable vscroll cols |
 	ICValueDisplay isUpdating: true.
 
 	"collect and sort knobs"
@@ -17,21 +15,10 @@ DSP >> buildUI [
 	sortedKnobs := allKnobs asSortedCollection: [ :a :b |
 		a inputText asLowercase < b inputText asLowercase ].
 
-	"column count and scale from knob count + budget"
-	count := sortedKnobs size.
-	cellExtent := 150 @ 180.   "measured knob cell: knob + label + readout"
-	budget := 1400 @ 900.      "max panel size before shrinking kicks in"
-	count isZero
-		ifTrue: [ cols := 1. scale := 1.0 ]
-		ifFalse: [
-			aspect := (budget x / budget y) * (cellExtent y / cellExtent x).
-			cols := (count * aspect) sqrt rounded max: 1.
-			rows := (count / cols) ceiling.
-			naturalExtent := (cols * cellExtent x) @ (rows * cellExtent y).
-			scale := ((budget x / naturalExtent x)
-				min: (budget y / naturalExtent y)) min: 1.0 ].
+	"8 columns, grid grows downward"
+	cols := 8.
 
-	"knob grid: fitContent so size flows up from the cells"
+	"knob grid: natural size (fitContent both axes, no compression)"
 	containerKnobs := BlElement new
 		geometry: BlRectangleGeometry new;
 		layout: (BlGridLayout new
@@ -44,24 +31,34 @@ DSP >> buildUI [
 		yourself.
 	containerKnobs addChildren: sortedKnobs.
 
-	"outer container, scaled from its top-left corner"
+	self requirePianoKeyboard ifTrue: [
+		containerKnobs removeGateAndFreqElement ].
+
+	"wrap the grid in a vertically scrollable element"
+	scrollable := containerKnobs asScrollableElement.
+	scrollable constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	vscroll := BlVerticalScrollbarElement new.
+	vscroll constraintsDo: [ :c |
+		c ignoreByLayout.
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscroll attachTo: scrollable.
+
+	"outer container fills the window"
 	container := BlElement new
-		layout: BlLinearLayout new beVertical;
+		layout: BlFrameLayout new;
 		constraintsDo: [ :c |
-			c horizontal fitContent.
-			c vertical fitContent.
-			c accountTransformation ];
+			c horizontal matchParent.
+			c vertical matchParent ];
 		background: Color black lighter;
+		addChildren: { scrollable. vscroll };
 		yourself.
-	container addChild: containerKnobs.
 
 	self requirePianoKeyboard ifTrue: [
-		containerKnobs removeGateAndFreqElement.
 		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
-
-	container transformDo: [ :t |
-		t topLeftOrigin.
-		t scaleBy: scale ].
 
 	displayedUI := container.
 	^ displayedUI
@@ -177,19 +174,16 @@ DSP >> connectToOSCServerOnPort: aPort [
 { #category : '*CoypuIDE' }
 DSP >> displayUI [
 	"display the UI made with Bloc"
+
 	| space |
-	self buildUI.   "sets displayedUI to the scaled, top-left-origin panel"
+	self buildUI.
 
 	space := BlSpace new title: self name , ' UI'.
 	space root
 		background: Color black lighter;
 		layout: BlLinearLayout horizontal alignTopLeft;
 		addChild: self displayedUI.
-
-	"window follows the panel's scaled extent"
-	self displayedUI
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
+	space extent: 8 * 160 + 20 @ 800.
 
 	"terminate every ICValueDisplay update process on close"
 	space
