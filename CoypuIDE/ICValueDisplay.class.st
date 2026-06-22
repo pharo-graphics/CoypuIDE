@@ -66,13 +66,13 @@ ICValueDisplay >> initialize [
 	self background: Color black lighter.
 	self layout: BlFrameLayout new.
 
-	self size: self widgetSize.
+	self extent: self widgetSize.
 	self constraintsDo: [ :c |
-		c frame horizontal alignCenter.
-		c frame vertical alignCenter ].
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
 	self initializeValueText.
 	self initializeLabel: 'Value'.
-	
+
 	self addChild: valueText
 ]
 
