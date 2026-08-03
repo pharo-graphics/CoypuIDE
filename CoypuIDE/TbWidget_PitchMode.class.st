@@ -147,9 +147,10 @@ TbWidget_PitchMode >> initializeLayout [
 
 { #category : 'initialization' }
 TbWidget_PitchMode >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color veryVeryDarkGray alpha:1.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color veryVeryDarkGray alpha: 1.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

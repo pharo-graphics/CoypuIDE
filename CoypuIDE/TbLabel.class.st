@@ -123,12 +123,15 @@ TbLabel >> initializeLabel [
 
 { #category : 'initialization' }
 TbLabel >> initializeLayout [
-	self background: (Color gray alpha:0.0).
-	self padding: (BlInsets  top:1 left:1  bottom:1  right:1 ).
-	self size: self widgetSize.
-	self layout: BlFrameLayout new.
 
-
+	self background: (Color gray alpha: 0.0).
+	self padding: (BlInsets
+			 top: 1
+			 left: 1
+			 bottom: 1
+			 right: 1).
+	self extent: self widgetSize.
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

@@ -8,71 +8,73 @@ Class {
 
 { #category : 'initialization' }
 TbOnOffSwitch >> initializeSwitch [
-	|s l1 l2 l3|
+
+	| s l1 l2 l3 |
 	self switch: (BlElement new
-            geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-				background: (self switchOnColor );
-				transformDo: [ :t|
-					t translateBy: 0@ -4 ];
-				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
-            size: 60@30 ;
-	         margin: (BlInsets all: 10);
-				layout: BlFrameLayout new;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				]).
-	s:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOffColor;
-				layout: BlFrameLayout new;
-            size: 30@25 ;
-	         margin: (BlInsets all: 2);
-				padding: (BlInsets all: 5);
-           	constraintsDo: [ :c |
-					c frame horizontal alignLeft.
-					c frame vertical alignCenter.
-				].
-	l1:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-				background: self lineColor;
-				layout: BlFrameLayout new;
-            size: 3@15;
-	         margin: (BlInsets all: 2);
-           	constraintsDo: [ :c |
-					c frame horizontal alignLeft.
-					c frame vertical alignCenter.
-				].
-	l2:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-				background: self lineColor;
-				layout: BlFrameLayout new;
-            size: 3@15 ;
-	         margin: (BlInsets all: 2);
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				].
-	l3:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-				background: self lineColor;
-				layout: BlFrameLayout new;
-            size: 3@15 ;
-	         margin: (BlInsets all: 2);
-           	constraintsDo: [ :c |
-					c frame horizontal alignRight.
-					c frame vertical alignCenter.
-				].
-	s addChildren: { l1. l2. l3 }.
+			 geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+			 background: self switchOnColor;
+			 transformDo: [ :t | t translateBy: 0 @ -4 ];
+			 effect: (BlGaussianShadowEffect
+					  color: self shadowColor
+					  offset: 0 @ 4
+					  width: 10);
+			 extent: 60 @ 30;
+			 margin: (BlInsets all: 10);
+			 layout: BlFrameLayout new;
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]).
+	s := BlElement new
+		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		     background: self switchOffColor;
+		     layout: BlFrameLayout new;
+		     size: 30 @ 25;
+		     margin: (BlInsets all: 2);
+		     padding: (BlInsets all: 5);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignLeft.
+				     c frame vertical alignCenter ].
+	l1 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      background: self lineColor;
+		      layout: BlFrameLayout new;
+		      size: 3 @ 15;
+		      margin: (BlInsets all: 2);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignCenter ].
+	l2 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      background: self lineColor;
+		      layout: BlFrameLayout new;
+		      size: 3 @ 15;
+		      margin: (BlInsets all: 2);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ].
+	l3 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      background: self lineColor;
+		      layout: BlFrameLayout new;
+		      size: 3 @ 15;
+		      margin: (BlInsets all: 2);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignCenter ].
+	s addChildren: {
+			l1.
+			l2.
+			l3 }.
 	switch addChild: s.
-	self addChild:self switch. 
+	self addChild: self switch
 ]
 
 { #category : 'initialization' }
 TbOnOffSwitch >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

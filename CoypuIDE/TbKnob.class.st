@@ -380,134 +380,140 @@ TbKnob >> initializeEvents [
 
 { #category : 'initialization' }
 TbKnob >> initializeGeometry [
-	
-	|e1 e2  st marker k kb k1 |
 
-	self size: 140 @ 150.
-	self background: (self backColor alpha:0.0).
-   "self border: (BlBorder paint: (Color gray) width: 2)."
+	| e1 e2 st marker k kb k1 |
+	self extent: 140 @ 150.
+	self background: (self backColor alpha: 0.0).
+	"self border: (BlBorder paint: (Color gray) width: 2)."
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
-	self padding:(BlInsets all: 7).
-	
-	e1:= BlElement new
-	size: 86 asPoint;
-	geometry: (BlCircleGeometry new);
-	"transformDo: [ :t | t translateBy: 30@30 ];"
-	background: Color veryDarkGray;
-	transformDo:[:t | 
-		t translateBy: -1.2@ -1.2];
-	constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter];
-			transformDo:[:t | t translateBy:-1.2@ 7.8];
-		effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 8@25  width: 50).
-	
-	e2:= BlElement new
-	size: 80 asPoint;
-	geometry: (BlCircleGeometry new);
-	"transformDo: [ :t | t translateBy: 30@30 ];"
-	background: (BlRadialGradientPaint new
-	stops: { 0 -> self color2. 1 -> self color1 };
-	center: 15@15;
-	radius: 150;
-	yourself);
-	constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter];
-		transformDo:[:t | t translateBy:0@ 9].
-	
-	
-		self addChildren:{ e1. e2}.
-	
-	
-	st:= -280.
-	1 to: 11 do: [:i |
-	|dash curr|
-	curr:= (i * 30).
-	curr:= curr + st.
-	curr:= curr + 10. 
-	dash:= 
-	 BlElement new
-		           background: Color veryVeryDarkGray ;
-		           size: diameter+ 30 asPoint;
-	geometry: (BlAnnulusSectorGeometry new
-			 startAngle: curr;
-			 endAngle: curr + 2.5;
-			 innerRadius: 0.85;
-			 outerRadius: 1.0);	
+	self padding: (BlInsets all: 7).
 
-	constraintsDo: [ :c |
-	c frame horizontal alignCenter.
-	c frame vertical alignCenter ];
-	transformDo:[:t | t translateBy:0@ 9].	
-	self addChild:dash.].
-		
+	e1 := BlElement new
+		      extent: 86 asPoint;
+		      geometry: BlCircleGeometry new;
+		      "transformDo: [ :t | t translateBy: 30@30 ];"background:
+			      Color veryDarkGray;
+		      transformDo: [ :t | t translateBy: -1.2 @ -1.2 ];
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -1.2 @ 7.8 ];
+		      effect: (BlGaussianShadowEffect
+				       color: self shadowColor
+				       offset: 8 @ 25
+				       width: 50).
 
-	
+	e2 := BlElement new
+		      extent: 80 asPoint;
+		      geometry: BlCircleGeometry new;
+		      "transformDo: [ :t | t translateBy: 30@30 ];"background:
+			      (BlRadialGradientPaint new
+				       stops: {
+						       (0 -> self color2).
+						       (1 -> self color1) };
+				       center: 15 @ 15;
+				       radius: 150;
+				       yourself);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 9 ].
 
 
-	k:= BlElement new
-			 geometry: BlCircleGeometry new;
-			 size: self knobSize+5 asPoint;
-			 clipChildren: true;
-			 background: (self color1 alpha:1);
-			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter];
-			layout: BlFrameLayout new.
-		
-	
-	kb:= BlElement new
-			 geometry: BlCircleGeometry new;
-			 size: self knobSize+5 asPoint;
-			 clipChildren: false;
-			 background: (self color4 alpha:1.0);
-			 constraintsDo: [ :c |
-				 c frame horizontal alignCenter.
-				 c frame vertical alignCenter];
-			transformDo:[:t | t translateBy:0@ 12];
-			effect: (BlGaussianShadowEffect color: (Color brown alpha:0.7)   offset: 0@6  width: 10).
-	
-		self addChild:kb.
-	
+	self addChildren: {
+			e1.
+			e2 }.
 
 
-	
+	st := -280.
+	1 to: 11 do: [ :i |
+			| dash curr |
+			curr := i * 30.
+			curr := curr + st.
+			curr := curr + 10.
+			dash := BlElement new
+				        background: Color veryVeryDarkGray;
+				        extent: diameter + 30 asPoint;
+				        geometry: (BlAnnulusSectorGeometry new
+						         startAngle: curr;
+						         endAngle: curr + 2.5;
+						         innerRadius: 0.85;
+						         outerRadius: 1.0);
+				        constraintsDo: [ :c |
+						        c frame horizontal alignCenter.
+						        c frame vertical alignCenter ];
+				        transformDo: [ :t | t translateBy: 0 @ 9 ].
+			self addChild: dash ].
+
+
+
+
+
+	k := BlElement new
+		     geometry: BlCircleGeometry new;
+		     extent: self knobSize + 5 asPoint;
+		     clipChildren: true;
+		     background: (self color1 alpha: 1);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignCenter ];
+		     layout: BlFrameLayout new.
+
+
+	kb := BlElement new
+		      geometry: BlCircleGeometry new;
+		      extent: self knobSize + 5 asPoint;
+		      clipChildren: false;
+		      background: (self color4 alpha: 1.0);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 12 ];
+		      effect: (BlGaussianShadowEffect
+				       color: (Color brown alpha: 0.7)
+				       offset: 0 @ 6
+				       width: 10).
+
+	self addChild: kb.
+
+
+
+
 	marker := BlElement new
 		          size: 15 @ 6;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-					
 		          geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 		          background: self color4;
-		          "position: self knobSize / 2 @ 5."
-					transformDo:[:t | t rotateBy:90.
-						t translateBy: 0@ 5];
-					 constraintsDo: [ :c |
-				 	c frame horizontal alignCenter.
-					 c frame vertical alignTop].
-					
-			marker zIndex: 100.
-		k1 := BlElement new
-		          size: 15 @ 80;
-		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-					
-		          geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		          background: self color5 ;
-		          "position: self knobSize / 2 @ 5."
-					transformDo:[:t | t rotateBy:90.
-						t translateBy: 0@ 0];
-					 constraintsDo: [ :c |
-				 	c frame horizontal alignCenter.
-					 c frame vertical alignBottom].
-					
-			marker zIndex: 100.
-			
-	k addChildren: {k1. marker}.
-	
-		
+		          "position: self knobSize / 2 @ 5."transformDo: [ :t |
+				          t rotateBy: 90.
+				          t translateBy: 0 @ 5 ];
+		          constraintsDo: [ :c |
+				          c frame horizontal alignCenter.
+				          c frame vertical alignTop ].
+
+	marker zIndex: 100.
+	k1 := BlElement new
+		      size: 15 @ 80;
+		      transformDo: [ :t | t translateBy: -2 @ 0 ];
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      background: self color5;
+		      "position: self knobSize / 2 @ 5."transformDo: [ :t |
+				      t rotateBy: 90.
+				      t translateBy: 0 @ 0 ];
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ].
+
+	marker zIndex: 100.
+
+	k addChildren: {
+			k1.
+			marker }.
+
+
 	self knob: k.
-	self addChild: self knob.
+	self addChild: self knob
 ]
 
 { #category : 'initialization' }

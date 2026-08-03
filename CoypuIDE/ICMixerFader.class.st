@@ -924,10 +924,13 @@ ICMixerFader >> updateColoredBarTo: aPosition [
 	self
 		ifHorizontal: [
 				coloredBar position: bar position.
-				coloredBar size: (aPosition - coloredBar position) x @ barThickness ]
+				coloredBar extent:
+					(aPosition - coloredBar position) x @ barThickness ]
 		ifVertical: [
-				coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
-				coloredBar extent: barThickness @ (bar position y + barLength - aPosition y) ]
+				coloredBar position:
+					aPosition x - (barThickness / 2) @ aPosition y.
+				coloredBar extent:
+					barThickness @ (bar position y + barLength - aPosition y) ]
 ]
 
 { #category : 'accessing' }
@@ -992,25 +995,19 @@ ICMixerFader >> valueToCoord: aNumber [
 { #category : 'api - transformations' }
 ICMixerFader >> valueToX: aNumber [
 
-	| dist valueDiff coeff |
-	valueDiff := aNumber - minValue.
-	coeff := (valueDiff / (maxValue - minValue)) asFloat.
-	dist := marginLength + (coeff * barLength).
-	self forceLocalLayout.
-	"This is needed so handle position != 0"
-	^ dist @ handle position y
+    | coeff |
+    self forceLocalLayout.
+    coeff := ((aNumber - minValue) / (maxValue - minValue)) asFloat.
+    ^ (bar position x + (coeff * barLength)) @ handle position y
 ]
 
 { #category : 'api - transformations' }
 ICMixerFader >> valueToY: aNumber [
 
-	| dist valueDiff coeff |
-	valueDiff := aNumber - minValue.
-	coeff := (valueDiff / (maxValue - minValue)) asFloat.
-	dist := marginLength + barLength - (coeff * barLength).
+	| coeff |
 	self forceLocalLayout.
-	"This is needed so handle position != 0"
-	^ handle position x @ dist
+	coeff := ((aNumber - minValue) / (maxValue - minValue)) asFloat.
+	^ handle position x @ (bar position y + barLength - (coeff * barLength))
 ]
 
 { #category : 'accessing' }

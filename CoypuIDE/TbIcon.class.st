@@ -41,12 +41,11 @@ container openInSpace.
 TbIcon >> initialize [
 
 	super initialize.
-	self background: (Color green alpha:0.0).
-	self padding: (BlInsets all:0).
-	self size: 50@40.
+	self background: (Color green alpha: 0.0).
+	self padding: (BlInsets all: 0).
+	self extent: 50 @ 40.
 	self layout: BlFrameLayout new.
-	self initializeIcon.
-
+	self initializeIcon
 ]
 
 { #category : 'initialization' }

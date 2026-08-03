@@ -177,9 +177,10 @@ TbWidget_RunStop >> initializeLayout [
 
 { #category : 'initialization' }
 TbWidget_RunStop >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

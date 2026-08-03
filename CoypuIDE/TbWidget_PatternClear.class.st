@@ -141,9 +141,10 @@ TbWidget_PatternClear >> initializeLayout [
 
 { #category : 'initialization' }
 TbWidget_PatternClear >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

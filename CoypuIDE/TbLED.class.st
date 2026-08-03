@@ -59,41 +59,39 @@ TbLED >> initialize [
 ]
 
 { #category : 'initialization' }
-TbLED >> initializeIndicator [	
+TbLED >> initializeIndicator [
 	"This method initializes the led indicator"
-	|e|
+
+	| e |
 	self indicator: (BlElement new
-            geometry: BlCircleGeometry new;
-				background: (self offColor alpha:1.0);
-            size: 20@20;
-				layout: BlFrameLayout new;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTop.
-				]).
-	
-	e:= BlElement new
-            geometry: BlCircleGeometry new;
-				background: (Color veryLightGray alpha:1.0);
-            size: 5@5;
-				transformDo: [ :t|
-					t translateBy: -4@ -4.
-		 		];
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				].
-			
+			 geometry: BlCircleGeometry new;
+			 background: (self offColor alpha: 1.0);
+			 extent: 20 @ 20;
+			 layout: BlFrameLayout new;
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignTop ]).
+
+	e := BlElement new
+		     geometry: BlCircleGeometry new;
+		     background: (Color veryLightGray alpha: 1.0);
+		     extent: 5 @ 5;
+		     transformDo: [ :t | t translateBy: -4 @ -4 ];
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignCenter ].
+
 	indicator addChild: e.
-	self addChild: self indicator.
+	self addChild: self indicator
 ]
 
 { #category : 'initialization' }
 TbLED >> initializeWidget [
-"This method initializes the widget"
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+	"This method initializes the widget"
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

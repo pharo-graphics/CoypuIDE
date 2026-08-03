@@ -149,9 +149,10 @@ TbWidget_WriteNext >> initializeLayout [
 
 { #category : 'initialization' }
 TbWidget_WriteNext >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

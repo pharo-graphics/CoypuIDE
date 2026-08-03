@@ -125,284 +125,491 @@ Tp33_OnlyUI >> initialize [
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeBackground [
-	|l h|
+
+	| l h |
 	"self border: (BlBorder builder paint: self color4 ; width: 10; build)."
-	l:= BlElement new
-	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		background: self color2;
-		size:1540@360;
-		"border: (BlBorder builder paint: self color1; width: 15; build);"
-		effect: (BlGaussianShadowEffect color: (self color4 alpha:1)   offset: 2@10  width: 50);
-		constraintsDo: [ :c| 
-			c frame horizontal alignCenter.
-			c frame vertical alignBottom.
-			 ];
-		transformDo: [ :t| 
-			t translateBy: 0@ -10.
-			 ].
-	h:= BlElement new
-	 	geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		background: self color2;
-		size:1540@360;
-		"border: (BlBorder builder paint: self color1; width: 15; build);"
-		effect: (BlGaussianShadowEffect color: (self color4 alpha:1)   offset: 30@30  width: 50);
-		constraintsDo: [ :c| 
-			c frame horizontal alignCenter.
-			c frame vertical alignBottom.
-			 ];
-		transformDo: [ :t| 
-			t translateBy: 0@ -10.
-			 ].
-	self addChildren:{l.h}
+	l := BlElement new
+		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		     background: self color2;
+		     extent: 1540 @ 360;
+		     "border: (BlBorder builder paint: self color1; width: 15; build);"
+		     effect: (BlGaussianShadowEffect
+				      color: (self color4 alpha: 1)
+				      offset: 2 @ 10
+				      width: 50);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignBottom ];
+		     transformDo: [ :t | t translateBy: 0 @ -10 ].
+	h := BlElement new
+		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		     background: self color2;
+		     size: 1540 @ 360;
+		     "border: (BlBorder builder paint: self color1; width: 15; build);"
+		     effect: (BlGaussianShadowEffect
+				      color: (self color4 alpha: 1)
+				      offset: 30 @ 30
+				      width: 50);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignBottom ];
+		     transformDo: [ :t | t translateBy: 0 @ -10 ].
+	self addChildren: {
+			l.
+			h }
 ]
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeDialTexts [
-	|l1 l2 l3 l4 l5 l6 l7 l8 t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12 t13 t14 t15 t16 t17|
-	
-	l1:= BlElement new
-	geometry: (BlPolylineGeometry vertices: {(70 @ 10). (10 @
- 10). (10 @ 45).(40 @ 45) });
-	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -435@ -175.].
-		
-	l2:= BlElement new
-	geometry: (BlPolylineGeometry vertices: {(40 @ 10). (5 @
- 10). ( 5@ 50).(40 @ 50) });
-	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -445@ -115.].
-	l3:= BlElement new
-	geometry: (BlPolylineGeometry vertices: {(20 @ 10). (70 @
- 10). (70 @ 45).(50 @ 45) });
-	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -315@ -175.].
-	l4:= BlElement new
-	geometry: (BlPolylineGeometry vertices: {(5 @ 10). (40 @
- 10). ( 40@ 30) });
-	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -265@ -115.].
-	
-	l5:= BlElement new
-	geometry: (BlPolylineGeometry vertices: {(10 @ 10). (85 @
- 10). (85 @ 45).(40 @ 45) });
-	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -50@ -160.].
-		
-	l6:= BlElement new
-	geometry: (BlPolylineGeometry vertices: {(75 @ 10). (85 @
- 10). (85 @ 45).(65 @ 45) });
-	border:(BlBorder paint: (Color veryVeryDarkGray) width: 1.5);
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -50@ -90.].
-	l7:= BlElement new
-	geometry: BlRectangleGeometry new;
-	size:40@1.5;
-	background:Color veryVeryDarkGray;
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 30@ -157.].
-	l8:= BlElement new
-	geometry: BlRectangleGeometry new;
-	size:10@1.5;
-	background:Color veryVeryDarkGray;
-	constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 15@ -87.].
-	
-	t1:=BlTextElement new
-		text: (self configuredString: 'WRITE' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -40@ -175.].
-	t2:=BlTextElement new
-		text: (self configuredString: 'PLAY' size: 16 color:(self color1 ) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -20@ -140.].
-	
-	t3:=BlTextElement new
-		text: (self configuredString: 'PLAY' size: 16 color:(Color veryVeryDarkGray ));
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -20@ -105.].
-	t4:=BlTextElement new
-		text: (self configuredString: 'WRITE' size: 16 color:(Color veryVeryDarkGray ));
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -37@ -72.].
-	
-	t5:=BlTextElement new
-		text: (self configuredString: 'TRACK' size: 16 color:(self color1 ) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: 50@ -158.].
-		
-	t6:=BlTextElement new
-		text: (self configuredString: 'PATTERN' size: 16 color:(Color veryVeryDarkGray ));
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: 55@ -88.].
-		
-	t7:=BlTextElement new
-		text: (self configuredString: ' 4 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -398@ -189.].
-	t8:=BlTextElement new
-		text: (self configuredString: '3 ' size: 16 color:(self color1 ) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -427@ -158.].
-	t9:=BlTextElement new
-		text: (self configuredString: '2 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -437@ -127.].
-	t10:=BlTextElement new
-		text: (self configuredString: '1 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -437@ -95.].
-		
-	
-	t11:=BlTextElement new
-		text: (self configuredString: ' 5 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -315@ -189.].
-	t12:=BlTextElement new
-		text: (self configuredString: '6 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -289@ -158.].
-	t13:=BlTextElement new
-		text: (self configuredString: '7 ' size: 16 color:(self color1) back:Color veryVeryDarkGray);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -278@ -127.].
-		
-		
-	t14:=BlTextElement new
-		text: (self configuredString: 'II' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
-		border:(BlBorder paint: (self color1) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -428@ -189.].
-	t15:=BlTextElement new
-		text: (self configuredString: 'III' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
-		border:(BlBorder paint: (self color1) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -290@ -189.].
-	t16:=BlTextElement new
-		text: (self configuredString: 'I' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
-		border:(BlBorder paint: (self color1) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -464@ -112.].
-	t17:=BlTextElement new
-		text: (self configuredString: 'IV' size: 16 color:(Color veryVeryDarkGray ) back:self color1);
-		border:(BlBorder paint: (self color1) width: 7);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter.  ];
-		transformDo:[:t| t translateBy: -252@ -112.].
+
+	| l1 l2 l3 l4 l5 l6 l7 l8 t1 t2 t3 t4 t5 t6 t7 t8 t9 t10 t11 t12 t13 t14 t15 t16 t17 |
+	l1 := BlElement new
+		      geometry: (BlPolylineGeometry vertices: {
+						       (70 @ 10).
+						       (10 @ 10).
+						       (10 @ 45).
+						       (40 @ 45) });
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 1.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -435 @ -175 ].
+
+	l2 := BlElement new
+		      geometry: (BlPolylineGeometry vertices: {
+						       (40 @ 10).
+						       (5 @ 10).
+						       (5 @ 50).
+						       (40 @ 50) });
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 1.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -445 @ -115 ].
+	l3 := BlElement new
+		      geometry: (BlPolylineGeometry vertices: {
+						       (20 @ 10).
+						       (70 @ 10).
+						       (70 @ 45).
+						       (50 @ 45) });
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 1.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -315 @ -175 ].
+	l4 := BlElement new
+		      geometry: (BlPolylineGeometry vertices: {
+						       (5 @ 10).
+						       (40 @ 10).
+						       (40 @ 30) });
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 1.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -265 @ -115 ].
+
+	l5 := BlElement new
+		      geometry: (BlPolylineGeometry vertices: {
+						       (10 @ 10).
+						       (85 @ 10).
+						       (85 @ 45).
+						       (40 @ 45) });
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 1.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -50 @ -160 ].
+
+	l6 := BlElement new
+		      geometry: (BlPolylineGeometry vertices: {
+						       (75 @ 10).
+						       (85 @ 10).
+						       (85 @ 45).
+						       (65 @ 45) });
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 1.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -50 @ -90 ].
+	l7 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      extent: 40 @ 1.5;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 30 @ -157 ].
+	l8 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 10 @ 1.5;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 15 @ -87 ].
+
+	t1 := BlTextElement new
+		      text: (self
+				       configuredString: 'WRITE'
+				       size: 16
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -40 @ -175 ].
+	t2 := BlTextElement new
+		      text: (self
+				       configuredString: 'PLAY'
+				       size: 16
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -20 @ -140 ].
+
+	t3 := BlTextElement new
+		      text:
+			      (self
+				       configuredString: 'PLAY'
+				       size: 16
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -20 @ -105 ].
+	t4 := BlTextElement new
+		      text:
+			      (self
+				       configuredString: 'WRITE'
+				       size: 16
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -37 @ -72 ].
+
+	t5 := BlTextElement new
+		      text: (self
+				       configuredString: 'TRACK'
+				       size: 16
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 50 @ -158 ].
+
+	t6 := BlTextElement new
+		      text: (self
+				       configuredString: 'PATTERN'
+				       size: 16
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 55 @ -88 ].
+
+	t7 := BlTextElement new
+		      text: (self
+				       configuredString: ' 4 '
+				       size: 16
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -398 @ -189 ].
+	t8 := BlTextElement new
+		      text: (self
+				       configuredString: '3 '
+				       size: 16
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -427 @ -158 ].
+	t9 := BlTextElement new
+		      text: (self
+				       configuredString: '2 '
+				       size: 16
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -437 @ -127 ].
+	t10 := BlTextElement new
+		       text: (self
+				        configuredString: '1 '
+				        size: 16
+				        color: self color1
+				        back: Color veryVeryDarkGray);
+		       border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -437 @ -95 ].
 
 
-		
-	self addChildren: { 
-		l1.l2.l3.l4.l5.l6.l7.l8.
-		
-		t1.t2.t3.t4.t5.t6.
-		
-		t7.t8.t9.t10.t11.t12.t13.
-		t14.t15.t16.t17.
-	 }
+	t11 := BlTextElement new
+		       text: (self
+				        configuredString: ' 5 '
+				        size: 16
+				        color: self color1
+				        back: Color veryVeryDarkGray);
+		       border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -315 @ -189 ].
+	t12 := BlTextElement new
+		       text: (self
+				        configuredString: '6 '
+				        size: 16
+				        color: self color1
+				        back: Color veryVeryDarkGray);
+		       border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -289 @ -158 ].
+	t13 := BlTextElement new
+		       text: (self
+				        configuredString: '7 '
+				        size: 16
+				        color: self color1
+				        back: Color veryVeryDarkGray);
+		       border: (BlBorder paint: Color veryVeryDarkGray width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -278 @ -127 ].
+
+
+	t14 := BlTextElement new
+		       text: (self
+				        configuredString: 'II'
+				        size: 16
+				        color: Color veryVeryDarkGray
+				        back: self color1);
+		       border: (BlBorder paint: self color1 width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -428 @ -189 ].
+	t15 := BlTextElement new
+		       text: (self
+				        configuredString: 'III'
+				        size: 16
+				        color: Color veryVeryDarkGray
+				        back: self color1);
+		       border: (BlBorder paint: self color1 width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -290 @ -189 ].
+	t16 := BlTextElement new
+		       text: (self
+				        configuredString: 'I'
+				        size: 16
+				        color: Color veryVeryDarkGray
+				        back: self color1);
+		       border: (BlBorder paint: self color1 width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -464 @ -112 ].
+	t17 := BlTextElement new
+		       text: (self
+				        configuredString: 'IV'
+				        size: 16
+				        color: Color veryVeryDarkGray
+				        back: self color1);
+		       border: (BlBorder paint: self color1 width: 7);
+		       outskirts: BlOutskirts centered;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: -252 @ -112 ].
+
+
+
+	self addChildren: {
+			l1.
+			l2.
+			l3.
+			l4.
+			l5.
+			l6.
+			l7.
+			l8.
+
+			t1.
+			t2.
+			t3.
+			t4.
+			t5.
+			t6.
+
+			t7.
+			t8.
+			t9.
+			t10.
+			t11.
+			t12.
+			t13.
+			t14.
+			t15.
+			t16.
+			t17 }
 ]
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeGridlines [
-	|l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13|
-	l1:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -340@180.].
-	l2:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -255@180.].
-	l3:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -170@180.].
-	l4:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -85@180.].
-	l5:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 0@180.].
-	l6:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 85@180.].
-	l7:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 170@180.].
-	l8:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@230;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 255@180.].
-	l9:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@166;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 338@242.].
-	l10:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@150;background: Color darkGray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 420@234.].
-	l11:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@150;background: Color gray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 502@234.].
-	l12:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:2@206;background: Color gray;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 583.5@262.].
-		
-	l13:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 1);
-		size:1010@2;background: Color gray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 343@ -25.].
-	self addChildren:{
-		l1.l2.l3.l4.l5.l6.l7.l8.
-		
-		l9.l10.l11.l12.l13.
-	}
+
+	| l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13 |
+	l1 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      extent: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -340 @ 180 ].
+	l2 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -255 @ 180 ].
+	l3 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -170 @ 180 ].
+	l4 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -85 @ 180 ].
+	l5 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 0 @ 180 ].
+	l6 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 85 @ 180 ].
+	l7 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 170 @ 180 ].
+	l8 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 230;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 255 @ 180 ].
+	l9 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		      size: 2 @ 166;
+		      background: Color darkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 338 @ 242 ].
+	l10 := BlElement new
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		       size: 2 @ 150;
+		       background: Color darkGray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: 420 @ 234 ].
+	l11 := BlElement new
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		       size: 2 @ 150;
+		       background: Color gray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: 502 @ 234 ].
+	l12 := BlElement new
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		       size: 2 @ 206;
+		       background: Color gray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignCenter.
+				       c frame vertical alignCenter ];
+		       transformDo: [ :t | t translateBy: 583.5 @ 262 ].
+
+	l13 := BlElement new
+		       geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
+		       size: 1010 @ 2;
+		       background: Color gray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignLeft.
+				       c frame vertical alignBottom ];
+		       transformDo: [ :t | t translateBy: 343 @ -25 ].
+	self addChildren: {
+			l1.
+			l2.
+			l3.
+			l4.
+			l5.
+			l6.
+			l7.
+			l8.
+
+			l9.
+			l10.
+			l11.
+			l12.
+			l13 }
 ]
 
 { #category : 'initialization' }
@@ -523,63 +730,92 @@ Tp33_OnlyUI >> initializeLEDs [
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeLabels [
-	|l1 l2 l3 t1 t2 t3|.
-	l1:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:3@120;background: Color veryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 360@5.].
-		
-	l2:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:3@120;background: Color veryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -360@5.].
-	
-	l3:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:1520@4;background: (self color4 alpha:0.5);
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop.];
-		transformDo:[:t| t translateBy: 0@145.].
+
+	| l1 l2 l3 t1 t2 t3 |
+	l1 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      extent: 3 @ 120;
+		      background: Color veryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignTop ];
+		      transformDo: [ :t | t translateBy: 360 @ 5 ].
+
+	l2 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      size: 3 @ 120;
+		      background: Color veryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignTop ];
+		      transformDo: [ :t | t translateBy: -360 @ 5 ].
+
+	l3 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      size: 1520 @ 4;
+		      background: (self color4 alpha: 0.5);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignTop ];
+		      transformDo: [ :t | t translateBy: 0 @ 145 ].
 	self label_Phausto: (TbLabel_Phausto new
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 10@60.]).
+			 constraintsDo: [ :c |
+					 c frame horizontal alignLeft.
+					 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 10 @ 60 ]).
 	self label_BassLine: (TbLabel_BassLine new
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: -40@60.]).
+			 constraintsDo: [ :c |
+					 c frame horizontal alignRight.
+					 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: -40 @ 60 ]).
 	self label_TP33: (TbLabel_TP33 new
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 280@180.]).
-	
-	t1:=  BlTextElement new  
-		text: (self configuredString: 'SLOW                                FAST' 
-		size: 16 
-		color:Color veryVeryDarkGray );  
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 80@ -48.]. 
-	t2:=  BlTextElement new  
-		text: (self configuredString: 'POWER SW  OFF                               MAX' 
-		size: 16 
-		color:Color veryVeryDarkGray );
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -100@ -48.]. 
-	t3:=  BlTextElement new  
-		text: (self configuredString: 'TRACK' 
-		size: 20
-		color:(self color1)
-		back: Color veryVeryDarkGray
-		);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 8);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignTop. ];
-		transformDo:[:t| t translateBy: 315@ 165.]. 
-	self addChildren:{
-		l1.l2.l3.
-		self label_Phausto.
-		self label_BassLine.
-		self label_TP33.
-		t1.t2.t3.
-	}.
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignTop ];
+			 transformDo: [ :t | t translateBy: 280 @ 180 ]).
+
+	t1 := BlTextElement new
+		      text: (self
+				       configuredString:
+					       'SLOW                                FAST'
+				       size: 16
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 80 @ -48 ].
+	t2 := BlTextElement new
+		      text: (self
+				       configuredString:
+					       'POWER SW  OFF                               MAX'
+				       size: 16
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -100 @ -48 ].
+	t3 := BlTextElement new
+		      text: (self
+				       configuredString: 'TRACK'
+				       size: 20
+				       color: self color1
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 8);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignTop ];
+		      transformDo: [ :t | t translateBy: 315 @ 165 ].
+	self addChildren: {
+			l1.
+			l2.
+			l3.
+			self label_Phausto.
+			self label_BassLine.
+			self label_TP33.
+			t1.
+			t2.
+			t3 }
 ]
 
 { #category : 'initialization' }
@@ -688,186 +924,290 @@ Tp33_OnlyUI >> initializeNotes [
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeSymbols [
-	|r1 r2 r3 s1 s2 s3 b1 t1 t2 t3 t4|
-	r1:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 2);
-		size:700@28;background: Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -510@54.].
-	r2:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 8);
-		size:745@35;background: Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -515@ -65.].
-	r3:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius: 8);
-		size:165@35;background: Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignRight. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -186@ -65.].
-	b1:= BlElement new
-	 	geometry:(BlRoundedRectangleGeometry cornerRadius:0);
-		size:64@40;background: Color veryVeryDarkGray ;
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -458@ -95.].
-	s1:=  BlTextElement new
-		text: (self configuredString: 'C      C#      D      D#      E                 F       F#      G       G#       A       A#       B                 C' size: 20);
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: -90@52.].
-	s2:=  BlTextElement new
-		text: (self configuredString: '1               2               3               4               5               6               7               8' size: 24 color:(Color orange));
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -85@ -75.].
-	s3:=  BlTextElement new
-		text: (self configuredString: 'PATTERN' size: 18 color:(Color orange));
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -445@ -75.].
-	t1:=  BlTextElement new
-		text: (self configuredString: 'A                       B' size: 14 color:(Color orange));
-		constraintsDo: [:c| c frame horizontal alignRight . c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -230@ -87.].
-	t2:=  BlTextElement new
-		text: (self configuredString: 'PATT.   SECTION' size: 14 color:(Color orange));
-		constraintsDo: [:c| c frame horizontal alignRight . c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: -220@ -70.].
-	t3:=  BlTextElement new
-		text: (self configuredString: 'STEP' size: 18 color:(Color veryVeryDarkGray));
-		constraintsDo: [:c| c frame horizontal alignCenter . c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 295@ -75.].
-	t4:=  TbIcon_Selector0 new
-		constraintsDo: [:c| c frame horizontal alignCenter . c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 375@ -60.].
+
+	| r1 r2 r3 s1 s2 s3 b1 t1 t2 t3 t4 |
+	r1 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		      extent: 700 @ 28;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -510 @ 54 ].
+	r2 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
+		      size: 745 @ 35;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -515 @ -65 ].
+	r3 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
+		      size: 165 @ 35;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -186 @ -65 ].
+	b1 := BlElement new
+		      geometry: (BlRoundedRectangleGeometry cornerRadius: 0);
+		      size: 64 @ 40;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -458 @ -95 ].
+	s1 := BlTextElement new
+		      text: (self
+				       configuredString:
+					       'C      C#      D      D#      E                 F       F#      G       G#       A       A#       B                 C'
+				       size: 20);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: -90 @ 52 ].
+	s2 := BlTextElement new
+		      text: (self
+				       configuredString:
+					       '1               2               3               4               5               6               7               8'
+				       size: 24
+				       color: Color orange);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -85 @ -75 ].
+	s3 := BlTextElement new
+		      text:
+			      (self
+				       configuredString: 'PATTERN'
+				       size: 18
+				       color: Color orange);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -445 @ -75 ].
+	t1 := BlTextElement new
+		      text: (self
+				       configuredString: 'A                       B'
+				       size: 14
+				       color: Color orange);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -230 @ -87 ].
+	t2 := BlTextElement new
+		      text:
+			      (self
+				       configuredString: 'PATT.   SECTION'
+				       size: 14
+				       color: Color orange);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignRight.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: -220 @ -70 ].
+	t3 := BlTextElement new
+		      text:
+			      (self
+				       configuredString: 'STEP'
+				       size: 18
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 295 @ -75 ].
+	t4 := TbIcon_Selector0 new
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 375 @ -60 ].
 
 
-	self addChildren: { 
-		
-		r1.r2.r3.b1.s1.s2.s3.t1.t2.t3.t4.
-		
-	
-	 }
+	self addChildren: {
+			r1.
+			r2.
+			r3.
+			b1.
+			s1.
+			s2.
+			s3.
+			t1.
+			t2.
+			t3.
+			t4 }
 ]
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeTexts [
-   |t1 t2 t3 t4 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 tf |.
-	t1:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:10@38;
-		background:self color2;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 340@ -27.].
-	t2:=  BlTextElement new  
-		text: (self configuredString: 'SELECTOR' 
-		size: 18
-		color:(Color veryVeryDarkGray )
-		);
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 270@ -40.].  
-	t3:=  BlTextElement new  
-		text: (self configuredString: 'DEL' 
-		size: 16
-		color:(Color white)
-		back: Color veryVeryDarkGray
-		);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 2);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 417@ 180.].
-	t4:=  BlTextElement new  
-		text: (self configuredString: 'INS' 
-		size: 16
-		color:(Color white)
-		back: Color veryVeryDarkGray
-		);
-		border:(BlBorder paint: (Color veryVeryDarkGray) width: 2);
-		outskirts: BlOutskirts centered;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignCenter. ];
-		transformDo:[:t| t translateBy: 505@ 180.].
-	
-	b1:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 368@ -32.].
-	b2:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 453@ -32.].
-	b3:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 538@ -32.].
-	b4:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 623@ -32.].
-	b5:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 708@ -32.].
-	b6:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 793@ -32.].
-	b7:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 878@ -32.].
-	b8:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 960@ -32.].
-	b9:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 1045@ -32.].
-	b10:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:40@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 1124@ -32.].
-	b11:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:50@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 1207@ -32.].
-	b12:=  BlElement new
-		geometry: BlRectangleGeometry new;
-		size:50@24;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [:c| c frame horizontal alignLeft. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 1282@ -32.].
-		
-	tf:=  BlTextElement new
-		text: (self configuredString: '1               2               3               4               5               6               7               8               9              0             100        200' size: 24 color:(Color white ));
-		constraintsDo: [:c| c frame horizontal alignCenter. c frame vertical alignBottom. ];
-		transformDo:[:t| t translateBy: 85@ -37.].
-	self addChildren:{
-		t1.t2.
-		b1.b2.b3. b4.b5.b6.b7.b8.b9.b10.b11.b12.
-		t3.t4.
-		tf.
-	}.
-	
-	
+
+	| t1 t2 t3 t4 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 tf |
+	t1 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      extent: 10 @ 38;
+		      background: self color2;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 340 @ -27 ].
+	t2 := BlTextElement new
+		      text: (self
+				       configuredString: 'SELECTOR'
+				       size: 18
+				       color: Color veryVeryDarkGray);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 270 @ -40 ].
+	t3 := BlTextElement new
+		      text: (self
+				       configuredString: 'DEL'
+				       size: 16
+				       color: Color white
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 2);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 417 @ 180 ].
+	t4 := BlTextElement new
+		      text: (self
+				       configuredString: 'INS'
+				       size: 16
+				       color: Color white
+				       back: Color veryVeryDarkGray);
+		      border: (BlBorder paint: Color veryVeryDarkGray width: 2);
+		      outskirts: BlOutskirts centered;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignCenter ];
+		      transformDo: [ :t | t translateBy: 505 @ 180 ].
+
+	b1 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 368 @ -32 ].
+	b2 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 453 @ -32 ].
+	b3 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 538 @ -32 ].
+	b4 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 623 @ -32 ].
+	b5 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 708 @ -32 ].
+	b6 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 793 @ -32 ].
+	b7 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 878 @ -32 ].
+	b8 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 960 @ -32 ].
+	b9 := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      size: 40 @ 24;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 1045 @ -32 ].
+	b10 := BlElement new
+		       geometry: BlRectangleGeometry new;
+		       size: 40 @ 24;
+		       background: Color veryVeryDarkGray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignLeft.
+				       c frame vertical alignBottom ];
+		       transformDo: [ :t | t translateBy: 1124 @ -32 ].
+	b11 := BlElement new
+		       geometry: BlRectangleGeometry new;
+		       size: 50 @ 24;
+		       background: Color veryVeryDarkGray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignLeft.
+				       c frame vertical alignBottom ];
+		       transformDo: [ :t | t translateBy: 1207 @ -32 ].
+	b12 := BlElement new
+		       geometry: BlRectangleGeometry new;
+		       size: 50 @ 24;
+		       background: Color veryVeryDarkGray;
+		       constraintsDo: [ :c |
+				       c frame horizontal alignLeft.
+				       c frame vertical alignBottom ];
+		       transformDo: [ :t | t translateBy: 1282 @ -32 ].
+
+	tf := BlTextElement new
+		      text: (self
+				       configuredString:
+					       '1               2               3               4               5               6               7               8               9              0             100        200'
+				       size: 24
+				       color: Color white);
+		      constraintsDo: [ :c |
+				      c frame horizontal alignCenter.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 85 @ -37 ].
+	self addChildren: {
+			t1.
+			t2.
+			b1.
+			b2.
+			b3.
+			b4.
+			b5.
+			b6.
+			b7.
+			b8.
+			b9.
+			b10.
+			b11.
+			b12.
+			t3.
+			t4.
+			tf }
 ]
 
 { #category : 'initialization' }
@@ -882,10 +1222,11 @@ Tp33_OnlyUI >> initializeUpperhalf [
 
 { #category : 'initialization' }
 Tp33_OnlyUI >> initializeWidget [
-	self size: self widgetSize.
-	self padding: (BlInsets all:10).
+
+	self extent: self widgetSize.
+	self padding: (BlInsets all: 10).
 	self background: self color1.
-	self layout: BlFrameLayout new.
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

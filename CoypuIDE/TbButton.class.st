@@ -183,31 +183,32 @@ TbButton >> initialize [
 
 { #category : 'initialization' }
 TbButton >> initializeButton [
-	|s|
+
+	| s |
 	self button: (BlElement new
-            geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-					"background: self switchOnColor;"
-				background: (self color4 alpha:0.7);
-				transformDo: [ :t|
-					t translateBy: 0@ -4 ];
-				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
-            size: 30@60 ;
-	         margin: (BlInsets all: 10);
-				layout: BlFrameLayout new;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignBottom.
-				]).
-	s:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOffColor;
-            size: 25@50 ;
-	         margin: (BlInsets all: 2);
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTop.
-				].
-	button addChild: s.
+			 geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+			 "background: self switchOnColor;"background:
+				 (self color4 alpha: 0.7);
+			 transformDo: [ :t | t translateBy: 0 @ -4 ];
+			 effect: (BlGaussianShadowEffect
+					  color: self shadowColor
+					  offset: 0 @ 4
+					  width: 10);
+			 extent: 30 @ 60;
+			 margin: (BlInsets all: 10);
+			 layout: BlFrameLayout new;
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignBottom ]).
+	s := BlElement new
+		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		     background: self switchOffColor;
+		     extent: 25 @ 50;
+		     margin: (BlInsets all: 2);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignTop ].
+	button addChild: s
 ]
 
 { #category : 'evaluating' }
@@ -232,32 +233,32 @@ TbButton >> initializeEvents [
 ]
 
 { #category : 'initialization' }
-TbButton >> initializeIndicator [	
-	|e|
+TbButton >> initializeIndicator [
+
+	| e |
 	self indicator: (BlElement new
-            geometry: BlCircleGeometry new;
-				background: (self offColor alpha:1.0);
-            size: 20@20;
-				layout: BlFrameLayout new;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTop.
-				]).
-	
-	e:= BlElement new
-            geometry: BlCircleGeometry new;
-				background: (Color veryLightGray alpha:1.0);
-            size: 5@5;
-				transformDo: [ :t|
-					t translateBy: -4@ -4.
-		 		];
-				effect: (BlGaussianShadowEffect color: (Color white alpha:1.0)   offset: 0@ 0  width: 7);
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				].
-			
-	indicator addChild: e.
+			 geometry: BlCircleGeometry new;
+			 background: (self offColor alpha: 1.0);
+			 extent: 20 @ 20;
+			 layout: BlFrameLayout new;
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignTop ]).
+
+	e := BlElement new
+		     geometry: BlCircleGeometry new;
+		     background: (Color veryLightGray alpha: 1.0);
+		     extent: 5 @ 5;
+		     transformDo: [ :t | t translateBy: -4 @ -4 ];
+		     effect: (BlGaussianShadowEffect
+				      color: (Color white alpha: 1.0)
+				      offset: 0 @ 0
+				      width: 7);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignCenter ].
+
+	indicator addChild: e
 ]
 
 { #category : 'evaluating' }
@@ -291,15 +292,16 @@ TbButton >> initializeSwitch [
 
 { #category : 'evaluating' }
 TbButton >> initializeWidget [
-	self size: widgetSize.
+
+	self extent: widgetSize.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	self padding: (BlInsets top: 15 right:5  bottom:15  left:5 ).
+	self padding: (BlInsets
+			 top: 15
+			 right: 5
+			 bottom: 15
+			 left: 5).
 	self background: self backColor.
-	self layout: BlFrameLayout new.
-
-
-
-
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'evaluating' }

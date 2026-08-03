@@ -38,36 +38,31 @@ container openInSpace.
 ]
 
 { #category : 'evaluating' }
-TbTriangleLED >> initializeIndicator [	
-	|e|
+TbTriangleLED >> initializeIndicator [
+
+	| e |
 	self indicator: (BlElement new
-            geometry: BlTriangleGeometry new;
-				background: (self offColor alpha:1.0);
-            size: 20@20;
-				layout: BlFrameLayout new;
-				transformDo: [ :t|
-					t rotateBy: -90 ];
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTop.
-				]).
-	
-	e:= BlElement new
-            geometry: BlTriangleGeometry new;
-				background: (Color veryDarkGray alpha:1.0);
-            size: 5@5;
-				transformDo: [ :t|
-					
-					t translateBy: 2@ -2.
-		 		];
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				].
-			
+			 geometry: BlTriangleGeometry new;
+			 background: (self offColor alpha: 1.0);
+			 extent: 20 @ 20;
+			 layout: BlFrameLayout new;
+			 transformDo: [ :t | t rotateBy: -90 ];
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignTop ]).
+
+	e := BlElement new
+		     geometry: BlTriangleGeometry new;
+		     background: (Color veryDarkGray alpha: 1.0);
+		     extent: 5 @ 5;
+		     transformDo: [ :t | t translateBy: 2 @ -2 ];
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignCenter ].
+
 	indicator addChild: e.
-	
-	self addChild: self indicator.
+
+	self addChild: self indicator
 ]
 
 { #category : 'evaluating' }

@@ -103,96 +103,91 @@ TbWidget_Function >> initializeEvents [
 
 { #category : 'initialization' }
 TbWidget_Function >> initializeLayout [
-	|label l1 l2 l3 bg|
-	
-	self border: (BlBorder paint: (Color gray) width: 2).
-	self padding:(BlInsets top:10 right:10  bottom:30  left:10 ).
+
+	| label l1 l2 l3 bg |
+	self border: (BlBorder paint: Color gray width: 2).
+	self padding: (BlInsets
+			 top: 10
+			 right: 10
+			 bottom: 30
+			 left: 10).
 	l1 := BlTextElement new.
-	l1 text: (self configuredString: 'FUNCTION' size: 18);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignLeft.
-		c frame vertical alignTop.
-		].
-	l1 transformDo: [ :t|
-		t translateBy:0@ 12. 
-		].
-	
+	l1
+		text: (self configuredString: 'FUNCTION' size: 18);
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+				c frame horizontal alignLeft.
+				c frame vertical alignTop ].
+	l1 transformDo: [ :t | t translateBy: 0 @ 12 ].
+
 	l2 := BlTextElement new.
-	l2 text: (self configuredString: 'NORMAL' size: 14);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignRight.
-		c frame vertical alignCenter.
-		].
-	l2 transformDo: [ :t|
-		t translateBy:5@ -34. 
-		].
-	
+	l2
+		text: (self configuredString: 'NORMAL' size: 14);
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+				c frame horizontal alignRight.
+				c frame vertical alignCenter ].
+	l2 transformDo: [ :t | t translateBy: 5 @ -34 ].
+
 	l3 := BlTextElement new.
-	l3 text: (self configuredString: 'MODE' size: 14);
-	 	padding: (BlInsets all:5);
-		constraintsDo: [ :c | 
-		c frame horizontal alignRight.
-		c frame vertical alignCenter.
-		].
-	l3 transformDo: [ :t|
-		t translateBy:-5@ -20. 
-		].
+	l3
+		text: (self configuredString: 'MODE' size: 14);
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c |
+				c frame horizontal alignRight.
+				c frame vertical alignCenter ].
+	l3 transformDo: [ :t | t translateBy: -5 @ -20 ].
 
 
-	
-	
+
+
 	label := BlTextElement new.
-	label text: (self configuredStringDark: 'BAR' size:16).
-	label constraintsDo: [ :c | 
-		c frame horizontal alignLeft.
-		c frame vertical alignBottom.
-		].
-	label transformDo: [ :t|
-		t translateBy:15@ -25. 
-		].
-	
-	bg:= BlElement new
-		geometry: BlRectangleGeometry new;
-		size:45@25;
-		background:Color veryVeryDarkGray;
-		constraintsDo: [ :c | 
-		c frame horizontal alignLeft.
-		c frame vertical alignBottom.
-		];
-	 	transformDo: [ :t|
-		t translateBy:5@ -17. 
-		].
-	
-	self switch: (TbSwitch new).
-	switch constraintsDo: [ :c |
-					c frame horizontal alignLeft.
-					c frame vertical alignCenter.
-				];
-		transformDo: [ :t|
-			t translateBy:10@ 0. 
-		].
-	self indicator: (TbLED new).
-	indicator constraintsDo: [ :c |
-					c frame horizontal alignRight.
-					c frame vertical alignTop.
-				];
-				transformDo: [ :t|
-			t translateBy:0@ 0. 
-		].
-	
-	
-	
-	self addChildren: {l1. l2. l3. bg. label.self indicator. self switch}.
-	
+	label text: (self configuredStringDark: 'BAR' size: 16).
+	label constraintsDo: [ :c |
+			c frame horizontal alignLeft.
+			c frame vertical alignBottom ].
+	label transformDo: [ :t | t translateBy: 15 @ -25 ].
+
+	bg := BlElement new
+		      geometry: BlRectangleGeometry new;
+		      extent: 45 @ 25;
+		      background: Color veryVeryDarkGray;
+		      constraintsDo: [ :c |
+				      c frame horizontal alignLeft.
+				      c frame vertical alignBottom ];
+		      transformDo: [ :t | t translateBy: 5 @ -17 ].
+
+	self switch: TbSwitch new.
+	switch
+		constraintsDo: [ :c |
+				c frame horizontal alignLeft.
+				c frame vertical alignCenter ];
+		transformDo: [ :t | t translateBy: 10 @ 0 ].
+	self indicator: TbLED new.
+	indicator
+		constraintsDo: [ :c |
+				c frame horizontal alignRight.
+				c frame vertical alignTop ];
+		transformDo: [ :t | t translateBy: 0 @ 0 ].
+
+
+
+	self addChildren: {
+			l1.
+			l2.
+			l3.
+			bg.
+			label.
+			self indicator.
+			self switch }
 ]
 
 { #category : 'initialization' }
 TbWidget_Function >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }

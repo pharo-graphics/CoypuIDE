@@ -8,39 +8,41 @@ Class {
 
 { #category : 'initialization' }
 TbHorizontalSwitch >> initializeSwitch [
-	|s|
+
+	| s |
 	self switch: (BlElement new
-            geometry:(BlRoundedRectangleGeometry cornerRadius: 4);
-					"background: self switchOnColor;"
-				background: (self color4 alpha:0.7);
-				transformDo: [ :t|
-					t translateBy: 0@ -4 ];
-				effect: (BlGaussianShadowEffect color: (self shadowColor)   offset: 0@ 4  width: 10);
-            size: 60@35 ;
-	         margin: (BlInsets all: 10);
-				layout: BlFrameLayout new;
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter.
-				]).
-	s:= BlElement new
-            geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-				background: self switchOffColor;
-            size: 55@25 ;
-	         margin: (BlInsets all: 2);
-           	constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTop.
-				].
+			 geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+			 "background: self switchOnColor;"background:
+				 (self color4 alpha: 0.7);
+			 transformDo: [ :t | t translateBy: 0 @ -4 ];
+			 effect: (BlGaussianShadowEffect
+					  color: self shadowColor
+					  offset: 0 @ 4
+					  width: 10);
+			 extent: 60 @ 35;
+			 margin: (BlInsets all: 10);
+			 layout: BlFrameLayout new;
+			 constraintsDo: [ :c |
+					 c frame horizontal alignCenter.
+					 c frame vertical alignCenter ]).
+	s := BlElement new
+		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+		     background: self switchOffColor;
+		     extent: 55 @ 25;
+		     margin: (BlInsets all: 2);
+		     constraintsDo: [ :c |
+				     c frame horizontal alignCenter.
+				     c frame vertical alignTop ].
 	switch addChild: s.
-	self addChild:self switch. 
+	self addChild: self switch
 ]
 
 { #category : 'initialization' }
 TbHorizontalSwitch >> initializeWidget [
-	self size: widgetSize.
-	self background: (Color gray alpha:0.0).
-	self layout: BlFrameLayout new.
+
+	self extent: widgetSize.
+	self background: (Color gray alpha: 0.0).
+	self layout: BlFrameLayout new
 ]
 
 { #category : 'initialization' }
