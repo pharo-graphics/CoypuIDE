@@ -35,7 +35,9 @@ Class {
 		'centerPosition',
 		'minLabel',
 		'maxLabel',
-		'currentLabel'
+		'currentLabel',
+		'outerRing',
+		'marker'
 	],
 	#category : 'CoypuIDE-slider',
 	#package : 'CoypuIDE',
@@ -92,6 +94,41 @@ ICKnob class >> basicExample [
 	knob openInSpace.
 
 	"knob callBack: [ :v | v inspect ]"
+]
+
+{ #category : 'defaults' }
+ICKnob class >> defaultDiameter [ 
+	"Overridden by subclasses that want a different natural size."
+^ 60
+]
+
+{ #category : 'examples' }
+ICKnob class >> differentSizesExample [ 
+
+	<script>
+	| knobs container space |
+	knobs := #( 48 96 144 ) collect: [ :d |
+		         ((self label: d printString , ' px') diameter: d)
+			         constraintsDo: [ :c | c margin: (BlInsets all: 12) ];
+			         yourself ].
+
+	container := BlElement new
+		             layout: BlLinearLayout horizontal alignCenter;
+		             constraintsDo: [ :c |
+			             c horizontal matchParent.
+			             c vertical matchParent ];
+		             background: Color black;
+		             addChildren: knobs;
+		             yourself.
+
+	space := BlSpace new.
+	space extent: 860 @ 440.
+	space title: 'ICKnob - three sizes'.
+	space root
+		background: Color black;
+		addChild: container.
+	space show
+
 ]
 
 { #category : 'instance creation' }
@@ -196,7 +233,42 @@ ICKnob >> angleToValue [
 	^ mapped asFloat
 ]
 
-{ #category : 'initialization' }
+{ #category : 'size' }
+ICKnob >> applyLabelSizes [
+	| inset |
+	inset := self diameter / 3.
+	minLabel transformDo: [ :t | t translateBy: inset @ inset negated ].
+	maxLabel transformDo: [ :t | t translateBy: inset negated @ inset negated ].
+	currentLabel transformDo: [ :t | t translateBy: 0 @ (self diameter / 6) negated ].
+	{ minLabel. maxLabel. currentLabel. inputLabel } do: [ :l |
+		l ifNotNil: [ l text fontSize: self fontSz ] ]
+]
+
+{ #category : 'size' }
+ICKnob >> applyMarkerSize [
+	| w h |
+	w := self diameter / 6.
+	h := self diameter / 3.
+	marker
+		extent: w @ h;
+		geometry: (BlRoundedRectangleGeometry cornerRadius: w / 2);
+		position: ((self knobSize - w) / 2) @ (self diameter / 12)
+]
+
+{ #category : 'size' }
+ICKnob >> applySize [
+	self extent: self widgetSize asPoint.
+	self padding: (BlInsets all: self diameter / 8).
+	knob extent: self knobSize asPoint.
+	disk extent: self diskSize asPoint.
+	outerRing extent: self outerRingSize asPoint.
+	self applyMarkerSize.
+	self applyLabelSizes.
+	self whenLayoutedDoOnce: [
+		self centerPosition: self positionInSpace + (self extent / 2) ]
+]
+
+{ #category : 'accessing' }
 ICKnob >> backColor [
 	^ (Color veryVeryDarkGray)
 ]
@@ -282,8 +354,8 @@ ICKnob >> diameter [
 
 { #category : 'accessing' }
 ICKnob >> diameter: aNumber [
-
-	diameter := aNumber
+	diameter := aNumber.
+	knob ifNotNil: [ self applySize ]   "no-op during initialize, before elements exist"
 ]
 
 { #category : 'accessing' }
@@ -298,15 +370,14 @@ ICKnob >> disk: anElement [
 	disk := anElement 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> diskColor [ 
 	^ (Color cyan)
 ]
 
-{ #category : 'initialization' }
-ICKnob >> diskSize [
-
-	^ self diameter + 40
+{ #category : 'accessing' }
+ICKnob >> diskSize [       
+ ^ self outerRingSize
 ]
 
 { #category : 'api - operations' }
@@ -320,8 +391,8 @@ ICKnob >> doOperations [
 ]
 
 { #category : 'accessing' }
-ICKnob >> fontSz [
-  ^12
+ICKnob >> fontSz [          
+^ self diameter / 5
 ]
 
 { #category : 'initialization' }
@@ -334,9 +405,7 @@ ICKnob >> initialize [
 	self initializeOuterRing.
 	self initializeValueLabels.
 	self initializeDisks.
-	"self initializeLabel."
-
-	"Here to define the centerPosition once layouted"
+	self applySize.                    "<- new: first sizing pass"
 	self setValue: self minValue.
 	self position: 0 @ 0
 ]
@@ -357,16 +426,14 @@ ICKnob >> initializeDisk [
 
 	self disk: (BlElement new
 			 background: self diskColor;
-			 extent: self diskSize asPoint;
 			 geometry: (BlAnnulusSectorGeometry new
 					  startAngle: -225;
 					  endAngle: -210;
 					  innerRadius: 0.83;
 					  outerRadius: 1);
 			 constraintsDo: [ :c |
-					 c frame horizontal alignCenter.
-					 c frame vertical alignCenter ]). "background: (Color r:63 g:162 b:227 range:255);"
-
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter ]).
 
 	self addChild: self disk
 ]
@@ -406,33 +473,23 @@ ICKnob >> initializeEvents [
 { #category : 'initialization' }
 ICKnob >> initializeGeometry [
 
-	| marker |
-	self extent: (diameter + 100) asPoint.
 	self background: self backColor.
 	self clipChildren: false.
 	self layout: BlFrameLayout new.
-	self padding: (BlInsets all: 7).
-
 
 	self knob: (BlElement new
 			 geometry: BlCircleGeometry new;
-			 extent: self knobSize asPoint;
 			 clipChildren: false;
 			 background: self knobColor;
 			 constraintsDo: [ :c |
-					 c frame horizontal alignCenter.
-					 c frame vertical alignCenter ]).
+				 c frame horizontal alignCenter.
+				 c frame vertical alignCenter ]).
 
 	self addChild: self knob.
 
-
 	marker := BlElement new
-		          extent: 10 @ 20;
-		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-		          geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
 		          background: self markerColor;
-		          position: self knobSize / 2 @ 5.
-	marker zIndex: 100.
+		          zIndex: 100.
 
 	self knob addChild: marker
 ]
@@ -455,12 +512,9 @@ ICKnob >> initializeLabel [
 { #category : 'initialization' }
 ICKnob >> initializeOuterRing [
 
-	| outerRing |
 	outerRing := BlElement new
 		             background: self outerRingColor;
-		             extent: self outerRingSize asPoint;
-		             "effect: (BlGaussianShadowEffect color: Color white offset: 0@ -10  width: 10);"geometry:
-			             (BlAnnulusSectorGeometry new
+		             geometry: (BlAnnulusSectorGeometry new
 				              startAngle: 135;
 				              endAngle: 45;
 				              innerRadius: 0.83;
@@ -468,35 +522,37 @@ ICKnob >> initializeOuterRing [
 		             constraintsDo: [ :c |
 				             c frame horizontal alignCenter.
 				             c frame vertical alignCenter ].
+
 	self addChild: outerRing
 ]
 
 { #category : 'initialization' }
 ICKnob >> initializeValueLabels [
 
-	minLabel := BlTextElement new text: (self minValue asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor) });
-					transformDo: [ :t | t translateBy: 20 @ -20];
-					constraintsDo: [ :c |c frame horizontal alignLeft. c frame vertical alignBottom.].
-				
-	maxLabel := BlTextElement new text: (self maxValue asRopedText attributes: { (BlTextForegroundAttribute
-paint: self textColor) });
-					transformDo: [ :t | t translateBy: -20 @ -20];
-					constraintsDo: [ :c |c frame horizontal alignRight. c frame vertical alignBottom.].
+	minLabel := BlTextElement new
+		            text: (self minValue asRopedText attributes:
+					             { (BlTextForegroundAttribute paint: self textColor) });
+		            constraintsDo: [ :c |
+			            c frame horizontal alignLeft.
+			            c frame vertical alignBottom ].
 
-currentLabel := BlTextElement new text: (self currentValue asRopedText  attributes:{(BlTextForegroundAttribute
-paint: self valueColor) });
-					transformDo: [ :t | t translateBy: 0 @ -10];
-					constraintsDo: [ :c |c frame horizontal alignCenter. c frame vertical alignBottom.].
+	maxLabel := BlTextElement new
+		            text: (self maxValue asRopedText attributes:
+					             { (BlTextForegroundAttribute paint: self textColor) });
+		            constraintsDo: [ :c |
+			            c frame horizontal alignRight.
+			            c frame vertical alignBottom ].
+
+	currentLabel := BlTextElement new
+		                text: (self currentValue asRopedText attributes:
+					                 { (BlTextForegroundAttribute paint: self valueColor) });
+		                constraintsDo: [ :c |
+			                c frame horizontal alignCenter.
+			                c frame vertical alignBottom ].
 
 	self addChild: minLabel.
 	self addChild: currentLabel.
-	self addChild: maxLabel.
-
-	self callBack: [ :v |
-		currentLabel text: (v rounded asRopedText attributes:{(BlTextForegroundAttribute
-paint: self valueColor) })].
-
+	self addChild: maxLabel
 ]
 
 { #category : 'accessing' }
@@ -523,18 +579,17 @@ ICKnob >> knob: anElement [
 	knob := anElement 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> knobColor [
 	^(Color veryDarkGray)
 ]
 
-{ #category : 'initialization' }
-ICKnob >> knobSize [
-
-	^ self diameter
+{ #category : 'accessing' }
+ICKnob >> knobSize [       
+ ^ self diameter
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> markerColor [
 	^(Color white)
 ]
@@ -626,15 +681,14 @@ ICKnob >> openForParam: aString dsp: aDsp [
 			space show ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> outerRingColor [
 	^(Color darkGray )
 ]
 
-{ #category : 'initialization' }
-ICKnob >> outerRingSize [
-
-	^self diameter + 40
+{ #category : 'accessing' }
+ICKnob >> outerRingSize [  
+ ^ self diameter * 5 / 3
 ]
 
 { #category : 'api - bounds' }
@@ -676,12 +730,12 @@ ICKnob >> stepValue: aNumber [
 	stepValue := aNumber
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> textColor [
 	^Color white.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> valueColor [
 	^Color white.
 ]
@@ -695,4 +749,8 @@ ICKnob >> valueToAngle: aNumber [
 	mapped := normalized * (self maxAngle - self minAngle)
 	          + self minAngle.
 	^ mapped 
+]
+
+{ #category : 'accessing' }
+ICKnob >> widgetSize [      ^ self diameter * 8 / 3
 ]

@@ -197,6 +197,14 @@ ICReferenceBrowser >> initializeDetailPanes [
 ]
 
 { #category : 'initialization' }
+ICReferenceBrowser >> initializeLayout [
+
+	self layout: BlLinearLayout vertical.
+	self matchParent.
+	self padding: (BlInsets all: 6)
+]
+
+{ #category : 'initialization' }
 ICReferenceBrowser >> initializeMessageList [
 
 	messageList := ToListElement finite.
