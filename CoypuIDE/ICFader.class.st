@@ -1,3 +1,51 @@
+"
+I am a linear fader: a bar with a draggable handle that sets a value between
+#minValue and #maxValue. I work horizontally or vertically, smoothly or in steps.
+
+## Creating one
+```language=Pharo
+	ICFader new.
+	ICFader beVertical.
+	ICFader label: 'Gain'.
+	ICFader new barLength: 200 thickness: 30.
+``` 
+
+## Size
+
+My geometry comes from four numbers: #barLength and #barThickness for the bar, #marginLength and #marginThickness for the space around it. Everything else, my own extent, the handle, the coloured bar, the font size - is derived from them by #applySize, which every size setter calls. Setting a size never rebuilds me, so labels and event handlers survive:
+```language=Pharo
+	fader barLength: 200.
+	fader barLength: 200 thickness: 30.   """"one size pass instead of two""""
+	fader resetSize.
+```
+Orientation is a size concern too: #beHorizontal and #beVertical just re-derive
+the geometry, they do not destroy anything.
+
+## Value
+```language=Pharo
+	fader minValue: 0; maxValue: 127; stepValue: 1.
+	fader setValue: 64.
+	fader setToMin.
+	fader setToMax.
+	fader callBack: [ :v | synth gain: v ].
+```
+#beSegmented restricts the value to multiples of #stepValue (or to
+#segmentedValues), #beSmooth lifts the restriction. The callback is the user's:
+I never install one, and the value label is updated independently of it.
+
+## Internal representation and key implementation points
+
+The handle is positioned in my local coordinates and travels along one axis
+between #barOrigin and #barOrigin + #barLength, holding #crossCenter on the other
+axis. #valueToCoord: and #valueAtCoord: are the inverse pair mapping value to
+handle position, and both are computed from my size parameters rather than from
+laid-out bounds - reading #bar position or #handle position would return 0@0
+before a layout pass and give silently wrong results.
+
+bar, coloredBar and handle are all #ignoreByLayout: I place them myself. The
+labels are ordinary frame-layout children.
+
+"
 Class {
 	#name : 'ICFader',
 	#superclass : 'ICSlider',
@@ -42,6 +90,59 @@ ICFader class >> beVertical [
 	^ self new beVertical 
 ]
 
+{ #category : 'defaults' }
+ICFader class >> defaultFontSize [
+	^ 15
+]
+
+{ #category : 'defaults' }
+ICFader class >> defaultHandleThickness [
+	^ 5
+
+]
+
+{ #category : 'examples' }
+ICFader class >> differentSizesExample [ 
+
+	<script>
+	| verticals horizontals column space |
+	horizontals := #( #( 100 12 ) #( 180 20 ) #( 260 28 ) ) collect: [ :pair |
+		               (self label:
+			                'H ' , pair first printString , 'x'
+			                , pair second printString)
+			               barLength: pair first
+			               thickness: pair second;
+			               yourself ].
+
+	verticals := #( #( 100 12 ) #( 180 20 ) #( 260 28 ) ) collect: [ :pair |
+		             ((self label:
+			               'V ' , pair first printString , 'x'
+			               , pair second printString) beVertical;
+			              yourself)
+			             barLength: pair first
+			             thickness: pair second;
+			             yourself ].
+
+	column := BlElement new
+		          layout: BlLinearLayout vertical alignCenter;
+		          constraintsDo: [ :c |
+			          c horizontal matchParent.
+			          c vertical matchParent ];
+		          background: Color veryVeryDarkGray;
+		          addChild: (self rowOf: horizontals);
+		          addChild: (self rowOf: verticals);
+		          yourself.
+
+	space := BlSpace new.
+	space extent: 700 @ 620.
+	space title: 'ICFader - three sizes, both orientations'.
+	space root
+		background: Color veryVeryDarkGray;
+		addChild: column.
+	space show
+
+]
+
 { #category : 'accessing' }
 ICFader class >> label: aString [ 
 
@@ -53,8 +154,9 @@ ICFader class >> label: aString [
 
 { #category : 'instance creation' }
 ICFader class >> new [
-
-	^ self readOnly initializeEvents
+	^ self readOnly
+		  initializeEvents;
+		  yourself
 ]
 
 { #category : 'instance creation' }
@@ -72,7 +174,21 @@ ICFader class >> readOnlyLabel: aString [
 	^ slider
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
+ICFader class >> rowOf: aCollection [ 
+	"Helper for #differentSizesExample."
+
+	^ BlElement new
+		  layout: BlLinearLayout horizontal alignCenter;
+		  constraintsDo: [ :c |
+			  c horizontal matchParent.
+			  c vertical fitContent ];
+		  padding: (BlInsets all: 20);
+		  addChildren: aCollection;
+		  yourself
+]
+
+{ #category : 'examples' }
 ICFader class >> simpleExampleHorizontal [
 	"The values of the slider are also written in the transcript"
 
@@ -93,7 +209,7 @@ ICFader class >> simpleExampleHorizontal [
 	container openInSpace
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 ICFader class >> simpleExampleVertical [
 	"The values of the slider are also written in the transcript"
 
@@ -112,6 +228,30 @@ ICFader class >> simpleExampleVertical [
 	container addChild: textElt.
 
 	container openInSpace
+]
+
+{ #category : 'size' }
+ICFader >> applyLabelSizes [
+	{ minLabel. maxLabel. valueLabel. label } do: [ :each |
+		each ifNotNil: [ each text fontSize: self fontSize ] ]
+]
+
+{ #category : 'size' }
+ICFader >> applySize [
+
+	self widgetSize: self widgetExtent.
+
+	bar
+		extent: self barSize;
+		position: self barOrigin.
+	coloredBar position: self barOrigin.
+
+	handle extent: self handleSize.
+	handle transformDo: [ :t |
+		t translateBy: self handleSize negated / 2 ].
+
+	self applyLabelSizes.
+	self refreshValue
 ]
 
 { #category : 'accessing' }
@@ -139,9 +279,34 @@ ICFader >> barLength [
 
 { #category : 'accessing' }
 ICFader >> barLength: aNumber [
-
 	barLength := aNumber.
-	self rebuild
+	bar ifNotNil: [ self applySize ]
+]
+
+{ #category : 'accessing' }
+ICFader >> barLength: aLength thickness: aThickness [
+	"One size pass for both, instead of two."
+
+	barLength := aLength.
+	barThickness := aThickness.
+	bar ifNotNil: [ self applySize ]
+]
+
+{ #category : 'size' }
+ICFader >> barOrigin [
+	"Top-left of the bar, in my local coordinates."
+
+	^ self
+		  ifHorizontal: [ marginLength @ marginThickness ]
+		  ifVertical: [ marginThickness @ marginLength ]
+]
+
+{ #category : 'size' }
+ICFader >> barSize [
+	^ self
+		  ifHorizontal: [ barLength @ barThickness ]
+		  ifVertical: [ barThickness @ barLength ]
+
 ]
 
 { #category : 'accessing' }
@@ -152,66 +317,45 @@ ICFader >> barThickness [
 
 { #category : 'accessing' }
 ICFader >> barThickness: aNumber [
-
 	barThickness := aNumber.
-	self rebuild
+	bar ifNotNil: [ self applySize ]
+
 ]
 
 { #category : 'api - values' }
 ICFader >> basicSetValue: aNumber [
-
 	value := aNumber.
+	self updateValueLabel.
 	self callBack ifNotNil: [ :e | e value: value ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'building' }
 ICFader >> beHorizontal [
-
 	self horizontal: true.
-	self rebuild
+	bar ifNotNil: [ self applySize ]
+
 ]
 
 { #category : 'building' }
 ICFader >> beSegmented [
-
-	self stepValue
-		ifNil: [ self error: 'Cannot segment a slider with a nil stepValue' ]
-		ifNotNil: [ self segmented: true].
-	self rebuild
+	self stepValue ifNil: [
+		^ self error: 'Cannot segment a slider with a nil stepValue' ].
+	self segmented: true.
+	self refreshValue
 ]
 
 { #category : 'building' }
 ICFader >> beSmooth [
-
 	self segmented: false.
 	self segmentedValues: nil.
-	self rebuild
+	self refreshValue
 ]
 
-{ #category : 'accessing' }
+{ #category : 'building' }
 ICFader >> beVertical [
-
 	self horizontal: false.
-	self buildVertical
-]
+	bar ifNotNil: [ self applySize ]
 
-{ #category : 'building' }
-ICFader >> buildHorizontal [
-
-	widgetSize y > widgetSize x ifTrue: [
-		self widgetSize: widgetSize y @ widgetSize x ].
-	self removeParts.
-	self initializeParts
-]
-
-{ #category : 'building' }
-ICFader >> buildVertical [
-
-	widgetSize y > widgetSize x ifFalse: [
-		self widgetSize: widgetSize y @ widgetSize x ].
-
-	self removeParts.
-	self initializeParts
 ]
 
 { #category : 'accessing' }
@@ -226,30 +370,16 @@ ICFader >> callBack: aBlock [
 	callBack := aBlock 
 ]
 
-{ #category : 'as yet unclassified' }
-ICFader >> changeMaxValueLabelTo: aValue [
+{ #category : 'api - transformations' }
+ICFader >> clampToBar: aPoint [
+	^ self
+		  ifHorizontal: [
+			  ((aPoint x max: self barOrigin x) min: self barOrigin x + barLength)
+			  @ self crossCenter ]
+		  ifVertical: [
+			  self crossCenter
+			  @ ((aPoint y max: self barOrigin y) min: self barOrigin y + barLength) ]
 
-	maxLabel text: (aValue asRopedText attributes: {
-				 (BlTextForegroundAttribute paint: Color white).
-				 (BlFontSizeAttribute size: 12).
-				 BlFontWeightAttribute bold }).
-	maxValue := aValue
-]
-
-{ #category : 'as yet unclassified' }
-ICFader >> changeMinValueLabelTo: aValue [
-
-	minLabel text: (aValue asRopedText attributes: {
-				 (BlTextForegroundAttribute paint: Color white).
-				 (BlFontSizeAttribute size: 12).
-				 BlFontWeightAttribute bold }).
-	valueLabel text: (aValue asRopedText attributes: {
-				 (BlTextForegroundAttribute paint: Color black).
-				 (BlFontSizeAttribute size: 12).
-				 BlFontWeightAttribute bold }).
-
-	minValue := aValue.
-	value := aValue
 ]
 
 { #category : 'accessing' }
@@ -269,6 +399,15 @@ ICFader >> coloredBarDefaultColor [
 	^ Color green alpha: 0.6
 ]
 
+{ #category : 'size' }
+ICFader >> crossCenter [
+	"The coordinate the handle keeps on the axis it does not travel along."
+
+	^ self
+		  ifHorizontal: [ self widgetExtent y / 2 ]
+		  ifVertical: [ self widgetExtent x / 2 ]
+]
+
 { #category : 'api - slider' }
 ICFader >> decrementValue: aValue [
 
@@ -279,19 +418,10 @@ ICFader >> decrementValue: aValue [
 
 { #category : 'api - bounds' }
 ICFader >> defaultBar [
-
-	| size |
-	size := self
-		        ifHorizontal: [
-		        self defaultBarLength @ self defaultBarThickness ]
-		        ifVertical: [
-		        self defaultBarThickness @ self defaultBarLength ].
-
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		  background: self barDefaultColor;
-		  size: size;
-		constraintsDo: [ :c | c ignoreByLayout ];
+		  constraintsDo: [ :c | c ignoreByLayout ];
 		  yourself
 ]
 
@@ -313,40 +443,22 @@ ICFader >> defaultColor [
 	^ Color veryDarkGray
 ]
 
-{ #category : 'accessing' }
+{ #category : 'api - bounds' }
 ICFader >> defaultColoredBar [
-
-	| size |
-	size := self
-		        ifHorizontal: [ 0 @ self defaultBarThickness ]
-		        ifVertical: [ self defaultBarThickness @ 0.1 ].
-
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		  background: self coloredBarDefaultColor;
-		constraintsDo: [ :c | c ignoreByLayout ];
-		  size: size;
+		  constraintsDo: [ :c | c ignoreByLayout ];
 		  yourself
 ]
 
 { #category : 'api - bounds' }
 ICFader >> defaultHandle [
-
-	| size elt |
-	size := self
-		        ifHorizontal: [ 5 @ barThickness ]
-		        ifVertical: [ barThickness @ 5 ].
-
-	elt := BlElement new
-		       background: self handleDefaultColor;
-		       geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		constraintsDo: [ :c | c ignoreByLayout ];
-		       size: size;
-		       transformDo: [ :t | "so the position is now the center"
-			       t translateBy: size negated / 2 ];
-		       yourself.
-
-	^ elt
+	^ BlElement new
+		  background: self handleDefaultColor;
+		  geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
+		  constraintsDo: [ :c | c ignoreByLayout ];
+		  yourself
 ]
 
 { #category : 'api - bounds' }
@@ -361,17 +473,11 @@ ICFader >> defaultMarginThickness [
 	^ 5
 ]
 
-{ #category : 'api - bounds' }
+{ #category : 'size' }
 ICFader >> defaultSize [
-	"self bar size maybe"
+	"Kept for the examples; now reports my real size, not a constant."
 
-	^ self
-		  ifHorizontal: [
-			  self defaultBarLength + (2 * self defaultMarginLength)
-			  @ (self defaultBarThickness + (2 * self defaultMarginThickness)) ]
-		  ifVertical: [
-			  self defaultBarThickness + (2 * self defaultMarginThickness)
-			  @ (self defaultBarLength + (2 * self defaultMarginLength)) ]
+	^ self widgetExtent
 ]
 
 { #category : 'accessing' }
@@ -379,6 +485,11 @@ ICFader >> direction [
 	"Returns true if horizontal else false"
 	^ self ifHorizontal: [ true ]
 			 ifVertical: [ false ].
+]
+
+{ #category : 'size' }
+ICFader >> fontSize [
+	^ (barThickness * 3 / 4) max: 8
 ]
 
 { #category : 'accessing' }
@@ -395,6 +506,19 @@ ICFader >> handle: aBlElement [
 ICFader >> handleDefaultColor [
 
 	^ Color green
+]
+
+{ #category : 'size' }
+ICFader >> handleSize [
+	^ self
+		  ifHorizontal: [ self handleThickness @ barThickness ]
+		  ifVertical: [ barThickness @ self handleThickness ]
+]
+
+{ #category : 'size' }
+ICFader >> handleThickness [
+	^ self class  defaultHandleThickness
+
 ]
 
 { #category : 'accessing' }
@@ -421,65 +545,52 @@ ICFader >> incrementValue: aValue [
 
 { #category : 'initialization' }
 ICFader >> initialize [
-
 	super initialize.
 	isHorizontal := true.
 	segmented := false.
 	self initializeSizes.
-	self widgetSize: self defaultSize.
 	self background: self defaultColor.
 	self layout: BlFrameLayout new.
 	self initializeValues.
 	self initializeParts.
-	self initializeValueLabels
-	"self initializeEvents"
+	self initializeValueLabels.
+	self applySize
 ]
 
 { #category : 'initialization' }
-ICFader >> initializeEvents [ 
-
+ICFader >> initializeEvents [
 	self addEventHandlerOn: BlMouseDownEvent do: [ :event |
-		self moveHandleTo: (self globalPointToLocal: event position)].
-	self addEventHandlerOn: BlDragStartEvent do: [ :event | event consumed: true].
-	self addEventHandlerOn: BlDragEvent do: [ :event | self moveHandleTo: (self globalPointToLocal: event position)]
+		self moveHandleTo: (self globalPointToLocal: event position) ].
+	self addEventHandlerOn: BlDragStartEvent do: [ :event |
+		event consumed: true ].
+	self addEventHandlerOn: BlDragEvent do: [ :event |
+		self moveHandleTo: (self globalPointToLocal: event position) ].
+	^ self
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - bounds' }
 ICFader >> initializeLabel [
+	label := BlTextElement new
+		         text: (self labelText: self name color: Color white);
+		         constraintsDo: [ :c |
+			         c padding: (BlInsets all: 5).
+			         c frame horizontal alignLeft.
+			         c frame vertical alignTop ];
+		         yourself.
 
-	label := BlTextElement new.
-	label text: (self name asRopedText attributes:
-			 { (BlTextForegroundAttribute paint: Color white) }).
-	label text fontSize: 15.
-	label text bold.
-	label constraintsDo: [ :c |
-		c padding: (BlInsets all: 5).
-		c frame horizontal alignLeft.
-		c frame vertical alignTop ].
-	
 	self addChild: label
 ]
 
 { #category : 'initialization' }
 ICFader >> initializeParts [
-
 	self bar: self defaultBar.
-	self positionDefaultBar: self bar.
 	self addChild: self bar.
 
-
 	self coloredBar: self defaultColoredBar.
-	self positionDefaultBar: self coloredBar.
 	self addChild: self coloredBar.
 
-
 	self handle: self defaultHandle.
-	self positionDefaultHandle.
 	self addChild: self handle
-
-	"initialize segments if segmented"
-
-	"self initializeButtons."
 ]
 
 { #category : 'initialization' }
@@ -491,47 +602,34 @@ ICFader >> initializeSizes [
 	marginThickness := self defaultMarginThickness.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'api - bounds' }
 ICFader >> initializeValueLabels [
-
 	minLabel := BlTextElement new
-		            text: (self minValue asRopedText attributes: {
-						             (BlTextForegroundAttribute paint: Color white).
-						             (BlFontSizeAttribute size: 15).
-						             BlFontWeightAttribute bold });
+		            text: (self labelText: self minValue color: Color white);
 		            constraintsDo: [ :c |
 			            c padding: (BlInsets horizontal: 15).
 			            c frame horizontal alignLeft.
-			            c frame vertical alignCenter ].
+			            c frame vertical alignCenter ];
+		            yourself.
 
 	maxLabel := BlTextElement new
-		            text: (self maxValue asRopedText attributes: {
-						             (BlTextForegroundAttribute paint: Color white).
-						             (BlFontSizeAttribute size: 15).
-						             BlFontWeightAttribute bold });
+		            text: (self labelText: self maxValue color: Color white);
 		            constraintsDo: [ :c |
 			            c padding: (BlInsets horizontal: 15).
 			            c frame horizontal alignRight.
-			            c frame vertical alignCenter ].
+			            c frame vertical alignCenter ];
+		            yourself.
 
 	valueLabel := BlTextElement new
-		              text: (self value asRopedText attributes: {
-						               (BlTextForegroundAttribute paint: Color black).
-						               (BlFontSizeAttribute size: 15).
-						               BlFontWeightAttribute bold });
+		              text: (self labelText: self value color: Color black);
 		              constraintsDo: [ :c |
 			              c frame horizontal alignCenter.
-			              c frame vertical alignCenter ].
+			              c frame vertical alignCenter ];
+		              yourself.
 
 	self addChild: minLabel.
 	self addChild: valueLabel.
-	self addChild: maxLabel.
-
-	self callBack: [ :v |
-		valueLabel text: (v rounded asRopedText attributes: {
-					 (BlTextForegroundAttribute paint: Color black).
-					 (BlFontSizeAttribute size: 15).
-					 BlFontWeightAttribute bold }) ]
+	self addChild: maxLabel
 ]
 
 { #category : 'initialization' }
@@ -560,6 +658,14 @@ ICFader >> label [
 	^ label
 ]
 
+{ #category : 'api - text' }
+ICFader >> labelText: anObject color: aColor [
+	^ anObject asRopedText attributes: {
+		  (BlTextForegroundAttribute paint: aColor).
+		  (BlFontSizeAttribute size: self fontSize).
+		  BlFontWeightAttribute bold }
+]
+
 { #category : 'accessing' }
 ICFader >> marginLength [
 
@@ -568,9 +674,8 @@ ICFader >> marginLength [
 
 { #category : 'accessing' }
 ICFader >> marginLength: aNumber [
-
 	marginLength := aNumber.
-	self rebuild
+	bar ifNotNil: [ self applySize ]
 ]
 
 { #category : 'accessing' }
@@ -581,9 +686,8 @@ ICFader >> marginThickness [
 
 { #category : 'accessing' }
 ICFader >> marginThickness: aNumber [
-
 	marginThickness := aNumber.
-	self rebuild
+	bar ifNotNil: [ self applySize ]
 ]
 
 { #category : 'accessing' }
@@ -618,39 +722,22 @@ ICFader >> minValue [
 
 { #category : 'accessing' }
 ICFader >> minValue: aNumber [
+	minValue := aNumber.
+	minLabel ifNotNil: [
+		minLabel text: (self labelText: aNumber color: Color white) ]
 
-	minValue := aNumber 
 ]
 
 { #category : 'api - transformations' }
 ICFader >> moveHandleTo: aPosition [
-
-	| newPos |
-	newPos := aPosition.
-	"deal with segmentation"
-	self isSegmented ifTrue: [
-		| value |
-		value := self valueAtCoord: aPosition.
-		newPos := self valueToCoord: value ].
-	self
-		ifHorizontal: [
-			| newPosX |
-			newPosX := newPos x.
-			newPos x < bar position x ifTrue: [ newPosX := bar position x ].
-			newPos x > (bar position x + barLength) ifTrue: [
-				newPosX := bar position x + barLength ].
-			newPos := newPosX @ handle position y.
-			handle position: newPos ]
-		ifVertical: [
-			| newPosY |
-			newPosY := newPos y.
-			newPos y < bar position y ifTrue: [ newPosY := bar position y ].
-			newPos y > (bar position y + barLength) ifTrue: [
-				newPosY := bar position y + barLength ].
-			newPos := handle position x @ newPosY.
-			handle position: newPos ].
-	self updateColoredBarTo: newPos.
-	self basicSetValue: (self valueAtCoord: newPos)
+	| coord |
+	coord := self isSegmented
+		         ifTrue: [ self valueToCoord: (self valueAtCoord: aPosition) ]
+		         ifFalse: [ aPosition ].
+	coord := self clampToBar: coord.
+	handle position: coord.
+	self updateColoredBarTo: coord.
+	self basicSetValue: (self valueAtCoord: coord)
 ]
 
 { #category : 'accessing' }
@@ -661,9 +748,10 @@ ICFader >> name [
 
 { #category : 'accessing' }
 ICFader >> name: aString [
-
 	name := aString.
-	self initializeLabel.
+	label
+		ifNil: [ self initializeLabel ]
+		ifNotNil: [ label text: (self labelText: aString color: Color white) ]
 ]
 
 { #category : 'api - values' }
@@ -683,43 +771,33 @@ ICFader >> nearestValue: aValue [
 	^ val
 ]
 
-{ #category : 'api - transformations' }
-ICFader >> positionDefaultBar: aBar [
+{ #category : 'size' }
+ICFader >> refreshValue [
+	"Reposition handle and coloured bar for the current value."
 
-	self
-		ifHorizontal: [
-			aBar position:
-				self defaultMarginLength @ self defaultMarginThickness ]
-		ifVertical: [
-			aBar position:
-				self defaultMarginThickness @ self defaultMarginLength ]
+	self setValue: (value ifNil: [ self minValue ])
+
 ]
 
-{ #category : 'api - transformations' }
-ICFader >> positionDefaultHandle [
-
+{ #category : 'size' }
+ICFader >> resetSize [
 	self
-		ifHorizontal: [
-		handle position: self defaultMarginLength @ (widgetSize y / 2) ]
-		ifVertical: [
-			handle position:
-				widgetSize x / 2 @ (self defaultMarginLength + barLength) ]
+		barLength: self defaultBarLength
+		thickness: self defaultBarThickness
 ]
 
-{ #category : 'building' }
-ICFader >> rebuild [
+{ #category : 'size' }
+ICFader >> rowOf: aCollection [ 
+	"Helper for #differentSizesExample."
 
-	self
-		ifHorizontal: [ self buildHorizontal ]
-		ifVertical: [ self buildVertical ]
-]
-
-{ #category : 'removing' }
-ICFader >> removeParts [
-
-	self removeChildren. 
-	bar := nil.
-	handle := nil
+	^ BlElement new
+		  layout: BlLinearLayout horizontal alignCenter;
+		  constraintsDo: [ :c |
+			  c horizontal matchParent.
+			  c vertical fitContent ];
+		  padding: (BlInsets all: 20);
+		  addChildren: aCollection;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -767,18 +845,6 @@ ICFader >> setValue: aNumber [
 	self moveHandleTo: (self valueToCoord: newValue)
 ]
 
-{ #category : 'api - bounds' }
-ICFader >> size: aValue [
-	"just to keep the widgset size"
-
-	super size: aValue.
-	
-	" for now do not support resize
-	
-	self isBuildSlider ifTrue: [ self rebuildSlider ]
-	"
-]
-
 { #category : 'accessing' }
 ICFader >> stepValue [
 
@@ -797,12 +863,20 @@ ICFader >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
-			coloredBar position: bar position.
-			coloredBar size: (aPosition - coloredBar position) x @ barThickness ]
+				coloredBar
+					position: self barOrigin;
+					extent: (aPosition - self barOrigin) x @ barThickness ]
 		ifVertical: [
-			coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
-			coloredBar size:
-				barThickness @ (bar position y + barLength - aPosition y) ]
+				coloredBar
+					position: aPosition x - (barThickness / 2) @ aPosition y;
+					extent:
+						barThickness @ (self barOrigin y + barLength - aPosition y) ]
+]
+
+{ #category : 'api - values' }
+ICFader >> updateValueLabel [
+	valueLabel ifNotNil: [
+		valueLabel text: (self labelText: value rounded color: Color black) ]
 ]
 
 { #category : 'accessing' }
@@ -821,33 +895,18 @@ ICFader >> valueAtCoord: aPoint [
 
 { #category : 'api - transformations' }
 ICFader >> valueAtX: aPoint [
-
-	| dist valueDiff value coeff |
-	dist := (aPoint - bar position) x.
-	dist = 0
-		ifTrue: [ value := minValue ]
-		ifFalse: [
-			valueDiff := maxValue - minValue.
-			coeff := barLength / dist.
-			value := minValue + (valueDiff / coeff) ].
-	value := self nearestValue: value.
-	
-	^ value asFloat
+	| dist |
+	dist := (aPoint - self barOrigin) x.
+	^ (self nearestValue:
+		   minValue + ((maxValue - minValue) * dist / barLength)) asFloat
 ]
 
 { #category : 'api - transformations' }
 ICFader >> valueAtY: aPoint [
-
-	| dist valueDiff value coeff |
-	dist := bar position y + barLength - aPoint y.
-	dist = 0
-		ifTrue: [ value := minValue ]
-		ifFalse: [
-			valueDiff := maxValue - minValue.
-			coeff := barLength / dist.
-			value := minValue + (valueDiff / coeff) ].
-	value := self nearestValue: value.
-	^ value asFloat
+	| dist |
+	dist := self barOrigin y + barLength - aPoint y.
+	^ (self nearestValue:
+		   minValue + ((maxValue - minValue) * dist / barLength)) asFloat
 ]
 
 { #category : 'accessing' }
@@ -866,26 +925,30 @@ ICFader >> valueToCoord: aNumber [
 
 { #category : 'api - transformations' }
 ICFader >> valueToX: aNumber [
+	| coeff |
+	coeff := (aNumber - minValue / (maxValue - minValue)) asFloat.
+	^ marginLength + (coeff * barLength) @ self crossCenter
 
-	| dist valueDiff coeff |
-	valueDiff := aNumber - minValue.
-	coeff := (valueDiff / (maxValue - minValue)) asFloat.
-	dist := marginLength + (coeff * barLength).
-	self forceLocalLayout.
-	"This is needed so handle position != 0"
-	^ dist @ handle position y
 ]
 
 { #category : 'api - transformations' }
 ICFader >> valueToY: aNumber [
+	| coeff |
+	coeff := (aNumber - minValue / (maxValue - minValue)) asFloat.
+	^ self crossCenter
+	  @ (marginLength + barLength - (coeff * barLength))
+]
 
-	| dist valueDiff coeff |
-	valueDiff := aNumber - minValue.
-	coeff := (valueDiff / (maxValue - minValue)) asFloat.
-	dist := marginLength + barLength - (coeff * barLength).
-	self forceLocalLayout.
-	"This is needed so handle position != 0"
-	^ handle position x @ dist
+{ #category : 'size' }
+ICFader >> widgetExtent [
+	^ self
+		  ifHorizontal: [
+			  barLength + (2 * marginLength)
+			  @ (barThickness + (2 * marginThickness)) ]
+		  ifVertical: [
+			  barThickness + (2 * marginThickness)
+			  @ (barLength + (2 * marginLength)) ]
+
 ]
 
 { #category : 'accessing' }
@@ -898,5 +961,5 @@ ICFader >> widgetSize [
 ICFader >> widgetSize: aNumber [
 
 	widgetSize := aNumber.
-	self size: aNumber 
+	self extent: aNumber
 ]
