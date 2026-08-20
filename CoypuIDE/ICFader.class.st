@@ -144,12 +144,10 @@ ICFader class >> differentSizesExample [
 ]
 
 { #category : 'accessing' }
-ICFader class >> label: aString [ 
-
-	|slider|
-	slider := self new name: aString.
-	slider initializeLabel.
-	^ slider
+ICFader class >> label: aString [
+	^ self new
+		  name: aString;
+		  yourself
 ]
 
 { #category : 'instance creation' }
@@ -165,13 +163,11 @@ ICFader class >> readOnly [
 	^ self basicNew initialize
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'accessing' }
 ICFader class >> readOnlyLabel: aString [
-
-	| slider |
-	slider := self readOnly name: aString.
-	slider initializeLabel.
-	^ slider
+	^ self readOnly
+		  name: aString;
+		  yourself
 ]
 
 { #category : 'examples' }
@@ -575,16 +571,12 @@ ICFader >> initializeEvents [
 	^ self
 ]
 
-{ #category : 'api - bounds' }
+{ #category : 'initialization' }
 ICFader >> initializeLabel [
+	label ifNotNil: [ self removeChild: label ].
 	label := BlTextElement new
 		         text: (self labelText: self name color: Color white);
-		         constraintsDo: [ :c |
-			         c padding: (BlInsets all: 5).
-			         c frame horizontal alignLeft.
-			         c frame vertical alignTop ];
 		         yourself.
-
 	self addChild: label
 ]
 
