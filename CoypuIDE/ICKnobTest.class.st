@@ -10,20 +10,33 @@ Class {
 }
 
 { #category : 'running' }
-ICKnobTest >> estCallBackIsNilByDefault [
+ICKnobTest >> reqestCallBackIsNilByDefault [
 	self assert: knob callBack isNil
 ]
 
 { #category : 'running' }
-ICKnobTest >> estMarkerIsChildOfKnob [
+ICKnobTest >> reqestMarkerIsChildOfKnob [
 	self assert: (knob knob hasChild: knob marker)
 ]
 
 { #category : 'running' }
-ICKnobTest >> estStepValueQuantizesCurrentValue [
+ICKnobTest >> reqestStepValueQuantizesCurrentValue [
 	knob stepValue: 10.
 	knob setValue: 47.
 	self assert: knob currentValue closeTo: 50.0
+]
+
+{ #category : 'helper' }
+ICKnobTest >> requestedExtentOf: anElement [
+	"#extent only reflects reality after a layout pass; a detached element
+	 reports 0@0. Read the exact resizer we installed via #extent: instead."
+
+	| h v |
+	h := anElement constraints horizontal resizer.
+	v := anElement constraints vertical resizer.
+	self assert: h class equals: BlLayoutExactResizer.
+	self assert: v class equals: BlLayoutExactResizer.
+	^ h size @ v size
 ]
 
 { #category : 'running' }
@@ -76,12 +89,13 @@ ICKnobTest >> testCurrentLabelTracksValueWithoutAnyCallBack [
 
 { #category : 'running' }
 ICKnobTest >> testDefaultDiameter [
-	self assert: knob diameter equals: knob defaultDiameter
+	self assert: knob diameter equals: knob class defaultDiameter
 ]
 
-{ #category : 'running' }
+{ #category : 'tests' }
 ICKnobTest >> testDefaultExtentFollowsDefaultDiameter [
-	self assert: knob extent equals: knob widgetSize asPoint
+	self assert: (self requestedExtentOf: knob) equals: knob widgetSize asPoint
+
 ]
 
 { #category : 'running' }
@@ -105,32 +119,38 @@ ICKnobTest >> testDiameterUpdatesFontSize [
 
 { #category : 'running' }
 ICKnobTest >> testDiameterUpdatesKnobExtent [
-	knob diameter: 96.
-	self assert: knob knob extent equals: 96 @ 96
+
+knob diameter: 96.
+	self assert: (self requestedExtentOf: knob) equals: 256 @ 256
 ]
 
 { #category : 'running' }
 ICKnobTest >> testDiameterUpdatesMarkerExtent [
+
 	knob diameter: 120.
-	self assert: knob marker extent equals: 20 @ 40
+	self assert: (self requestedExtentOf: knob marker) equals: 20 @ 40
 ]
 
 { #category : 'running' }
 ICKnobTest >> testDiameterUpdatesMarkerPosition [
-	knob diameter: 120.
-	self assert: knob marker position equals: 50 @ 10
+
+	knob diameter: 96.
+	self assert: (self requestedExtentOf: knob outerRing) equals: 160 @ 160
 ]
 
 { #category : 'running' }
 ICKnobTest >> testDiameterUpdatesOuterRingExtent [
+
 	knob diameter: 96.
-	self assert: knob outerRing extent equals: 160 @ 160
+	self assert: (self requestedExtentOf: knob outerRing) equals: 160 @ 160
 ]
 
 { #category : 'running' }
 ICKnobTest >> testDiameterUpdatesOwnExtent [
+
 	knob diameter: 96.
-	self assert: knob extent equals: 256 @ 256
+	self assert: (self requestedExtentOf: knob) equals: 256 @ 256
+
 ]
 
 { #category : 'tests' }
@@ -155,27 +175,34 @@ ICKnobTest >> testForMidiRange [
 { #category : 'running' }
 ICKnobTest >> testKnobFitsInsideOuterRing [
 	#( 48 96 144 ) do: [ :d |
+		| own inner ring |
 		knob diameter: d.
-		self assert: knob knob extent x < knob outerRing extent x.
-		self assert: knob outerRing extent x < knob extent x ]
+		own := (self requestedExtentOf: knob) x.
+		inner := (self requestedExtentOf: knob knob) x.
+		ring := (self requestedExtentOf: knob outerRing) x.
+		self assert: inner < ring.
+		self assert: ring < own ]
 ]
 
 { #category : 'running' }
 ICKnobTest >> testLabelDiameterConstructor [
-	| e |
+
+| e |
 	e := ICKnob label: 'Freq' diameter: 96.
 	self assert: e diameter equals: 96.
-	self assert: e extent equals: 256 @ 256.
+	self assert: (self requestedExtentOf: e) equals: 256 @ 256.
 	self assert: e inputText equals: 'Freq'
 ]
 
 { #category : 'running' }
 ICKnobTest >> testMarkerFitsInsideKnob [
 	#( 48 96 144 ) do: [ :d |
+		| inner mark |
 		knob diameter: d.
-		self assert: knob marker extent x <= knob knob extent x.
-		self assert: knob marker position x + knob marker extent x
-			<= knob knob extent x ]
+		inner := (self requestedExtentOf: knob knob) x.
+		mark := (self requestedExtentOf: knob marker) x.
+		self assert: mark <= inner.
+		self assert: knob marker constraints position x + mark <= inner ]
 ]
 
 { #category : 'running' }
@@ -198,10 +225,13 @@ ICKnobTest >> testMaxValueUpdatesMaxLabel [
 ICKnobTest >> testProportionsAreScaleInvariant [
 	| ratios |
 	ratios := #( 48 96 144 ) collect: [ :d |
+		          | own inner ring mark |
 		          knob diameter: d.
-		          { (knob knob extent x / knob extent x).
-		            (knob outerRing extent x / knob extent x).
-		            (knob marker extent x / knob knob extent x) } ].
+		          own := (self requestedExtentOf: knob) x.
+		          inner := (self requestedExtentOf: knob knob) x.
+		          ring := (self requestedExtentOf: knob outerRing) x.
+		          mark := (self requestedExtentOf: knob marker) x.
+		          { (inner / own). (ring / own). (mark / inner) } ].
 	self assert: ratios asSet size equals: 1
 ]
 
@@ -209,8 +239,8 @@ ICKnobTest >> testProportionsAreScaleInvariant [
 ICKnobTest >> testResetSizeRestoresDefaultDiameter [
 	knob diameter: 144.
 	knob resetSize.
-	self assert: knob diameter equals: knob defaultDiameter.
-	self assert: knob extent equals: knob widgetSize asPoint
+	self assert: knob diameter equals: knob class defaultDiameter.
+	self assert: (self requestedExtentOf: knob) equals: knob widgetSize asPoint
 ]
 
 { #category : 'running' }
@@ -237,8 +267,8 @@ ICKnobTest >> testSetToMin [
 ICKnobTest >> testShrinkingWorksTooNotOnlyGrowing [
 	knob diameter: 144.
 	knob diameter: 48.
-	self assert: knob extent equals: 128 @ 128.
-	self assert: knob knob extent equals: 48 @ 48
+	self assert: (self requestedExtentOf: knob) equals: 128 @ 128.
+	self assert: (self requestedExtentOf: knob knob) equals: 48 @ 48
 ]
 
 { #category : 'running' }

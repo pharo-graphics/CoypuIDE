@@ -206,6 +206,12 @@ ICKnob class >> label: aString [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+ICKnob class >> label: aString diameter: aNumber [ 
+
+	^ (self label: aString) diameter: aNumber
+]
+
 { #category : 'initialization' }
 ICKnob class >> label: aString minValue: min maxValue: max [
 	|e|
@@ -756,6 +762,13 @@ ICKnob >> position: aPoint [
 
 	super position: aPoint.
 	self whenLayoutedDoOnce: [ self centerPosition: self positionInSpace + (self extent / 2) ]
+]
+
+{ #category : 'initialization' }
+ICKnob >> resetSize [ 
+	"Back to the natural size defined by my class."
+
+	self diameter: self class  defaultDiameter
 ]
 
 { #category : 'initialization' }
