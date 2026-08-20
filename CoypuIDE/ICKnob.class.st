@@ -1,19 +1,69 @@
 "
-Super class for CoypuIDE circular knobs.
-All Knobs have 
--_label_ , 
-- _a minValue_, 
-- a _MaxValue_, 
-- an _initValue_,
-- a _stepValue_,
-- a _callback_.
+""
+I am the base class for CoypuIDE circular knobs: a rotary control that adjusts a
+continuous value by dragging, clicking or using the arrow keys.
 
-## How to create a knob
-Knobs can be created in different ways
-```language=pharo
-ICKnob new label: 'MyKnob' minValue: 0 maxValue: 1 
-``` 
+Visually I am built from five parts, all centered on each other by a frame layout:
+an outer ring (static background arc), the knob disk itself, a marker on the knob
+showing the current angle, a colored arc that fills as the value grows, and three
+labels (min, current, max) plus an optional name label above them.
 
+!! Creating a knob
+
+	ICKnob new.
+	ICKnob label: 'Cutoff'.
+	ICKnob label: 'Cutoff' minValue: 20 maxValue: 20000.
+	ICKnob label: 'Cutoff' minValue: 20 maxValue: 20000 callBack: [ :v | synth cutoff: v ].
+	ICKnob label: 'Cutoff' diameter: 120.
+
+For a Phausto parameter, #fromDictionary:forDsp: and #openForParam:dsp: wire the
+range and the callback up automatically.
+
+!! Size
+
+My size is driven entirely by #diameter. Every other dimension - my own extent, the
+outer ring, the arc, the marker, the padding and the font size - is derived from it,
+so a knob can be resized at any time without a scale transformation and without
+blurring:
+
+	knob diameter: 120.
+	knob resetSize.
+
+#diameter: re-applies the new size to every sub-element through #applySize. Setting
+it before or after I am added to a space both work. Subclasses that want a different
+natural size override #defaultDiameter rather than touching #initialize.
+
+!! Value
+
+	knob minValue: 0; maxValue: 127; stepValue: 1.   """"or simply: knob forMidi""""
+	knob setValue: 64.
+	knob setToMin.
+	knob setToMax.
+	knob callBack: [ :v | v inspect ].
+
+The callback is called on every value change with the new value as its only argument.
+It belongs to the user: I never install one myself, and the current-value label is
+updated independently of it.
+
+!! Subclassing
+
+Override any of #backColor, #knobColor, #diskColor, #markerColor, #outerRingColor,
+#textColor and #valueColor to restyle me; #defaultDiameter to resize me; and
+#knobSize, #outerRingSize, #diskSize, #widgetSize or #fontSz to change my proportions.
+Keep those last ones expressed as ratios of #diameter, otherwise resizing breaks.
+
+!! Internal representation and key implementation points
+
+My state is the angle, not the value: #angle: clamps to the range #minAngle.. #maxAngle
+(-135 to 135 by default), then #doOperations rotates the marker, redraws the arc and
+derives the value through #angleToValue. #valueToAngle is the inverse and is what
+#setValue: uses. This is why the value can never leave its range whatever the input.
+
+centerPosition holds my center in space coordinates and is what pointer events are
+measured against. It can only be computed once I have been laid out, so #position:
+and #applySize both re-arm a #whenLayoutedDoOnce: to refresh it. A resize that
+forgets to do this leaves click-to-angle mapping silently wrong.
+""
 "
 Class {
 	#name : 'ICKnob',
@@ -590,6 +640,11 @@ ICKnob >> knobSize [
 ]
 
 { #category : 'accessing' }
+ICKnob >> marker [ 
+^ marker
+]
+
+{ #category : 'accessing' }
 ICKnob >> markerColor [
 	^(Color white)
 ]
@@ -679,6 +734,11 @@ ICKnob >> openForParam: aString dsp: aDsp [
 				inputText: aString;
 				callBack: [ :i | aDsp setValue: i parameter: aString ].
 			space show ]
+]
+
+{ #category : 'accessing' }
+ICKnob >> outerRing [ 
+^ outerRing
 ]
 
 { #category : 'accessing' }
