@@ -254,6 +254,13 @@ ICFader >> applySize [
 	self refreshValue
 ]
 
+{ #category : 'size' }
+ICFader >> bandHeight [
+	"Height reserved for one row of label text."
+
+	^ self fontSize * 3 / 2
+]
+
 { #category : 'accessing' }
 ICFader >> bar [
 	^ bar
@@ -294,11 +301,11 @@ ICFader >> barLength: aLength thickness: aThickness [
 
 { #category : 'size' }
 ICFader >> barOrigin [
-	"Top-left of the bar, in my local coordinates."
-
 	^ self
-		  ifHorizontal: [ marginLength @ marginThickness ]
-		  ifVertical: [ marginThickness @ marginLength ]
+		  ifHorizontal: [ marginLength @ (self bandHeight + marginThickness) ]
+		  ifVertical: [
+			  (self widgetExtent x - barThickness / 2)
+			  @ ((2 * self bandHeight) + marginLength) ]
 ]
 
 { #category : 'size' }
@@ -401,11 +408,11 @@ ICFader >> coloredBarDefaultColor [
 
 { #category : 'size' }
 ICFader >> crossCenter [
-	"The coordinate the handle keeps on the axis it does not travel along."
+	"Centre of the bar on the axis the handle does not travel along."
 
 	^ self
-		  ifHorizontal: [ self widgetExtent y / 2 ]
-		  ifVertical: [ self widgetExtent x / 2 ]
+		  ifHorizontal: [ self barOrigin y + (barThickness / 2) ]
+		  ifVertical: [ self barOrigin x + (barThickness / 2) ]
 ]
 
 { #category : 'api - slider' }
@@ -656,6 +663,13 @@ ICFader >> isSegmented [
 ICFader >> label [
 
 	^ label
+]
+
+{ #category : 'size' }
+ICFader >> labelColumnWidth [
+	"Minimum width a vertical fader needs for its labels to be readable."
+
+	^ self fontSize * 6
 ]
 
 { #category : 'api - text' }
@@ -944,11 +958,10 @@ ICFader >> widgetExtent [
 	^ self
 		  ifHorizontal: [
 			  barLength + (2 * marginLength)
-			  @ (barThickness + (2 * marginThickness)) ]
+			  @ (barThickness + (2 * marginThickness) + (2 * self bandHeight)) ]
 		  ifVertical: [
-			  barThickness + (2 * marginThickness)
-			  @ (barLength + (2 * marginLength)) ]
-
+			  ((barThickness + (2 * marginThickness)) max: self labelColumnWidth)
+			  @ (barLength + (2 * marginLength) + (3 * self bandHeight)) ]
 ]
 
 { #category : 'accessing' }
