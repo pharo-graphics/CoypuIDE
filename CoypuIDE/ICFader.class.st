@@ -620,8 +620,9 @@ ICFader >> initializeSizes [
 	marginThickness := self defaultMarginThickness.
 ]
 
-{ #category : 'size' }
-ICFader >> initializeValueLabels [
+{ #category : 'initialization' }
+ICFader >> initializeValueLabels [ 
+
 	minLabel := BlTextElement new
 		            text: (self labelText: self minValue color: Color white);
 		            yourself.
@@ -631,6 +632,7 @@ ICFader >> initializeValueLabels [
 	valueLabel := BlTextElement new
 		              text: (self labelText: self value color: Color black);
 		              yourself.
+
 	self addChild: minLabel.
 	self addChild: valueLabel.
 	self addChild: maxLabel
@@ -895,7 +897,8 @@ ICFader >> placeValueLabel [
 
 	self valueLabelFollowsHandle
 		ifTrue: [
-			handle layout ifNil: [ handle layout: BlFrameLayout new ].
+			(handle layout isKindOf: BlFrameLayout) ifFalse: [
+				handle layout: BlFrameLayout new ].
 			handle clipChildren: false.
 			(handle hasChild: valueLabel) ifFalse: [
 				valueLabel removeFromParent.
@@ -912,6 +915,7 @@ ICFader >> placeValueLabel [
 		c vertical fitContent.
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ]
+
 ]
 
 { #category : 'size' }
