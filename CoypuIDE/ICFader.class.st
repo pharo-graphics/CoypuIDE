@@ -226,6 +226,15 @@ ICFader class >> simpleExampleVertical [
 ]
 
 { #category : 'size' }
+ICFader >> applyLabelPlacement [ 
+
+	self
+		ifHorizontal: [ self placeLabelsHorizontally ]
+		ifVertical: [ self placeLabelsVertically ].
+	self placeValueLabel
+]
+
+{ #category : 'size' }
 ICFader >> applyLabelSizes [
 	{ minLabel. maxLabel. valueLabel. label } do: [ :each |
 		each ifNotNil: [ each text fontSize: self fontSize ] ]
@@ -242,15 +251,14 @@ ICFader >> applySize [
 	coloredBar position: self barOrigin.
 
 	handle extent: self handleSize.
-	handle transformDo: [ :t |
-		t translateBy: self handleSize negated / 2 ].
 
 	self applyLabelSizes.
+	self applyLabelPlacement.
 	self refreshValue
 ]
 
 { #category : 'size' }
-ICFader >> bandHeight [
+ICFader >> bandHeight [ 
 	"Height reserved for one row of label text."
 
 	^ self fontSize * 3 / 2
@@ -331,7 +339,8 @@ ICFader >> barThickness: aNumber [
 ]
 
 { #category : 'api - values' }
-ICFader >> basicSetValue: aNumber [
+ICFader >> basicSetValue: aNumber [ 
+
 	value := aNumber.
 	self updateValueLabel.
 	self callBack ifNotNil: [ :e | e value: value ]
@@ -557,8 +566,9 @@ ICFader >> incrementValue: aValue [
 
 { #category : 'initialization' }
 ICFader >> initialize [
+
 	super initialize.
-	isHorizontal := true.
+	isHorizontal := self defaultIsHorizontal.
 	segmented := false.
 	self initializeSizes.
 	self background: self defaultColor.
@@ -610,31 +620,17 @@ ICFader >> initializeSizes [
 	marginThickness := self defaultMarginThickness.
 ]
 
-{ #category : 'api - bounds' }
+{ #category : 'size' }
 ICFader >> initializeValueLabels [
 	minLabel := BlTextElement new
 		            text: (self labelText: self minValue color: Color white);
-		            constraintsDo: [ :c |
-			            c padding: (BlInsets horizontal: 15).
-			            c frame horizontal alignLeft.
-			            c frame vertical alignCenter ];
 		            yourself.
-
 	maxLabel := BlTextElement new
 		            text: (self labelText: self maxValue color: Color white);
-		            constraintsDo: [ :c |
-			            c padding: (BlInsets horizontal: 15).
-			            c frame horizontal alignRight.
-			            c frame vertical alignCenter ];
 		            yourself.
-
 	valueLabel := BlTextElement new
 		              text: (self labelText: self value color: Color black);
-		              constraintsDo: [ :c |
-			              c frame horizontal alignCenter.
-			              c frame vertical alignCenter ];
 		              yourself.
-
 	self addChild: minLabel.
 	self addChild: valueLabel.
 	self addChild: maxLabel
@@ -679,6 +675,62 @@ ICFader >> labelText: anObject color: aColor [
 		  (BlTextForegroundAttribute paint: aColor).
 		  (BlFontSizeAttribute size: self fontSize).
 		  BlFontWeightAttribute bold }
+]
+
+{ #category : 'size' }
+ICFader >> laceLabelsHorizontally [ 
+
+	label ifNotNil: [
+		label constraintsDo: [ :c |
+			c padding: (BlInsets
+					 top: 0
+					 left: marginLength
+					 bottom: 0
+					 right: 0).
+			c frame horizontal alignLeft.
+			c frame vertical alignTop ] ].
+
+	minLabel constraintsDo: [ :c |
+		c padding: (BlInsets
+				 top: 0
+				 left: marginLength
+				 bottom: 0
+				 right: 0).
+		c frame horizontal alignLeft.
+		c frame vertical alignBottom ].
+
+	maxLabel constraintsDo: [ :c |
+		c padding: (BlInsets
+				 top: 0
+				 left: 0
+				 bottom: 0
+				 right: marginLength).
+		c frame horizontal alignRight.
+		c frame vertical alignBottom ]
+
+]
+
+{ #category : 'size' }
+ICFader >> laceLabelsVertically [
+label ifNotNil: [
+		label constraintsDo: [ :c |
+			c padding: (BlInsets all: 0).
+			c frame horizontal alignCenter.
+			c frame vertical alignTop ] ].
+
+	maxLabel constraintsDo: [ :c |
+		c padding: (BlInsets
+				 top: self bandHeight
+				 left: 0
+				 bottom: 0
+				 right: 0).
+		c frame horizontal alignCenter.
+		c frame vertical alignTop ].
+
+	minLabel constraintsDo: [ :c |
+		c padding: (BlInsets all: 0).
+		c frame horizontal alignCenter.
+		c frame vertical alignBottom ]
 ]
 
 { #category : 'accessing' }
@@ -749,13 +801,14 @@ ICFader >> minValue: aNumber [
 ]
 
 { #category : 'api - transformations' }
-ICFader >> moveHandleTo: aPosition [
+ICFader >> moveHandleTo: aPosition [ 
+
 	| coord |
 	coord := self isSegmented
 		         ifTrue: [ self valueToCoord: (self valueAtCoord: aPosition) ]
 		         ifFalse: [ aPosition ].
 	coord := self clampToBar: coord.
-	handle position: coord.
+	handle position: coord - (self handleSize / 2).
 	self updateColoredBarTo: coord.
 	self basicSetValue: (self valueAtCoord: coord)
 ]
@@ -789,6 +842,76 @@ ICFader >> nearestValue: aValue [
 			minResult := tmp2.
 			val := tmp ] ].
 	^ val
+]
+
+{ #category : 'size' }
+ICFader >> placeLabelsHorizontally [ 
+
+	label ifNotNil: [
+		label constraintsDo: [ :c |
+			c padding: (BlInsets
+					 top: 0
+					 left: marginLength
+					 bottom: 0
+					 right: 0).
+			c frame horizontal alignLeft.
+			c frame vertical alignTop ] ].
+]
+
+{ #category : 'size' }
+ICFader >> placeLabelsVertically [ 
+
+	label ifNotNil: [
+		label constraintsDo: [ :c |
+			c padding: (BlInsets all: 0).
+			c frame horizontal alignCenter.
+			c frame vertical alignTop ] ].
+
+	maxLabel constraintsDo: [ :c |
+		c padding: (BlInsets
+				 top: self bandHeight
+				 left: 0
+				 bottom: 0
+				 right: 0).
+		c frame horizontal alignCenter.
+		c frame vertical alignTop ].
+
+	minLabel constraintsDo: [ :c |
+		c padding: (BlInsets all: 0).
+		c frame horizontal alignCenter.
+		c frame vertical alignBottom ].
+
+	valueLabel constraintsDo: [ :c |
+		c padding: (BlInsets all: 0).
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ]
+]
+
+{ #category : 'size' }
+ICFader >> placeValueLabel [ 
+	"Reparent the value label onto the handle, or back onto me, then centre it."
+
+	valueLabel ifNil: [ ^ self ].
+
+	self valueLabelFollowsHandle
+		ifTrue: [
+			handle layout ifNil: [ handle layout: BlFrameLayout new ].
+			handle clipChildren: false.
+			(handle hasChild: valueLabel) ifFalse: [
+				valueLabel removeFromParent.
+				handle addChild: valueLabel ] ]
+		ifFalse: [
+			(self hasChild: valueLabel) ifFalse: [
+				valueLabel removeFromParent.
+				self addChild: valueLabel ] ].
+
+	valueLabel constraintsDo: [ :c |
+		c accountByLayout.
+		c padding: (BlInsets all: 0).
+		c horizontal fitContent.
+		c vertical fitContent.
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ]
 ]
 
 { #category : 'size' }
@@ -889,7 +1012,7 @@ ICFader >> updateColoredBarTo: aPosition [
 		ifVertical: [
 				coloredBar
 					position: self barOrigin x @ aPosition y;
-					size:
+					extent:
 						self barSize x @ (self barOrigin y + barLength - aPosition y) ]
 ]
 
@@ -933,6 +1056,13 @@ ICFader >> valueAtY: aPoint [
 ICFader >> valueLabel [
 
 	^ valueLabel
+]
+
+{ #category : 'size' }
+ICFader >> valueLabelFollowsHandle [ 
+	"Answer whether my value label rides on the handle instead of sitting still."
+
+	^ false
 ]
 
 { #category : 'api - transformations' }

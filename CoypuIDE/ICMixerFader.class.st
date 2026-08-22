@@ -18,17 +18,19 @@ ICMixerFader class >> differentSizesExample [
 
 	<script>
 	| verticals horizontals column space |
-	verticals := #( #( 90 49 ) #( 140 70 ) #( 200 98 ) ) collect: [ :pair |
-		             (self label: pair second printString)
-			             barLength: pair first
-			             thickness: pair second;
+	verticals := #( #( 'Volume' 90 49 ) #( 'Send A' 140 70 )
+	                #( 'Master' 200 98 ) ) collect: [ :each |
+		             (self label: each first)
+			             barLength: (each at: 2)
+			             thickness: (each at: 3);
 			             yourself ].
 
-	horizontals := #( #( 90 49 ) #( 140 70 ) #( 200 98 ) ) collect: [ :pair |
-		               ((self label: pair second printString) beHorizontal;
+	horizontals := #( #( 'Pan' 90 49 ) #( 'Reverb' 140 70 )
+	                  #( 'Cutoff' 200 98 ) ) collect: [ :each |
+		               ((self label: each first) beHorizontal;
 			                yourself)
-			               barLength: pair first
-			               thickness: pair second;
+			               barLength: (each at: 2)
+			               thickness: (each at: 3);
 			               yourself ].
 
 	column := BlElement new
@@ -63,7 +65,7 @@ ICMixerFader class >> example [
 	container openInSpace.
 ]
 
-{ #category : 'api - bounds' }
+{ #category : 'size' }
 ICMixerFader >> applySize [ 
 	super applySize.
 	self applyTicks
@@ -180,6 +182,13 @@ ICMixerFader >> defaultTickCount [
 	^ 5
 ]
 
+{ #category : 'size' }
+ICMixerFader >> fontSize [ 
+	"barThickness is my full width, not a bar thickness - scale down accordingly."
+
+	^ self barThickness / 5
+]
+
 { #category : 'ui building' }
 ICMixerFader >> fromDictionary: aDictionary forDsp: aDsp [
 
@@ -201,7 +210,7 @@ ICMixerFader >> handleDefaultColor [
 	^ Color veryVeryLightGray 
 ]
 
-{ #category : 'api - bounds' }
+{ #category : 'size' }
 ICMixerFader >> handleSize [ 
 
 ^ self
@@ -209,14 +218,16 @@ ICMixerFader >> handleSize [
 		  ifVertical: [ self handleWidth @ self handleThickness]
 ]
 
-{ #category : 'defaults' }
+{ #category : 'size' }
 ICMixerFader >> handleThickness [ 
-^ self barThickness * 4 / 7 
+
+	^ self barThickness * 6 / 7
 ]
 
-{ #category : 'defaults' }
+{ #category : 'size' }
 ICMixerFader >> handleWidth [ 
- ^ self barThickness * 2 / 7 
+
+	^ self barThickness * 3 / 7
 ]
 
 { #category : 'initialization' }
@@ -258,15 +269,24 @@ ICMixerFader >> slotThickness [
 ^ self barThickness / 7 
 ]
 
-{ #category : 'api - bounds' }
-ICMixerFader >> tickSize [
+{ #category : 'size' }
+ICMixerFader >> tickSize [ 
+	"Ticks span a little wider than the cap, so they read as a scale behind it."
 
+	| span |
+	span := self handleWidth * 5 / 4.
 	^ self
-		  ifHorizontal: [ 3 @ (self barThickness * 4 / 7) ]
-		  ifVertical: [ self barThickness * 4 / 7 @ 3 ]
+		  ifHorizontal: [ 3 @ span ]
+		  ifVertical: [ span @ 3 ]
 ]
 
 { #category : 'api - bounds' }
 ICMixerFader >> ticks [
 ^ ticks
+]
+
+{ #category : 'accessing' }
+ICMixerFader >> valueLabelFollowsHandle [ 
+
+	^ true
 ]
