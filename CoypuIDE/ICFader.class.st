@@ -171,14 +171,13 @@ ICFader class >> readOnlyLabel: aString [
 ]
 
 { #category : 'examples' }
-ICFader class >> rowOf: aCollection [ 
-	"Helper for #differentSizesExample."
+ICFader class >> rowOf: aCollection [
 
 	^ BlElement new
 		  layout: BlLinearLayout horizontal alignCenter;
 		  constraintsDo: [ :c |
-			  c horizontal matchParent.
-			  c vertical fitContent ];
+				  c horizontal matchParent.
+				  c vertical fitContent ];
 		  padding: (BlInsets all: 20);
 		  addChildren: aCollection;
 		  yourself
@@ -884,14 +883,14 @@ ICFader >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
-			coloredBar
-				position: self barOrigin;
-				size: aPosition x - self barOrigin x @ self barSize y ]
+				coloredBar
+					position: self barOrigin;
+					extent: aPosition x - self barOrigin x @ self barSize y ]
 		ifVertical: [
-			coloredBar
-				position: self barOrigin x @ aPosition y;
-				size: self barSize x
-					@ (self barOrigin y + barLength - aPosition y) ]
+				coloredBar
+					position: self barOrigin x @ aPosition y;
+					size:
+						self barSize x @ (self barOrigin y + barLength - aPosition y) ]
 ]
 
 { #category : 'api - values' }

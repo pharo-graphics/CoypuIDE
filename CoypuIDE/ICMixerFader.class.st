@@ -94,11 +94,12 @@ ICMixerFader >> barDefaultColor [
 	^ Color black 
 ]
 
-{ #category : 'api - values' }
-ICMixerFader >> basicSetValue: aNumber [
+{ #category : 'defaults' }
+ICMixerFader >> barSize [ 
 
-	value := aNumber.
-	self callBack ifNotNil: [ :e | e value: value ]
+^ self
+		  ifHorizontal: [ barLength @ self slotThickness ]
+		  ifVertical: [ self slotThickness @ barLength ]
 ]
 
 { #category : 'accessing' }
@@ -106,28 +107,14 @@ ICMixerFader >> coloredBarDefaultColor [
 	^ Color veryVeryLightGray.
 ]
 
-{ #category : 'setting' }
-ICMixerFader >> configuredStringDark: aString size: anInteger [
-	^ aString asRopedText attributes:{(BlTextForegroundAttribute
-	paint: Color white) . (BlFontWeightAttribute bold) . (BlFontSizeAttribute size:anInteger) }
-]
-
 { #category : 'api - bounds' }
-ICMixerFader >> defaultBar [
-
-	| size |
-	size := self
-		        ifHorizontal: [ self defaultBarLength @ self defaultBarThickness - 70 ]
-		        ifVertical: [ self defaultBarThickness - 60 @ self defaultBarLength ].
+ICMixerFader >> defaultBar [ 
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		  background: self barDefaultColor;
-		  extent: size;
-		  constraintsDo: [ :c |
-				  c frame horizontal alignCenter.
-				  c frame vertical alignCenter ];
-		  "constraintsDo: [ :c | c ignoreByLayout ];"yourself
+		  constraintsDo: [ :c | c ignoreByLayout ];
+		  yourself
 ]
 
 { #category : 'api - bounds' }
@@ -150,28 +137,23 @@ ICMixerFader >> defaultColor [
 ]
 
 { #category : 'api - bounds' }
-ICMixerFader >> defaultHandle [
+ICMixerFader >> defaultHandle [ 
 
-	| e1 e2 size elt |
-	size := self ifHorizontal: [ 5 @ barThickness ] ifVertical: [ 20 @ 40 ].
-
-	elt := BlElement new
-		       background: self handleDefaultColor;
-		       geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		       effect: (BlGaussianShadowEffect color: (Color black alpha: 0.6) offset: 4 @ 4 width: 15);
-		       border: (BlBorder paint: Color veryLightGray width: 2);
-		       constraintsDo: [ :c | c ignoreByLayout ];
-		       extent: size;
-		       transformDo: [ :t | t translateBy: size negated / 2 ];
-		       yourself. "e1:=BlElement new
+	^ BlElement new
+		  background: self handleDefaultColor;
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-		  background: self barDefaultColor;
-		  size: 30@60;
-		  constraintsDo: [ :c | c frame horizontal alignCenter. c frame vertical alignCenter. ];
-		  yourself.
-		
-	^ e1."
-	^ elt
+		  effect: (BlGaussianShadowEffect
+				   color: (Color black alpha: 0.6)
+				   offset: 4 @ 4
+				   width: 15);
+		  border: (BlBorder paint: Color veryLightGray width: 2);
+		  constraintsDo: [ :c | c ignoreByLayout ];
+		  yourself
+]
+
+{ #category : 'defaults' }
+ICMixerFader >> defaultIsHorizontal [ 
+ ^ false 
 ]
 
 { #category : 'api - bounds' }
@@ -198,13 +180,6 @@ ICMixerFader >> defaultTickCount [
 	^ 5
 ]
 
-{ #category : 'accessing' }
-ICMixerFader >> direction [
-	"Returns true if horizontal else false"
-	^ self ifHorizontal: [ true ]
-			 ifVertical: [ false ].
-]
-
 { #category : 'ui building' }
 ICMixerFader >> fromDictionary: aDictionary forDsp: aDsp [
 
@@ -226,54 +201,22 @@ ICMixerFader >> handleDefaultColor [
 	^ Color veryVeryLightGray 
 ]
 
-{ #category : 'accessing' }
-ICMixerFader >> horizontal: aBoolean [
+{ #category : 'api - bounds' }
+ICMixerFader >> handleSize [ 
 
-	isHorizontal := aBoolean 
+^ self
+		  ifHorizontal: [ self handleThickness @ self handleWidth ]
+		  ifVertical: [ self handleWidth @ self handleThickness]
 ]
 
-{ #category : 'building' }
-ICMixerFader >> ifHorizontal: horizontalBlock ifVertical: verticalBlock [
-
-	^ self isHorizontal
-		ifTrue: horizontalBlock
-		ifFalse: verticalBlock
+{ #category : 'defaults' }
+ICMixerFader >> handleThickness [ 
+^ self barThickness * 4 / 7 
 ]
 
-{ #category : 'api - slider' }
-ICMixerFader >> incrementValue: aValue [
-
-	| tmp |
-	tmp := value + aValue.
-	self setValue: tmp
-]
-
-{ #category : 'initialization' }
-ICMixerFader >> initalizeTicks [ 
-
-ticks := (1 to: self defaultTickCount) collect: [ :i |
-		         BlElement new
-			         geometry: BlRectangleGeometry new;
-			         background: self tickColor;
-			         constraintsDo: [ :c | c ignoreByLayout ];
-			         yourself ].
-	self addChildren: ticks
-]
-
-{ #category : 'initialization' }
-ICMixerFader >> initialize [
-
-	super initialize.
-	isHorizontal := false.
-	segmented := false.
-	self initializeSizes.
-	self name: ''.
-	self widgetSize: self defaultSize .
-	self background: self defaultColor.
-	self layout: BlFrameLayout new.
-	self initializeValues.
-	self initializeParts.
-	self initializeEvents
+{ #category : 'defaults' }
+ICMixerFader >> handleWidth [ 
+ ^ self barThickness * 2 / 7 
 ]
 
 { #category : 'initialization' }
@@ -285,23 +228,14 @@ ICMixerFader >> initializeParts [
 ]
 
 { #category : 'initialization' }
-ICMixerFader >> initializeSizes [ 
-
-	barLength := self defaultBarLength.
-	barThickness := self defaultBarThickness.
-	marginLength := self defaultMarginLength.
-	marginThickness := self defaultMarginThickness.
-]
-
-{ #category : 'initialization' }
-ICMixerFader >> initializeTicks [
+ICMixerFader >> initializeTicks [ 
 
 	ticks := (1 to: self defaultTickCount) collect: [ :i |
-			         BlElement new
-				         geometry: BlRectangleGeometry new;
-				         background: self defaultTickColor;
-				         constraintsDo: [ :c | c ignoreByLayout ];
-				         yourself ].
+		         BlElement new
+			         geometry: BlRectangleGeometry new;
+			         background: self defaultTickColor;
+			         constraintsDo: [ :c | c ignoreByLayout ];
+			         yourself ].
 	self addChildren: ticks
 ]
 
@@ -313,72 +247,15 @@ ICMixerFader >> initializeValues [
 	value := self minValue 
 ]
 
-{ #category : 'api - transformations' }
-ICMixerFader >> moveHandleTo: aPosition [
+{ #category : 'defaults' }
+ICMixerFader >> lengthPadding [ 
 
-	| newPos |
-	newPos := aPosition.
-	"deal with segmentation"
-	self isSegmented ifTrue: [
-		"| value |"
-		value := self valueAtCoord: aPosition.
-		newPos := self valueToCoord: value ].
-	self
-		ifHorizontal: [
-			| newPosX |
-			newPosX := newPos x.
-			newPos x < bar position x ifTrue: [ newPosX := bar position x ].
-			newPos x > (bar position x + barLength) ifTrue: [
-				newPosX := bar position x + barLength ].
-			newPos := newPosX @ handle position y.
-			handle position: newPos ]
-		ifVertical: [
-			| newPosY |
-			newPosY := newPos y.
-			newPos y < bar position y ifTrue: [ newPosY := bar position y ].
-			newPos y > (bar position y + barLength) ifTrue: [
-				newPosY := bar position y + barLength ].
-			newPos := handle position x @ newPosY.
-			handle position: newPos ].
-	self updateColoredBarTo: newPos.
-	self basicSetValue: (self valueAtCoord: newPos)
-
-	
+^ self handleThickness / 2
 ]
 
-{ #category : 'initialization' }
-ICMixerFader >> setToMax [
-
-	"this method is created with a button that would set to max in the widget"
-	self setValue: self maxValue.
-]
-
-{ #category : 'initialization' }
-ICMixerFader >> setToMin [ 
-
-	"this method is created with a button that would set to max in the widget"
-	self setValue: self minValue.
-]
-
-{ #category : 'accessing' }
-ICMixerFader >> setValue: aNumber [
-
-	| newValue |
-	newValue := aNumber.
-	aNumber < self minValue ifTrue: [ newValue := minValue ].
-	aNumber > self maxValue ifTrue: [ newValue := maxValue ].
-
-	self moveHandleTo: (self valueToCoord: newValue)
-]
-
-{ #category : 'api - bounds' }
-ICMixerFader >> size: aValue [
-	"just to keep the widgset size"
-
-	super extent: aValue " for now do not support resize
-	
-	self isBuildSlider ifTrue: [ self rebuildSlider ]
-	"
+{ #category : 'defaults' }
+ICMixerFader >> slotThickness [ 
+^ self barThickness / 7 
 ]
 
 { #category : 'api - bounds' }
@@ -389,25 +266,7 @@ ICMixerFader >> tickSize [
 		  ifVertical: [ self barThickness * 4 / 7 @ 3 ]
 ]
 
-{ #category : 'api - transformations' }
-ICMixerFader >> updateColoredBarTo: aPosition [
-
-	self
-		ifHorizontal: [
-				coloredBar position: bar position.
-				coloredBar extent:
-					(aPosition - coloredBar position) x @ barThickness ]
-		ifVertical: [
-				coloredBar position:
-					aPosition x - (barThickness / 2) @ aPosition y.
-				coloredBar extent:
-					barThickness @ (bar position y + barLength - aPosition y) ]
-]
-
-{ #category : 'api - transformations' }
-ICMixerFader >> valueAtCoord: aPoint [
-
-	^ self
-		  ifHorizontal: [ self valueAtX: aPoint ]
-		  ifVertical: [ self valueAtY: aPoint ]
+{ #category : 'api - bounds' }
+ICMixerFader >> ticks [
+^ ticks
 ]
