@@ -297,11 +297,17 @@ ICFader >> barLength: aLength thickness: aThickness [
 
 { #category : 'size' }
 ICFader >> barOrigin [
+
+"Top-left of the bar, in my local coordinates."
+
 	^ self
-		  ifHorizontal: [ marginLength @ (self bandHeight + marginThickness) ]
+		  ifHorizontal: [
+			  marginLength + self lengthPadding
+			  @ (self bandHeight + marginThickness
+				   + ((barThickness - self barSize y) / 2)) ]
 		  ifVertical: [
-			  (self widgetExtent x - barThickness / 2)
-			  @ ((2 * self bandHeight) + marginLength) ]
+			  (self widgetExtent x - self barSize x) / 2
+			  @ ((2 * self bandHeight) + marginLength + self lengthPadding) ]
 ]
 
 { #category : 'size' }
@@ -404,11 +410,10 @@ ICFader >> coloredBarDefaultColor [
 
 { #category : 'size' }
 ICFader >> crossCenter [
-	"Centre of the bar on the axis the handle does not travel along."
-
-	^ self
-		  ifHorizontal: [ self barOrigin y + (barThickness / 2) ]
-		  ifVertical: [ self barOrigin x + (barThickness / 2) ]
+"The coordinate the handle keeps on the axis it does not travel along."
+^ self
+		  ifHorizontal: [ self barOrigin y + (self barSize y / 2) ]
+		  ifVertical: [ self barOrigin x + (self barSize x / 2) ]
 ]
 
 { #category : 'api - slider' }
@@ -462,6 +467,11 @@ ICFader >> defaultHandle [
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 		  constraintsDo: [ :c | c ignoreByLayout ];
 		  yourself
+]
+
+{ #category : 'accessing' }
+ICFader >> defaultIsHorizontal [ 
+^ true
 ]
 
 { #category : 'api - bounds' }
@@ -673,6 +683,11 @@ ICFader >> labelText: anObject color: aColor [
 ]
 
 { #category : 'accessing' }
+ICFader >> lengthPadding [ 
+^ 0
+]
+
+{ #category : 'accessing' }
 ICFader >> marginLength [
 
 	^ marginLength
@@ -869,14 +884,14 @@ ICFader >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
-				coloredBar
-					position: self barOrigin;
-					extent: (aPosition - self barOrigin) x @ barThickness ]
+			coloredBar
+				position: self barOrigin;
+				size: aPosition x - self barOrigin x @ self barSize y ]
 		ifVertical: [
-				coloredBar
-					position: aPosition x - (barThickness / 2) @ aPosition y;
-					extent:
-						barThickness @ (self barOrigin y + barLength - aPosition y) ]
+			coloredBar
+				position: self barOrigin x @ aPosition y;
+				size: self barSize x
+					@ (self barOrigin y + barLength - aPosition y) ]
 ]
 
 { #category : 'api - values' }
@@ -949,11 +964,12 @@ ICFader >> valueToY: aNumber [
 ICFader >> widgetExtent [
 	^ self
 		  ifHorizontal: [
-			  barLength + (2 * marginLength)
+			  barLength + (2 * marginLength) + (2 * self lengthPadding)
 			  @ (barThickness + (2 * marginThickness) + (2 * self bandHeight)) ]
 		  ifVertical: [
-			  ((barThickness + (2 * marginThickness)) max: self labelColumnWidth)
-			  @ (barLength + (2 * marginLength) + (3 * self bandHeight)) ]
+			  (barThickness + (2 * marginThickness) max: self labelColumnWidth)
+			  @ (barLength + (2 * marginLength) + (2 * self lengthPadding)
+				   + (3 * self bandHeight)) ]
 ]
 
 { #category : 'accessing' }
