@@ -173,15 +173,12 @@ DSP >> connectToOSCServerOnPort: aPort [
 
 { #category : '*CoypuIDE' }
 DSP >> displayParameters [
-	"Open a window listing all available parameters of this DSP"
+	"Open a space listing all available parameters of this DSP"
 
 	self isInitialized ifFalse: [ ^ self error: 'This DSP is not initialized' ].
-	^ (SpListPresenter new
-		items: self allParameters;
-		display: [ :each | each printString ];
-		yourself) asWindow
-		title: 'DSP Parameters';
-		open
+	^ self parametersSpace
+		show;
+		yourself
 ]
 
 { #category : '*CoypuIDE' }
@@ -339,12 +336,29 @@ DSP >> openWidgetFor: aSymbol [
 
 { #category : '*CoypuIDE' }
 DSP >> parametersElement [
-	^ ToListElement new
-		nodeBuilder: [ :node :holder | node addChild: (ToLabel text: holder dataItem printString) ];
+	| names |
+	names := self allParameters sorted: [ :a :b | (a substrings: '/') last < (b substrings: '/') last ].
+	^ BlElement new
+		layout: (BlGridLayout vertical
+			rowCount: (names size / 4) ceiling;
+			cellSpacing: 8;
+			yourself);
+		padding: (BlInsets all: 8);
 		constraintsDo: [ :c |
 			c horizontal matchParent.
-			c vertical matchParent ];
-		in: [ :list | list dataAccessor addAll: self allParameters ];
+			c vertical fitContent ];
+		addChildren: (names collect: [ :each |
+			(ToLabel text: each asString)
+				constraintsDo: [ :c | c horizontal matchParent ];
+				yourself ]);
+		yourself
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> parametersSpace [
+	^ BlSpace new
+		title: 'DSP Parameters';
+		in: [ :space | space root addChild: self parametersElement ];
 		yourself
 ]
 

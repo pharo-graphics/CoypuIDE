@@ -43,3 +43,32 @@ CoypuLogElement >> initialize [
 				c vertical matchParent ];
 		addChild: list
 ]
+
+{ #category : 'accessing' }
+CoypuLogElement >> labelFor: aSignal [
+	^ ToLabel new
+		text: (aSignal printString asRopedText
+			foreground: (colors at: aSignal class ifAbsent: [ Color white ]);
+			fontName: 'Source Code Pro';
+			fontSize: 12);
+		yourself
+]
+
+{ #category : 'initialization' }
+CoypuLogElement >> nitialize [
+	super initialize.
+	maxEntries := 500.
+	colors := Dictionary new.
+	loggers := OrderedCollection new.
+	list := ToListElement new
+		nodeBuilder: [ :node :dataItem | node addChild: (self labelFor: dataItem) ];
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ];
+		yourself.
+	self
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ];
+		addChild: list
+]

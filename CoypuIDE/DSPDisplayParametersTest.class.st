@@ -22,9 +22,31 @@ DSPDisplayParametersTest >> testDisplayParametersListsAllParameters [
 ]
 
 { #category : 'tests' }
+DSPDisplayParametersTest >> testDisplayParametersOpensSpace [
+	| dsp space |
+	dsp := SineOsc new asDsp.
+	dsp init.
+	space := dsp displayParameters.
+	[
+	self assert: space title equals: 'DSP Parameters'.
+	self assert: (space root children anySatisfy: [ :each | each isKindOf: ToListElement ]) ]
+		ensure: [ space close ]
+]
+
+{ #category : 'tests' }
 DSPDisplayParametersTest >> testParametersElementListsAllParameters [
 	| dsp |
 	dsp := SineOsc new asDsp.
 	dsp init.
 	self assert: dsp parametersElement dataAccessor size equals: dsp allParameters size
+]
+
+{ #category : 'tests' }
+DSPDisplayParametersTest >> testParametersSpaceContainsList [
+	| dsp space |
+	dsp := SineOsc new asDsp.
+	dsp init.
+	space := dsp parametersSpace.
+	self assert: space title equals: 'DSP Parameters'.
+	self assert: (space root children anySatisfy: [ :each | each isKindOf: ToListElement ])
 ]
