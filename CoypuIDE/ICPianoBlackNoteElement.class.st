@@ -30,9 +30,9 @@ ICPianoBlackNoteElement >> initialize [
 	width := 16.
 	height := 70.
 	bgColor := Color black.
-	self size: width @ height.
+	self extent: width @ height.
 	self geometry: BlRectangleGeometry new.
-	self background: self bgColor .
+	self background: self bgColor.
 	self constraintsDo: [ :e | e frame vertical alignTop ]
 ]
 

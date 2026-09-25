@@ -172,6 +172,19 @@ DSP >> connectToOSCServerOnPort: aPort [
 ]
 
 { #category : '*CoypuIDE' }
+DSP >> displayParameters [
+	"Open a window listing all available parameters of this DSP"
+
+	self isInitialized ifFalse: [ ^ self error: 'This DSP is not initialized' ].
+	^ (SpListPresenter new
+		items: self allParameters;
+		display: [ :each | each printString ];
+		yourself) asWindow
+		title: 'DSP Parameters';
+		open
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> displayUI [
 	"display the UI made with Bloc"
 
@@ -322,6 +335,17 @@ DSP >> openWidgetFor: aSymbol [
 		do: [ :evt | space extent: evt target extent ].
 
 	space root addChild: widget
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> parametersElement [
+	^ ToListElement new
+		nodeBuilder: [ :node :holder | node addChild: (ToLabel text: holder dataItem printString) ];
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ];
+		in: [ :list | list dataAccessor addAll: self allParameters ];
+		yourself
 ]
 
 { #category : '*CoypuIDE' }
