@@ -347,18 +347,7 @@ DSP >> parametersColumn: aCollection [
 
 { #category : '*CoypuIDE' }
 DSP >> parametersElement [
-	| names perColumn |
-	names := self allParameters sorted: [ :a :b | a asLowercase < b asLowercase ].
-	perColumn := (names size / 4) ceiling max: 1.
-	^ BlElement new
-		layout: (BlLinearLayout horizontal cellSpacing: 16);
-		padding: (BlInsets all: 8);
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical fitContent ];
-		addChildren: ((1 to: names size by: perColumn) collect: [ :start |
-			self parametersColumn: (names copyFrom: start to: (start + perColumn - 1 min: names size)) ]);
-		yourself
+	^ CoypuParametersElement on: self allParameters
 ]
 
 { #category : '*CoypuIDE' }
