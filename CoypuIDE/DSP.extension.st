@@ -335,22 +335,29 @@ DSP >> openWidgetFor: aSymbol [
 ]
 
 { #category : '*CoypuIDE' }
-DSP >> parametersElement [
-	| names |
-	names := self allParameters sorted: [ :a :b | (a substrings: '/') last < (b substrings: '/') last ].
+DSP >> parametersColumn: aCollection [
 	^ BlElement new
-		layout: (BlGridLayout vertical
-			rowCount: (names size / 4) ceiling;
-			cellSpacing: 8;
-			yourself);
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical fitContent ];
+		addChildren: (aCollection collect: [ :each | ToLabel text: each asString ]);
+		yourself
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> parametersElement [
+	| names perColumn |
+	names := self allParameters sorted: [ :a :b | a asLowercase < b asLowercase ].
+	perColumn := (names size / 4) ceiling max: 1.
+	^ BlElement new
+		layout: (BlLinearLayout horizontal cellSpacing: 16);
 		padding: (BlInsets all: 8);
 		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical fitContent ];
-		addChildren: (names collect: [ :each |
-			(ToLabel text: each asString)
-				constraintsDo: [ :c | c horizontal matchParent ];
-				yourself ]);
+		addChildren: ((1 to: names size by: perColumn) collect: [ :start |
+			self parametersColumn: (names copyFrom: start to: (start + perColumn - 1 min: names size)) ]);
 		yourself
 ]
 
