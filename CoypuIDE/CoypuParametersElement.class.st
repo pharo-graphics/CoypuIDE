@@ -16,12 +16,12 @@ CoypuParametersElement class >> colorRules [
 	"Ordered: first matching suffix wins ('freq' before 'q')"
 
 	^ {
-		  #( 'trigger' ) -> Color red.
-		  #( 'freq' ) -> Color cyan.
-		  #( 'level' 'gain' ) -> Color yellow.
-		  #( 'attack' 'decay' 'sustain' 'release' ) -> Color green.
-		  #( 'cutoff' 'q' 'resonance' 'envmod' ) -> Color orange.
-		  #( 'index' 'ratio' ) -> Color magenta }
+		  #( 'trigger' ) -> Color red darker.
+		  #( 'freq' ) -> Color blue.
+		  #( 'level' 'gain' ) -> Color orange darker darker.
+		  #( 'attack' 'decay' 'sustain' 'release' ) -> Color green darker darker.
+		  #( 'cutoff' 'q' 'resonance' 'envmod' ) -> Color orange darker.
+		  #( 'index' 'ratio' ) -> Color magenta darker }
 ]
 
 { #category : 'instance creation' }
@@ -37,7 +37,7 @@ CoypuParametersElement >> colorFor: aName [
 	name := aName asLowercase.
 	^ (self class colorRules
 		detect: [ :rule | rule key anySatisfy: [ :suffix | name endsWith: suffix ] ]
-		ifNone: [ nil -> Color lightGray ]) value
+		ifNone: [ nil -> Color darkGray ]) value
 ]
 
 { #category : 'accessing' }
@@ -64,36 +64,37 @@ CoypuParametersElement >> filter: aString [
 
 { #category : 'initialization' }
 CoypuParametersElement >> initialize [
+
 	super initialize.
-	parameters := #().
+	parameters := #(  ).
 	filterField := ToTextField new
-		placeholderText: 'Filter';
-		whenTextEditedDo: [ self refresh ];
-		yourself.
+		               placeholderText: 'Filter';
+		               whenTextEditedDo: [ self refresh ];
+		               yourself.
 	columns := BlElement new
-		layout: (BlLinearLayout horizontal cellSpacing: 16);
-		padding: (BlInsets all: 8);
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical fitContent ];
-		yourself.
+		           layout: (BlLinearLayout horizontal cellSpacing: 16);
+		           padding: (BlInsets all: 8);
+		           constraintsDo: [ :c |
+				           c horizontal matchParent.
+				           c vertical fitContent ];
+		           yourself.
 	self
 		layout: (BlLinearLayout vertical cellSpacing: 8);
 		padding: (BlInsets all: 8);
-		background: Color black;
+		
 		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ];
-		addChildren: {
-			filterField.
-			(columns asScrollableElement constraintsDo: [ :c |
 				c horizontal matchParent.
-				c vertical matchParent ]) }
+				c vertical matchParent ];
+		addChildren: {
+				filterField.
+				(columns asScrollableElement constraintsDo: [ :c |
+							 c horizontal matchParent.
+							 c vertical matchParent ]) }
 ]
 
 { #category : 'accessing' }
 CoypuParametersElement >> labelFor: aName [
-	^ ToLabel new
+	^ BlTextElement new
 		text: (aName asRopedText
 			foreground: (self colorFor: aName);
 			fontName: 'Source Code Pro';

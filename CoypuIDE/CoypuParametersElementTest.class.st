@@ -15,9 +15,9 @@ CoypuParametersElementTest >> element [
 CoypuParametersElementTest >> testColorByParamType [
 	| element |
 	element := self element.
-	self assert: (element colorFor: 'kickTrigger') equals: Color red.
-	self assert: (element colorFor: 'acidFreq') equals: Color cyan.
-	self assert: (element colorFor: 'Reverb') equals: Color lightGray
+	self assert: (element colorFor: 'kickTrigger') equals: Color red darker.
+	self assert: (element colorFor: 'acidFreq') equals: Color blue.
+	self assert: (element colorFor: 'Reverb') equals: Color darkGray
 ]
 
 { #category : 'tests' }
@@ -26,6 +26,11 @@ CoypuParametersElementTest >> testFilterKeepsMatches [
 	element := self element.
 	element filter: 'KICK'.
 	self assert: element displayedNames asArray equals: #( 'kickFreq' 'kickTrigger' )
+]
+
+{ #category : 'tests' }
+CoypuParametersElementTest >> testLabelsAreNotThemed [
+	self assert: (self element labelFor: 'kickTrigger') class equals: BlTextElement
 ]
 
 { #category : 'tests' }
