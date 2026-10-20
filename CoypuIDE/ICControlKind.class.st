@@ -32,6 +32,13 @@ ICControlKind class >> classForFaustType: aString [
 ]
 
 { #category : 'instance creation' }
+ICControlKind class >> forParameter: aParameter [
+	"The only place CoypuIDE reads a Faust type. aParameter: a PhParameter."
+
+	^ (self classForFaustType: aParameter type) fromStyle: aParameter style
+]
+
+{ #category : 'instance creation' }
 ICControlKind class >> fromStyle: aString [
 	"Most kinds ignore the style."
 
@@ -59,11 +66,4 @@ ICControlKind >> classForFaustType: aString [
 			at: aString
 			ifAbsent: [ self error: 'No widget kind for Faust type ' , aString ]
 
-]
-
-{ #category : 'as yet unclassified' }
-ICControlKind >> forParameter: aParameter [
-	"The only place CoypuIDE reads a Faust type. aParameter: a PhParameter."
-
-	^ (self classForFaustType: aParameter type) fromStyle: aParameter style
 ]

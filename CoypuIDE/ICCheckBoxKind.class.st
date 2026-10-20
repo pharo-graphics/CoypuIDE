@@ -3,7 +3,7 @@ I am a Faust _checkbox_, a latching toggle. JUCE: ToggleButton with a ButtonAtta
 
 "
 Class {
-	#name : 'ICCheckBoxKind',
+	#name : 'ICCheckboxKind',
 	#superclass : 'ICControlKind',
 	#category : 'CoypuIDE-Panel',
 	#package : 'CoypuIDE',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : 'visiting' }
-ICCheckBoxKind >> acceptVisitor: aVisitor for: aParameter [
+ICCheckboxKind >> acceptVisitor: aVisitor for: aParameter [
 
 	^ aVisitor visitCheckbox: aParameter
 ]
