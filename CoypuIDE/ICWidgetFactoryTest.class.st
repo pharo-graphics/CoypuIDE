@@ -22,6 +22,17 @@ ICWidgetFactoryTest >> fixtureParameters [
 ]
 
 { #category : 'tests' }
+ICWidgetFactoryTest >> testDescriptorRowsCarryTheExportDefaults [
+	"The rows PhaustoParams.h gets for a toggle and a slider."
+
+	self
+		assert: (DSP new apvtsDescriptorRowFor: (self parameterNamed: 'gate'))
+		equals: '        { "gate", "/fx/gate", "gate", 0.0f, 1.0f, 0.0f, 0.01f, true },';
+		assert: (DSP new apvtsDescriptorRowFor: (self parameterNamed: 'cutoff'))
+		equals: '        { "cutoff", "/fx/cutoff", "cutoff", 20.0f, 20000.0f, 1000.0f, 1.0f, false },'
+]
+
+{ #category : 'tests' }
 ICWidgetFactoryTest >> testEachControlPicksItsVisitMethod [
 
 	self
