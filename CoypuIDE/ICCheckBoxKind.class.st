@@ -1,3 +1,7 @@
+"
+I am a Faust _checkbox_, a latching toggle. JUCE: ToggleButton with a ButtonAttachment.
+
+"
 Class {
 	#name : 'ICCheckBoxKind',
 	#superclass : 'ICControlKind',

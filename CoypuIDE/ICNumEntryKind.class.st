@@ -1,3 +1,7 @@
+"
+I am a Faust _nentry_. JUCE: Slider::IncDecButtons.
+
+"
 Class {
 	#name : 'ICNumEntryKind',
 	#superclass : 'ICSliderKind',

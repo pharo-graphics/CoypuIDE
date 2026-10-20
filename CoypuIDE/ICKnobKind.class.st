@@ -1,3 +1,7 @@
+"
+I am an _hslider_, _vslider_ or _nentry_ declared with **[style:knob]**. JUCE: Slider::RotaryHorizontalVerticalDrag.'.
+
+"
 Class {
 	#name : 'ICKnobKind',
 	#superclass : 'ICSliderKind',

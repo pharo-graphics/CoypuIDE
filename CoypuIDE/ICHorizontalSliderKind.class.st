@@ -1,3 +1,6 @@
+"
+I am a Faust hslider. JUCE: Slider::LinearHorizontal.
+"
 Class {
 	#name : 'ICHorizontalSliderKind',
 	#superclass : 'ICSliderKind',
@@ -6,8 +9,9 @@ Class {
 	#tag : 'Panel'
 }
 
-{ #category : 'visiting' }
+{ #category : 'instance creation' }
 ICHorizontalSliderKind >> acceptVisitor: aVisitor for: aParameter [
 
 	^ aVisitor visitHorizontalSlider: aParameter
+
 ]

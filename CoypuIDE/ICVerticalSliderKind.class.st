@@ -1,3 +1,7 @@
+"
+I am a Faust _vslider_. JUCE: Slider::LinearVertical.
+
+"
 Class {
 	#name : 'ICVerticalSliderKind',
 	#superclass : 'ICSliderKind',
@@ -10,4 +14,5 @@ Class {
 ICVerticalSliderKind >> acceptVisitor: aVisitor for: aParameter [
 
 	^ aVisitor visitVerticalSlider: aParameter
+
 ]
