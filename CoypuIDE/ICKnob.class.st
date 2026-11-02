@@ -313,11 +313,11 @@ ICKnob >> applyMarkerSize [
 
 { #category : 'api - operations' }
 ICKnob >> applySize [ 
-self extent: self widgetSize asPoint.
+	self extent: self widgetSize asPoint.
 	self padding: (BlInsets all: self diameter / 8).
 	knob extent: self knobSize asPoint.
-	disk ifNotNil: [ :d | d extent: self diskSize asPoint ].
-	outerRing ifNotNil: [ :r | r extent: self outerRingSize asPoint ].
+	disk ifNotNil: [ :aDisk | aDisk extent: self diskSize asPoint ].
+	outerRing ifNotNil: [ :aRing | aRing extent: self outerRingSize asPoint ].
 	self applyMarkerSize.
 	self applyLabelSizes.
 	self whenLayoutedDoOnce: [

@@ -9,10 +9,9 @@ Class {
 	#tag : 'slider'
 }
 
-{ #category : 'accessing' }
+{ #category : 'size' }
 ICSimpleKnob >> applyMarkerSize [
-
-"Round thumb instead of the inherited capsule."
+	"Round thumb instead of the inherited capsule."
 
 	| w |
 	w := self diameter / 3.
@@ -22,17 +21,17 @@ ICSimpleKnob >> applyMarkerSize [
 		position: ((self knobSize - w) / 2) @ (self diameter * 5 / 12)
 ]
 
-{ #category : 'accessing' }
-ICSimpleKnob >> applySize [ 
+{ #category : 'size' }
+ICSimpleKnob >> applySize [
 
 	super applySize.
 	knob border: (BlBorder paint: Color black width: self knobBorderWidth)
 ]
 
 { #category : 'accessing' }
-ICSimpleKnob >> backColor [ 
+ICSimpleKnob >> backColor [
 
-^ Color white
+	^ Color white
 ]
 
 { #category : 'api - operations' }
@@ -40,91 +39,60 @@ ICSimpleKnob >> doOperations [
 
 	self knob transformDo: [ :t | t rotateBy: angle ].
 	self knob zIndex: 100.
-	self currentValue: self angleToValue.
-
+	self currentValue: self angleToValue
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICSimpleKnob >> fontSz [
-	^25
+	"25 at the default diameter of 60"
+
+	^ self diameter * 5 / 12
 ]
 
 { #category : 'initialization' }
 ICSimpleKnob >> initializeDisk [
-	
+	"No value arc on this knob"
 ]
 
 { #category : 'initialization' }
-ICSimpleKnob >> initializeGeometry [ [
-
-	self extent: (diameter + 100) asPoint.
-	self background: Color white.
-	self clipChildren: false.
-	self layout: BlFrameLayout new.
-	self padding: (BlInsets all: 7).
-
-
-	self knob: (BlElement new
-			 geometry: BlCircleGeometry new;
-			 extent: self knobSize + 25 asPoint;
-			 clipChildren: false;
-			 background: self knobColor;
-			 border: (BlBorder paint: Color black width: 13);
-			 constraintsDo: [ :c |
-					 c frame horizontal alignCenter.
-					 c frame vertical alignCenter ]).
-
-	self addChild: self knob.
-
-
-	marker := BlElement new
-		          extent: 20 asPoint;
-		          transformDo: [ :t | t translateBy: -2 @ 0 ];
-		          geometry: BlCircleGeometry new;
-		          background: self markerColor;
-		          position: self knobSize / 2 @ 25.
-	marker zIndex: 100.
-
-	self knob addChild: marker
-]
-]
-
-{ #category : 'initialization' }
-ICSimpleKnob >> initializeOuterRing [ 
-	
+ICSimpleKnob >> initializeOuterRing [
+	"No outer ring on this knob"
 ]
 
 { #category : 'accessing' }
 ICSimpleKnob >> knobBorderWidth [
-
-"13 at the default diameter of 60."
+	"13 at the default diameter of 60"
 
 	^ self diameter * 13 / 60
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICSimpleKnob >> knobColor [
-	^(Color white)
+
+	^ Color white
 ]
 
 { #category : 'accessing' }
-ICSimpleKnob >> knobSize [ 
-"85 at the default diameter of 60."
+ICSimpleKnob >> knobSize [
+	"85 at the default diameter of 60, as before the refactor"
 
 	^ self diameter * 17 / 12
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICSimpleKnob >> markerColor [
-	^(Color veryVeryDarkGray )
+
+	^ Color veryVeryDarkGray
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICSimpleKnob >> textColor [
-	^Color veryVeryDarkGray.
+
+	^ Color veryVeryDarkGray
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICSimpleKnob >> valueColor [
-	^Color black.
+
+	^ Color black
 ]
