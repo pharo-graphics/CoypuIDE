@@ -9,6 +9,32 @@ Class {
 	#tag : 'slider'
 }
 
+{ #category : 'accessing' }
+ICSimpleKnob >> applyMarkerSize [
+
+"Round thumb instead of the inherited capsule."
+
+	| w |
+	w := self diameter / 3.
+	marker
+		extent: w asPoint;
+		geometry: BlCircleGeometry new;
+		position: ((self knobSize - w) / 2) @ (self diameter * 5 / 12)
+]
+
+{ #category : 'accessing' }
+ICSimpleKnob >> applySize [ 
+
+	super applySize.
+	knob border: (BlBorder paint: Color black width: self knobBorderWidth)
+]
+
+{ #category : 'accessing' }
+ICSimpleKnob >> backColor [ 
+
+^ Color white
+]
+
 { #category : 'api - operations' }
 ICSimpleKnob >> doOperations [
 
@@ -29,9 +55,8 @@ ICSimpleKnob >> initializeDisk [
 ]
 
 { #category : 'initialization' }
-ICSimpleKnob >> initializeGeometry [
+ICSimpleKnob >> initializeGeometry [ [
 
-	| marker |
 	self extent: (diameter + 100) asPoint.
 	self background: Color white.
 	self clipChildren: false.
@@ -62,15 +87,31 @@ ICSimpleKnob >> initializeGeometry [
 
 	self knob addChild: marker
 ]
+]
 
 { #category : 'initialization' }
 ICSimpleKnob >> initializeOuterRing [ 
 	
 ]
 
+{ #category : 'accessing' }
+ICSimpleKnob >> knobBorderWidth [
+
+"13 at the default diameter of 60."
+
+	^ self diameter * 13 / 60
+]
+
 { #category : 'initialization' }
 ICSimpleKnob >> knobColor [
 	^(Color white)
+]
+
+{ #category : 'accessing' }
+ICSimpleKnob >> knobSize [ 
+"85 at the default diameter of 60."
+
+	^ self diameter * 17 / 12
 ]
 
 { #category : 'initialization' }

@@ -311,13 +311,13 @@ ICKnob >> applyMarkerSize [
 		position: ((self knobSize - w) / 2) @ (self diameter / 12)
 ]
 
-{ #category : 'size' }
-ICKnob >> applySize [
-	self extent: self widgetSize asPoint.
+{ #category : 'api - operations' }
+ICKnob >> applySize [ 
+self extent: self widgetSize asPoint.
 	self padding: (BlInsets all: self diameter / 8).
 	knob extent: self knobSize asPoint.
-	disk extent: self diskSize asPoint.
-	outerRing extent: self outerRingSize asPoint.
+	disk ifNotNil: [ :d | d extent: self diskSize asPoint ].
+	outerRing ifNotNil: [ :r | r extent: self outerRingSize asPoint ].
 	self applyMarkerSize.
 	self applyLabelSizes.
 	self whenLayoutedDoOnce: [
@@ -437,13 +437,11 @@ ICKnob >> diskSize [
 ]
 
 { #category : 'api - operations' }
-ICKnob >> doOperations [
-
-	self knob transformDo: [ :t | t rotateBy: angle ].
+ICKnob >> doOperations [ 
+self knob transformDo: [ :t | t rotateBy: angle ].
 	self knob zIndex: 100.
 	self disk geometry endAngle: angle - 90.
-	self currentValue: self angleToValue.
-
+	self currentValue: self angleToValue
 ]
 
 { #category : 'accessing' }
