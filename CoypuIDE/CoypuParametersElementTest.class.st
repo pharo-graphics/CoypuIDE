@@ -42,6 +42,18 @@ CoypuParametersElementTest >> testParametersElementListsAllParameters [
 ]
 
 { #category : 'tests' }
+CoypuParametersElementTest >> testPhuckParametersElementListsAllGlobals [ 
+
+	| vm |
+	vm := PhuckVM offline.
+	[
+	vm compile: 'global float cutoff; global int gate; global string sample;'.
+	self
+		assert: vm parametersElement displayedNames asArray
+		equals: #( 'cutoff' 'gate' 'sample' ) ] ensure: [ vm releaseVM ]
+]
+
+{ #category : 'tests' }
 CoypuParametersElementTest >> testShowsAllWhenFilterIsEmpty [
 	self assert: self element displayedNames size equals: 5
 ]
