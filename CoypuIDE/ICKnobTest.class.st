@@ -153,6 +153,26 @@ ICKnobTest >> testDiameterUpdatesOwnExtent [
 
 ]
 
+{ #category : 'running' }
+ICKnobTest >> testEverySubclassBuildsResizesAndCentersItsMarker [ [
+	"Subclasses may leave parts out (ICSimpleKnob has no disk and no outer ring)."
+
+	ICKnob allSubclasses do: [ :aClass |
+		| k |
+		k := aClass label: 'x'.
+		#( 48 96 144 ) do: [ :d |
+			| markerWidth |
+			k diameter: d.
+			k setToMax.
+			markerWidth := (self requestedExtentOf: k marker) x.
+			self assert: (self requestedExtentOf: k) equals: k widgetSize asPoint.
+			self assert: (k knob hasChild: k marker).
+			self
+				assert: k marker constraints position x + (markerWidth / 2)
+				equals: (self requestedExtentOf: k knob) x / 2 ] ]
+]
+]
+
 { #category : 'tests' }
 ICKnobTest >> testForMidi [ 
 

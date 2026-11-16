@@ -311,13 +311,13 @@ ICKnob >> applyMarkerSize [
 		position: ((self knobSize - w) / 2) @ (self diameter / 12)
 ]
 
-{ #category : 'size' }
-ICKnob >> applySize [
+{ #category : 'api - operations' }
+ICKnob >> applySize [ 
 	self extent: self widgetSize asPoint.
 	self padding: (BlInsets all: self diameter / 8).
 	knob extent: self knobSize asPoint.
-	disk extent: self diskSize asPoint.
-	outerRing extent: self outerRingSize asPoint.
+	disk ifNotNil: [ :aDisk | aDisk extent: self diskSize asPoint ].
+	outerRing ifNotNil: [ :aRing | aRing extent: self outerRingSize asPoint ].
 	self applyMarkerSize.
 	self applyLabelSizes.
 	self whenLayoutedDoOnce: [
@@ -437,13 +437,26 @@ ICKnob >> diskSize [
 ]
 
 { #category : 'api - operations' }
-ICKnob >> doOperations [
-
-	self knob transformDo: [ :t | t rotateBy: angle ].
+ICKnob >> doOperations [ 
+self knob transformDo: [ :t | t rotateBy: angle ].
 	self knob zIndex: 100.
 	self disk geometry endAngle: angle - 90.
-	self currentValue: self angleToValue.
+	self currentValue: self angleToValue
+]
 
+{ #category : 'accessing' }
+ICKnob >> dragAt: aPoint [
+	"Like clickAt:, but a drag stops at the ends: when the short way from the knob to the pointer crosses the gap at the bottom, the knob stays at the end on its side instead of flipping between min and max"
+
+	| pointerAngle |
+	pointerAngle := (0 @ -1 angleWith: aPoint - centerPosition) radiansToDegrees.
+	pointerAngle >= 180 ifTrue: [ pointerAngle := pointerAngle - 360 ].
+	(pointerAngle - self angle) abs > 180
+		ifTrue: [
+			self angle: (self angle >= 0
+					 ifTrue: [ self maxAngle ]
+					 ifFalse: [ self minAngle ]) ]
+		ifFalse: [ self clickAt: aPoint ]
 ]
 
 { #category : 'accessing' }
@@ -500,7 +513,7 @@ ICKnob >> initializeDisks [
 	self initializeDisk.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
 ICKnob >> initializeEvents [
 
 	self addEventHandlerOn: BlKeyDownEvent do: [ :e |
@@ -522,7 +535,7 @@ ICKnob >> initializeEvents [
 		self clickAt: event position ].
 	self
 		addEventHandlerOn: BlDragEvent
-		do: [ :event | self clickAt: event position ].
+		do: [ :event | self dragAt: event position ].
 	self requestFocus
 ]
 

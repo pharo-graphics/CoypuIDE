@@ -1,10 +1,17 @@
 Extension { #name : 'PhuckVM' }
 
 { #category : '*CoypuIDE' }
+PhuckVM >> allParameters [
+	"Names of the int, float and string globals declared in code compiled with compile: or run:"
+
+	^ self globals keys
+]
+
+{ #category : '*CoypuIDE' }
 PhuckVM >> displayParameters [
 	"Open a space listing all ChucK globals registered in this VM"
 
-	self isRunning ifFalse: [ ^ self error: 'This PhuckVM is not running' ].
+	self ensureRunning.
 	^ self parametersSpace
 		show;
 		yourself
@@ -12,7 +19,7 @@ PhuckVM >> displayParameters [
 
 { #category : '*CoypuIDE' }
 PhuckVM >> parametersElement [
-	^ CoypuParametersElement on: self globals keys
+	^ CoypuParametersElement on: self allParameters
 ]
 
 { #category : '*CoypuIDE' }
