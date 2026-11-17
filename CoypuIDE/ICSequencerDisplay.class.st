@@ -19,7 +19,8 @@ Class {
 		'steps',
 		'hoveredIndex',
 		'shownGates',
-		'shownNotes'
+		'shownNotes',
+		'playheadIndex'
 	],
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',
@@ -55,6 +56,21 @@ ICSequencerDisplay >> commitNote [
 	self rebuild
 ]
 
+{ #category : 'playhead' }
+ICSequencerDisplay >> dimStepAt: anIndex [
+	"back to the step's own border, as drawn by newEmptyStep or newTriggeredStepWith:"
+
+	(steps isNil or: [ anIndex > steps size ]) ifTrue: [ ^ self ].
+	(steps at: anIndex)
+		border: (BlBorder
+				 paint: ((sequencer gates at: anIndex) > 0
+						  ifTrue: [ triggeredColor lighter ]
+						  ifFalse: [ self ruleColor ])
+				 width: 1);
+		effect: BlNullEffect new;
+		elevation: (BlRelativeElevation elevation: 0)
+]
+
 { #category : 'accessing' }
 ICSequencerDisplay >> editingIndex [
 
@@ -69,6 +85,23 @@ ICSequencerDisplay >> gateAt: anIndex put: aValue [
 	newGates := sequencer gates copy.
 	newGates at: anIndex put: aValue.
 	sequencer gates: newGates
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> glowColor [
+	"DiceTherapy's print white"
+
+	^ Color fromHexString: 'f7f2ff'
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> glowStepAt: anIndex [
+
+	(steps isNil or: [ anIndex > steps size ]) ifTrue: [ ^ self ].
+	(steps at: anIndex)
+		border: (BlBorder paint: self glowColor width: 1);
+		effect: (BlGaussianShadowEffect color: self glowColor width: 14 offset: 0 @ 0);
+		elevation: (BlRelativeElevation elevation: 1)
 ]
 
 { #category : 'colors' }
@@ -140,6 +173,7 @@ ICSequencerDisplay >> monospaceFontName [
 ICSequencerDisplay >> newBarWith: aCollectionOfSteps [
 
 	^ BlElement new
+		  clipChildren: false;
 		  layout: (BlLinearLayout horizontal cellSpacing: 9);
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
@@ -152,6 +186,7 @@ ICSequencerDisplay >> newBarWith: aCollectionOfSteps [
 ICSequencerDisplay >> newBeatWith: aCollectionOfSteps [
 
 	^ BlElement new
+		  clipChildren: false;
 		  layout: (BlLinearLayout horizontal cellSpacing: 3);
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
@@ -168,9 +203,10 @@ ICSequencerDisplay >> newEmptyStep [
 
 { #category : 'building' }
 ICSequencerDisplay >> newGrid [
-	"one line per bar, the steps of a bar grouped by beats"
+	"one line per bar, the steps of a bar grouped by beats. No clipping, so the playhead glow shows around its step"
 
 	^ BlElement new
+		  clipChildren: false;
 		  layout: (BlLinearLayout vertical cellSpacing: 3);
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
@@ -316,7 +352,7 @@ ICSequencerDisplay >> noteStringFor: aNote [
 
 { #category : 'opening' }
 ICSequencerDisplay >> openInWindow [
-	"open me in a window that follows my size and refreshes when my sequencer changes"
+	"open me in a window that follows my size, refreshes when my sequencer changes and shows the playhead"
 
 	| space |
 	space := BlSpace new.
@@ -326,8 +362,34 @@ ICSequencerDisplay >> openInWindow [
 		addChild: self.
 	self addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
 	self watchEvery: self refreshDelay.
+	self watchPlayheadEvery: self playheadDelay.
 	space show.
 	^ space
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> playheadDelay [
+
+	^ 15 milliSeconds
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> playheadIndex [
+
+	^ playheadIndex
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> playheadIndexIn: aPerformance [
+	"the step sounding now, or nil when aPerformance is not playing my sequencer.
+	Performer >> playFor: plays step (transportStep \\ size + 1), then increments transportStep"
+
+	| process |
+	process := aPerformance activeProcess.
+	(process isNil or: [ process isTerminated ]) ifTrue: [ ^ nil ].
+	(sequencer isNil or: [ sequencer gates isEmpty ]) ifTrue: [ ^ nil ].
+	(aPerformance values anySatisfy: [ :each | each == sequencer ]) ifFalse: [ ^ nil ].
+	^ aPerformance transportStep - 1 \\ sequencer gates size + 1
 ]
 
 { #category : 'editing' }
@@ -351,7 +413,8 @@ ICSequencerDisplay >> rebuild [
 	self addChildren: {
 			self newHeader.
 			self newRule.
-			self newGrid }
+			self newGrid }.
+	playheadIndex ifNotNil: [ self glowStepAt: playheadIndex ]
 ]
 
 { #category : 'live refresh' }
@@ -377,6 +440,16 @@ ICSequencerDisplay >> sequencer: aSequencer [
 
 	sequencer := aSequencer.
 	self rebuild
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> showPlayheadAt: anIndexOrNil [
+	"move the glow; only the two steps involved change, nothing is rebuilt"
+
+	anIndexOrNil = playheadIndex ifTrue: [ ^ self ].
+	playheadIndex ifNotNil: [ self dimStepAt: playheadIndex ].
+	playheadIndex := anIndexOrNil.
+	playheadIndex ifNotNil: [ self glowStepAt: playheadIndex ]
 ]
 
 { #category : 'editing' }
@@ -502,6 +575,12 @@ ICSequencerDisplay >> typeText: aString [
 	self showTypedNote
 ]
 
+{ #category : 'playhead' }
+ICSequencerDisplay >> updatePlayheadFrom: aPerformance [
+
+	self showPlayheadAt: (self playheadIndexIn: aPerformance)
+]
+
 { #category : 'live refresh' }
 ICSequencerDisplay >> watchEvery: aDuration [
 	"poll for changes from the UI thread; the task ends with my window"
@@ -509,5 +588,15 @@ ICSequencerDisplay >> watchEvery: aDuration [
 	self enqueueTask: (BlRepeatedTaskAction new
 			 delay: aDuration;
 			 action: [ self checkForChanges ];
+			 yourself)
+]
+
+{ #category : 'playhead' }
+ICSequencerDisplay >> watchPlayheadEvery: aDuration [
+	"follow the performance's transport from the UI thread; the task ends with my window"
+
+	self enqueueTask: (BlRepeatedTaskAction new
+			 delay: aDuration;
+			 action: [ self updatePlayheadFrom: Performance uniqueInstance ];
 			 yourself)
 ]

@@ -96,7 +96,7 @@ ICPerformanceDisplay >> maxHeight: aNumber [
 
 { #category : 'opening' }
 ICPerformanceDisplay >> openInWindow [
-	"open me in a window that refreshes when the performance or its sequencers change"
+	"open me in a window that refreshes when the performance or its sequencers change and shows the playhead"
 
 	| space |
 	space := BlSpace new.
@@ -105,6 +105,7 @@ ICPerformanceDisplay >> openInWindow [
 		background: Color black;
 		addChild: self.
 	self watchEvery: self refreshDelay.
+	self watchPlayheadEvery: self playheadDelay.
 	space show.
 	^ space
 ]
@@ -120,6 +121,12 @@ ICPerformanceDisplay >> performance: aPerformance [
 
 	performance := aPerformance.
 	self rebuild
+]
+
+{ #category : 'playhead' }
+ICPerformanceDisplay >> playheadDelay [
+
+	^ 15 milliSeconds
 ]
 
 { #category : 'building' }
@@ -184,6 +191,13 @@ ICPerformanceDisplay >> syncLanes [
 			lanes addChild: lane ]
 ]
 
+{ #category : 'playhead' }
+ICPerformanceDisplay >> updatePlayhead [
+
+	lanes ifNil: [ ^ self ].
+	lanes children do: [ :each | each updatePlayheadFrom: performance ]
+]
+
 { #category : 'live refresh' }
 ICPerformanceDisplay >> watchEvery: aDuration [
 	"poll for changes from the UI thread; the task ends with my window"
@@ -191,5 +205,15 @@ ICPerformanceDisplay >> watchEvery: aDuration [
 	self enqueueTask: (BlRepeatedTaskAction new
 			 delay: aDuration;
 			 action: [ self checkForChanges ];
+			 yourself)
+]
+
+{ #category : 'playhead' }
+ICPerformanceDisplay >> watchPlayheadEvery: aDuration [
+	"follow the transport from the UI thread; the task ends with my window"
+
+	self enqueueTask: (BlRepeatedTaskAction new
+			 delay: aDuration;
+			 action: [ self updatePlayhead ];
 			 yourself)
 ]

@@ -79,6 +79,21 @@ ICSequencerDisplayTest >> testNoNotesShowsEmptyTrigs [
 ]
 
 { #category : 'tests' }
+ICSequencerDisplayTest >> testNoPlayheadForASequencerNotInThePerformance [
+
+	self assert: (display playheadIndexIn: Performance uniqueInstance) isNil
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testNoPlayheadWhenStopped [
+
+	display showPlayheadAt: 3.
+	display showPlayheadAt: nil.
+	self assert: display playheadIndex isNil.
+	self deny: (display steps anySatisfy: [ :each | each effect isKindOf: BlGaussianShadowEffect ])
+]
+
+{ #category : 'tests' }
 ICSequencerDisplayTest >> testNoRedrawWhileTypingANote [
 
 	display hoverStepAt: 4.
@@ -101,6 +116,32 @@ ICSequencerDisplayTest >> testNotesAdvanceOnTrigsOnly [
 ICSequencerDisplayTest >> testOneStepPerGate [
 
 	self assert: display newSteps size equals: sequencer gates size
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testPlayheadGlowsOnItsStep [
+
+	display showPlayheadAt: 3.
+	self assert: ((display steps at: 3) effect isKindOf: BlGaussianShadowEffect).
+	self deny: ((display steps at: 2) effect isKindOf: BlGaussianShadowEffect)
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testPlayheadMovesTheGlow [
+
+	display showPlayheadAt: 3.
+	display showPlayheadAt: 4.
+	self deny: ((display steps at: 3) effect isKindOf: BlGaussianShadowEffect).
+	self assert: ((display steps at: 4) effect isKindOf: BlGaussianShadowEffect)
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testPlayheadSurvivesARedraw [
+
+	display showPlayheadAt: 5.
+	sequencer notes: #( 70 ).
+	display checkForChanges.
+	self assert: ((display steps at: 5) effect isKindOf: BlGaussianShadowEffect)
 ]
 
 { #category : 'tests' }
