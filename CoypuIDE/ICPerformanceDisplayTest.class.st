@@ -26,6 +26,34 @@ ICPerformanceDisplayTest >> setUp [
 ]
 
 { #category : 'tests' }
+ICPerformanceDisplayTest >> testAddsALaneForANewKey [
+	"#hats sorts before #kick, so it becomes the first lane"
+
+	performance at: #hats put: 16 rumba.
+	display checkForChanges.
+	self assert: display lanes children size equals: 3.
+	self assert: display lanes children first sequencer identicalTo: (performance at: #hats)
+]
+
+{ #category : 'tests' }
+ICPerformanceDisplayTest >> testDropsTheLaneOfARemovedKey [
+
+	performance removeKey: #kick.
+	display checkForChanges.
+	self assert: display lanes children size equals: 1
+]
+
+{ #category : 'tests' }
+ICPerformanceDisplayTest >> testKeepsUnchangedLanes [
+
+	| snareLane |
+	snareLane := display lanes children last.
+	performance at: #hats put: 16 rumba.
+	display checkForChanges.
+	self assert: display lanes children last identicalTo: snareLane
+]
+
+{ #category : 'tests' }
 ICPerformanceDisplayTest >> testLanesTakeTheDiceTherapyHues [
 
 	self assert: (display lanes children collect: [ :each | each triggeredColor ]) asArray equals: (display laneColors first: 2)
@@ -45,6 +73,17 @@ ICPerformanceDisplayTest >> testRebuildShowsNewSequencers [
 	performance at: #hats put: 16 rumba.
 	display rebuild.
 	self assert: display lanes children size equals: 3
+]
+
+{ #category : 'tests' }
+ICPerformanceDisplayTest >> testReplacesTheLaneOfAReplacedSequencer [
+
+	| kickLane |
+	kickLane := display lanes children first.
+	performance at: #kick put: 16 rumba.
+	display checkForChanges.
+	self deny: display lanes children first identicalTo: kickLane.
+	self assert: display lanes children first sequencer identicalTo: (performance at: #kick)
 ]
 
 { #category : 'tests' }

@@ -17,7 +17,9 @@ Class {
 		'editingIndex',
 		'typedNote',
 		'steps',
-		'hoveredIndex'
+		'hoveredIndex',
+		'shownGates',
+		'shownNotes'
 	],
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',
@@ -30,6 +32,15 @@ ICSequencerDisplay class >> on: aSequencer [
 	^ self new
 		  sequencer: aSequencer;
 		  yourself
+]
+
+{ #category : 'live refresh' }
+ICSequencerDisplay >> checkForChanges [
+	"redraw if my sequencer changed since I drew it, unless a note is being typed"
+
+	sequencer ifNil: [ ^ self ].
+	editingIndex ifNotNil: [ ^ self ].
+	self isUpToDate ifFalse: [ self rebuild ]
 ]
 
 { #category : 'editing' }
@@ -80,8 +91,12 @@ ICSequencerDisplay >> initialize [
 	triggeredColor := Color fromHexString: 'ff9933'.
 	stepSize := 40.
 	self
-		layout: (BlLinearLayout vertical cellSpacing: 10);
-		padding: (BlInsets all: 18);
+		layout: (BlLinearLayout vertical cellSpacing: 5);
+		padding: (BlInsets
+				 top: 8
+				 left: 12
+				 bottom: 8
+				 right: 12);
 		background: self groundColor;
 		constraintsDo: [ :c |
 				c horizontal fitContent.
@@ -89,6 +104,13 @@ ICSequencerDisplay >> initialize [
 	self
 		addEventHandlerOn: BlTextInputEvent do: [ :evt | self typeText: evt text asString ];
 		addEventHandlerOn: BlKeyDownEvent do: [ :evt | self pressKey: evt key ]
+]
+
+{ #category : 'live refresh' }
+ICSequencerDisplay >> isUpToDate [
+	"do my steps still show my sequencer's gates and notes?"
+
+	^ sequencer gates = shownGates and: [ sequencer notes = shownNotes ]
 ]
 
 { #category : 'building' }
@@ -149,7 +171,7 @@ ICSequencerDisplay >> newGrid [
 	"one line per bar, the steps of a bar grouped by beats"
 
 	^ BlElement new
-		  layout: (BlLinearLayout vertical cellSpacing: 8);
+		  layout: (BlLinearLayout vertical cellSpacing: 3);
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
 				  c vertical fitContent ];
@@ -287,7 +309,7 @@ ICSequencerDisplay >> noteStringFor: aNote [
 
 { #category : 'opening' }
 ICSequencerDisplay >> openInWindow [
-	"open me in a window that follows my size"
+	"open me in a window that follows my size and refreshes when my sequencer changes"
 
 	| space |
 	space := BlSpace new.
@@ -296,6 +318,7 @@ ICSequencerDisplay >> openInWindow [
 		background: self groundColor;
 		addChild: self.
 	self addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
+	self watchEvery: self refreshDelay.
 	space show.
 	^ space
 ]
@@ -316,10 +339,18 @@ ICSequencerDisplay >> rebuild [
 
 	self removeChildren.
 	sequencer ifNil: [ ^ self ].
+	shownGates := sequencer gates copy.
+	shownNotes := sequencer notes copy.
 	self addChildren: {
 			self newHeader.
 			self newRule.
 			self newGrid }
+]
+
+{ #category : 'live refresh' }
+ICSequencerDisplay >> refreshDelay [
+
+	^ 200 milliSeconds
 ]
 
 { #category : 'colors' }
@@ -462,4 +493,14 @@ ICSequencerDisplay >> typeText: aString [
 	digits := typedNote , digits.
 	typedNote := digits copyFrom: 1 to: (digits size min: 5).
 	self showTypedNote
+]
+
+{ #category : 'live refresh' }
+ICSequencerDisplay >> watchEvery: aDuration [
+	"poll for changes from the UI thread; the task ends with my window"
+
+	self enqueueTask: (BlRepeatedTaskAction new
+			 delay: aDuration;
+			 action: [ self checkForChanges ];
+			 yourself)
 ]

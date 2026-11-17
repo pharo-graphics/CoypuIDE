@@ -12,7 +12,8 @@ Class {
 	#instVars : [
 		'performance',
 		'lanes',
-		'maxHeight'
+		'maxHeight',
+		'shownSequencers'
 	],
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',
@@ -25,6 +26,15 @@ ICPerformanceDisplay class >> on: aPerformance [
 	^ self new
 		  performance: aPerformance;
 		  yourself
+]
+
+{ #category : 'live refresh' }
+ICPerformanceDisplay >> checkForChanges [
+	"add, drop or replace lanes when the performance changed, then let each lane check its sequencer"
+
+	performance ifNil: [ ^ self ].
+	self isUpToDate ifFalse: [ self syncLanes ].
+	lanes children do: [ :each | each checkForChanges ]
 ]
 
 { #category : 'opening' }
@@ -46,6 +56,16 @@ ICPerformanceDisplay >> initialize [
 		constraintsDo: [ :c |
 				c horizontal matchParent.
 				c vertical matchParent ]
+]
+
+{ #category : 'live refresh' }
+ICPerformanceDisplay >> isUpToDate [
+	"same sequencers, by identity: Sequencer redefines ="
+
+	| current |
+	current := self sequencers.
+	^ current size = shownSequencers size and: [
+		  (1 to: current size) allSatisfy: [ :i | (current at: i) == (shownSequencers at: i) ] ]
 ]
 
 { #category : 'colors' }
@@ -76,6 +96,7 @@ ICPerformanceDisplay >> maxHeight: aNumber [
 
 { #category : 'opening' }
 ICPerformanceDisplay >> openInWindow [
+	"open me in a window that refreshes when the performance or its sequencers change"
 
 	| space |
 	space := BlSpace new.
@@ -83,6 +104,7 @@ ICPerformanceDisplay >> openInWindow [
 	space root
 		background: Color black;
 		addChild: self.
+	self watchEvery: self refreshDelay.
 	space show.
 	^ space
 ]
@@ -103,17 +125,15 @@ ICPerformanceDisplay >> performance: aPerformance [
 { #category : 'building' }
 ICPerformanceDisplay >> rebuild [
 
-	| colors scrollable scrollbar |
+	| scrollable scrollbar |
 	self removeChildren.
 	performance ifNil: [ ^ self ].
-	colors := self laneColors.
 	lanes := BlElement new
 		         layout: BlLinearLayout vertical;
+		         background: Color black;
 		         constraintsDo: [ :c |
 				         c horizontal fitContent.
 				         c vertical fitContent ];
-		         addChildren: (self sequencers withIndexCollect: [ :each :index |
-					          (ICSequencerDisplay on: each) triggeredColor: (colors at: index - 1 \\ colors size + 1) ]);
 		         yourself.
 	lanes addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | self fitWindow ].
 	scrollable := lanes asScrollableElement.
@@ -128,7 +148,14 @@ ICPerformanceDisplay >> rebuild [
 	scrollbar attachTo: scrollable.
 	self addChildren: {
 			scrollable.
-			scrollbar }
+			scrollbar }.
+	self syncLanes
+]
+
+{ #category : 'live refresh' }
+ICPerformanceDisplay >> refreshDelay [
+
+	^ 200 milliSeconds
 ]
 
 { #category : 'accessing' }
@@ -137,4 +164,32 @@ ICPerformanceDisplay >> sequencers [
 
 	^ ((performance associations select: [ :each | each value isKindOf: Sequencer ]) sort: [ :a :b | a key <= b key ]) collect: [
 		  :each | each value ]
+]
+
+{ #category : 'live refresh' }
+ICPerformanceDisplay >> syncLanes [
+	"one lane per sequencer, keeping the lanes of sequencers that are still there"
+
+	| existing colors |
+	existing := IdentityDictionary new.
+	lanes children do: [ :each | existing at: each sequencer put: each ].
+	colors := self laneColors.
+	shownSequencers := self sequencers.
+	lanes removeChildren.
+	shownSequencers withIndexDo: [ :each :index |
+			| lane color |
+			color := colors at: index - 1 \\ colors size + 1.
+			lane := existing at: each ifAbsent: [ ICSequencerDisplay on: each ].
+			lane triggeredColor = color ifFalse: [ lane triggeredColor: color ].
+			lanes addChild: lane ]
+]
+
+{ #category : 'live refresh' }
+ICPerformanceDisplay >> watchEvery: aDuration [
+	"poll for changes from the UI thread; the task ends with my window"
+
+	self enqueueTask: (BlRepeatedTaskAction new
+			 delay: aDuration;
+			 action: [ self checkForChanges ];
+			 yourself)
 ]

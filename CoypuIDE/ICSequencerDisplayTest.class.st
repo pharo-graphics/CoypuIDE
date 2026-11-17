@@ -79,6 +79,17 @@ ICSequencerDisplayTest >> testNoNotesShowsEmptyTrigs [
 ]
 
 { #category : 'tests' }
+ICSequencerDisplayTest >> testNoRedrawWhileTypingANote [
+
+	display hoverStepAt: 4.
+	display typeText: '7'.
+	sequencer notes: #( 70 ).
+	display checkForChanges.
+	self assert: display editingIndex equals: 4.
+	self assert: (display steps at: 4) children first text asString equals: '7_'
+]
+
+{ #category : 'tests' }
 ICSequencerDisplayTest >> testNotesAdvanceOnTrigsOnly [
 
 	| labels |
@@ -90,6 +101,24 @@ ICSequencerDisplayTest >> testNotesAdvanceOnTrigsOnly [
 ICSequencerDisplayTest >> testOneStepPerGate [
 
 	self assert: display newSteps size equals: sequencer gates size
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testRedrawsWhenGatesChangeInPlace [
+
+	sequencer gates at: 2 put: 1.
+	display checkForChanges.
+	self assert: (display steps at: 2) children notEmpty
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testRedrawsWhenNotesChange [
+
+	sequencer notes: #( 70 ).
+	self deny: display isUpToDate.
+	display checkForChanges.
+	self assert: display isUpToDate.
+	self assert: (display steps at: 1) children first text asString equals: '70'
 ]
 
 { #category : 'tests' }
@@ -162,4 +191,10 @@ ICSequencerDisplayTest >> testTypingWithoutHoverDoesNothing [
 	display pressKey: KeyboardKey enter.
 	self assert: display editingIndex isNil.
 	self assert: sequencer notes asArray equals: #( 60 63 67 )
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testUpToDateAfterBuilding [
+
+	self assert: display isUpToDate
 ]
