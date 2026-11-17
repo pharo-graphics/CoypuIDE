@@ -89,14 +89,14 @@ ICSequencerDisplay >> initialize [
 
 	super initialize.
 	triggeredColor := Color fromHexString: 'ff9933'.
-	stepSize := 40.
+	stepSize := 30.
 	self
-		layout: (BlLinearLayout vertical cellSpacing: 5);
+		layout: (BlLinearLayout vertical cellSpacing: 4);
 		padding: (BlInsets
-				 top: 8
-				 left: 12
-				 bottom: 8
-				 right: 12);
+				 top: 6
+				 left: 9
+				 bottom: 6
+				 right: 9);
 		background: self groundColor;
 		constraintsDo: [ :c |
 				c horizontal fitContent.
@@ -140,7 +140,7 @@ ICSequencerDisplay >> monospaceFontName [
 ICSequencerDisplay >> newBarWith: aCollectionOfSteps [
 
 	^ BlElement new
-		  layout: (BlLinearLayout horizontal cellSpacing: 12);
+		  layout: (BlLinearLayout horizontal cellSpacing: 9);
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
 				  c vertical fitContent ];
@@ -183,7 +183,7 @@ ICSequencerDisplay >> newGrid [
 ICSequencerDisplay >> newHeader [
 
 	^ BlElement new
-		  layout: (BlLinearLayout horizontal alignBottomLeft cellSpacing: 12);
+		  layout: (BlLinearLayout horizontal alignBottomLeft cellSpacing: 9);
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
 				  c vertical fitContent ];
@@ -191,13 +191,13 @@ ICSequencerDisplay >> newHeader [
 				  (self
 					   labelFor: (self title asRopedText
 							    bold;
-							    fontSize: 22;
+							    fontSize: 17;
 							    yourself)
 					   color: triggeredColor).
 				  (self
 					   labelFor: (self summary asRopedText
 							    fontName: self monospaceFontName;
-							    fontSize: 11;
+							    fontSize: 10;
 							    yourself)
 					   color: self softColor) };
 		  yourself
@@ -211,7 +211,7 @@ ICSequencerDisplay >> newNoteLabel: aString [
 		   labelFor: (aString asRopedText
 				    bold;
 				    fontName: self monospaceFontName;
-				    fontSize: (stepSize * 0.3) rounded;
+				    fontSize: self noteFontSize;
 				    yourself)
 		   color: self groundColor)
 		  preventMouseEvents;
@@ -237,7 +237,7 @@ ICSequencerDisplay >> newStepFilledWith: aColor border: aBorderColor [
 
 	^ BlElement new
 		  extent: stepSize @ stepSize;
-		  padding: (BlInsets all: 3);
+		  padding: (BlInsets all: 2);
 		  background: aColor;
 		  border: (BlBorder paint: aBorderColor width: 1);
 		  layout: BlFrameLayout new;
@@ -287,6 +287,13 @@ ICSequencerDisplay >> note: aNumber atStep: anIndex [
 				notes add: aNumber beforeIndex: trigNumber + 1.
 				self gateAt: anIndex put: 1 ].
 	sequencer notes: (notes collect: [ :each | each ifNil: [ aNumber ] ]) asArray
+]
+
+{ #category : 'accessing' }
+ICSequencerDisplay >> noteFontSize [
+	"fixed, so smaller steps keep readable notes"
+
+	^ 12
 ]
 
 { #category : 'private' }
