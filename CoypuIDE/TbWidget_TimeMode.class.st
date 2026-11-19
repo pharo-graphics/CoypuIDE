@@ -173,7 +173,7 @@ TbWidget_TimeMode >> initializeLayout [
 		      transformDo: [ :t | t translateBy: 0 @ 0 ].
 	g2 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: 330 @ 40;
+		      extent: 330 @ 40;
 		      background: Color veryVeryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
@@ -207,7 +207,7 @@ TbWidget_TimeMode >> initializeLines [
 		      transformDo: [ :t | t translateBy: 0 @ 0 ].
 	l2 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: 2 @ 40;
+		      extent: 2 @ 40;
 		      background: Color white;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.

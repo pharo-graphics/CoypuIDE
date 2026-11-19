@@ -38,7 +38,7 @@ TbIcon_Selector0 >> initializeIcon [
 	self extent: 60 @ 40.
 	e1 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: 2 @ 28;
+		      extent: 2 @ 28;
 		      background: Color veryVeryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.

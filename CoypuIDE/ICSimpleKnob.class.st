@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : 'size' }
+ICSimpleKnob >> applyLabelSizes [
+
+	super applyLabelSizes.
+	self applyValueFont
+]
+
+{ #category : 'size' }
 ICSimpleKnob >> applyMarkerSize [
 	"Round thumb instead of the inherited capsule."
 
@@ -28,10 +35,27 @@ ICSimpleKnob >> applySize [
 	knob border: (BlBorder paint: Color black width: self knobBorderWidth)
 ]
 
+{ #category : 'size' }
+ICSimpleKnob >> applyValueFont [
+
+	{
+		minLabel.
+		maxLabel.
+		currentLabel } do: [ :each | each ifNotNil: [ each text fontSize: self valueFontSz ] ]
+]
+
 { #category : 'accessing' }
 ICSimpleKnob >> backColor [
 
 	^ Color white
+]
+
+{ #category : 'accessing' }
+ICSimpleKnob >> currentValue: aNumber [
+	"the inherited one rebuilds the label in the default font: keep it at my size"
+
+	super currentValue: aNumber.
+	self applyValueFont
 ]
 
 { #category : 'api - operations' }
@@ -86,6 +110,20 @@ ICSimpleKnob >> markerColor [
 ]
 
 { #category : 'accessing' }
+ICSimpleKnob >> maxValue: aNumber [
+
+	super maxValue: aNumber.
+	self applyValueFont
+]
+
+{ #category : 'accessing' }
+ICSimpleKnob >> minValue: aNumber [
+
+	super minValue: aNumber.
+	self applyValueFont
+]
+
+{ #category : 'accessing' }
 ICSimpleKnob >> textColor [
 
 	^ Color veryVeryDarkGray
@@ -95,4 +133,11 @@ ICSimpleKnob >> textColor [
 ICSimpleKnob >> valueColor [
 
 	^ Color black
+]
+
+{ #category : 'size' }
+ICSimpleKnob >> valueFontSz [
+	"min, max and current value: 13 at the default diameter of 60 (the size they used to get from the default font), never below 7"
+
+	^ self diameter * 13 / 60 max: 7
 ]

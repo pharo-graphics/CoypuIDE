@@ -14,10 +14,7 @@ TbOnOffSwitch >> initializeSwitch [
 			 geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 			 background: self switchOnColor;
 			 transformDo: [ :t | t translateBy: 0 @ -4 ];
-			 effect: (BlGaussianShadowEffect
-					  color: self shadowColor
-					  offset: 0 @ 4
-					  width: 10);
+			 effect: (BlGaussianShadowEffect color: self shadowColor offset: 0 @ 4 width: 10);
 			 extent: 60 @ 30;
 			 margin: (BlInsets all: 10);
 			 layout: BlFrameLayout new;
@@ -28,7 +25,7 @@ TbOnOffSwitch >> initializeSwitch [
 		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		     background: self switchOffColor;
 		     layout: BlFrameLayout new;
-		     size: 30 @ 25;
+		     extent: 30 @ 25;
 		     margin: (BlInsets all: 2);
 		     padding: (BlInsets all: 5);
 		     constraintsDo: [ :c |

@@ -392,23 +392,18 @@ TbKnob >> initializeGeometry [
 	e1 := BlElement new
 		      extent: 86 asPoint;
 		      geometry: BlCircleGeometry new;
-		      "transformDo: [ :t | t translateBy: 30@30 ];"background:
-			      Color veryDarkGray;
+		      "transformDo: [ :t | t translateBy: 30@30 ];"background: Color veryDarkGray;
 		      transformDo: [ :t | t translateBy: -1.2 @ -1.2 ];
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: -1.2 @ 7.8 ];
-		      effect: (BlGaussianShadowEffect
-				       color: self shadowColor
-				       offset: 8 @ 25
-				       width: 50).
+		      effect: (BlGaussianShadowEffect color: self shadowColor offset: 8 @ 25 width: 50).
 
 	e2 := BlElement new
 		      extent: 80 asPoint;
 		      geometry: BlCircleGeometry new;
-		      "transformDo: [ :t | t translateBy: 30@30 ];"background:
-			      (BlRadialGradientPaint new
+		      "transformDo: [ :t | t translateBy: 30@30 ];"background: (BlRadialGradientPaint new
 				       stops: {
 						       (0 -> self color2).
 						       (1 -> self color1) };
@@ -470,10 +465,7 @@ TbKnob >> initializeGeometry [
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 0 @ 12 ];
-		      effect: (BlGaussianShadowEffect
-				       color: (Color brown alpha: 0.7)
-				       offset: 0 @ 6
-				       width: 10).
+		      effect: (BlGaussianShadowEffect color: (Color brown alpha: 0.7) offset: 0 @ 6 width: 10).
 
 	self addChild: kb.
 
@@ -481,7 +473,7 @@ TbKnob >> initializeGeometry [
 
 
 	marker := BlElement new
-		          size: 15 @ 6;
+		          extent: 15 @ 6;
 		          transformDo: [ :t | t translateBy: -2 @ 0 ];
 		          geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 		          background: self color4;
@@ -494,7 +486,7 @@ TbKnob >> initializeGeometry [
 
 	marker zIndex: 100.
 	k1 := BlElement new
-		      size: 15 @ 80;
+		      extent: 15 @ 80;
 		      transformDo: [ :t | t translateBy: -2 @ 0 ];
 		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
 		      background: self color5;

@@ -70,14 +70,11 @@ TbKnob2 >> initializeGeometry [
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 2.2 @ -1.2 ];
-		      effect: (BlGaussianShadowEffect
-				       color: self shadowColor
-				       offset: 10 @ 35
-				       width: 60).
+		      effect: (BlGaussianShadowEffect color: self shadowColor offset: 10 @ 35 width: 60).
 
 
 	e2 := BlElement new
-		      size: 122 asPoint;
+		      extent: 122 asPoint;
 		      geometry: BlCircleGeometry new;
 		      background: (BlRadialGradientPaint new
 				       stops: {
@@ -144,17 +141,14 @@ TbKnob2 >> initializeGeometry [
 
 	k := BlElement new
 		     geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
-		     size: self knobSize - 40 @ self knobSize + 20;
+		     extent: self knobSize - 40 @ self knobSize + 20;
 		     clipChildren: true;
 		     background: (self color4 alpha: 1);
 		     constraintsDo: [ :c |
 				     c frame horizontal alignCenter.
 				     c frame vertical alignCenter ];
 		     layout: BlFrameLayout new;
-		     effect: (BlGaussianShadowEffect
-				      color: (Color brown alpha: 1)
-				      offset: 0 @ 0
-				      width: 24).
+		     effect: (BlGaussianShadowEffect color: (Color brown alpha: 1) offset: 0 @ 0 width: 24).
 
 
 

@@ -48,7 +48,7 @@ TbIcon_Accent >> initializeIcon [
 
 	e2 := BlElement new
 		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
-		      size: 15 @ 4;
+		      extent: 15 @ 4;
 		      background: (Color veryVeryDarkGray alpha: 1.0);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignLeft.

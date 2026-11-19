@@ -45,7 +45,7 @@ TbIcon_TransposeUp >> initializeIcon [
 		      transformDo: [ :t | t translateBy: 10 @ 0 ].
 	e2 := BlElement new
 		      geometry: BlEllipseGeometry new;
-		      size: 15 @ 8;
+		      extent: 15 @ 8;
 		      background: Color veryVeryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.

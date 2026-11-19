@@ -59,23 +59,18 @@ TbKnob1 >> initializeGeometry [
 	e1 := BlElement new
 		      extent: 130 asPoint;
 		      geometry: BlCircleGeometry new;
-		      "transformDo: [ :t | t translateBy: 30@30 ];"background:
-			      Color veryDarkGray;
+		      "transformDo: [ :t | t translateBy: 30@30 ];"background: Color veryDarkGray;
 		      transformDo: [ :t | t translateBy: -1.2 @ -1.2 ];
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 2.2 @ 10.8 ];
-		      effect: (BlGaussianShadowEffect
-				       color: self shadowColor
-				       offset: 10 @ 35
-				       width: 60).
+		      effect: (BlGaussianShadowEffect color: self shadowColor offset: 10 @ 35 width: 60).
 
 	e2 := BlElement new
-		      size: 122 asPoint;
+		      extent: 122 asPoint;
 		      geometry: BlCircleGeometry new;
-		      "transformDo: [ :t | t translateBy: 30@30 ];"background:
-			      (BlRadialGradientPaint new
+		      "transformDo: [ :t | t translateBy: 30@30 ];"background: (BlRadialGradientPaint new
 				       stops: {
 						       (0 -> self color2).
 						       (1 -> self color1) };
@@ -101,7 +96,7 @@ TbKnob1 >> initializeGeometry [
 			curr := curr + 10.
 			dash := BlElement new
 				        background: Color veryVeryDarkGray;
-				        size: diameter + 50 asPoint;
+				        extent: diameter + 50 asPoint;
 				        geometry: (BlAnnulusSectorGeometry new
 						         startAngle: curr;
 						         endAngle: curr + 2;
@@ -156,10 +151,7 @@ TbKnob1 >> initializeGeometry [
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 4 @ 16 ];
-		      effect: (BlGaussianShadowEffect
-				       color: (Color brown alpha: 0.7)
-				       offset: 3 @ 12
-				       width: 17).
+		      effect: (BlGaussianShadowEffect color: (Color brown alpha: 0.7) offset: 3 @ 12 width: 17).
 
 	self addChild: kb.
 

@@ -132,11 +132,8 @@ Tp33_OnlyUI >> initializeBackground [
 		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		     background: self color2;
 		     extent: 1540 @ 360;
-		     "border: (BlBorder builder paint: self color1; width: 15; build);"
-		     effect: (BlGaussianShadowEffect
-				      color: (self color4 alpha: 1)
-				      offset: 2 @ 10
-				      width: 50);
+		     "border: (BlBorder builder paint: self color1; width: 15; build);"effect:
+			     (BlGaussianShadowEffect color: (self color4 alpha: 1) offset: 2 @ 10 width: 50);
 		     constraintsDo: [ :c |
 				     c frame horizontal alignCenter.
 				     c frame vertical alignBottom ];
@@ -144,12 +141,9 @@ Tp33_OnlyUI >> initializeBackground [
 	h := BlElement new
 		     geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		     background: self color2;
-		     size: 1540 @ 360;
-		     "border: (BlBorder builder paint: self color1; width: 15; build);"
-		     effect: (BlGaussianShadowEffect
-				      color: (self color4 alpha: 1)
-				      offset: 30 @ 30
-				      width: 50);
+		     extent: 1540 @ 360;
+		     "border: (BlBorder builder paint: self color1; width: 15; build);"effect:
+			     (BlGaussianShadowEffect color: (self color4 alpha: 1) offset: 30 @ 30 width: 50);
 		     constraintsDo: [ :c |
 				     c frame horizontal alignCenter.
 				     c frame vertical alignBottom ];
@@ -241,7 +235,7 @@ Tp33_OnlyUI >> initializeDialTexts [
 		      transformDo: [ :t | t translateBy: 30 @ -157 ].
 	l8 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: 10 @ 1.5;
+		      extent: 10 @ 1.5;
 		      background: Color veryVeryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
@@ -274,21 +268,13 @@ Tp33_OnlyUI >> initializeDialTexts [
 		      transformDo: [ :t | t translateBy: -20 @ -140 ].
 
 	t3 := BlTextElement new
-		      text:
-			      (self
-				       configuredString: 'PLAY'
-				       size: 16
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'PLAY' size: 16 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: -20 @ -105 ].
 	t4 := BlTextElement new
-		      text:
-			      (self
-				       configuredString: 'WRITE'
-				       size: 16
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'WRITE' size: 16 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
@@ -308,10 +294,7 @@ Tp33_OnlyUI >> initializeDialTexts [
 		      transformDo: [ :t | t translateBy: 50 @ -158 ].
 
 	t6 := BlTextElement new
-		      text: (self
-				       configuredString: 'PATTERN'
-				       size: 16
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'PATTERN' size: 16 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignCenter ];
@@ -500,7 +483,7 @@ Tp33_OnlyUI >> initializeGridlines [
 		      transformDo: [ :t | t translateBy: -340 @ 180 ].
 	l2 := BlElement new
 		      geometry: (BlRoundedRectangleGeometry cornerRadius: 1);
-		      size: 2 @ 230;
+		      extent: 2 @ 230;
 		      background: Color darkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
@@ -743,7 +726,7 @@ Tp33_OnlyUI >> initializeLabels [
 
 	l2 := BlElement new
 		      geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		      size: 3 @ 120;
+		      extent: 3 @ 120;
 		      background: Color veryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignRight.
@@ -775,21 +758,13 @@ Tp33_OnlyUI >> initializeLabels [
 			 transformDo: [ :t | t translateBy: 280 @ 180 ]).
 
 	t1 := BlTextElement new
-		      text: (self
-				       configuredString:
-					       'SLOW                                FAST'
-				       size: 16
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'SLOW                                FAST' size: 16 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignLeft.
 				      c frame vertical alignCenter ];
 		      transformDo: [ :t | t translateBy: 80 @ -48 ].
 	t2 := BlTextElement new
-		      text: (self
-				       configuredString:
-					       'POWER SW  OFF                               MAX'
-				       size: 16
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'POWER SW  OFF                               MAX' size: 16 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignRight.
 				      c frame vertical alignCenter ];
@@ -936,7 +911,7 @@ Tp33_OnlyUI >> initializeSymbols [
 		      transformDo: [ :t | t translateBy: -510 @ 54 ].
 	r2 := BlElement new
 		      geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
-		      size: 745 @ 35;
+		      extent: 745 @ 35;
 		      background: Color veryVeryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignRight.
@@ -978,40 +953,25 @@ Tp33_OnlyUI >> initializeSymbols [
 				      c frame vertical alignBottom ];
 		      transformDo: [ :t | t translateBy: -85 @ -75 ].
 	s3 := BlTextElement new
-		      text:
-			      (self
-				       configuredString: 'PATTERN'
-				       size: 18
-				       color: Color orange);
+		      text: (self configuredString: 'PATTERN' size: 18 color: Color orange);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignBottom ];
 		      transformDo: [ :t | t translateBy: -445 @ -75 ].
 	t1 := BlTextElement new
-		      text: (self
-				       configuredString: 'A                       B'
-				       size: 14
-				       color: Color orange);
+		      text: (self configuredString: 'A                       B' size: 14 color: Color orange);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignRight.
 				      c frame vertical alignBottom ];
 		      transformDo: [ :t | t translateBy: -230 @ -87 ].
 	t2 := BlTextElement new
-		      text:
-			      (self
-				       configuredString: 'PATT.   SECTION'
-				       size: 14
-				       color: Color orange);
+		      text: (self configuredString: 'PATT.   SECTION' size: 14 color: Color orange);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignRight.
 				      c frame vertical alignBottom ];
 		      transformDo: [ :t | t translateBy: -220 @ -70 ].
 	t3 := BlTextElement new
-		      text:
-			      (self
-				       configuredString: 'STEP'
-				       size: 18
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'STEP' size: 18 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignCenter.
 				      c frame vertical alignBottom ];
@@ -1050,10 +1010,7 @@ Tp33_OnlyUI >> initializeTexts [
 				      c frame vertical alignBottom ];
 		      transformDo: [ :t | t translateBy: 340 @ -27 ].
 	t2 := BlTextElement new
-		      text: (self
-				       configuredString: 'SELECTOR'
-				       size: 18
-				       color: Color veryVeryDarkGray);
+		      text: (self configuredString: 'SELECTOR' size: 18 color: Color veryVeryDarkGray);
 		      constraintsDo: [ :c |
 				      c frame horizontal alignLeft.
 				      c frame vertical alignBottom ];
@@ -1085,7 +1042,7 @@ Tp33_OnlyUI >> initializeTexts [
 
 	b1 := BlElement new
 		      geometry: BlRectangleGeometry new;
-		      size: 40 @ 24;
+		      extent: 40 @ 24;
 		      background: Color veryVeryDarkGray;
 		      constraintsDo: [ :c |
 				      c frame horizontal alignLeft.
