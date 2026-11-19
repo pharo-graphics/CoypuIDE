@@ -46,6 +46,7 @@ ICTurboVoicePanel >> buttonCells: buttonList perCell: perCell [
 	"tile-sized cells, each a column of up to perCell buttons sharing its height"
 
 	| height cells |
+	buttonList ifEmpty: [ ^ #(  ) ].
 	height := self tileSize - (perCell - 1 * self gap) / perCell.
 	buttonList do: [ :each | each widgetSize: self tileSize @ height ].
 	cells := OrderedCollection new.
@@ -69,28 +70,30 @@ ICTurboVoicePanel >> buttonNamed: aLabel in: anElement [
 
 { #category : 'building' }
 ICTurboVoicePanel >> buttons [
+	"SPORK when the voice can be sporked, TRIG and GATE when it has a gate, then its toggles and actions"
 
 	| list |
 	list := OrderedCollection new.
-	list add: (self
-			 button: 'SPORK'
-			 toggle: true
-			 on: voice isSporked
-			 do: [ :value |
-					 value = 1
-						 ifTrue: [ voice spork ]
-						 ifFalse: [ voice unspork ] ]).
-	"held down: the gate is open while the mouse button is"
-	list add: (self
-			 button: 'TRIG'
-			 toggle: false
-			 on: false
-			 do: [ :value | self send: 'Gate' value: value asFloat ]).
-	list add: (self
-			 button: 'GATE'
-			 toggle: true
-			 on: false
-			 do: [ :value | self send: 'Gate' value: value asFloat ]).
+	voice canSpork ifTrue: [
+			list add: (self
+					 button: 'SPORK'
+					 toggle: true
+					 on: voice isSporked
+					 do: [ :value |
+							 value = 1
+								 ifTrue: [ voice spork ]
+								 ifFalse: [ voice unspork ] ]) ].
+	self hasGate ifTrue: [ "held down: the gate is open while the mouse button is"
+			list add: (self
+					 button: 'TRIG'
+					 toggle: false
+					 on: false
+					 do: [ :value | self send: 'Gate' value: value asFloat ]).
+			list add: (self
+					 button: 'GATE'
+					 toggle: true
+					 on: false
+					 do: [ :value | self send: 'Gate' value: value asFloat ]) ].
 	voice uiToggles do: [ :suffix |
 			list add: (self
 					 button: suffix asUppercase
@@ -108,11 +111,12 @@ ICTurboVoicePanel >> buttons [
 
 { #category : 'building' }
 ICTurboVoicePanel >> buttonsPerCell: buttonCount after: knobCount [
-	"spread the buttons over the empty cells of the last knob row (a full row leaves a whole new row), at most 4 to a cell"
+	"spread the buttons over the empty cells of the last knob row (a full row leaves a whole new row),
+	2 to 4 to a cell, so a button is never taller than half a tile"
 
 	| free |
 	free := self columns - (knobCount \\ self columns).
-	^ ((buttonCount / free) ceiling max: 1) min: 4
+	^ ((buttonCount / free) ceiling max: 2) min: 4
 ]
 
 { #category : 'accessing' }
@@ -172,6 +176,12 @@ ICTurboVoicePanel >> grid: elements [
 ]
 
 { #category : 'building' }
+ICTurboVoicePanel >> hasGate [
+
+	^ voice globals anySatisfy: [ :each | each key = 'Gate' ]
+]
+
+{ #category : 'building' }
 ICTurboVoicePanel >> knobDiameter [
 
 	^ self scaled: ICSimpleKnob defaultDiameter
@@ -183,7 +193,7 @@ ICTurboVoicePanel >> knobFor: aSuffix [
 
 	| range knob |
 	range := self rangeFor: aSuffix.
-	knob := ICSimpleKnob label: aSuffix minValue: range first maxValue: range second.
+	knob := ICSimpleKnob label: (voice uiLabelFor: aSuffix) minValue: range first maxValue: range second.
 	knob diameter: self knobDiameter.
 	knob stepValue: range third.
 	knob setValue: (self defaultFor: aSuffix).
@@ -209,10 +219,10 @@ ICTurboVoicePanel >> knobs [
 
 { #category : 'opening' }
 ICTurboVoicePanel >> open [
-	"spork the voice if needed (silent until a gate opens), then show me in my own window"
+	"spork the voice if it can be and is not (silent until a gate opens), then show me in my own window"
 
 	| element |
-	voice isSporked ifFalse: [ voice spork ].
+	(voice canSpork and: [ voice isSporked not ]) ifTrue: [ voice spork ].
 	element := self element.
 	element forceLayout.
 	space := BlSpace new
@@ -286,7 +296,7 @@ ICTurboVoicePanel >> tileSize [
 ICTurboVoicePanel >> title [
 
 	| text |
-	text := (voice name , '   ' , voice class name) asRopedText.
+	text := (voice name , '   ' , voice uiKind) asRopedText.
 	text
 		fontSize: ((self scaled: 22) max: 9);
 		foreground: Color white.

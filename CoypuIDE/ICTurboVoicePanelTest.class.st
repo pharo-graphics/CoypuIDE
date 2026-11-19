@@ -60,14 +60,16 @@ ICTurboVoicePanelTest >> testBuildingSendsNothing [
 
 { #category : 'tests' }
 ICTurboVoicePanelTest >> testButtonsFillTheCellsAfterTheLastKnob [
-	"6 knobs leave 2 free cells in a row of 4: 5 buttons go 3 to a cell, in the same grid as the knobs"
+	"6 knobs leave 2 free cells in a row of 4: 5 buttons go 3 to a cell, in the same grid as the knobs.
+	2 to 4 buttons a cell: never taller than half a tile"
 
 	| panel grid |
 	panel := self panelOn: (ZdLoopPlayer folder: self loopsFolder).
 	grid := panel element children second.
 	self assert: grid children size equals: 6 + 2.
 	self assert: (panel buttonsPerCell: 5 after: 6) equals: 3.
-	self assert: (panel buttonsPerCell: 4 after: 8) equals: 1.
+	self assert: (panel buttonsPerCell: 2 after: 2) equals: 2.
+	self assert: (panel buttonsPerCell: 4 after: 8) equals: 2.
 	self assert: (panel buttonsPerCell: 9 after: 7) equals: 4
 ]
 

@@ -1,6 +1,13 @@
 Extension { #name : 'TurboVoice' }
 
 { #category : '*CoypuIDE' }
+TurboVoice >> canSpork [
+	"my editor shows a SPORK button"
+
+	^ true
+]
+
+{ #category : '*CoypuIDE' }
 TurboVoice >> display [
 	"my editor: a knob per parameter, gate and toggle buttons, black background"
 
@@ -15,8 +22,22 @@ TurboVoice >> uiActions [
 ]
 
 { #category : '*CoypuIDE' }
+TurboVoice >> uiKind [
+	"shown after my name in the title of my editor"
+
+	^ self class name
+]
+
+{ #category : '*CoypuIDE' }
+TurboVoice >> uiLabelFor: aSuffix [
+	"the name on the knob of aSuffix"
+
+	^ aSuffix
+]
+
+{ #category : '*CoypuIDE' }
 TurboVoice >> uiRanges [
-	"suffix -> { min. max. step } of the knobs of my editor (ICTurboVoicePanel)"
+	"suffix -> { min. max. step } of the knobs of an editor (ICTurboVoicePanel), for every parameter of the rig"
 
 	^ Dictionary new
 		  at: 'Note' put: #( 24 96 1 );
@@ -40,6 +61,9 @@ TurboVoice >> uiRanges [
 		  at: 'ModIndex' put: #( 0 10 0.01 );
 		  at: 'ModRatio' put: #( 0.25 8 0.01 );
 		  at: 'Mode' put: #( 0 3 1 );
+		  at: 'Position' put: #( 0 1 0.01 );
+		  at: 'Slice' put: #( -1 15 1 );
+		  at: 'Length' put: #( 0 8 0.25 );
 		  yourself
 ]
 
