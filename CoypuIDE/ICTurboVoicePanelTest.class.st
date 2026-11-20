@@ -60,13 +60,15 @@ ICTurboVoicePanelTest >> testBuildingSendsNothing [
 
 { #category : 'tests' }
 ICTurboVoicePanelTest >> testButtonsFillTheCellsAfterTheLastKnob [
-	"6 knobs leave 2 free cells in a row of 4: 5 buttons go 3 to a cell, in the same grid as the knobs.
+	"4 knobs fill a row of 4: 5 buttons go 2 to a cell in a new row, in the same grid as the knobs.
 	2 to 4 buttons a cell: never taller than half a tile"
 
 	| panel grid |
 	panel := self panelOn: (ZdLoopPlayer folder: self loopsFolder).
 	grid := panel element children second.
-	self assert: grid children size equals: 6 + 2.
+	self assert: grid children size equals: 4 + 3.
+	self assert: (panel buttonsPerCell: 5 after: 4) equals: 2.
+	self assert: (panel buttonsPerCell: 5 after: 5) equals: 2.
 	self assert: (panel buttonsPerCell: 5 after: 6) equals: 3.
 	self assert: (panel buttonsPerCell: 2 after: 2) equals: 2.
 	self assert: (panel buttonsPerCell: 4 after: 8) equals: 2.
@@ -105,9 +107,9 @@ ICTurboVoicePanelTest >> testKnobSendsAFloatToItsGlobal [
 	| panel |
 	panel := self panelOn: TurboAcid new.
 	panel element.
-	(panel knobs at: 'Note') setValue: 60.
-	self assert: sent last key equals: 'Note'.
-	self assert: sent last value equals: 60.0.
+	(panel knobs at: 'Resonance') setValue: 4.
+	self assert: sent last key equals: 'Resonance'.
+	self assert: sent last value equals: 4.0.
 	self assert: sent last value isFloat
 ]
 
@@ -117,7 +119,6 @@ ICTurboVoicePanelTest >> testKnobsStartAtTheDefaults [
 	| panel |
 	panel := self panelOn: TurboAcid new.
 	panel element.
-	self assert: (panel knobs at: 'Note') currentValue equals: 48.
 	self assert: ((panel knobs at: 'Cutoff') currentValue closeTo: 0.3)
 ]
 
@@ -127,8 +128,29 @@ ICTurboVoicePanelTest >> testLoopPanelControls [
 	| panel element |
 	panel := self panelOn: (ZdLoopPlayer folder: self loopsFolder).
 	element := panel element.
-	self assert: panel knobs keys asArray equals: #( 'Note' 'Gain' 'Index' 'Position' 'Slice' 'Length' ).
+	self assert: panel knobs keys asArray equals: #( 'Gain' 'Position' 'Slice' 'Length' ).
 	self assert: (self buttonLabelsIn: element) asSet equals: #( 'SPORK' 'TRIG' 'GATE' 'REVERSE' 'WHOLE' ) asSet
+]
+
+{ #category : 'tests' }
+ICTurboVoicePanelTest >> testNoKnobForTheIndex [
+	"the sequencer chooses the sample"
+
+	| panel |
+	panel := self panelOn: (ZdLoopPlayer folder: self loopsFolder).
+	panel element.
+	self deny: (panel knobs includesKey: 'Index')
+]
+
+{ #category : 'tests' }
+ICTurboVoicePanelTest >> testNoKnobForTheNote [
+	"the sequencer sets the note"
+
+	| panel |
+	panel := self panelOn: TurboAcid new.
+	panel element.
+	self deny: (panel knobs includesKey: 'Note').
+	self deny: (panel knobs includesKey: 'Gate')
 ]
 
 { #category : 'tests' }

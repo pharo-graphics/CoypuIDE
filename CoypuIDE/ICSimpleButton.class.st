@@ -37,6 +37,13 @@ ICSimpleButton >> buttonColor [
 	^ Color white
 ]
 
+{ #category : 'defaults' }
+ICSimpleButton >> fontSizeRatio [
+	"twice an ICButton's: my labels must read on the small Turbo panel buttons"
+
+	^ 2 / 5
+]
+
 { #category : 'accessing' }
 ICSimpleButton >> glowColor [
 

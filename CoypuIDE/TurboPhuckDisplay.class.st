@@ -53,6 +53,18 @@ TurboPhuckDisplay >> buildInstruments [
 			   ICTurboParametersInstrument prefix: each suffixes: (groups at: each) ]) asArray
 ]
 
+{ #category : 'building' }
+TurboPhuckDisplay >> columnOf: somePanelElements [
+
+	^ BlElement new
+		  layout: BlLinearLayout vertical;
+		  constraintsDo: [ :c |
+				  c horizontal fitContent.
+				  c vertical fitContent ];
+		  addChildren: somePanelElements;
+		  yourself
+]
+
 { #category : 'accessing' }
 TurboPhuckDisplay >> columns [
 	"instrument panels per row"
@@ -68,19 +80,21 @@ TurboPhuckDisplay >> columns: anInteger [
 
 { #category : 'building' }
 TurboPhuckDisplay >> element [
-	"every instrument panel, columns to a row, on black"
+	"every instrument panel on black, in columns that each stack their panels with no gap to wait for a taller neighbour;
+	panels are dealt left to right, so the order still reads row by row"
 
+	| panelElements columnCount |
 	self instruments ifEmpty: [ ^ self emptyElement ].
+	panelElements := self panels collect: [ :each | each element ].
+	columnCount := self columns min: panelElements size.
 	^ BlElement new
 		  background: Color black;
-		  layout: (BlGridLayout horizontal
-				   columnCount: (self columns min: self instruments size);
-				   cellSpacing: 2 * self scale * 10;
-				   yourself);
+		  layout: BlLinearLayout horizontal;
 		  constraintsDo: [ :c |
 				  c horizontal fitContent.
 				  c vertical fitContent ];
-		  addChildren: (self panels collect: [ :each | each element ]);
+		  addChildren: ((1 to: columnCount) collect: [ :column |
+					   self columnOf: (panelElements withIndexSelect: [ :each :index | index - 1 \\ columnCount + 1 = column ]) ]);
 		  yourself
 ]
 

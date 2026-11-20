@@ -204,10 +204,11 @@ ICTurboVoicePanel >> knobFor: aSuffix [
 
 { #category : 'parameters' }
 ICTurboVoicePanel >> knobSuffixes [
-	"every global of the voice but its gate, its toggles and a range with nothing in it (Index of a one-file folder)"
+	"every global of the voice but its gate, its note and its index (the sequencer sets them), its toggles and a range with nothing in it"
 
 	^ (voice globals collect: [ :each | each key ]) reject: [ :each |
-		  each = 'Gate' or: [ (voice uiToggles includes: each) or: [ (self rangeFor: each) first = (self rangeFor: each) second ] ] ]
+			  (#( 'Gate' 'Note' 'Index' ) includes: each) or: [
+				  (voice uiToggles includes: each) or: [ (self rangeFor: each) first = (self rangeFor: each) second ] ] ]
 ]
 
 { #category : 'accessing' }
@@ -298,7 +299,7 @@ ICTurboVoicePanel >> title [
 	| text |
 	text := (voice name , '   ' , voice uiKind) asRopedText.
 	text
-		fontSize: ((self scaled: 22) max: 9);
+		fontSize: ((self scaled: 44) max: 18);
 		foreground: Color white.
 	(text from: 1 to: voice name size) bold.
 	^ BlTextElement new

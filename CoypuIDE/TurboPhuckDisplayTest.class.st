@@ -127,6 +127,6 @@ TurboPhuckDisplayTest >> testWholeDisplayBuildsWithoutSending [
 
 	| element |
 	element := self display element.
-	self assert: element children size equals: 4.
+	self assert: (element children inject: 0 into: [ :sum :column | sum + column children size ]) equals: 4.
 	self assert: sent isEmpty
 ]
