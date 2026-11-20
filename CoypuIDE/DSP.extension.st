@@ -206,50 +206,19 @@ DSP >> displayUI [
 
 { #category : '*CoypuIDE' }
 DSP >> displayUIForLevels [
-	"display the level mixer UI made with Bloc"
+	"display the level mixer UI made with Bloc: only the instruments in the Performance, following it"
 
-	| space |
-	"first we build the UI"
-	self buildUIForLevels.
-	space := BlSpace new title: self name , ' UI'.
-	space root addChild: self displayedUI.
-	self displayedUI
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
-
-
-	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	"space
-		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ ICValueDisplay isUpdating: false ]."
-	space show.
-
-
-	^ space
+	^ self displayUIForLevelsWithTitle: self name , ' Levels'
 ]
 
 { #category : '*CoypuIDE' }
 DSP >> displayUIForLevelsWithTitle: aString [
-	"display the level mixer UI made with Bloc"
+	"display the level mixer UI made with Bloc: only the instruments in the Performance, following it"
 
-	| space |
-	"first we build the UI"
-	self buildUIForLevels.
-	space := BlSpace new title: aString .
-	space root addChild: self displayedUI.
-	self displayedUI
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
-
-
-	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	"space
-		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ ICValueDisplay isUpdating: false ]."
-	space show.
-
-
-	^ space
+	| mixer |
+	mixer := self levelMixerTitled: aString.
+	displayedUI := mixer element.
+	^ mixer open
 ]
 
 { #category : '*CoypuIDE' }
@@ -316,6 +285,40 @@ DSP >> displayedUI [
 DSP >> displayedUI: aBlElement [
 
 	displayedUI := aBlElement
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> instrumentNameForLevel: aParameterName [
+	"kickuLevel and kickLevel are the levels of kick"
+
+	(aParameterName endsWith: 'uLevel') ifTrue: [ ^ aParameterName allButLast: 6 ].
+	(aParameterName endsWith: 'Level') ifTrue: [ ^ aParameterName allButLast: 5 ].
+	^ aParameterName
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> levelMixerTitled: aString [
+	"one ICTurboGainFader per Level parameter, alphabetically, each shown while its instrument is in the Performance"
+
+	| levels mixer |
+	levels := self getUIItemsLabeledDictionary associations select: [ :each | each key includesSubstring: 'Level' ].
+	levels := levels sorted: [ :a :b | a key asLowercase <= b key asLowercase ].
+	mixer := ICPerformanceMixer title: aString.
+	levels do: [ :each |
+			| item parameter name |
+			item := each value.
+			parameter := item at: #shortname.
+			name := self instrumentNameForLevel: parameter.
+			mixer
+				add: (ICTurboGainFader
+						 label: name
+						 min: (item at: #min)
+						 max: (item at: #max)
+						 value: (item at: #init)
+						 step: (item at: #step)
+						 callBack: [ :value | self setValue: value parameter: parameter ])
+				for: name ].
+	^ mixer
 ]
 
 { #category : '*CoypuIDE' }

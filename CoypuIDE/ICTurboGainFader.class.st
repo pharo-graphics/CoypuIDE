@@ -12,6 +12,20 @@ Class {
 	#tag : 'Turbo'
 }
 
+{ #category : 'instance creation' }
+ICTurboGainFader class >> label: aString min: aMin max: aMax value: aValue step: aStep callBack: aBlock [
+	"thin (70% of an ICMixerFader); the value is set before the callBack, so building me sends nothing"
+
+	^ (self label: aString)
+		  barLength: 120 thickness: 49;
+		  minValue: aMin;
+		  maxValue: aMax;
+		  stepValue: aStep;
+		  setValue: aValue;
+		  callBack: aBlock;
+		  yourself
+]
+
 { #category : 'accessing' }
 ICTurboGainFader >> applyLabelSizes [
 
