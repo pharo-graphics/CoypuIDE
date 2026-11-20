@@ -2,22 +2,29 @@ Extension { #name : 'TurboPhuck' }
 
 { #category : '*CoypuIDE' }
 TurboPhuck >> buildUIForGains [
-	"one ICMixerFader per <name>Gain global of the ChucK VM, 16 to a row, on black"
+	"one ICTurboGainFader per <name>Gain global of the ChucK VM, 16 to a row, on black.
+	Twice a second the names of the instruments in the Performance turn yellow."
 
-	| defaults faders |
+	| defaults faders grid |
 	defaults := self gainDefaults.
 	faders := self gainNames collect: [ :each | self faderForGain: each default: (defaults at: each ifAbsent: [ 0.5 ]) ].
-	^ BlElement new
-		  geometry: BlRectangleGeometry new;
-		  layout: (BlGridLayout new
-				   columnCount: 16;
-				   cellSpacing: 0);
-		  constraintsDo: [ :c |
-				  c horizontal fitContent.
-				  c vertical fitContent ];
-		  background: Color black;
-		  addChildren: faders;
-		  yourself
+	self highlightPerformedIn: faders.
+	grid := BlElement new
+		        geometry: BlRectangleGeometry new;
+		        layout: (BlGridLayout new
+				         columnCount: 16;
+				         cellSpacing: 0);
+		        constraintsDo: [ :c |
+				        c horizontal fitContent.
+				        c vertical fitContent ];
+		        background: Color black;
+		        addChildren: faders;
+		        yourself.
+	grid enqueueTask: (BlRepeatedTaskAction new
+			 delay: 500 milliSeconds;
+			 action: [ self highlightPerformedIn: faders ];
+			 yourself).
+	^ grid
 ]
 
 { #category : '*CoypuIDE' }
@@ -67,23 +74,33 @@ TurboPhuck >> displayMasterUI [
 
 { #category : '*CoypuIDE' }
 TurboPhuck >> displayUIForGains [
-	"display the gain mixer UI made with Bloc"
+	"display the gain mixer UI made with Bloc: as wide as the faders, at most 900 high, scrolling the rest"
 
-	| space ui |
+	| space ui scroller |
 	"first we build the UI"
 	ui := self buildUIForGains.
-	space := BlSpace new title: 'TurboPhuck Gains'.
-	space root addChild: ui.
-	ui addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
+	ui forceLayout.
+	scroller := ui asScrollableElement.
+	scroller constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	space := BlSpace new
+		         title: 'TurboPhuck Gains';
+		         extent: ui extent x @ (ui extent y min: 900);
+		         yourself.
+	space root
+		background: Color black;
+		addChild: scroller.
 	space show.
 	^ space
 ]
 
 { #category : '*CoypuIDE' }
 TurboPhuck >> faderForGain: aGlobalName default: aNumber [
-	"the value is set before the callBack, so building the fader sends nothing to the VM"
+	"70% of the default ICMixerFader width (thickness 70); the value is set before the callBack, so building the fader sends nothing to the VM"
 
-	^ (ICMixerFader label: (aGlobalName allButLast: 4))
+	^ (ICTurboGainFader label: (aGlobalName allButLast: 4))
+		  barLength: 120 thickness: 49;
 		  minValue: 0;
 		  maxValue: 1;
 		  stepValue: 0.01;
@@ -114,4 +131,19 @@ TurboPhuck >> gainNames [
 	(globals isNil or: [ globals isEmpty ]) ifTrue: [ globals := PhuckVM uniqueInstance globalsIn: self class codeWithOSCSender ].
 	names := (globals keys select: [ :each | each size > 4 and: [ each endsWith: 'Gain' ] ]) collect: [ :each | each asString ].
 	^ names asArray sorted: [ :a :b | a = 'masterGain' or: [ b ~= 'masterGain' and: [ a asLowercase <= b asLowercase ] ] ]
+]
+
+{ #category : '*CoypuIDE' }
+TurboPhuck >> highlightPerformedIn: aCollectionOfFaders [
+	"yellow names for the instruments that are in the Performance"
+
+	| performed |
+	performed := self performedInstrumentNames.
+	aCollectionOfFaders do: [ :each | each highlighted: (performed includes: each name) ]
+]
+
+{ #category : '*CoypuIDE' }
+TurboPhuck >> performedInstrumentNames [
+
+	^ (Performance uniqueInstance keys collect: [ :each | each asString ]) asSet
 ]
