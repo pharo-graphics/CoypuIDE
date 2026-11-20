@@ -117,7 +117,7 @@ ICTurboParametersInstrument >> prefix: aString suffixes: aCollection [
 ICTurboParametersInstrument >> samplesRoot [
 	"where a sample folder named like me tells the range of my Index"
 
-	^ samplesRoot ifNil: [ TurboRig default root ]
+	^ samplesRoot ifNil: [ TurboPhuckRig default root ]
 ]
 
 { #category : 'accessing' }

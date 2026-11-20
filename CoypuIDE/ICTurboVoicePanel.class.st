@@ -3,7 +3,7 @@ I am the editor of one Turbo voice (a TurboVoice: synth, STK instrument, ZdSampl
 
 ```language=Pharo
 	(ZdLoopPlayer folder: 'TurboSamples/breaks') display.
-	(TurboRig default at: 'acid') display.
+	(TurboPhuckRig default at: 'acid') display.
 ```
 The voice decides what I show: uiRanges (suffix -> min, max, step) for the knobs, uiToggles for the suffixes shown as toggle buttons, uiActions for extra click buttons. Knobs start at the voice defaults, the values its shred starts with.
 "

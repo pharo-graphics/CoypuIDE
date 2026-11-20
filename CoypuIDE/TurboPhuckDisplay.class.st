@@ -5,7 +5,7 @@ I show every instrument of the ChucK VM in one scrollable window, each as an ICT
 	TurboPhuckDisplay open.
 	TurboPhuckDisplay new columns: 2; scale: 0.5; open.
 ```
-For now I read the parameters of the VM (PhuckVM>>globals): every <name>Gate global is an instrument, its other globals are <name> + a capitalized suffix (the longest name wins: kick99Note belongs to kick99, not kick). Later I will read the instruments themselves (TurboRig voices), which know their real defaults and can be sporked.
+For now I read the parameters of the VM (PhuckVM>>globals): every <name>Gate global is an instrument, its other globals are <name> + a capitalized suffix (the longest name wins: kick99Note belongs to kick99, not kick). Later I will read the instruments themselves (TurboPhuckRig voices), which know their real defaults and can be sporked.
 "
 Class {
 	#name : 'TurboPhuckDisplay',
@@ -102,7 +102,7 @@ TurboPhuckDisplay >> element [
 TurboPhuckDisplay >> emptyElement [
 
 	| text |
-	text := 'No parameters in the VM yet: TurboRig start, or spork a voice' asRopedText.
+	text := 'No parameters in the VM yet: TurboPhuckRig start, or spork a voice' asRopedText.
 	text
 		fontSize: 12;
 		foreground: Color white.

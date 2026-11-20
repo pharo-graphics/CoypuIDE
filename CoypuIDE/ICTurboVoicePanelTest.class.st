@@ -84,7 +84,7 @@ ICTurboVoicePanelTest >> testEveryRigVoiceGetsAPanel [
 	(root / 'kick') ensureCreateDirectory.
 	root / 'kick' / 'k1.wav' writeStreamDo: [ :s | s << 'x' ].
 	root / 'kick' / 'k2.wav' writeStreamDo: [ :s | s << 'x' ].
-	(TurboRig new root: root) voices do: [ :voice |
+	(TurboPhuckRig new root: root) voices do: [ :voice |
 			| panel |
 			panel := self panelOn: voice.
 			panel element.
