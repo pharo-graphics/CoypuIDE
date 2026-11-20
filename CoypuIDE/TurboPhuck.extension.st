@@ -3,12 +3,14 @@ Extension { #name : 'TurboPhuck' }
 { #category : '*CoypuIDE' }
 TurboPhuck >> buildUIForGains [
 	"one ICTurboGainFader per <name>Gain global of the ChucK VM, 16 to a row, on black.
-	Twice a second the names of the instruments in the Performance turn yellow."
+	Only master and the instruments in the Performance are shown; twice a second the faders follow the Performance.
+	Hidden faders are kept, so they come back with their value."
 
 	| defaults faders grid |
 	defaults := self gainDefaults.
-	faders := self gainNames collect: [ :each | self faderForGain: each default: (defaults at: each ifAbsent: [ 0.5 ]) ].
-	self highlightPerformedIn: faders.
+	faders := OrderedDictionary new.
+	self gainNames do: [ :each |
+		faders at: (each allButLast: 4) put: (self faderForGain: each default: (defaults at: each ifAbsent: [ 0.5 ])) ].
 	grid := BlElement new
 		        geometry: BlRectangleGeometry new;
 		        layout: (BlGridLayout new
@@ -18,11 +20,11 @@ TurboPhuck >> buildUIForGains [
 				        c horizontal fitContent.
 				        c vertical fitContent ];
 		        background: Color black;
-		        addChildren: faders;
 		        yourself.
+	self show: (self performedFadersIn: faders) in: grid.
 	grid enqueueTask: (BlRepeatedTaskAction new
 			 delay: 500 milliSeconds;
-			 action: [ self highlightPerformedIn: faders ];
+			 action: [ self show: (self performedFadersIn: faders) in: grid ];
 			 yourself).
 	^ grid
 ]
@@ -74,7 +76,7 @@ TurboPhuck >> displayMasterUI [
 
 { #category : '*CoypuIDE' }
 TurboPhuck >> displayUIForGains [
-	"display the gain mixer UI made with Bloc: as wide as the faders, at most 900 high, scrolling the rest"
+	"display the gain mixer UI made with Bloc: the window follows the faders shown (at least 240 wide, at most 900 high, scrolling the rest)"
 
 	| space ui scroller |
 	"first we build the UI"
@@ -86,11 +88,12 @@ TurboPhuck >> displayUIForGains [
 			c vertical matchParent ].
 	space := BlSpace new
 		         title: 'TurboPhuck Gains';
-		         extent: ui extent x @ (ui extent y min: 900);
+		         extent: (self gainsWindowExtentFor: ui extent);
 		         yourself.
 	space root
 		background: Color black;
 		addChild: scroller.
+	ui addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: (self gainsWindowExtentFor: evt target extent) ].
 	space show.
 	^ space
 ]
@@ -134,16 +137,34 @@ TurboPhuck >> gainNames [
 ]
 
 { #category : '*CoypuIDE' }
-TurboPhuck >> highlightPerformedIn: aCollectionOfFaders [
-	"yellow names for the instruments that are in the Performance"
+TurboPhuck >> gainsWindowExtentFor: aPoint [
+
+	^ (aPoint x max: 240) @ (aPoint y min: 900)
+]
+
+{ #category : '*CoypuIDE' }
+TurboPhuck >> performedFadersIn: aDictionary [
+	"name -> fader: master always, then the instruments in the Performance, in aDictionary's order"
 
 	| performed |
 	performed := self performedInstrumentNames.
-	aCollectionOfFaders do: [ :each | each highlighted: (performed includes: each name) ]
+	^ (aDictionary associations
+		   select: [ :each | each key = 'master' or: [ performed includes: each key ] ]
+		   thenCollect: [ :each | each value ]) asArray
 ]
 
 { #category : '*CoypuIDE' }
 TurboPhuck >> performedInstrumentNames [
 
 	^ (Performance uniqueInstance keys collect: [ :each | each asString ]) asSet
+]
+
+{ #category : '*CoypuIDE' }
+TurboPhuck >> show: someFaders in: aGrid [
+	"only touch the grid when the faders to show have changed"
+
+	aGrid children asArray = someFaders asArray ifTrue: [ ^ self ].
+	aGrid
+		removeChildren;
+		addChildren: someFaders
 ]
