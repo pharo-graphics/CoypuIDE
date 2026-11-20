@@ -779,7 +779,8 @@ ICFader >> maxValue [
 { #category : 'accessing' }
 ICFader >> maxValue: aNumber [
 
-	maxValue := aNumber
+	maxValue := aNumber.
+	maxLabel ifNotNil: [ maxLabel text: (self labelText: aNumber color: Color white) ]
 ]
 
 { #category : 'accessing' }
@@ -1079,18 +1080,18 @@ ICFader >> valueToCoord: aNumber [
 
 { #category : 'api - transformations' }
 ICFader >> valueToX: aNumber [
+
 	| coeff |
 	coeff := (aNumber - minValue / (maxValue - minValue)) asFloat.
-	^ marginLength + (coeff * barLength) @ self crossCenter
-
+	^ self barOrigin x + (coeff * barLength) @ self crossCenter
 ]
 
 { #category : 'api - transformations' }
 ICFader >> valueToY: aNumber [
+
 	| coeff |
 	coeff := (aNumber - minValue / (maxValue - minValue)) asFloat.
-	^ self crossCenter
-	  @ (marginLength + barLength - (coeff * barLength))
+	^ self crossCenter @ (self barOrigin y + barLength - (coeff * barLength))
 ]
 
 { #category : 'size' }
