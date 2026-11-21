@@ -64,6 +64,7 @@ TurboVoice >> uiRanges [
 		  at: 'Position' put: #( 0 1 0.01 );
 		  at: 'Slice' put: #( -1 15 1 );
 		  at: 'Length' put: #( 0 8 0.25 );
+		  addAll: (TurboAux all collect: [ :each | each sendSuffix -> #( 0 1 0.01 ) ]) asDictionary;
 		  yourself
 ]
 

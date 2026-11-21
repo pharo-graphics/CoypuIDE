@@ -45,6 +45,33 @@ TurboPhuckDisplayTest >> setUp [
 ]
 
 { #category : 'tests' }
+TurboPhuckDisplayTest >> testDelayKnobsAreInTheMasterSection [
+	"the ranges of TurboDelay, its time at most one second; the send of a voice is a knob of the voice"
+
+	| params display master panel kick |
+	params := self parameters.
+	#( 'delayTime' 'delayFeedback' 'delayTone' 'delayReturn' 'kickDelaySend' ) do: [ :each | params at: each put: #float ].
+	display := (TurboPhuckDisplay on: params)
+		           sender: [ :name :value | sent add: name -> value ];
+		           yourself.
+	master := self instrument: 'master' in: display.
+	self assert: (master uiRanges at: 'delayTime') equals: #( 0.01 1.0 0.01 ).
+	self assert: (master defaultFor: 'delayTime') equals: 0.375.
+	self assert: (master uiLabelFor: 'delayFeedback') equals: 'Delay Feedback'.
+	self
+		assert: ((master globals collect: [ :each | each key ]) copyFrom: 1 to: 6) asArray
+		equals: #( 'masterGain' 'performanceBPM' 'delayTime' 'delayFeedback' 'delayTone' 'delayReturn' ).
+	panel := display panelFor: master.
+	panel element.
+	self assert: sent isEmpty.
+	(panel knobs at: 'delayTime') setValue: 0.5.
+	self assert: sent asArray equals: { ('delayTime' -> 0.5) }.
+	kick := self instrument: 'kick' in: display.
+	self assert: (kick uiRanges at: 'DelaySend') equals: #( 0 1 0.01 ).
+	self assert: (kick globals detect: [ :each | each key = 'DelaySend' ]) value equals: 0
+]
+
+{ #category : 'tests' }
 TurboPhuckDisplayTest >> testIndexFollowsTheSampleFolder [
 
 	| root kick |
@@ -94,6 +121,35 @@ TurboPhuckDisplayTest >> testMasterTakesTheGlobalsOfNoInstrument [
 	self assert: master suffixes asSet equals: #( 'masterGain' 'performanceBPM' ) asSet.
 	self assert: (master uiLabelFor: 'performanceBPM') equals: 'BPM'.
 	self assert: (master defaultFor: 'performanceBPM') equals: 174
+]
+
+{ #category : 'tests' }
+TurboPhuckDisplayTest >> testMasterUIHasARowPerAux [
+	"TurboPhuck basicNew: TurboPhuck new resets the Performance"
+
+	| rows delay |
+	rows := TurboPhuck basicNew masterUIRows.
+	self assert: rows size equals: 1 + TurboAux all size.
+	self assert: (rows first collect: [ :each | each inputText ]) asArray equals: #( 'pitchShift' 'highpassFreq' ).
+	delay := rows at: 1 + (TurboAux all indexOf: TurboDelay default).
+	self
+		assert: (delay collect: [ :each | each inputText ]) asArray
+		equals: #( 'Delay Time' 'Delay Feedback' 'Delay Tone' 'Delay Return' ).
+	self assert: delay first minValue equals: 0.01.
+	self assert: delay first maxValue equals: 1.0.
+	self assert: (delay first angleToValue closeTo: 0.375).
+	self assert: (delay collect: [ :each | each maxValue ]) asArray equals: #( 1.0 0.95 12000.0 1.0 )
+]
+
+{ #category : 'tests' }
+TurboPhuckDisplayTest >> testMasterUIWindowFitsItsRows [
+	"the widest row (the delay, four knobs) by one knob per row"
+
+	| tp rows size |
+	tp := TurboPhuck basicNew.
+	rows := tp masterUIRows.
+	size := rows first first widgetSize.
+	self assert: (tp extentOfRows: rows) equals: size * 4 @ (size * rows size)
 ]
 
 { #category : 'tests' }

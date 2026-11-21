@@ -22,6 +22,16 @@ ICTurboParametersInstrument class >> prefix: aString suffixes: aCollection [
 	^ self new prefix: aString suffixes: aCollection
 ]
 
+{ #category : 'parameters' }
+ICTurboParametersInstrument >> auxDefaults [
+	"the globals of the aux buses (delayTime ...) are in the master section"
+
+	^ TurboAux all inject: Dictionary new into: [ :result :each |
+			  result
+				  addAll: each uiDefaults;
+				  yourself ]
+]
+
 { #category : 'accessing' }
 ICTurboParametersInstrument >> canSpork [
 
@@ -43,11 +53,12 @@ ICTurboParametersInstrument >> defaults [
 		  at: 'Gate' put: 0;
 		  at: 'Gain' put: 0.5;
 		  at: 'Slice' put: -1;
-		at: 'Tuning' put: 0;
+		  at: 'Tuning' put: 0;
 		  at: 'masterGain' put: 0.8;
 		  at: 'pitchShift' put: 1;
 		  at: 'highpassFreq' put: 20;
 		  at: 'performanceBPM' put: 174;
+		  addAll: self auxDefaults;
 		  yourself
 ]
 
@@ -92,6 +103,7 @@ ICTurboParametersInstrument >> order [
 	"how the suffixes are shown: the usual ones first, the rest alphabetically"
 
 	^ #( 'Note' 'Gate' 'Gain' 'Index' 'Position' 'Slice' 'Length' 'Reverse' 'masterGain' 'pitchShift' 'highpassFreq' 'performanceBPM' )
+	  , (TurboAux all flatCollect: [ :aux | aux globals collect: [ :each | aux parameter: each key ] ])
 ]
 
 { #category : 'parameters' }
@@ -161,6 +173,10 @@ ICTurboParametersInstrument >> uiLabelFor: aSuffix [
 		   at: 'pitchShift' put: 'Pitch';
 		   at: 'highpassFreq' put: 'HPF';
 		   at: 'performanceBPM' put: 'BPM';
+		   addAll: (TurboAux all inject: Dictionary new into: [ :result :each |
+						    result
+							    addAll: each uiLabels;
+							    yourself ]);
 		   yourself) at: aSuffix ifAbsent: [ aSuffix ]
 ]
 
@@ -175,6 +191,7 @@ ICTurboParametersInstrument >> uiRanges [
 		at: 'pitchShift' put: #( 0.01 2 0.01 );
 		at: 'highpassFreq' put: #( 20 2400 1 );
 		at: 'performanceBPM' put: #( 60 200 1 ).
+	TurboAux all do: [ :each | ranges addAll: each uiRanges ].
 	self isMaster ifTrue: [ ^ ranges ].
 	folder := self samplesRoot / prefix.
 	folder isDirectory ifTrue: [
