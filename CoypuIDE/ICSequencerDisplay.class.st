@@ -3,6 +3,8 @@ I display a Coypu Sequencer as a row of step boxes, in the style of DiceTherapy 
 
 A step with a trig is filled with my triggeredColor and shows the note it plays; a step without a trig is black with a lavender border. Steps are grouped by beats of 4, and bars of 16 go on their own line. The sequencer key is shown at the top.
 
+The NOTE / INDEX switch in the header chooses what the trigs show and what you type over them: the notes, or the sample indexes (extraParams at: #Index, sent as <key>Index). The trigs stay the same; indexes advance on trigs like notes, and in INDEX mode the trigs are lavender.
+
 	(ICSequencerDisplay on: 16 rumba) openInWindow.
 	(16 rumba notes: #(60 63 67); yourself) display triggeredColor: Color cyan.
 
@@ -20,7 +22,9 @@ Class {
 		'hoveredIndex',
 		'shownGates',
 		'shownNotes',
-		'playheadIndex'
+		'playheadIndex',
+		'mode',
+		'shownIndexes'
 	],
 	#category : 'CoypuIDE-stepSequencer',
 	#package : 'CoypuIDE',
@@ -52,7 +56,7 @@ ICSequencerDisplay >> commitNote [
 	note := Number readFrom: typedNote ifFail: [ nil ].
 	editingIndex := nil.
 	typedNote := nil.
-	note ifNotNil: [ self note: note atStep: index ].
+	note ifNotNil: [ self value: note atStep: index ].
 	self rebuild
 ]
 
@@ -64,7 +68,7 @@ ICSequencerDisplay >> dimStepAt: anIndex [
 	(steps at: anIndex)
 		border: (BlBorder
 				 paint: ((sequencer gates at: anIndex) > 0
-						  ifTrue: [ triggeredColor lighter ]
+						  ifTrue: [ self trigColor lighter ]
 						  ifFalse: [ self ruleColor ])
 				 width: 1);
 		effect: BlNullEffect new;
@@ -117,12 +121,33 @@ ICSequencerDisplay >> hoverStepAt: anIndex [
 	self requestFocus
 ]
 
+{ #category : 'colors' }
+ICSequencerDisplay >> indexColor [
+	"the trigs in INDEX mode, so the mode shows at a glance"
+
+	^ self softColor
+]
+
+{ #category : 'accessing' }
+ICSequencerDisplay >> indexes [
+	"my sequencer's sample indexes, advancing on trigs like its notes"
+
+	^ sequencer extraParams at: #Index ifAbsent: [ #(  ) ]
+]
+
+{ #category : 'actions' }
+ICSequencerDisplay >> indexes: anArray [
+
+	sequencer extraParams at: #Index put: anArray
+]
+
 { #category : 'initialization' }
 ICSequencerDisplay >> initialize [
 
 	super initialize.
 	triggeredColor := Color fromHexString: 'ff9933'.
 	stepSize := 30.
+	mode := #notes.
 	self
 		layout: (BlLinearLayout vertical cellSpacing: 4);
 		padding: (BlInsets
@@ -141,9 +166,9 @@ ICSequencerDisplay >> initialize [
 
 { #category : 'live refresh' }
 ICSequencerDisplay >> isUpToDate [
-	"do my steps still show my sequencer's gates and notes?"
+	"do my steps still show my sequencer's gates, notes and indexes?"
 
-	^ sequencer gates = shownGates and: [ sequencer notes = shownNotes ]
+	^ sequencer gates = shownGates and: [ sequencer notes = shownNotes and: [ self indexes = shownIndexes ] ]
 ]
 
 { #category : 'building' }
@@ -161,6 +186,28 @@ ICSequencerDisplay >> leaveStepAt: anIndex [
 
 	anIndex = editingIndex ifTrue: [ self commitNote ].
 	anIndex = hoveredIndex ifTrue: [ hoveredIndex := nil ]
+]
+
+{ #category : 'accessing' }
+ICSequencerDisplay >> mode [
+	"#notes or #indexes: what my trigs show and what typing over them sets"
+
+	^ mode
+]
+
+{ #category : 'accessing' }
+ICSequencerDisplay >> mode: aSymbol [
+	"a note being typed is dropped, as with escape"
+
+	mode := aSymbol.
+	self stopEditing
+]
+
+{ #category : 'colors' }
+ICSequencerDisplay >> modeColor [
+	"the fill of the active NOTE / INDEX button"
+
+	^ self trigColor
 ]
 
 { #category : 'private' }
@@ -235,7 +282,50 @@ ICSequencerDisplay >> newHeader [
 							    fontName: self monospaceFontName;
 							    fontSize: 10;
 							    yourself)
-					   color: self softColor) };
+					   color: self softColor).
+				  self newModeSwitch };
+		  yourself
+]
+
+{ #category : 'building' }
+ICSequencerDisplay >> newModeButton: aLabel for: aMode [
+	"a flat cell, filled when aMode is my mode; a click switches to it"
+
+	| isOn |
+	isOn := mode = aMode.
+	^ (self
+		   labelFor: (aLabel asRopedText
+				    bold;
+				    fontName: self monospaceFontName;
+				    fontSize: 10;
+				    yourself)
+		   color: (isOn
+				    ifTrue: [ self groundColor ]
+				    ifFalse: [ self softColor ]))
+		  background: (isOn
+				   ifTrue: [ self modeColor ]
+				   ifFalse: [ self groundColor ]);
+		  border: (BlBorder paint: self ruleColor width: 1);
+		  padding: (BlInsets
+				   top: 2
+				   left: 5
+				   bottom: 2
+				   right: 5);
+		  addEventHandlerOn: BlClickEvent do: [ :evt | self mode: aMode ];
+		  yourself
+]
+
+{ #category : 'building' }
+ICSequencerDisplay >> newModeSwitch [
+
+	^ BlElement new
+		  layout: (BlLinearLayout horizontal cellSpacing: 3);
+		  constraintsDo: [ :c |
+				  c horizontal fitContent.
+				  c vertical fitContent ];
+		  addChildren: {
+				  (self newModeButton: 'NOTE' for: #notes).
+				  (self newModeButton: 'INDEX' for: #indexes) };
 		  yourself
 ]
 
@@ -282,7 +372,7 @@ ICSequencerDisplay >> newStepFilledWith: aColor border: aBorderColor [
 
 { #category : 'building' }
 ICSequencerDisplay >> newSteps [
-	"the notes advance only on trigs, as when the sequencer plays. A click switches a step between rest and trig; typing over a step sets its note"
+	"the notes (or indexes) advance only on trigs, as when the sequencer plays. A click switches a step between rest and trig; typing over a step sets its note (or index)"
 
 	| trigCount |
 	trigCount := 0.
@@ -291,7 +381,7 @@ ICSequencerDisplay >> newSteps [
 			           step := (sequencer gates at: index) > 0
 				                   ifTrue: [
 						                   trigCount := trigCount + 1.
-						                   self newTriggeredStepWith: (self noteForTrig: trigCount) ]
+						                   self newTriggeredStepWith: (self valueForTrig: trigCount) ]
 				                   ifFalse: [ self newEmptyStep ].
 			           step
 				           addEventHandlerOn: BlClickEvent do: [ :evt | self toggleStepAt: index ];
@@ -304,25 +394,15 @@ ICSequencerDisplay >> newSteps [
 ICSequencerDisplay >> newTriggeredStepWith: aNoteOrNil [
 
 	| step |
-	step := self newStepFilledWith: triggeredColor border: triggeredColor lighter.
+	step := self newStepFilledWith: self trigColor border: self trigColor lighter.
 	aNoteOrNil ifNotNil: [ step addChild: (self newNoteLabel: (self noteStringFor: aNoteOrNil)) ].
 	^ step
 ]
 
 { #category : 'actions' }
 ICSequencerDisplay >> note: aNumber atStep: anIndex [
-	"set the note of the step at anIndex, making a rest a trig. The notes are spread one per trig first, so every other trig keeps its note"
 
-	| notes trigNumber |
-	notes := ((1 to: (sequencer numberOfTrigs max: sequencer notesSize)) collect: [ :each | self noteForTrig: each ])
-		         asOrderedCollection.
-	trigNumber := self trigNumberAt: anIndex.
-	(sequencer gates at: anIndex) > 0
-		ifTrue: [ notes at: trigNumber put: aNumber ]
-		ifFalse: [
-				notes add: aNumber beforeIndex: trigNumber + 1.
-				self gateAt: anIndex put: 1 ].
-	sequencer notes: (notes collect: [ :each | each ifNil: [ aNumber ] ]) asArray
+	self value: aNumber atStep: anIndex in: #notes
 ]
 
 { #category : 'accessing' }
@@ -335,10 +415,7 @@ ICSequencerDisplay >> noteFontSize [
 { #category : 'private' }
 ICSequencerDisplay >> noteForTrig: anIndex [
 
-	| notes |
-	notes := sequencer notes.
-	notes isEmptyOrNil ifTrue: [ ^ nil ].
-	^ notes at: anIndex - 1 \\ notes size + 1
+	^ self value: anIndex forTrigIn: sequencer notes
 ]
 
 { #category : 'private' }
@@ -410,6 +487,7 @@ ICSequencerDisplay >> rebuild [
 	sequencer ifNil: [ ^ self ].
 	shownGates := sequencer gates copy.
 	shownNotes := sequencer notes copy.
+	shownIndexes := self indexes copy.
 	self addChildren: {
 			self newHeader.
 			self newRule.
@@ -457,7 +535,7 @@ ICSequencerDisplay >> showTypedNote [
 	"update only the step being typed in, so nothing is rebuilt under the mouse"
 
 	(steps at: editingIndex)
-		background: triggeredColor;
+		background: self trigColor;
 		border: (BlBorder paint: Color white width: 2);
 		removeChildren;
 		addChild: (self newNoteLabel: typedNote , '_')
@@ -540,6 +618,14 @@ ICSequencerDisplay >> toggleStepAt: anIndex [
 	self rebuild
 ]
 
+{ #category : 'colors' }
+ICSequencerDisplay >> trigColor [
+
+	^ mode = #indexes
+		  ifTrue: [ self indexColor ]
+		  ifFalse: [ triggeredColor ]
+]
+
 { #category : 'private' }
 ICSequencerDisplay >> trigNumberAt: anIndex [
 
@@ -564,7 +650,8 @@ ICSequencerDisplay >> typeText: aString [
 
 	| digits |
 	hoveredIndex ifNil: [ ^ self ].
-	digits := aString select: [ :each | each isDigit or: [ each = $. ] ].
+	"indexes are whole numbers"
+	digits := aString select: [ :each | each isDigit or: [ each = $. and: [ mode = #notes ] ] ].
 	digits ifEmpty: [ ^ self ].
 	editingIndex = hoveredIndex ifFalse: [
 			editingIndex ifNotNil: [ self commitNote ].
@@ -579,6 +666,61 @@ ICSequencerDisplay >> typeText: aString [
 ICSequencerDisplay >> updatePlayheadFrom: aPerformance [
 
 	self showPlayheadAt: (self playheadIndexIn: aPerformance)
+]
+
+{ #category : 'actions' }
+ICSequencerDisplay >> value: aNumber atStep: anIndex [
+	"set the note, or the index in INDEX mode, of the step at anIndex"
+
+	self value: aNumber atStep: anIndex in: mode
+]
+
+{ #category : 'actions' }
+ICSequencerDisplay >> value: aNumber atStep: anIndex in: aMode [
+	"set the note (aMode #notes) or sample index (#indexes) of the step at anIndex, making a rest a trig.
+	The values are spread one per trig first, so every other trig keeps its own. Notes missing so far become aNumber, indexes 0"
+
+	| values trigNumber |
+	values := self valuesIn: aMode.
+	values := ((1 to: (sequencer numberOfTrigs max: values size)) collect: [ :each | self value: each forTrigIn: values ])
+		          asOrderedCollection.
+	trigNumber := self trigNumberAt: anIndex.
+	(sequencer gates at: anIndex) > 0
+		ifTrue: [ values at: trigNumber put: aNumber ]
+		ifFalse: [
+				values add: aNumber beforeIndex: trigNumber + 1.
+				self gateAt: anIndex put: 1 ].
+	values := (values collect: [ :each |
+			           each ifNil: [
+					           aMode = #notes
+						           ifTrue: [ aNumber ]
+						           ifFalse: [ 0 ] ] ]) asArray.
+	aMode = #notes
+		ifTrue: [ sequencer notes: values ]
+		ifFalse: [ self indexes: values ]
+]
+
+{ #category : 'private' }
+ICSequencerDisplay >> value: aTrigNumber forTrigIn: aCollection [
+	"the value played on that trig, wrapping as the sequencer does; nil when there are none"
+
+	aCollection isEmptyOrNil ifTrue: [ ^ nil ].
+	^ aCollection at: aTrigNumber - 1 \\ aCollection size + 1
+]
+
+{ #category : 'private' }
+ICSequencerDisplay >> valueForTrig: aTrigNumber [
+	"what the trig shows in my mode"
+
+	^ self value: aTrigNumber forTrigIn: (self valuesIn: mode)
+]
+
+{ #category : 'private' }
+ICSequencerDisplay >> valuesIn: aMode [
+
+	^ aMode = #notes
+		  ifTrue: [ sequencer notes ]
+		  ifFalse: [ self indexes ]
 ]
 
 { #category : 'live refresh' }

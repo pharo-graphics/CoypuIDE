@@ -61,6 +61,26 @@ ICSequencerDisplayTest >> testEscapeCancelsTyping [
 ]
 
 { #category : 'tests' }
+ICSequencerDisplayTest >> testIndexModeShowsIndexesOnTrigs [
+
+	| labels |
+	sequencer extraParams at: #Index put: #( 0 3 ).
+	display mode: #indexes.
+	labels := (display steps reject: [ :step | step children isEmpty ]) collect: [ :step | step children first text asString ].
+	self assert: labels asArray equals: #( '0' '3' '0' '3' '0' )
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testIndexModeTypesWholeNumbersOnly [
+
+	display mode: #indexes.
+	display hoverStepAt: 1.
+	display typeText: '2.5'.
+	display pressKey: KeyboardKey enter.
+	self assert: (sequencer extraParams at: #Index) first equals: 25
+]
+
+{ #category : 'tests' }
 ICSequencerDisplayTest >> testLeavingTheStepCommitsTheNote [
 
 	display hoverStepAt: 4.
@@ -68,6 +88,16 @@ ICSequencerDisplayTest >> testLeavingTheStepCommitsTheNote [
 	display typeText: '2'.
 	display leaveStepAt: 4.
 	self assert: sequencer notes asArray equals: #( 60 72 67 60 63 )
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testModeButtonSwitchesMode [
+
+	| indexButton |
+	indexButton := display children first children last children last.
+	BlEvent fireEvent: BlClickEvent new target: indexButton.
+	self assert: display mode equals: #indexes.
+	self assert: display steps first background paint color equals: display indexColor
 ]
 
 { #category : 'tests' }
@@ -113,6 +143,12 @@ ICSequencerDisplayTest >> testNotesAdvanceOnTrigsOnly [
 ]
 
 { #category : 'tests' }
+ICSequencerDisplayTest >> testNotesModeByDefault [
+
+	self assert: display mode equals: #notes
+]
+
+{ #category : 'tests' }
 ICSequencerDisplayTest >> testOneStepPerGate [
 
 	self assert: display newSteps size equals: sequencer gates size
@@ -150,6 +186,15 @@ ICSequencerDisplayTest >> testRedrawsWhenGatesChangeInPlace [
 	sequencer gates at: 2 put: 1.
 	display checkForChanges.
 	self assert: (display steps at: 2) children notEmpty
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testRedrawsWhenIndexesChange [
+
+	sequencer extraParams at: #Index put: #( 4 ).
+	self deny: display isUpToDate.
+	display checkForChanges.
+	self assert: display isUpToDate
 ]
 
 { #category : 'tests' }
@@ -201,6 +246,31 @@ ICSequencerDisplayTest >> testTypedNoteShowsInItsStep [
 	display hoverStepAt: 4.
 	display typeText: '7'.
 	self assert: (display steps at: 4) children first text asString equals: '7_'
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testTypingAnIndexKeepsTrigsAndNotes [
+
+	display mode: #indexes.
+	display hoverStepAt: 4.
+	display typeText: '7'.
+	display pressKey: KeyboardKey enter.
+	self assert: sequencer gates size equals: 16.
+	self assert: sequencer numberOfTrigs equals: 5.
+	self assert: sequencer notes asArray equals: #( 60 63 67 ).
+	self assert: (sequencer extraParams at: #Index) equals: #( 0 7 0 0 0 )
+]
+
+{ #category : 'tests' }
+ICSequencerDisplayTest >> testTypingAnIndexOverARestMakesATrig [
+
+	sequencer extraParams at: #Index put: #( 1 2 3 4 5 ).
+	display mode: #indexes.
+	display hoverStepAt: 2.
+	display typeText: '9'.
+	display pressKey: KeyboardKey enter.
+	self assert: (sequencer gates at: 2) equals: 1.
+	self assert: (sequencer extraParams at: #Index) equals: #( 1 9 2 3 4 5 )
 ]
 
 { #category : 'tests' }
