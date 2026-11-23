@@ -2,63 +2,69 @@ Extension { #name : 'DSP' }
 
 { #category : '*CoypuIDE' }
 DSP >> buildUI [
-	"build the panel: natural-size knobs, 8 per row, vertical scrolling, no shrink"
+	"build the panel from the Faust JSON (ICFaustUIBuilder): Faust's groups (vgroup, hgroup,
+	tgroup as tabs) and annotations (style, unit, scale, tooltip, hidden), in Faust's order.
+	Each run of widgets wraps in up to 8 columns, fewer until the panel fits maxKnobsWidth.
+	The panel shrinks to its widgets; past maxKnobsHeight it stops growing and scrolls
+	vertically. The piano keyboard (MIDI DSPs) sits below and plays freq and gate."
 
-	| container allParams allKnobs containerKnobs sortedKnobs scrollable vscroll cols |
+	| midi builder content cols scrollable vscroll knobsArea contentExtent needsScroll container |
 	ICValueDisplay isUpdating: true.
+	midi := self requirePianoKeyboard.
+	builder := (ICFaustUIBuilder forDsp: self)
+		           skipsPianoKeys: midi;
+		           yourself.
+	content := builder build.
+	content background: Color veryVeryDarkGray.
 
-	"collect and sort knobs"
-	allParams := self getUIItemsLabeledDictionary.
-	allKnobs := OrderedCollection new.
-	allParams keysAndValuesDo: [ :k :v |
-		allKnobs add: (BlElement new fromDictionary: v forDsp: self) ].
-	sortedKnobs := allKnobs asSortedCollection: [ :a :b |
-		a inputText asLowercase < b inputText asLowercase ].
+	"natural size: drop columns until it fits maxKnobsWidth"
+	content forceLayout.
+	cols := builder maxColumns.
+	[ content extent x > self class maxKnobsWidth and: [ cols > 1 ] ] whileTrue: [
+			cols := cols - 1.
+			builder maxColumns: cols.
+			builder grids do: [ :each | each requestLayout ].
+			content
+				requestLayout;
+				forceLayout ].
+	contentExtent := content extent.
+	needsScroll := contentExtent y > self class maxKnobsHeight.
 
-	"8 columns, grid grows downward"
-	cols := 8.
-
-	"knob grid: natural size (fitContent both axes, no compression)"
-	containerKnobs := BlElement new
-		geometry: BlRectangleGeometry new;
-		layout: (BlGridLayout new
-			columnCount: cols;
-			cellSpacing: 0);
-		constraintsDo: [ :c |
-			c horizontal fitContent.
-			c vertical fitContent ];
-		background: Color veryVeryDarkGray;
-		yourself.
-	containerKnobs addChildren: sortedKnobs.
-
-	self requirePianoKeyboard ifTrue: [
-		containerKnobs removeGateAndFreqElement ].
-
-	"wrap the grid in a vertically scrollable element"
-	scrollable := containerKnobs asScrollableElement.
+	scrollable := content asScrollableElement.
 	scrollable constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	vscroll := BlVerticalScrollbarElement new.
-	vscroll constraintsDo: [ :c |
-		c ignoreByLayout.
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
-	vscroll attachTo: scrollable.
-
-	"outer container fills the window"
-	container := BlElement new
-		layout: BlFrameLayout new;
-		constraintsDo: [ :c |
 			c horizontal matchParent.
-			c vertical matchParent ];
-		background: Color black lighter;
-		addChildren: { scrollable. vscroll };
-		yourself.
+			c vertical matchParent ].
 
-	self requirePianoKeyboard ifTrue: [
-		container addChild: (ICPianoKeyboardElement newForDsp: self) ].
+	knobsArea := BlElement new
+		             layout: BlFrameLayout new;
+		             constraintsDo: [ :c |
+				             c horizontal exact: contentExtent x + (needsScroll
+								              ifTrue: [ 10 ]
+								              ifFalse: [ 0 ]).
+				             c vertical exact: (contentExtent y min: self class maxKnobsHeight) ];
+		             addChild: scrollable;
+		             yourself.
+
+	needsScroll ifTrue: [
+			vscroll := BlVerticalScrollbarElement new.
+			vscroll constraintsDo: [ :c |
+					c ignoreByLayout.
+					c ignored horizontal alignRight.
+					c ignored vertical alignBottom ].
+			vscroll attachTo: scrollable.
+			knobsArea addChild: vscroll ].
+
+	"outer container: knobs area, then the keyboard, sized to its content"
+	container := BlElement new
+		             layout: BlLinearLayout vertical;
+		             constraintsDo: [ :c |
+				             c horizontal fitContent.
+				             c vertical fitContent ];
+		             background: Color black lighter;
+		             addChild: knobsArea;
+		             yourself.
+
+	midi ifTrue: [ container addChild: (ICPianoKeyboardElement newForDsp: self) ].
 
 	displayedUI := container.
 	^ displayedUI
@@ -170,16 +176,25 @@ DSP >> closeSpaceOfDestroyedDsp: aSpace [
 	"the DSP is gone: its widgets must never talk to it again. destroy may run in any process, so the closing goes through the space's own task queue"
 
 	self announcer unsubscribe: aSpace.
+	self stopValueDisplaysIn: aSpace root.
 	displayedUI := nil.
-	aSpace isOpened ifTrue: [ aSpace enqueueTask: (BlTaskAction new action: [ aSpace isOpened ifTrue: [ aSpace close ] ]) ]
+	aSpace isOpened ifTrue: [
+		aSpace enqueueTask: (BlTaskAction new action: [ aSpace isOpened ifTrue: [ aSpace close ] ]) ]
 ]
 
 { #category : '*CoypuIDE' }
 DSP >> closeSpaceOnDestroy: aSpace [
-	"aSpace shows this DSP: close it when the DSP is destroyed (or discarded, see PhDspDestroyed); forget the subscription when the user closes it first"
+	"aSpace shows this DSP: close it when the DSP is destroyed (or discarded, see PhDspDestroyed); when it closes, for any reason, its bargraphs stop polling and the subscription is forgotten"
 
-	self announcer when: PhDspDestroyed do: [ :announcement | self closeSpaceOfDestroyedDsp: aSpace ] for: aSpace.
-	aSpace addEventHandlerOn: BlSpaceClosedEvent do: [ :event | self announcer unsubscribe: aSpace ].
+	self announcer
+		when: PhDspDestroyed
+		do: [ :announcement | self closeSpaceOfDestroyedDsp: aSpace ]
+		for: aSpace.
+	aSpace
+		addEventHandlerOn: BlSpaceClosedEvent
+		do: [ :event |
+			self stopValueDisplaysIn: aSpace root.
+			self announcer unsubscribe: aSpace ].
 	^ aSpace
 ]
 
@@ -195,26 +210,27 @@ DSP >> displayParameters [
 
 	self isInitialized ifFalse: [ ^ self error: 'This DSP is not initialized' ].
 	^ (self closeSpaceOnDestroy: self parametersSpace)
-		  show;
-		  yourself
+		show;
+		yourself
 ]
 
 { #category : '*CoypuIDE' }
 DSP >> displayUI [
-	"display the UI made with Bloc; it closes when the DSP is destroyed"
+	"display the UI made with Bloc; the window fits the widgets (knob area scrolls
+	when taller than maxKnobsHeight); it closes when the DSP is destroyed, and its
+	bargraphs stop polling when it closes (those of other windows keep going)"
 
 	| space |
 	self buildUI.
+	"measure before attaching: Bloc refuses forceLayout inside a space"
+	self displayedUI forceLayout.
 
 	space := BlSpace new title: self name , ' UI'.
 	space root
 		background: Color black lighter;
 		layout: BlLinearLayout horizontal alignTopLeft;
 		addChild: self displayedUI.
-	space extent: 8 * 160 + 20 @ 800.
-
-	"terminate every ICValueDisplay update process on close"
-	space addEventHandlerOn: BlSpaceClosedEvent do: [ ICValueDisplay isUpdating: false ].
+	space extent: self displayedUI extent.
 	self closeSpaceOnDestroy: space.
 
 	space show.
@@ -240,9 +256,9 @@ DSP >> displayUIForLevelsWithTitle: aString [
 
 { #category : '*CoypuIDE' }
 DSP >> displayUIIMorphicHost [
-	"fdisplay the IU made with Bloc; it closes when the DSP is destroyed"
+	"fdisplay the IU made with Bloc; it closes when the DSP is destroyed, and its bargraphs stop when it closes"
 
-	| space scaledUI |
+	| space |
 	"first we build the UI"
 	self buildUIColumn: 8.
 	space := BlSpace new title: self name , ' UI'.
@@ -251,16 +267,12 @@ DSP >> displayUIIMorphicHost [
 				scaleBy: 0.8;
 				translateBy: -100 @ -100 ].
 	space root addChild: self displayedUI.
-	self displayedUI addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
-
-
-	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	space addEventHandlerOn: BlSpaceClosedEvent do: [ ICValueDisplay isUpdating: false ].
+	self displayedUI
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
 	self closeSpaceOnDestroy: space.
 	space useMorphicHost.
 	space show.
-
-
 	^ space
 ]
 
@@ -274,15 +286,11 @@ DSP >> displayUIScaledBy: aScaleFactor [
 	displayedUI transformDo: [ :t | t scaleBy: aScaleFactor ].
 	space := BlSpace new title: 'DSP UI'.
 	space root addChild: self displayedUI.
-	self displayedUI addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
-
-
-	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	space addEventHandlerOn: BlSpaceClosedEvent do: [ Transcript show: 'Space closed' ].
+	self displayedUI
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
 	self closeSpaceOnDestroy: space.
 	space show.
-
-
 	^ space
 ]
 
@@ -333,6 +341,20 @@ DSP >> levelMixerTitled: aString [
 ]
 
 { #category : '*CoypuIDE' }
+DSP class >> maxKnobsHeight [
+	"tallest the knob area of a DSP UI grows before it scrolls (4 rows of knobs)"
+
+	^ 640
+]
+
+{ #category : '*CoypuIDE' }
+DSP class >> maxKnobsWidth [
+	"widest the knob area of a DSP UI may be: buildUI uses the most columns (up to 8) that fit"
+
+	^ 1000
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> openWidgetFor: aSymbol [
 	"open a window with the widget of one parameter; it closes when the DSP is destroyed"
 
@@ -343,7 +365,9 @@ DSP >> openWidgetFor: aSymbol [
 	space := BlSpace new.
 	self closeSpaceOnDestroy: space.
 	space show.
-	widget addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
+	widget
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ :evt | space extent: evt target extent ].
 
 	space root addChild: widget.
 	^ space
@@ -371,6 +395,23 @@ DSP >> parametersSpace [
 		title: 'DSP Parameters';
 		in: [ :space | space root addChild: self parametersElement ];
 		yourself
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> setValue: aFloat ofItem: aDictionary [
+	"aDictionary is a leaf of the Faust JSON ui: use its full address when it has one, else its short name"
+
+	^ (aDictionary at: #address ifAbsent: [ nil ])
+		  ifNil: [ self setValue: aFloat parameter: (aDictionary at: #shortname) ]
+		  ifNotNil: [ :address | self setValue: aFloat address: address ]
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> stopValueDisplaysIn: anElement [
+	"the bargraphs shown in anElement stop polling this DSP; those of other windows keep going"
+
+	anElement withAllChildrenBreadthFirstDo: [ :each |
+		(each isKindOf: ICValueDisplay) ifTrue: [ each stopUpdating ] ]
 ]
 
 { #category : '*CoypuIDE' }

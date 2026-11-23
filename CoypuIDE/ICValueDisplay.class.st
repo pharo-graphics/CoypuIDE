@@ -8,7 +8,9 @@ Class {
 		'labelText',
 		'valueText',
 		'label',
-		'attachedDsp'
+		'attachedDsp',
+		'address',
+		'isPolling'
 	],
 	#classInstVars : [
 		'isUpdating'
@@ -21,7 +23,10 @@ Class {
 { #category : 'instance creation' }
 ICValueDisplay class >> fromDictionary: aDictionary forDsp: aDsp [
 
-	^ self new label: (aDictionary at: #label); attachedDsp: aDsp
+	^ self new
+		  label: (aDictionary at: #label);
+		  address: (aDictionary at: #address ifAbsent: [ nil ]);
+		  attachedDsp: aDsp
 ]
 
 { #category : 'accessing' }
@@ -36,6 +41,19 @@ ICValueDisplay class >> isUpdating: aBoolean [
 
 
 isUpdating  := aBoolean
+]
+
+{ #category : 'accessing' }
+ICValueDisplay >> address [
+	"the full Faust address of the bargraph shown, nil to look it up by label"
+
+	^ address
+]
+
+{ #category : 'accessing' }
+ICValueDisplay >> address: aString [
+
+	address := aString
 ]
 
 { #category : 'accessing' }
@@ -57,6 +75,15 @@ ICValueDisplay >> configuredString: aString [
 
 	^ aString asRopedText attributes:
 		  { (BlTextForegroundAttribute paint: self textPaint) }
+]
+
+{ #category : 'protocol' }
+ICValueDisplay >> currentValue [
+	"the bargraph's value in the DSP, by address when known (nil when unknown: never ask libfaust for index -1)"
+
+	^ address
+		  ifNil: [ (attachedDsp getParamIndex: self label) < 0 ifFalse: [ attachedDsp getParamValue: self label ] ]
+		  ifNotNil: [ attachedDsp getValueAtAddress: address ]
 ]
 
 { #category : 'initialization' }
@@ -105,8 +132,16 @@ ICValueDisplay >> initializeValueText [
 
 { #category : 'accessing' }
 ICValueDisplay >> inputText [
+	"the parameter's label, as the other DSP widgets (it answered the label element's printString)"
 
-	^ labelText  asString
+	^ label ifNil: [ '' ]
+]
+
+{ #category : 'accessing' }
+ICValueDisplay >> isPolling [
+	"false once stopUpdating was sent: this display never asks its DSP again"
+
+	^ isPolling ifNil: [ isPolling := true ]
 ]
 
 { #category : 'accessing' }
@@ -123,6 +158,22 @@ ICValueDisplay >> label: aString [
 	label := aString
 ]
 
+{ #category : 'protocol' }
+ICValueDisplay >> shouldUpdate [
+	"poll while this display and all displays are on, and while the DSP is alive: a destroyed DSP must never be asked again"
+
+	^ self class isUpdating and: [
+		  self isPolling and: [
+			  attachedDsp isNotNil and: [ attachedDsp isNull not and: [ attachedDsp isInitialized ] ] ] ]
+]
+
+{ #category : 'protocol' }
+ICValueDisplay >> stopUpdating [
+	"stop polling the DSP (its window closes); the other displays keep going"
+
+	isPolling := false
+]
+
 { #category : 'accessing' }
 ICValueDisplay >> textPaint [
 
@@ -134,8 +185,8 @@ ICValueDisplay >> updateValue [
 
 attachedDsp isNull ifTrue: [^ Error new signal: 'Invalid DSP'] ifFalse: [  
 	^ [
-	  [ self class isUpdating ] whileTrue: [
-		  self value: (self attachedDsp getParamValue: self label).
+	  [ self shouldUpdate ] whileTrue: [
+		  self currentValue ifNotNil: [ :v | self value: v ].
 		  (Delay forMilliseconds: 200) wait ] ] forkAt: 10]
 ]
 

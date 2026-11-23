@@ -192,8 +192,7 @@ ICKnob class >> fromDictionary: aDictionary forDsp: aDsp [
 		   label: (aDictionary at: #shortname)
 		   minValue: (aDictionary at: #min)
 		   maxValue: (aDictionary at: #max)
-		   callBack: [ :i |
-		   aDsp setValue: i parameter: (aDictionary at: #shortname) ])
+		   callBack: [ :i | aDsp setValue: i ofItem: aDictionary ])
 		  setValue: (aDictionary at: #init); stepValue: (aDictionary at: #step)
 ]
 

@@ -680,39 +680,6 @@ ICFader >> labelText: anObject color: aColor [
 ]
 
 { #category : 'size' }
-ICFader >> laceLabelsHorizontally [ 
-
-	label ifNotNil: [
-		label constraintsDo: [ :c |
-			c padding: (BlInsets
-					 top: 0
-					 left: marginLength
-					 bottom: 0
-					 right: 0).
-			c frame horizontal alignLeft.
-			c frame vertical alignTop ] ].
-
-	minLabel constraintsDo: [ :c |
-		c padding: (BlInsets
-				 top: 0
-				 left: marginLength
-				 bottom: 0
-				 right: 0).
-		c frame horizontal alignLeft.
-		c frame vertical alignBottom ].
-
-	maxLabel constraintsDo: [ :c |
-		c padding: (BlInsets
-				 top: 0
-				 left: 0
-				 bottom: 0
-				 right: marginLength).
-		c frame horizontal alignRight.
-		c frame vertical alignBottom ]
-
-]
-
-{ #category : 'size' }
 ICFader >> laceLabelsVertically [
 label ifNotNil: [
 		label constraintsDo: [ :c |
@@ -848,17 +815,36 @@ ICFader >> nearestValue: aValue [
 ]
 
 { #category : 'size' }
-ICFader >> placeLabelsHorizontally [ 
+ICFader >> placeLabelsHorizontally [
+	"name in the top band, min and max in the bottom band at the two ends of the bar"
 
 	label ifNotNil: [
-		label constraintsDo: [ :c |
+			label constraintsDo: [ :c |
+					c padding: (BlInsets
+							 top: 0
+							 left: marginLength
+							 bottom: 0
+							 right: 0).
+					c frame horizontal alignLeft.
+					c frame vertical alignTop ] ].
+
+	minLabel constraintsDo: [ :c |
 			c padding: (BlInsets
 					 top: 0
 					 left: marginLength
 					 bottom: 0
 					 right: 0).
 			c frame horizontal alignLeft.
-			c frame vertical alignTop ] ].
+			c frame vertical alignBottom ].
+
+	maxLabel constraintsDo: [ :c |
+			c padding: (BlInsets
+					 top: 0
+					 left: 0
+					 bottom: 0
+					 right: marginLength).
+			c frame horizontal alignRight.
+			c frame vertical alignBottom ]
 ]
 
 { #category : 'size' }

@@ -32,22 +32,20 @@ BlElement >> fromDictionary: aDictionary [
 
 { #category : '*CoypuIDE' }
 BlElement >> fromDictionary: aDictionary forDsp: aDsp [
-	"creates a UI element from a Dictionary"
+	"creates a UI element from a Dictionary. Buttons and checkboxes are ICPadButtons:
+	knob-sized squares, so they share the knob grid of a DSP UI without leaving holes"
 
 	| widgetDictionary |
 	widgetDictionary := Dictionary new.
 	widgetDictionary
 		add: #hslider -> #ICDarkKnob3;
 		add: #vslider -> #ICDarkKnob3;
-		add: #button -> #ICLabelButton;
+		add: #button -> #ICPadButton;
 		add: #hbargraph -> #ICValueDisplay;
 		add: #nentry -> #ICNentry;
 		add: #vbargraph -> #ICValueDisplay;
-		add: #checkbox -> #ICLabelButton.
-	^ (self class environment at:
-		   (widgetDictionary at: (aDictionary at: #type)))
-		  fromDictionary: aDictionary
-		  forDsp: aDsp
+		add: #checkbox -> #ICPadButton.
+	^ (self class environment at: (widgetDictionary at: (aDictionary at: #type))) fromDictionary: aDictionary forDsp: aDsp
 ]
 
 { #category : '*CoypuIDE' }
