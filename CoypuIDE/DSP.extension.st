@@ -166,6 +166,24 @@ DSP >> buildUIForLevels [
 ]
 
 { #category : '*CoypuIDE' }
+DSP >> closeSpaceOfDestroyedDsp: aSpace [
+	"the DSP is gone: its widgets must never talk to it again. destroy may run in any process, so the closing goes through the space's own task queue"
+
+	self announcer unsubscribe: aSpace.
+	displayedUI := nil.
+	aSpace isOpened ifTrue: [ aSpace enqueueTask: (BlTaskAction new action: [ aSpace isOpened ifTrue: [ aSpace close ] ]) ]
+]
+
+{ #category : '*CoypuIDE' }
+DSP >> closeSpaceOnDestroy: aSpace [
+	"aSpace shows this DSP: close it when the DSP is destroyed (or discarded, see PhDspDestroyed); forget the subscription when the user closes it first"
+
+	self announcer when: PhDspDestroyed do: [ :announcement | self closeSpaceOfDestroyedDsp: aSpace ] for: aSpace.
+	aSpace addEventHandlerOn: BlSpaceClosedEvent do: [ :event | self announcer unsubscribe: aSpace ].
+	^ aSpace
+]
+
+{ #category : '*CoypuIDE' }
 DSP >> connectToOSCServerOnPort: aPort [
 "should we check for all children???"
 (self displayedUI children at: 1) connectToOSCServer listenOnPort: aPort
@@ -173,17 +191,17 @@ DSP >> connectToOSCServerOnPort: aPort [
 
 { #category : '*CoypuIDE' }
 DSP >> displayParameters [
-	"Open a space listing all available parameters of this DSP"
+	"Open a space listing all available parameters of this DSP; it closes when the DSP is destroyed"
 
 	self isInitialized ifFalse: [ ^ self error: 'This DSP is not initialized' ].
-	^ self parametersSpace
-		show;
-		yourself
+	^ (self closeSpaceOnDestroy: self parametersSpace)
+		  show;
+		  yourself
 ]
 
 { #category : '*CoypuIDE' }
 DSP >> displayUI [
-	"display the UI made with Bloc"
+	"display the UI made with Bloc; it closes when the DSP is destroyed"
 
 	| space |
 	self buildUI.
@@ -196,9 +214,8 @@ DSP >> displayUI [
 	space extent: 8 * 160 + 20 @ 800.
 
 	"terminate every ICValueDisplay update process on close"
-	space
-		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ ICValueDisplay isUpdating: false ].
+	space addEventHandlerOn: BlSpaceClosedEvent do: [ ICValueDisplay isUpdating: false ].
+	self closeSpaceOnDestroy: space.
 
 	space show.
 	^ space
@@ -213,17 +230,17 @@ DSP >> displayUIForLevels [
 
 { #category : '*CoypuIDE' }
 DSP >> displayUIForLevelsWithTitle: aString [
-	"display the level mixer UI made with Bloc: only the instruments in the Performance, following it"
+	"display the level mixer UI made with Bloc: only the instruments in the Performance, following it; it closes when the DSP is destroyed"
 
 	| mixer |
 	mixer := self levelMixerTitled: aString.
 	displayedUI := mixer element.
-	^ mixer open
+	^ self closeSpaceOnDestroy: mixer open
 ]
 
 { #category : '*CoypuIDE' }
 DSP >> displayUIIMorphicHost [
-	"fdisplay the IU made with Bloc"
+	"fdisplay the IU made with Bloc; it closes when the DSP is destroyed"
 
 	| space scaledUI |
 	"first we build the UI"
@@ -234,15 +251,12 @@ DSP >> displayUIIMorphicHost [
 				scaleBy: 0.8;
 				translateBy: -100 @ -100 ].
 	space root addChild: self displayedUI.
-	self displayedUI
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
+	self displayedUI addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
 
 
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	space
-		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ ICValueDisplay isUpdating: false ].
+	space addEventHandlerOn: BlSpaceClosedEvent do: [ ICValueDisplay isUpdating: false ].
+	self closeSpaceOnDestroy: space.
 	space useMorphicHost.
 	space show.
 
@@ -252,7 +266,7 @@ DSP >> displayUIIMorphicHost [
 
 { #category : '*CoypuIDE' }
 DSP >> displayUIScaledBy: aScaleFactor [
-	"display a scaled UI made with Bloc"
+	"display a scaled UI made with Bloc; it closes when the DSP is destroyed"
 
 	| space |
 	"first we build the UI"
@@ -260,15 +274,12 @@ DSP >> displayUIScaledBy: aScaleFactor [
 	displayedUI transformDo: [ :t | t scaleBy: aScaleFactor ].
 	space := BlSpace new title: 'DSP UI'.
 	space root addChild: self displayedUI.
-	self displayedUI
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
+	self displayedUI addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
 
 
 	"ADD EVENT HANDLER TO SAFELY TERMINATE EVERY ICVISUALIZER UPDATEVALUE PROCESS"
-	space
-		addEventHandlerOn: BlSpaceClosedEvent
-		do: [ Transcript show: 'Space closed' ].
+	space addEventHandlerOn: BlSpaceClosedEvent do: [ Transcript show: 'Space closed' ].
+	self closeSpaceOnDestroy: space.
 	space show.
 
 
@@ -323,18 +334,19 @@ DSP >> levelMixerTitled: aString [
 
 { #category : '*CoypuIDE' }
 DSP >> openWidgetFor: aSymbol [
+	"open a window with the widget of one parameter; it closes when the DSP is destroyed"
 
 	| allParams entry widget space |
 	allParams := self getUIItemsLabeledDictionary.
 	entry := allParams at: aSymbol.
 	widget := BlElement new fromDictionary: entry forDsp: self.
 	space := BlSpace new.
+	self closeSpaceOnDestroy: space.
 	space show.
-	widget
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ :evt | space extent: evt target extent ].
+	widget addEventHandlerOn: BlElementExtentChangedEvent do: [ :evt | space extent: evt target extent ].
 
-	space root addChild: widget
+	space root addChild: widget.
+	^ space
 ]
 
 { #category : '*CoypuIDE' }
