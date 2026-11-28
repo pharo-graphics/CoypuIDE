@@ -18,6 +18,13 @@ PhuckVM >> displayParameters [
 ]
 
 { #category : '*CoypuIDE' }
+PhuckVM >> openScope [
+	"Open a Bloc oscilloscope on my output; it polls me (scopeInto:) until its window closes"
+
+	^ (ICPhuckScope on: self) openInWindow
+]
+
+{ #category : '*CoypuIDE' }
 PhuckVM >> parametersElement [
 	^ CoypuParametersElement on: self allParameters
 ]
